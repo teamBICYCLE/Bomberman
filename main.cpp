@@ -1,10 +1,15 @@
+#include <unistd.h>
 #include <iostream>
+#include <GDL/Clock.hpp>
+#include <GDL/Input.hpp>
+#include "GameTest.hpp"
 
 using namespace std;
 
 int main()
 {
-  cout << "Hello World!" << endl;
+  GameTest  t;
+
+  t.run();
   return 0;
 }
-
