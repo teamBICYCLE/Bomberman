@@ -1,15 +1,12 @@
-#include <unistd.h>
-#include <iostream>
-#include <GDL/Clock.hpp>
-#include <GDL/Input.hpp>
-#include "GameTest.hpp"
+#include "StatesManager.hh"
+#include "IntroState.hh"
 
 using namespace std;
 
-int main()
+int main(void)
 {
-  GameTest  t;
+  StatesManager   mg("Bomberman v0.1", new IntroState());
 
-  t.run();
+  mg.run();
   return 0;
 }
