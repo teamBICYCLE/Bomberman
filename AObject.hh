@@ -22,7 +22,6 @@ namespace	Bomberman
   class	AObject
   {
   public:
-    AObject(const std::string& modelName);
     AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName);
     virtual ~AObject(void);
 
