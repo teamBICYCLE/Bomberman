@@ -12,13 +12,6 @@
 
 using namespace Bomberman;
 
-AObject::AObject(const std::string& modelName)
-  : pos_(Vector3d()), rot_(Vector3d()), sz_(Vector3d()),
-    // model_(getModelByName(modelName)),
-    type_(modelName)
-{
-}
-
 AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
   : pos_(pos), rot_(rot), sz_(sz), // model_(getModelByName(modelName)),
     type_(modelName)

@@ -12,11 +12,6 @@
 
 using namespace	Bomberman;
 
-Block::Block()
-  : AObject("Block")
-{
-}
-
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : AObject(pos, rot, sz,"Block")
 {

@@ -9,7 +9,9 @@ SOURCES += main.cpp \
     PlayState.cpp \
     AObject.cpp \
     Vector3d.cpp \
-    Block.cpp
+    Block.cpp \
+    Brick.cpp
+
 CXXFLAGS += -W -Wall -Wextra
 LIBS	+= -lgdl_gl -lGL -lGLU
 
@@ -20,4 +22,5 @@ HEADERS += \
     PlayState.hh \
     AObject.hh \
     Vector3d.hpp \
-    Block.hh
+    Block.hh \
+    Brick.hh
