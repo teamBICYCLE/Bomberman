@@ -5,18 +5,21 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Wed May  2 18:35:18 2012 lois burg
+// Last update Thu May  3 12:24:42 2012 lois burg
 //
 
 #include "AObject.hh"
 
-AObject::AObject(void)
-  // : pos_(Vector3d()), rot_(Vector3d()), sz_(Vector3d())
+using namespace Bomberman;
+
+AObject::AObject(const std::string& modelName)
+  // : pos_(Vector3d()), rot_(Vector3d()), sz_(Vector3d()),
+// model_(getModelByName(modelName)), type_(modelName)
 {
 }
 
-// AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-//   : pos_(pos), rot_(rot), sz_(sz)
+// AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
+//   : pos_(pos), rot_(rot), sz_(sz), model_(getModelByName(modelName)), type_(modelName)
 // {
 // }
 

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Wed May  2 18:04:32 2012 lois burg
+// Last update Thu May  3 12:22:05 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -14,19 +14,23 @@
 # include	"AObject.hh"
 # include	"AGameState.hh"
 
-class	PlayState : public AGameState
+namespace	Bomberman
 {
-public:
-  virtual void init();
-  virtual void cleanUp();
+  class	PlayState : public AGameState
+  {
+  public:
+    virtual void init();
+    virtual void cleanUp();
 
-  virtual void update(StatesManager *mngr);
-  virtual void draw(StatesManager *mngr);
-  virtual void pause();
-  virtual void resume();
+    virtual void update(StatesManager *mngr);
+    virtual void draw(StatesManager *mngr);
+    virtual void pause();
+    virtual void resume();
 
-private:
-  std::vector<AObject*>	objs_;
-};
-
+  private:
+    size_t			mapW_;
+    size_t			mapH_;
+    std::vector<AObject*>	objs_;
+  };
+}
 #endif /* !__PLAYSTATE_HH__*/

@@ -5,11 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May  2 18:43:15 2012 lois burg
+// Last update Thu May  3 12:20:10 2012 lois burg
 //
 
 #include <iostream>
 #include "PlayState.hh"
+
+using namespace	Bomberman;
 
 void  PlayState::init()
 {
