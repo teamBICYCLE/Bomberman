@@ -18,10 +18,24 @@
 
 namespace Bomberman
 {
-    namespace PowerupFactory
+    class PowerupFactory
     {
-        APowerup *create(void);
-    }
+
+    public:
+        static PowerupFactory *getInstance(void);
+        static void deleteInstance(void);
+
+    public:
+        APowerup *create(void) const;
+
+    private:
+        PowerupFactory();
+        ~PowerupFactory();
+
+    private:
+        std::vector<APowerup *> ref_;
+        static PowerupFactory *instance_;
+    };
 }
 
 #endif // POWERUPFACTORY_HPP
