@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:02:52 2012 lois burg
-// Last update Thu May  3 12:21:55 2012 lois burg
+// Last update Thu May  3 15:31:59 2012 lois burg
 //
 
 #ifndef		__BLOCK_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   {
   public:
     Block();
-    // Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+    Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
     virtual ~Block();
 
   public:

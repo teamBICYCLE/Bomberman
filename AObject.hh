@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Thu May  3 12:21:43 2012 lois burg
+// Last update Thu May  3 15:31:30 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -15,6 +15,7 @@
 # include	<GDL/Input.hpp>
 # include	<GDL/Model.hpp>
 # include	<string>
+# include	"Vector3d.hpp"
 
 namespace	Bomberman
 {
@@ -22,7 +23,7 @@ namespace	Bomberman
   {
   public:
     AObject(const std::string& modelName);
-    //AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName);
+    AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName);
     virtual ~AObject(void);
 
   public:
@@ -35,9 +36,9 @@ namespace	Bomberman
     AObject& operator=(const AObject& other);
 
   protected:
-    //Vector3d		pos_;
-    //Vector3d		rot_;
-    //Vector3d		sz_;
+    Vector3d		pos_;
+    Vector3d		rot_;
+    Vector3d		sz_;
     gdl::Model		model_;
     const std::string	type_;
   };
