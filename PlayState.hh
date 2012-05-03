@@ -28,11 +28,11 @@ namespace	Bomberman
     virtual void resume();
 
   private:
-    size_t			mapW_;
-    size_t			mapH_;
+    size_t                  mapW_;
+    size_t                  mapH_;
     std::vector<AObject*>	objs_;
-    gdl::Input			keys_;
-    gdl::GameClock		clock_;
+    gdl::Input              keys_;
+    gdl::GameClock          clock_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

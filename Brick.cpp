@@ -28,6 +28,8 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Brick::~Brick()
 {
+    if (loot_ != NULL)
+   /* mettre le loot dans la liste */
 }
 
 void		Brick::update(const gdl::GameClock& clock, const gdl::Input& keys)

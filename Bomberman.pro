@@ -12,6 +12,7 @@ SOURCES += main.cpp \
     Block.cpp \
     Brick.cpp \
     APowerup.cpp \
+    PowerupFactory.cpp \
     RangePowerup.cpp \
     VelocityPowerup.cpp \
     AmmoPowerup.cpp \
@@ -25,10 +26,11 @@ HEADERS += \
     IntroState.hh \
     PlayState.hh \
     AObject.hh \
-    Vector3d.hpp \
+    Vector3d.hh \
     Block.hh \
     Brick.hh \
     APowerup.hh \
-    RangerPowerup.hh \
+    PowerupFactory.hh \
+    RangePowerup.hh \
     VelocityPowerup.hh \
     AmmoPowerup.hh \
