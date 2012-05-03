@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 // 
 // Started on  Thu May  3 15:11:59 2012 geoffroy lafontaine
-// Last update Thu May  3 15:18:05 2012 geoffroy lafontaine
+// Last update Thu May  3 16:11:25 2012 geoffroy lafontaine
 //
 
 #ifndef		__RANGEPOWERUP_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class RangePowerup : public APowerup
   {
   public:
-    RangePowerup(void);
+    RangePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
     virtual ~RangePowerup(void);
     
   public:

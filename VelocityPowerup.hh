@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 // 
 // Started on  Thu May  3 14:49:39 2012 geoffroy lafontaine
-// Last update Thu May  3 15:16:27 2012 geoffroy lafontaine
+// Last update Thu May  3 16:11:14 2012 geoffroy lafontaine
 //
 
 #ifndef		__VELOCITYPOWERUP_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class VelocityPowerup : public APowerup
   {
   public:
-    VelocityPowerup(void);
+    VelocityPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
     virtual ~VelocityPowerup(void);
 
   public:

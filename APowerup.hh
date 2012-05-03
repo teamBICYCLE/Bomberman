@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 // 
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Thu May  3 15:53:19 2012 geoffroy lafontaine
+// Last update Thu May  3 16:10:05 2012 geoffroy lafontaine
 //
 
 #ifndef		__APOWERUP_HH__
@@ -20,7 +20,7 @@ namespace	Bomberman
   class	APowerup : public AObject
   {
   public:
-    APowerup(void);
+    APowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
     virtual ~APowerup(void);
 
   public:
