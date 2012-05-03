@@ -10,7 +10,11 @@ SOURCES += main.cpp \
     AObject.cpp \
     Vector3d.cpp \
     Block.cpp \
-    Brick.cpp
+    Brick.cpp \
+    APowerup.cpp \
+    RangePowerup.cpp \
+    VelocityPowerup.cpp \
+    AmmoPowerup.cpp \
 
 CXXFLAGS += -W -Wall -Wextra
 LIBS	+= -lgdl_gl -lGL -lGLU
@@ -23,4 +27,8 @@ HEADERS += \
     AObject.hh \
     Vector3d.hpp \
     Block.hh \
-    Brick.hh
+    Brick.hh \
+    APowerup.hh \
+    RangerPowerup.hh \
+    VelocityPowerup.hh \
+    AmmoPowerup.hh \
