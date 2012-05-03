@@ -5,17 +5,20 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May  3 12:20:10 2012 lois burg
+// Last update Thu May  3 16:52:38 2012 lois burg
 //
 
 #include <iostream>
+#include <algorithm>
+#include "Vector3d.hh"
+#include "Player.hh"
 #include "PlayState.hh"
 
 using namespace	Bomberman;
 
 void  PlayState::init()
 {
-
+  objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d()));
 }
 
 void  PlayState::cleanUp()
@@ -25,7 +28,9 @@ void  PlayState::cleanUp()
 
 void  PlayState::update(StatesManager * sMg)
 {
-  std::cout << "update Play" << std::endl;
+  std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
+      obj->update(clock_, keys_);
+    });
 }
 
 void  PlayState::draw(StatesManager * sMg)

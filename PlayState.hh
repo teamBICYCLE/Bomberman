@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Thu May  3 12:22:05 2012 lois burg
+// Last update Thu May  3 16:55:42 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -31,6 +31,8 @@ namespace	Bomberman
     size_t			mapW_;
     size_t			mapH_;
     std::vector<AObject*>	objs_;
+    gdl::Input			keys_;
+    gdl::GameClock		clock_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

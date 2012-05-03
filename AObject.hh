@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Thu May  3 15:31:30 2012 lois burg
+// Last update Thu May  3 16:48:05 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -15,7 +15,7 @@
 # include	<GDL/Input.hpp>
 # include	<GDL/Model.hpp>
 # include	<string>
-# include	"Vector3d.hpp"
+# include	"Vector3d.hh"
 
 namespace	Bomberman
 {
@@ -27,7 +27,7 @@ namespace	Bomberman
     virtual ~AObject(void);
 
   public:
-    virtual void		update(const gdl::GameClock& clock, const gdl::Input& keys) = 0;
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
 

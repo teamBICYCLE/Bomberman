@@ -5,11 +5,11 @@
 // Login   <jonathan.machado@epitech.net>
 //
 // Started on  Thu Apr 26 20:21:29 2012 Jonathan Machado
-// Last update Sun Apr 29 13:23:47 2012 Jonathan Machado
+// Last update Thu May  3 16:42:31 2012 lois burg
 //
 
 #include <cmath>
-#include "Vector3d.hpp"
+#include "Vector3d.hh"
 
 Vector3d::Vector3d(double x, double y, double z)
 : x(x), y(y), z(z)
