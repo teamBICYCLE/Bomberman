@@ -21,3 +21,18 @@ AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, c
 AObject::~AObject(void)
 {
 }
+
+void AObject::setPos(const Vector3d &pos)
+{
+    pos_ = pos;
+}
+
+void AObject::setRot(const Vector3d &rot)
+{
+    rot_ = rot;
+}
+
+void AObject::setSize(const Vector3d &sz)
+{
+    sz_ = sz;
+}
