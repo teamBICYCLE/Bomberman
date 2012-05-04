@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Fri May  4 10:51:07 2012 lois burg
+// Last update Fri May  4 17:58:24 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class	PlayState : public AGameState
   {
   public:
-    virtual void init();
+    virtual bool init();
     virtual void cleanUp();
 
     virtual void update(StatesManager *mngr);

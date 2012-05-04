@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Fri May  4 16:13:34 2012 lois burg
+// Last update Fri May  4 18:25:12 2012 lois burg
 //
 
 #include "Brick.hh"
@@ -25,7 +25,6 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
         loot_->setPos(pos);
         loot_->setRot(rot);
         loot_->setSize(sz);
-        std::cout << "Loot find ! pos brick : " << loot_->getPos() << std::endl;
     }
 }
 

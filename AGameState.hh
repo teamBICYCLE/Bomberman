@@ -19,7 +19,7 @@ class StatesManager;
 class AGameState
 {
 public:
-  virtual void init() = 0;
+  virtual bool init() = 0;
   virtual void cleanUp() = 0;
 
   virtual void update(StatesManager *) = 0;

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May  4 10:55:07 2012 lois burg
+// Last update Fri May  4 18:26:59 2012 lois burg
 //
 
 #include "Player.hh"
@@ -13,7 +13,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz,"Player"), life_(1), nbBombs_(1), speed_(1), bombRange_(2)
+  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(1), bombRange_(2)
 {
 }
 
@@ -39,6 +39,17 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys)
 
 void		Player::draw(void)
 {
+  std::cout << "Drawing player of size: " << sz_ << std::endl;
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x, pos_.y, pos_.z);
+  glBegin(GL_QUADS);
+  glColor3ub(0, 255, 0);
+  glVertex3d(0.0d, 0.0d, 0.0d);
+  glVertex3d(0.0d, sz_.y, 0.0d);
+  glVertex3d(sz_.x, sz_.y, 0.0d);
+  glVertex3d(sz_.x, 0.0d, 0.0d);
+  glEnd();
 }
 
 const std::string&	Player::type(void) const

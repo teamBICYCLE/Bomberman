@@ -1,11 +1,10 @@
-//
 // Map.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Fri May  4 18:30:29 2012 geoffroy lafontaine
+// Last update Fri May  4 19:08:37 2012 romain sylvian
 //
 
 #include <iterator>
@@ -14,6 +13,45 @@
 #include "Map.hh"
 
 using namespace Bomberman;
+
+Map::Failure::Failure(const std::string& func, const std::string& msg) throw()
+  : std::runtime_error(msg), mFunc(func), mMsg(msg)
+{
+}
+
+Map::Failure::~Failure() throw()
+{
+}
+
+Map::Failure::Failure(const Map::Failure& other) throw()
+  : std::runtime_error(other.getMsg()), mFunc(other.getFunc()), mMsg(other.getMsg())
+{
+}
+
+Map::Failure&	Map::Failure::operator=(const Map::Failure& other) throw()
+{
+  if (&other != this)
+    {
+      mFunc = other.getFunc();
+      mMsg = other.getMsg();
+    }
+  return (*this);
+}
+
+std::string	Map::Failure::getFunc(void) const throw()
+{
+  return (mFunc);
+}
+
+std::string	Map::Failure::getMsg(void) const throw()
+{
+  return (mMsg);
+}
+
+const char	*Map::Failure::what(void) const throw()
+{
+  return (("Map failure: " + mFunc + " failed - " + mMsg).c_str());
+}
 
 Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
@@ -40,7 +78,7 @@ Map::~Map(void)
 const std::vector<AObject*>&	Map::getTerrain(void) const
 {
   if (terrain_.empty())
-    throw int(56);
+    throw Map::Failure("getTerrain", "Loaded map is empty.");
   return (terrain_);
 }
 
@@ -67,7 +105,7 @@ void				Map::generateBricks(unsigned int width, unsigned int height,
             --nbBricks;
             break;
           }
-      }   
+      }
   }
   while (nbBricks > 0);
 }
