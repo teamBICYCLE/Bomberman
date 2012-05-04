@@ -30,10 +30,7 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Brick::~Brick()
 {
-    if (loot_ != NULL)
-    {
-        std::cout << "Brick" << pos_ << " | Loot" << loot_->getPos() << std::endl;
-    }
+
 }
 
 void		Brick::update(gdl::GameClock& clock, gdl::Input& keys)
