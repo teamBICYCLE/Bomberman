@@ -59,7 +59,7 @@ void      StatesManager::pushState(AGameState * state)
   if (!this->states_.empty())
     this->states_.back()->pause();
   this->states_.push_back(state);
-  this->states_.back()->init(&gameClock_, &input_);
+  this->states_.back()->init();
 }
 
 void      StatesManager::popState(void)
@@ -96,4 +96,14 @@ void      StatesManager::draw()
     this->states_.back()->draw(this);
   else
     throw Exception("No state to be drawn");
+}
+
+gdl::Input  &StatesManager::getInput(void)
+{
+    return input_;
+}
+
+gdl::GameClock & StatesManager::getGameClock(void)
+{
+    return gameClock_;
 }

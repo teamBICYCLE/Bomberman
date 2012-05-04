@@ -16,10 +16,8 @@
 
 using namespace	Bomberman;
 
-void  PlayState::init(gdl::GameClock *clock, gdl::Input *input)
+void  PlayState::init()
 {
-  keys_ = input;
-  clock_ = clock;
   objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d()));
 }
 
@@ -30,8 +28,8 @@ void  PlayState::cleanUp()
 
 void  PlayState::update(StatesManager * sMg)
 {
-  std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
-      obj->update(*clock_, *keys_);
+  std::for_each(objs_.begin(), objs_.end(), [sMg](AObject *obj) -> void {
+                obj->update(sMg->getGameClock(), sMg->getInput());
     });
 }
 

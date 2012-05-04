@@ -46,6 +46,9 @@ public:
   virtual void      update();
   virtual void      draw();
 
+  gdl::Input        &getInput(void);
+  gdl::GameClock    &getGameClock(void);
+
 private:
   std::vector<AGameState *>  states_;
 };
