@@ -17,12 +17,12 @@ using namespace Bomberman;
 
 Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
-  for (int y = 1; y < height - 1; y += 2)
+  for (unsigned int y = 1; y < height - 1; y += 2)
     {
-      for (int x = 1; x < width - 1; x += 2)
-	{
-	  terrain_.push_back(new Block(Vector3d(x,y,0), Vector3d(0,0,0), Vector3d(0,0,0)));
-	}
+      for (unsigned int x = 1; x < width - 1; x += 2)
+        {
+          terrain_.push_back(new Block(Vector3d(x,y,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+        }
     }
   addPlayers(width, height, nbPlayers);
   generateBricks(width, height, nbPlayers);
@@ -61,12 +61,12 @@ void				Map::generateBricks(unsigned int width, unsigned int height,
       ++y;
     for (it = terrain_.begin(); it != terrain_.end(); ++it)
       {
-	if ((*it).getPos().x != x && (*it).getPos().y != y)
-	  {
-	    terrain_.push_back(new Brick(Vector3d(x,y,0), Vector3d(0,0,0), Vector3d(0,0,0)));
-	    --nbBricks;
-	    break;
-	  }
+        if ((*it)->getPos().x != x && (*it)->getPos().y != y)
+          {
+            terrain_.push_back(new Brick(Vector3d(x, y, 0), Vector3d(0, 0, 0), Vector3d(0, 0, 0)));
+            --nbBricks;
+            break;
+          }
       }   
   }
   while (nbBricks > 0);

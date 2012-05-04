@@ -22,15 +22,17 @@ namespace	Bomberman
   {
 
   public:
-    Map(unsigned int width = 13, unsigned int height = 13, unsigned int nbPlayers);
+    Map(unsigned int width = 13, unsigned int height = 13, unsigned int nbPlayers = 1);
     Map(const std::string& fileName);
     ~Map(void);
 
   public:
-    void getFromFile(const std::string& fileName);
-    bool checkType(char c) const;
-    AObject *createType(char c, unsigned int x, unsigned int y) const;
+    void                            getFromFile(const std::string& fileName);
+    bool                            checkType(char c) const;
+    AObject                         *createType(char c, unsigned int x, unsigned int y) const;
     const std::vector<AObject*>&	getTerrain(void) const;
+    void                            addPlayers(unsigned int, unsigned int, unsigned int);
+    void                            generateBricks(unsigned int, unsigned int, unsigned int);
 
   private:
     std::vector<AObject*>	terrain_;
