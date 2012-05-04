@@ -1,5 +1,5 @@
 //
-// MapManager.hh for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
+// Map.hh for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
 //
 // Made by lois burg
 // Login   <burg_l@epitech.net>
@@ -13,16 +13,23 @@
 
 # include	<ostream>
 # include	"AObject.hh"
+# include   "Block.hh"
+# include   "Brick.hh"
 
 namespace	Bomberman
 {
   class	Map
   {
+
   public:
     Map(void);
     Map(const std::string& fileName);
     ~Map(void);
 
+  public:
+    void getFromFile(const std::string& fileName);
+    bool checkType(char c) const;
+    AObject *createType(char c, unsigned int x, unsigned int y) const;
     const std::vector<AObject*>&	getTerrain(void) const;
 
   private:

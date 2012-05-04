@@ -31,10 +31,7 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Brick::~Brick()
 {
-    if (loot_ != NULL)
-    {
-        std::cout << "Brick" << pos_ << " | Loot" << loot_->getPos() << std::endl;
-    }
+
 }
 
 void		Brick::update(gdl::GameClock& clock, gdl::Input& keys)
@@ -61,4 +58,13 @@ void		Brick::draw(void)
 const std::string&	Brick::type(void) const
 {
   return (type_);
+}
+
+void Brick::loot(std::vector<AObject *> &objs)
+{
+    if (loot_ != NULL)
+    {
+        std::cout << "Loot add to Vector !" << std::endl;
+        objs.push_back(loot_);
+    }
 }

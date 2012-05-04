@@ -12,6 +12,7 @@
 #ifndef		__BRICK_HH__
 # define	__BRICK_HH__
 
+# include   <vector>
 # include	"AObject.hh"
 # include   "APowerup.hh"
 # include   "PowerupFactory.hh"
@@ -28,6 +29,7 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
+    virtual void        loot(std::vector<AObject *> &);
 
   private:
     APowerup	*loot_;
