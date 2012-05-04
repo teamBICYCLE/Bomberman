@@ -20,9 +20,7 @@ using namespace Bomberman;
 int main(void)
 {
  StatesManager   mg("Bomberman v0.1", new Bomberman::PlayState());
-
  mg.run();
- //Map map("map/map1");
 
  return 0;
 }
