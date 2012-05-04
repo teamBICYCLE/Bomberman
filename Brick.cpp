@@ -51,3 +51,12 @@ const std::string&	Brick::type(void) const
 {
   return (type_);
 }
+
+void Brick::loot(std::vector<AObject *> &objs)
+{
+    if (loot_ != NULL)
+    {
+        std::cout << "Loot add to Vector !" << std::endl;
+        objs.push_back(loot_);
+    }
+}
