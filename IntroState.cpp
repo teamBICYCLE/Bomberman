@@ -10,10 +10,11 @@
 #include <iostream>
 #include "IntroState.hh"
 
-void  IntroState::init(gdl::GameClock *clock, gdl::Input *input)
+bool  IntroState::init(gdl::GameClock *clock, gdl::Input *input)
 {
   (void)input;
   (void)clock;
+  return (true);
 }
 
 void  IntroState::cleanUp()

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May  4 17:27:32 2012 lois burg
+// Last update Fri May  4 18:27:13 2012 lois burg
 //
 
 #include <iostream>
@@ -20,19 +20,28 @@
 
 using namespace	Bomberman;
 
-void  PlayState::init()
+bool  PlayState::init()
 {
-  Map	map("./map/map1");
-  int	viewport[4];
+  bool	success;
 
-  glGetIntegerv(GL_VIEWPORT, viewport);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, viewport[2], viewport[3], 0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d()));
-  objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+  success = true;
+  try {
+    Map	map("./map/map2");
+    int	viewport[4];
+
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, viewport[2], viewport[3], 0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d(10, 10, 0)));
+    objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+  } catch (Map::Failure& e) {
+    success = false;
+    std::cerr << e.what() << std::endl;
+  }
+  return (success);
 }
 
 void  PlayState::cleanUp()
