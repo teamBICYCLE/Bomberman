@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May  4 10:51:31 2012 lois burg
+// Last update Fri May  4 12:38:41 2012 lois burg
 //
 
 #include <iostream>
@@ -29,7 +29,7 @@ void  PlayState::cleanUp()
 void  PlayState::update(StatesManager * sMg)
 {
   std::for_each(objs_.begin(), objs_.end(), [sMg](AObject *obj) -> void {
-                obj->update(sMg->getGameClock(), sMg->getInput());
+      obj->update(sMg->getGameClock(), sMg->getInput());
     });
 }
 
