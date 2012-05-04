@@ -5,10 +5,11 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May  4 15:28:37 2012 lois burg
-// Last update Fri May  4 15:37:51 2012 lois burg
+// Last update Fri May  4 16:10:48 2012 lois burg
 //
 
-#include "MapManager.hh"
+#include <algorithm>
+#include "Map.hh"
 
 using namespace Bomberman;
 
