@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May  4 15:29:12 2012 lois burg
-// Last update Fri May  4 15:33:24 2012 lois burg
+// Last update Fri May  4 15:56:41 2012 lois burg
 //
 
 #ifndef		__MAPMANAGER_HH__
 # define	__MAPMANAGER_HH__
 
+# include	<ostream>
 # include	"AObject.hh"
 # include   "Block.hh"
 # include   "Brick.hh"
