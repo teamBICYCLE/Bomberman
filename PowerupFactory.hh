@@ -14,7 +14,7 @@
 # include "AmmoPowerup.hh"
 # include "VelocityPowerup.hh"
 # include "RangePowerup.hh"
-# include "Vector3d.hpp"
+# include "Vector3d.hh"
 
 namespace Bomberman
 {

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May  3 16:52:38 2012 lois burg
+// Last update Fri May  4 10:51:31 2012 lois burg
 //
 
 #include <iostream>
@@ -16,8 +16,10 @@
 
 using namespace	Bomberman;
 
-void  PlayState::init()
+void  PlayState::init(gdl::GameClock *clock, gdl::Input *input)
 {
+  keys_ = input;
+  clock_ = clock;
   objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d()));
 }
 
@@ -29,7 +31,7 @@ void  PlayState::cleanUp()
 void  PlayState::update(StatesManager * sMg)
 {
   std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
-      obj->update(clock_, keys_);
+      obj->update(*clock_, *keys_);
     });
 }
 

@@ -7,12 +7,13 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
-#include "IntroState.hh"
 #include <iostream>
+#include "IntroState.hh"
 
-void  IntroState::init()
+void  IntroState::init(gdl::GameClock *clock, gdl::Input *input)
 {
-
+  (void)input;
+  (void)clock;
 }
 
 void  IntroState::cleanUp()

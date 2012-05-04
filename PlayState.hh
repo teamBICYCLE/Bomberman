@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Thu May  3 16:55:42 2012 lois burg
+// Last update Fri May  4 10:51:07 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class	PlayState : public AGameState
   {
   public:
-    virtual void init();
+    virtual void init(gdl::GameClock *clock, gdl::Input *input);
     virtual void cleanUp();
 
     virtual void update(StatesManager *mngr);
@@ -28,11 +28,11 @@ namespace	Bomberman
     virtual void resume();
 
   private:
-    size_t                  mapW_;
-    size_t                  mapH_;
+    size_t			mapW_;
+    size_t			mapH_;
     std::vector<AObject*>	objs_;
-    gdl::Input              keys_;
-    gdl::GameClock          clock_;
+    gdl::Input			*keys_;
+    gdl::GameClock		*clock_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

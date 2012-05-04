@@ -15,7 +15,7 @@
 class IntroState : public AGameState
 {
 public:
-  virtual void init();
+  virtual void init(gdl::GameClock *clock, gdl::Input *input);
   virtual void cleanUp();
 
   virtual void update(StatesManager *);

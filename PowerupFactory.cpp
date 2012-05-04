@@ -6,6 +6,7 @@
 ** this stuff is worth it, you can buy me a beer in return.
 */
 
+#include <cstdlib>
 #include "PowerupFactory.hh"
 
 using namespace Bomberman;
@@ -21,15 +22,16 @@ PowerupFactory::PowerupFactory()
 
 PowerupFactory::~PowerupFactory()
 {
-    std::vector::iterator it;
+  std::vector<APowerup*>::iterator it;
 
-    for (it = ref_.begin(); it != ref_.end(); it++)
-        delete it;
+  for (it = ref_.begin(); it != ref_.end(); it++)
+    delete (*it);
 }
 
 APowerup *PowerupFactory::create(void) const
 {
-    int nb = (rand() % (Bomberman::NONE * 5)) + 1;
+  uint nb = (rand() % (Bomberman::NONE * 5)) + 1;
+
     std::cout << nb << std::endl;
     if (nb >= Bomberman::NONE || nb >= ref_.size())
         return NULL;

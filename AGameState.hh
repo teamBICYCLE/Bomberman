@@ -7,17 +7,19 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
-#ifndef AGAMESTATE_HH
-#define AGAMESTATE_HH
+#ifndef		_AGAMESTATE_HH
+# define	_AGAMESTATE_HH
 
-#include <cstdlib>
+# include	<cstdlib>
+# include	<GDL/Input.hpp>
+# include	<GDL/GameClock.hpp>
 
 class StatesManager;
 
 class AGameState
 {
 public:
-  virtual void init() = 0;
+  virtual void init(gdl::GameClock *clock, gdl::Input *input) = 0;
   virtual void cleanUp() = 0;
 
   virtual void update(StatesManager *) = 0;

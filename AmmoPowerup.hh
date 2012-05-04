@@ -1,11 +1,11 @@
 //
 // AmmoPowerup.hh for bomberman in /home/lafont_g//tek2/bomberman/PowerUp
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Thu May  3 15:18:35 2012 geoffroy lafontaine
-// Last update Thu May  3 16:11:39 2012 geoffroy lafontaine
+// Last update Fri May  4 10:20:12 2012 lois burg
 //
 
 #ifndef		__AMMOPOWERUP_HH__
@@ -23,7 +23,10 @@ namespace	Bomberman
     virtual ~AmmoPowerup(void);
 
   public:
-    void activate(Player&) const;
+    virtual void		activate(Player&) const;
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
+    virtual void		draw(void);
+    virtual const std::string&	type(void) const;
 
   private:
     AmmoPowerup(const AmmoPowerup& other);

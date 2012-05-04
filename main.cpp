@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Thu May  3 16:50:12 2012 lois burg
+// Last update Fri May  4 10:44:04 2012 lois burg
 //
 
 #include "StatesManager.hh"

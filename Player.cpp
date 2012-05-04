@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May  3 16:49:00 2012 lois burg
+// Last update Fri May  4 10:55:07 2012 lois burg
 //
 
 #include "Player.hh"
@@ -34,6 +34,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys)
     pos_ -= Vector3d(1, 0, 0);
   if (keys.isKeyDown(gdl::Keys::Right))
     pos_ += Vector3d(1, 0, 0);
+  std::cout << "Player pos: " << pos_ << std::endl;
 }
 
 void		Player::draw(void)

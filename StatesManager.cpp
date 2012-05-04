@@ -59,7 +59,7 @@ void      StatesManager::pushState(AGameState * state)
   if (!this->states_.empty())
     this->states_.back()->pause();
   this->states_.push_back(state);
-  this->states_.back()->init();
+  this->states_.back()->init(&gameClock_, &input_);
 }
 
 void      StatesManager::popState(void)

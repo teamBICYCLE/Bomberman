@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Thu May  3 16:47:56 2012 lois burg
+// Last update Fri May  4 10:37:02 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
 # define	__PLAYER_HH__
 
+# include	<sys/types.h>
 # include	"AObject.hh"
 
 namespace	Bomberman
