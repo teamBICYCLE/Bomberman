@@ -18,6 +18,7 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
     loot_ = factory.create();
+
     if (loot_ != NULL)
     {
         loot_->setPos(pos);

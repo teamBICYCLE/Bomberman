@@ -33,7 +33,7 @@ APowerup *PowerupFactory::create(void) const
 {
     int nb = (rand() % (Bomberman::NONE * 5)) + 1;
     std::cout << nb << std::endl;
-    if (nb >= Bomberman::NONE)
+    if (nb >= Bomberman::NONE || nb >= ref_.size())
         return NULL;
     return ref_.at(nb);
 }
