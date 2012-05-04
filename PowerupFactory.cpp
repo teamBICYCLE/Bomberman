@@ -9,8 +9,6 @@
 #include "PowerupFactory.hh"
 
 using namespace Bomberman;
-//*:2>c&Yl
-//8:ioo+Xl
 
 PowerupFactory *PowerupFactory::instance_ = NULL;
 
