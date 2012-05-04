@@ -5,10 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May  3 16:48:30 2012 lois burg
+// Last update Fri May  4 16:28:18 2012 lois burg
 //
 
 #include "Block.hh"
+
+#include <GL/gl.h>
 
 using namespace	Bomberman;
 
@@ -29,6 +31,17 @@ void		Block::update(gdl::GameClock& clock, gdl::Input& keys)
 
 void		Block::draw(void)
 {
+  std::cout << "Drawing block of size: " << sz_ << std::endl;
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x, pos_.y, pos_.z);
+  glBegin(GL_QUADS);
+  glColor3ub(255, 255, 255);
+  glVertex3d(0.0d, 0.0d, 0.0d);
+  glVertex3d(0.0d, sz_.y, 0.0d);
+  glVertex3d(sz_.x, sz_.y, 0.0d);
+  glVertex3d(sz_.x, 0.0d, 0.0d);
+  glEnd();
 }
 
 const std::string&	Block::type(void) const

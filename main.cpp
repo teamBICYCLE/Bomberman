@@ -12,7 +12,7 @@
 #include "IntroState.hh"
 #include "PlayState.hh"
 
-#include "Brick.hh"
+#include "Map.hh"
 
 using namespace std;
 using namespace Bomberman;
@@ -22,6 +22,7 @@ int main(void)
  StatesManager   mg("Bomberman v0.1", new Bomberman::PlayState());
 
  mg.run();
+ //Map map("map/map1");
 
  return 0;
 }

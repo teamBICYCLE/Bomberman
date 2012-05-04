@@ -1,15 +1,17 @@
 //
-// MapManager.cpp for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
-//
-// Made by lois burg
-// Login   <burg_l@epitech.net>
-//
-// Started on  Fri May  4 15:28:37 2012 lois burg
-// Last update Fri May  4 18:13:47 2012 geoffroy lafontaine
+// Map.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
+// 
+// Made by geoffroy lafontaine
+// Login   <lafont_g@epitech.net>
+// 
+// Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
+// Last update Fri May  4 18:30:29 2012 geoffroy lafontaine
 //
 
 #include <iterator>
-#include "MapManager.hh"
+#include <iostream>
+#include <fstream>
+#include "Map.hh"
 
 using namespace Bomberman;
 
@@ -28,6 +30,7 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 
 Map::Map(const std::string& fileName)
 {
+    Map::getFromFile(fileName);
 }
 
 Map::~Map(void)
@@ -36,6 +39,8 @@ Map::~Map(void)
 
 const std::vector<AObject*>&	Map::getTerrain(void) const
 {
+  if (terrain_.empty())
+    throw int(56);
   return (terrain_);
 }
 
@@ -77,4 +82,37 @@ void				Map::addPlayers(unsigned int width, unsigned int height,
     terrain_.push_back(new Player(Vector3d(0,height - 1,0), Vector3d(0,0,0), Vector3d(0,0,0)));
   if (nbPlayers > 3)
     terrain_.push_back(new Player(Vector3d(width - 1,0,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+}
+
+bool Map::checkType(char c) const
+{
+    if (c == 'W' || c == 'B')
+        return true;
+    return false;
+}
+
+AObject *Map::createType(char c, unsigned int x, unsigned int y) const
+{
+    if (c == 'W')
+      return new Block(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
+    return new Brick(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
+}
+
+void Map::getFromFile(const std::string& fileName)
+{
+  std::string line;
+  std::ifstream infile;
+  unsigned int x;
+  unsigned int y = 0;
+
+  infile.open(fileName.c_str());
+  while(!infile.eof())
+    {
+      getline(infile, line);
+      for (x = 0; x != line.length(); x++)
+	if (checkType(line[x]))
+	  terrain_.push_back(createType(line[x], x, y));
+      y++;
+    }
+  infile.close();
 }
