@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May  4 15:28:37 2012 lois burg
-// Last update Fri May  4 17:21:47 2012 lois burg
+// Last update Fri May  4 17:46:42 2012 lois burg
 //
 
 #include <iostream>
@@ -29,6 +29,8 @@ Map::~Map(void)
 
 const std::vector<AObject*>&	Map::getTerrain(void) const
 {
+  if (terrain_.empty())
+    throw int(56);
   return (terrain_);
 }
 
@@ -42,25 +44,25 @@ bool Map::checkType(char c) const
 AObject *Map::createType(char c, unsigned int x, unsigned int y) const
 {
     if (c == 'W')
-        return new Block(Vector3d(x, y, 0), Vector3d(), Vector3d());
-    return new Brick(Vector3d(x, y, 0), Vector3d(), Vector3d());
+      return new Block(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
+    return new Brick(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)
 {
-    std::string line;
-    std::ifstream infile;
-    unsigned int x;
-    unsigned int y = 0;
+  std::string line;
+  std::ifstream infile;
+  unsigned int x;
+  unsigned int y = 0;
 
-    infile.open (fileName.c_str());
-    while(!infile.eof())
+  infile.open(fileName.c_str());
+  while(!infile.eof())
     {
-        getline(infile, line);
-        for (x = 0; x != line.length(); x++)
-            if (checkType(line[x]))
-                terrain_.push_back(createType(line[x], x, y));
-        y++;
+      getline(infile, line);
+      for (x = 0; x != line.length(); x++)
+	if (checkType(line[x]))
+	  terrain_.push_back(createType(line[x], x, y));
+      y++;
     }
-    infile.close();
+  infile.close();
 }

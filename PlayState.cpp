@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May  4 16:29:53 2012 lois burg
+// Last update Fri May  4 17:27:32 2012 lois burg
 //
 
 #include <iostream>
@@ -13,8 +13,7 @@
 #include "Vector3d.hh"
 #include "Player.hh"
 #include "PlayState.hh"
-#include "Block.hh"
-#include "Brick.hh"
+#include "Map.hh"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -23,7 +22,8 @@ using namespace	Bomberman;
 
 void  PlayState::init()
 {
-  int viewport[4];
+  Map	map("./map/map1");
+  int	viewport[4];
 
   glGetIntegerv(GL_VIEWPORT, viewport);
   glMatrixMode(GL_PROJECTION);
@@ -32,8 +32,7 @@ void  PlayState::init()
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d()));
-  objs_.push_back(new Block(Vector3d(0, 0, 0), Vector3d(), Vector3d(50, 50, 0)));
-  objs_.push_back(new Brick(Vector3d(50, 50, 0), Vector3d(), Vector3d(50, 50, 0)));
+  objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
 }
 
 void  PlayState::cleanUp()
