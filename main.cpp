@@ -5,19 +5,23 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Fri May  4 10:44:04 2012 lois burg
+// Last update Fri May  4 15:16:06 2012 romain sylvian
 //
 
 #include "StatesManager.hh"
 #include "IntroState.hh"
 #include "PlayState.hh"
 
+#include "Brick.hh"
+
 using namespace std;
+using namespace Bomberman;
 
 int main(void)
 {
-  StatesManager   mg("Bomberman v0.1", new Bomberman::PlayState());
+ StatesManager   mg("Bomberman v0.1", new Bomberman::PlayState());
 
-  mg.run();
-  return 0;
+ mg.run();
+
+ return 0;
 }

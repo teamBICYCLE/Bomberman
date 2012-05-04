@@ -30,12 +30,12 @@ PowerupFactory::~PowerupFactory()
 
 APowerup *PowerupFactory::create(void) const
 {
-  uint nb = (rand() % (Bomberman::NONE * 5)) + 1;
+  uint nb = (rand() % (Bomberman::NONE * 5));
 
     std::cout << nb << std::endl;
-    if (nb >= Bomberman::NONE || nb >= ref_.size())
+    if (nb >= ref_.size())
         return NULL;
-    return ref_.at(nb);
+    return (ref_.at(nb)->clone());
 }
 
 PowerupFactory *PowerupFactory::getInstance(void)

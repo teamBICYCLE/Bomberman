@@ -24,16 +24,19 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
         loot_->setPos(pos);
         loot_->setRot(rot);
         loot_->setSize(sz);
+        std::cout << "Loot find ! pos brick : " << loot_->getPos() << std::endl;
     }
 }
 
 Brick::~Brick()
 {
-    // if (loot_ != NULL)
-   /* mettre le loot dans la liste */
+    if (loot_ != NULL)
+    {
+        std::cout << "Brick" << pos_ << " | Loot" << loot_->getPos() << std::endl;
+    }
 }
 
-void		Brick::update(const gdl::GameClock& clock, const gdl::Input& keys)
+void		Brick::update(gdl::GameClock& clock, gdl::Input& keys)
 {
   (void)clock;
   (void)keys;

@@ -25,8 +25,7 @@ namespace	Bomberman
     virtual ~Brick();
 
   public:
-    virtual void		update(const gdl::GameClock& clock,
-				       const gdl::Input& keys);
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
 

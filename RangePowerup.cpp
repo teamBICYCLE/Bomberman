@@ -21,6 +21,11 @@ RangePowerup::~RangePowerup(void)
 {
 }
 
+RangePowerup::RangePowerup(const RangePowerup &other)
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType())
+{
+}
+
 void	RangePowerup::activate(Player& p) const
 {
   p.setBombRange(p.getBombRange() + 1);
@@ -39,4 +44,9 @@ void	RangePowerup::draw(void)
 const std::string&	RangePowerup::type(void) const
 {
   return (type_);
+}
+
+RangePowerup    *RangePowerup::clone(void)
+{
+    return (new RangePowerup(*this));
 }

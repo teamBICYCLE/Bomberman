@@ -28,6 +28,7 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
+    virtual APowerup    *clone(void) = 0;
 
   private:
     APowerup(const APowerup& other);

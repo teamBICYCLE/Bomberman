@@ -27,6 +27,7 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
+    virtual VelocityPowerup *clone(void);
 
   private:
     VelocityPowerup(const VelocityPowerup& other);

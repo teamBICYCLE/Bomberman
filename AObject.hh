@@ -33,6 +33,11 @@ namespace	Bomberman
     virtual void		setRot(const Vector3d &);
     virtual void		setSize(const Vector3d &);
 
+    virtual const Vector3d &getPos(void) const;
+    virtual const Vector3d &getRot(void) const;
+    virtual const Vector3d &getSize(void) const;
+    virtual const std::string &getType(void) const;
+
   private:
     AObject(const AObject& other);
     AObject& operator=(const AObject& other);

@@ -17,6 +17,11 @@ VelocityPowerup::VelocityPowerup(const Vector3d& pos, const Vector3d& rot, const
 {
 }
 
+VelocityPowerup::VelocityPowerup(const VelocityPowerup &other)
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType())
+{
+}
+
 VelocityPowerup::~VelocityPowerup(void)
 {
 }
@@ -39,4 +44,9 @@ void	VelocityPowerup::draw(void)
 const std::string&	VelocityPowerup::type(void) const
 {
   return (type_);
+}
+
+VelocityPowerup *VelocityPowerup::clone(void)
+{
+    return (new VelocityPowerup(*this));
 }

@@ -36,3 +36,24 @@ void AObject::setSize(const Vector3d &sz)
 {
     sz_ = sz;
 }
+
+const Vector3d &AObject::getPos(void) const
+{
+    return pos_;
+}
+
+const Vector3d &AObject::getRot(void) const
+{
+    return rot_;
+}
+
+const Vector3d &AObject::getSize(void) const
+{
+    return sz_;
+}
+
+const std::string &AObject::getType(void) const
+{
+    return type_;
+}
+

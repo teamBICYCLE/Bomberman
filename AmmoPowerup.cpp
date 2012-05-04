@@ -17,6 +17,11 @@ AmmoPowerup::AmmoPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3
 {
 }
 
+AmmoPowerup::AmmoPowerup(const AmmoPowerup &other)
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), "AmmoPowerup")
+{
+}
+
 AmmoPowerup::~AmmoPowerup(void)
 {
 }
@@ -39,4 +44,9 @@ void	AmmoPowerup::draw(void)
 const std::string&	AmmoPowerup::type(void) const
 {
   return (type_);
+}
+
+AmmoPowerup *AmmoPowerup::clone(void)
+{
+    return (new AmmoPowerup(*this));
 }
