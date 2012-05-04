@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Fri May  4 19:08:37 2012 romain sylvian
+// Last update Fri May  4 22:27:30 2012 romain sylvian
 //
 
 #include <iterator>
@@ -132,8 +132,8 @@ bool Map::checkType(char c) const
 AObject *Map::createType(char c, unsigned int x, unsigned int y) const
 {
     if (c == 'W')
-      return new Block(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
-    return new Brick(Vector3d(x * 10, y * 10, 0), Vector3d(), Vector3d(10, 10, 0));
+      return new Block(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+    return new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)
@@ -144,6 +144,8 @@ void Map::getFromFile(const std::string& fileName)
   unsigned int y = 0;
 
   infile.open(fileName.c_str());
+  if (infile.fail())
+    throw Map::Failure("getFromFile", "File doesn't exist.");
   while(!infile.eof())
     {
       getline(infile, line);

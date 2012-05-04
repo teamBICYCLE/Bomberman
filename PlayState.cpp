@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May  4 18:27:13 2012 lois burg
+// Last update Fri May  4 22:28:39 2012 romain sylvian
 //
 
 #include <iostream>
@@ -35,7 +35,7 @@ bool  PlayState::init()
     gluOrtho2D(0, viewport[2], viewport[3], 0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d(10, 10, 0)));
+    objs_.push_back(new Player(Vector3d(), Vector3d(), Vector3d(40, 40, 0)));
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
   } catch (Map::Failure& e) {
     success = false;
