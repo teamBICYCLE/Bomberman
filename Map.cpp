@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Fri May  4 22:27:30 2012 romain sylvian
+// Last update Sat May  5 12:36:31 2012 romain sylvian
 //
 
 #include <iterator>
@@ -124,16 +124,21 @@ void				Map::addPlayers(unsigned int width, unsigned int height,
 
 bool Map::checkType(char c) const
 {
-    if (c == 'W' || c == 'B')
-        return true;
-    return false;
+  if (std::string(MAP_FILE_ALLOWED).find(c) == std::string::npos)
+    throw Map::Failure("checkType", "Illegal character.");
+  else if (c == MAP_FILE_BLOCK || c == MAP_FILE_BRICK || c == MAP_FILE_PLAYER)
+    return true;
+  return false;
 }
 
-AObject *Map::createType(char c, unsigned int x, unsigned int y) const
+AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) const
 {
-    if (c == 'W')
+    if (c == MAP_FILE_BLOCK)
       return new Block(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
-    return new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+    else if (c == MAP_FILE_BRICK)
+      return new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+    *player = true;
+    return new Player(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)
@@ -142,6 +147,7 @@ void Map::getFromFile(const std::string& fileName)
   std::ifstream infile;
   unsigned int x;
   unsigned int y = 0;
+  bool	player = false;
 
   infile.open(fileName.c_str());
   if (infile.fail())
@@ -151,8 +157,10 @@ void Map::getFromFile(const std::string& fileName)
       getline(infile, line);
       for (x = 0; x != line.length(); x++)
 	if (checkType(line[x]))
-	  terrain_.push_back(createType(line[x], x, y));
+	  terrain_.push_back(createType(line[x], x, y, &player));
       y++;
     }
   infile.close();
+  if (!player)
+    throw Map::Failure("getFromFile", "No player seted in map.");
 }

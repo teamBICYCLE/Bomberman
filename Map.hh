@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Fri May  4 19:06:58 2012 lois burg
+// Last update Sat May  5 12:35:01 2012 romain sylvian
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -17,10 +17,17 @@
 # include	"Block.hh"
 # include	"Brick.hh"
 
+# define	MAP_FILE_EMPTY		'.'
+# define	MAP_FILE_BLOCK		'W'
+# define	MAP_FILE_BRICK		'B'
+# define	MAP_FILE_PLAYER		'J'
+# define	MAP_FILE_ALLOWED	".WBJ"
+
 namespace	Bomberman
 {
   class	Map
   {
+
   public:
     class	Failure : public std::runtime_error
     {
@@ -43,17 +50,20 @@ namespace	Bomberman
     };
 
   public:
-    Map(unsigned int width = 13, unsigned int height = 13, unsigned int nbPlayers = 1);
+    Map(unsigned int width = 13, unsigned int height = 13,
+	unsigned int nbPlayers = 1);
     Map(const std::string& fileName);
     ~Map(void);
 
   public:
-    void                            getFromFile(const std::string& fileName);
-    bool                            checkType(char c) const;
-    AObject                         *createType(char c, unsigned int x, unsigned int y) const;
     const std::vector<AObject*>&	getTerrain(void) const;
-    void                            addPlayers(unsigned int, unsigned int, unsigned int);
-    void                            generateBricks(unsigned int, unsigned int, unsigned int);
+
+  protected:
+    void	getFromFile(const std::string& fileName);
+    bool	checkType(char c) const;
+    AObject	*createType(char, unsigned int, unsigned int, bool *) const;
+    void	addPlayers(unsigned int, unsigned int, unsigned int);
+    void	generateBricks(unsigned int, unsigned int, unsigned int);
 
   private:
     std::vector<AObject*>	terrain_;
