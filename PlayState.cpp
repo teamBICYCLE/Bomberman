@@ -26,7 +26,7 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("./map/map2");
+    Map	map(13, 13, 4);
     int	viewport[4];
 
     glGetIntegerv(GL_VIEWPORT, viewport);

@@ -59,7 +59,7 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
     {
       for (unsigned int x = 1; x < width - 1; x += 2)
         {
-          terrain_.push_back(new Block(Vector3d(x,y,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+          terrain_.push_back(new Block(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
         }
     }
   addPlayers(width, height, nbPlayers);
@@ -101,7 +101,7 @@ void				Map::generateBricks(unsigned int width, unsigned int height,
       {
         if ((*it)->getPos().x != x && (*it)->getPos().y != y)
           {
-            terrain_.push_back(new Brick(Vector3d(x, y, 0), Vector3d(0, 0, 0), Vector3d(0, 0, 0)));
+            terrain_.push_back(new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(0, 0, 0), Vector3d(40, 40, 0)));
             --nbBricks;
             break;
           }
@@ -113,13 +113,13 @@ void				Map::generateBricks(unsigned int width, unsigned int height,
 void				Map::addPlayers(unsigned int width, unsigned int height,
 						unsigned int nbPlayers)
 {
-  terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+  terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
   if (nbPlayers > 1)
-    terrain_.push_back(new Player(Vector3d(width - 1,height - 1,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+    terrain_.push_back(new Player(Vector3d((width - 1) * 40, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
   if (nbPlayers > 2)
-    terrain_.push_back(new Player(Vector3d(0,height - 1,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+    terrain_.push_back(new Player(Vector3d(0, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
   if (nbPlayers > 3)
-    terrain_.push_back(new Player(Vector3d(width - 1,0,0), Vector3d(0,0,0), Vector3d(0,0,0)));
+    terrain_.push_back(new Player(Vector3d((width - 1) * 40, 0, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
 }
 
 bool Map::checkType(char c) const
