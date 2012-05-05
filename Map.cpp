@@ -4,9 +4,10 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sat May  5 12:36:31 2012 romain sylvian
+// Last update Sat May  5 19:01:14 2012 romain sylvian
 //
 
+#include <algorithm>
 #include <iterator>
 #include <iostream>
 #include <fstream>
@@ -56,14 +57,11 @@ const char	*Map::Failure::what(void) const throw()
 Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
   for (unsigned int y = 1; y < height - 1; y += 2)
-    {
-      for (unsigned int x = 1; x < width - 1; x += 2)
-        {
-          terrain_.push_back(new Block(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-        }
-    }
-  addPlayers(width, height, nbPlayers);
+    for (unsigned int x = 1; x < width - 1; x += 2)
+      terrain_.push_back(new Block(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+
   generateBricks(width, height, nbPlayers);
+  addPlayers(width, height, nbPlayers);
 }
 
 Map::Map(const std::string& fileName)
@@ -82,29 +80,31 @@ const std::vector<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void				Map::generateBricks(unsigned int width, unsigned int height,
-						    unsigned int nbPlayers)
+void					Map::generateBricks(unsigned int width,
+							    unsigned int height,
+							    unsigned int nbPlayers)
 {
-  unsigned int				nbBricks = 0;
+  unsigned int				nbBricks;
   std::vector<AObject*>::iterator	it;
+  unsigned int				x;
+  unsigned int				y;
+  bool					find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - ((width > height ? width : height));
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers);
   do {
-    unsigned int x = rand() % width;
-    unsigned int y = rand() % height;
-
-    if ((x % 2) && (width - 1) > (x + 1))
-      ++x;
-    if ((y % 2) && (height - 1) > (y + 1))
-      ++y;
-    for (it = terrain_.begin(); it != terrain_.end(); ++it)
+    x = rand() % width;
+    y = rand() % height;
+    if ((x % 2) == 0 || (y % 2) == 0)
       {
-        if ((*it)->getPos().x != x && (*it)->getPos().y != y)
-          {
-            terrain_.push_back(new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(0, 0, 0), Vector3d(40, 40, 0)));
-            --nbBricks;
-            break;
-          }
+	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+	  if ((*it)->getPos().x == (x * 40) && (*it)->getPos().y == (y * 40))
+	    find = true;
+	if (!find)
+	  {
+	    terrain_.push_back(new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(0, 0, 0), Vector3d(40, 40, 0)));
+	    --nbBricks;
+	  }
+	find = false;
       }
   }
   while (nbBricks > 0);
@@ -152,7 +152,7 @@ void Map::getFromFile(const std::string& fileName)
   infile.open(fileName.c_str());
   if (infile.fail())
     throw Map::Failure("getFromFile", "File doesn't exist.");
-  while(!infile.eof())
+  while (!infile.eof())
     {
       getline(infile, line);
       for (x = 0; x != line.length(); x++)
