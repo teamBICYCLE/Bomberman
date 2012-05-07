@@ -13,6 +13,7 @@
 
 # include	"AObject.hh"
 # include	"AGameState.hh"
+# include       "Camera.hh"
 
 namespace	Bomberman
 {
@@ -31,6 +32,7 @@ namespace	Bomberman
     size_t			mapW_;
     size_t			mapH_;
     std::vector<AObject*>	objs_;
+    Camera                      camera_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

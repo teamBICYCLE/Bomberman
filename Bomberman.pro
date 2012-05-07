@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     AmmoPowerup.cpp \
     Player.cpp \
     Map.cpp \
+    Camera.cpp \
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -39,3 +40,4 @@ HEADERS += \
     AmmoPowerup.hh \
     Player.hh \
     Map.hh \
+    Camera.hh \

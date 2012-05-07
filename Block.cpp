@@ -29,6 +29,8 @@ void		Block::update(gdl::GameClock& clock, gdl::Input& keys)
   (void)keys;
 }
 
+#define ZIZIDEPOULE 20.0f
+
 void		Block::draw(void)
 {
   std::cout << "Drawing block of size: " << sz_ << std::endl;
@@ -36,12 +38,60 @@ void		Block::draw(void)
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
   glBegin(GL_QUADS);
-  glColor3ub(255, 255, 255);
-  glVertex3d(0.0d, 0.0d, 0.0d);
-  glVertex3d(0.0d, sz_.y, 0.0d);
-  glVertex3d(sz_.x, sz_.y, 0.0d);
-  glVertex3d(sz_.x, 0.0d, 0.0d);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Configuration de la couleur des vertices
+  ////////////////////////////////////////////////////////////////////////////////
+  glColor3f(1.0f, 0.0f, 0.0f);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Dessin des vertices
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+
+  /// Vertex superieur gauche
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+
+  /// Vertex superieur gauche
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Fermeture du contexte de rendu
+  ////////////////////////////////////////////////////////////////////////////////
   glEnd();
+
+//  glBegin(GL_QUADS);
+//  glColor3ub(255, 255, 255);
+//  glVertex3d(0.0d, 0.0d, 0.0d);
+//  glVertex3d(0.0d, sz_.y, 0.0d);
+//  glVertex3d(sz_.x, sz_.y, 0.0d);
+//  glVertex3d(sz_.x, 0.0d, 0.0d);
+//  glEnd();
 }
 
 const std::string&	Block::type(void) const

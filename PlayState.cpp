@@ -26,15 +26,17 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("map/map2");
+    Map	map(13, 13, 4);
     int	viewport[4];
 
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, viewport[2], viewport[3], 0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    mapH_ = 13;
+    mapW_ = 13;
+//    glGetIntegerv(GL_VIEWPORT, viewport);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    gluOrtho2D(0, viewport[2], viewport[3], 0);
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
   } catch (Map::Failure& e) {
     success = false;
@@ -50,28 +52,40 @@ void  PlayState::cleanUp()
 
 void  PlayState::update(StatesManager * sMg)
 {
+  camera_.update(sMg->getGameClock(), sMg->getInput());
   std::for_each(objs_.begin(), objs_.end(), [sMg](AObject *obj) -> void {
       obj->update(sMg->getGameClock(), sMg->getInput());
     });
 }
 
+#define MULTZ 40.0f
+
 void  PlayState::draw(StatesManager * sMg)
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  int viewport[4];
+//  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//  int viewport[4];
 
-  glGetIntegerv(GL_VIEWPORT, viewport);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, viewport[2], viewport[3], 0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glPushMatrix();
+//  glGetIntegerv(GL_VIEWPORT, viewport);
+//  glMatrixMode(GL_PROJECTION);
+//  glLoadIdentity();
+//  gluOrtho2D(0, viewport[2], viewport[3], 0);
+//  glMatrixMode(GL_MODELVIEW);
+//  glLoadIdentity();
+//  glPushMatrix();
+  std::cout << this->mapH_ << " " << this->mapW_ << std::endl;
+  camera_.draw();
+//  glBegin(GL_QUADS);
+//  glColor3d(0, 0, 1.0f);
+//  glVertex3d(0, 0, 0);
+//  glVertex3d(this->mapH_ * MULTZ, 0, 0);
+//  glVertex3d(this->mapH_ * MULTZ, this->mapW_ * MULTZ, 0);
+//  glVertex3d(0, this->mapW_ * MULTZ, 0);
+//  glEnd();
   std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
       obj->draw();
     });
-  glPopMatrix();
+glPopMatrix();
 }
 
 void  PlayState::pause()

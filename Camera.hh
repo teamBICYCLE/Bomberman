@@ -20,7 +20,7 @@ public:
   Camera();
 
   void    initialize(void);
-  void    update(const gdl::GameClock &, const gdl::Input &);
+  void    update(const gdl::GameClock &, gdl::Input &);
   void    draw(void);
 
 private:
@@ -28,7 +28,7 @@ private:
   const float winxSize = 800.0f;
   const float winySize = 600.0f;
   const float zNear = 1.0f;
-  const float zFar = 1000.0f;
+  const float zFar = 10000.0f;
 
 protected:
   Vector3d    position_;

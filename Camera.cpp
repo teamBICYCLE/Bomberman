@@ -12,17 +12,17 @@
 #include <GL/glu.h>
 
 Camera::Camera()
-  :position_(0.0f, 0.0f, 900.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(0.0f, 0.0f, 500.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
 
 void    Camera::initialize()
 {
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(this->fov, this->winxSize / this->winySize,
-                 this->zNear, this->zFar);
+//  glMatrixMode(GL_PROJECTION);
+//  glLoadIdentity();
+//  gluPerspective(this->fov, this->winxSize / this->winySize,
+//                 this->zNear, this->zFar);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -30,9 +30,12 @@ void    Camera::initialize()
   glDepthFunc(GL_LEQUAL);
 }
 
-void    Camera::update(const gdl::GameClock & gameClock, const gdl::Input & input)
+void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)
 {
-
+  if (input.isKeyDown(gdl::Keys::Up))
+    position_.y -= 1;
+  if (input.isKeyDown(gdl::Keys::Down))
+    position_.y += 1;
 }
 
 void    Camera::draw()
@@ -41,14 +44,15 @@ void    Camera::draw()
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+  glRotated(rotation_.x, 0, 0, 1);
   gluPerspective(this->fov, this->winxSize / this->winySize,
                  this->zNear, this->zFar);
   gluLookAt(position_.x, position_.y, position_.z,
             0, 0, 0,
             0, 1, 0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LEQUAL);
+//  glMatrixMode(GL_MODELVIEW);
+//  glLoadIdentity();
+//  glEnable(GL_DEPTH_TEST);
+//  glDepthFunc(GL_LEQUAL);
   std::cout << "camera draw" << std::endl;
 }

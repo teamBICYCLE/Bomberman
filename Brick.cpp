@@ -39,19 +39,69 @@ void		Brick::update(gdl::GameClock& clock, gdl::Input& keys)
   (void)keys;
 }
 
+#define ZIZIDEPOULE 20.0f
+
 void		Brick::draw(void)
 {
   std::cout << "Drawing brick" << std::endl;
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
+
+  ////////////////////////////////////////////////////////////////////////////////
   glBegin(GL_QUADS);
-  glColor3ub(255, 0, 0);
-  glVertex3d(0.0d, 0.0d, 0.0d);
-  glVertex3d(0.0d, sz_.y, 0.0d);
-  glVertex3d(sz_.x, sz_.y, 0.0d);
-  glVertex3d(sz_.x, 0.0d, 0.0d);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Configuration de la couleur des vertices
+  ////////////////////////////////////////////////////////////////////////////////
+  glColor3f(1.0f, 0.50f, 0.75f);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Dessin des vertices
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex superieur gauche
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur gauche
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Fermeture du contexte de rendu
+  ////////////////////////////////////////////////////////////////////////////////
   glEnd();
+
+
+//  glBegin(GL_QUADS);
+//  glColor3ub(255, 0, 0);
+//  glVertex3d(0.0d, 0.0d, 0.0d);
+//  glVertex3d(0.0d, sz_.y, 0.0d);
+//  glVertex3d(sz_.x, sz_.y, 0.0d);
+//  glVertex3d(sz_.x, 0.0d, 0.0d);
+//  glEnd();
 }
 
 const std::string&	Brick::type(void) const
