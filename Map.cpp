@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Mon May  7 18:30:39 2012 lois burg
+// Last update Tue May  8 17:53:54 2012 lois burg
 //
 
 #include <algorithm>
@@ -61,8 +61,8 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
   for (unsigned int y = 1; y < height - 1; y += 2)
     for (unsigned int x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(Map::BlockSize, Map::BlockSize, 0)));
-  generateBricks(width, height, nbPlayers);
-  addPlayers(width, height, nbPlayers);
+  // generateBricks(width, height, nbPlayers);
+  addPlayers(width, height, 1);
 }
 
 Map::Map(const std::string& fileName)
