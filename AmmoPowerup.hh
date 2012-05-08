@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:18:35 2012 geoffroy lafontaine
-// Last update Fri May  4 10:20:12 2012 lois burg
+// Last update Mon May  7 18:31:53 2012 lois burg
 //
 
 #ifndef		__AMMOPOWERUP_HH__
@@ -24,7 +24,7 @@ namespace	Bomberman
 
   public:
     virtual void		activate(Player&) const;
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
     virtual AmmoPowerup *clone(void);

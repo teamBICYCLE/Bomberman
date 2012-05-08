@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sat May  5 19:01:14 2012 romain sylvian
+// Last update Mon May  7 18:30:39 2012 lois burg
 //
 
 #include <algorithm>
@@ -14,6 +14,8 @@
 #include "Map.hh"
 
 using namespace Bomberman;
+
+const int	Map::BlockSize = 40.0d;
 
 Map::Failure::Failure(const std::string& func, const std::string& msg) throw()
   : std::runtime_error(msg), mFunc(func), mMsg(msg)
@@ -58,8 +60,7 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
   for (unsigned int y = 1; y < height - 1; y += 2)
     for (unsigned int x = 1; x < width - 1; x += 2)
-      terrain_.push_back(new Block(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-
+      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(Map::BlockSize, Map::BlockSize, 0)));
   generateBricks(width, height, nbPlayers);
   addPlayers(width, height, nbPlayers);
 }
@@ -73,7 +74,7 @@ Map::~Map(void)
 {
 }
 
-const std::vector<AObject*>&	Map::getTerrain(void) const
+const std::list<AObject*>&	Map::getTerrain(void) const
 {
   if (terrain_.empty())
     throw Map::Failure("getTerrain", "Loaded map is empty.");
@@ -85,7 +86,7 @@ void					Map::generateBricks(unsigned int width,
 							    unsigned int nbPlayers)
 {
   unsigned int				nbBricks;
-  std::vector<AObject*>::iterator	it;
+  std::list<AObject*>::iterator		it;
   unsigned int				x;
   unsigned int				y;
   bool					find = false;

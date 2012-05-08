@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Fri May  4 15:20:01 2012 lois burg
+// Last update Mon May  7 18:32:50 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -26,7 +26,7 @@ namespace	Bomberman
     virtual ~AObject(void);
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys) = 0;
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
     virtual void		setPos(const Vector3d &);

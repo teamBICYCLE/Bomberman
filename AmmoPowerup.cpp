@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:25:34 2012 geoffroy lafontaine
-// Last update Fri May  4 10:53:59 2012 lois burg
+// Last update Mon May  7 18:29:23 2012 lois burg
 //
 
 #include "AmmoPowerup.hh"
@@ -31,10 +31,11 @@ void AmmoPowerup::activate(Player& p) const
   p.setNbBombs(p.getNbBombs() + 1);
 }
 
-void	AmmoPowerup::update(gdl::GameClock& clock, gdl::Input& keys)
+void	AmmoPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
   (void)clock;
   (void)keys;
+  (void)objs;
 }
 
 void	AmmoPowerup::draw(void)

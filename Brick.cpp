@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Fri May  4 18:25:12 2012 lois burg
+// Last update Mon May  7 18:32:18 2012 lois burg
 //
 
 #include "Brick.hh"
@@ -15,7 +15,7 @@ using namespace	Bomberman;
 #include <GL/gl.h>
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-    : AObject(pos, rot, sz,"Brick")
+  : AObject(pos, rot, sz, "Brick")
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
@@ -33,15 +33,15 @@ Brick::~Brick()
 
 }
 
-void		Brick::update(gdl::GameClock& clock, gdl::Input& keys)
+void		Brick::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
   (void)clock;
   (void)keys;
+  (void)objs;
 }
 
 void		Brick::draw(void)
 {
-  std::cout << "Drawing brick" << std::endl;
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
@@ -59,7 +59,7 @@ const std::string&	Brick::type(void) const
   return (type_);
 }
 
-void Brick::loot(std::vector<AObject *> &objs)
+void Brick::loot(std::list<AObject *> &objs)
 {
     if (loot_ != NULL)
     {

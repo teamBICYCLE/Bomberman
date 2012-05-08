@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Fri May  4 10:37:02 2012 lois burg
+// Last update Tue May  8 11:52:37 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -23,27 +23,41 @@ namespace	Bomberman
     virtual ~Player();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
 
   public:
     uint	getLife(void) const;
     uint	getNbBombs(void) const;
-    int		getSpeed(void) const;
+    double	getSpeed(void) const;
     uint	getBombRange(void) const;
 
   public:
     void	setLife(const uint life);
     void	setNbBombs(const uint nbBombs);
-    void	setSpeed(const int speed);
+    void	setSpeed(const double speed);
     void	setBombRange(const uint range);
+
+  private:
+    void	turnLeft(std::list<AObject*>& objs);
+    void	turnRight(std::list<AObject*>& objs);
+    void	turnUp(std::list<AObject*>& objs);
+    void	turnDown(std::list<AObject*>& objs);
+    void	putBomb(std::list<AObject*>& objs);
+
+  private:
+    void	checkLeft(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
+    void	checkRight(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
+    void	checkUp(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
+    void	checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
 
   private:
     uint	life_;
     uint	nbBombs_;
-    int		speed_;
+    double	speed_;
     uint	bombRange_;
+    std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
   };
 }
 
