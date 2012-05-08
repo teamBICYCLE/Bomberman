@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Sat May  5 12:35:01 2012 romain sylvian
+// Last update Tue May  8 15:06:29 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -64,6 +64,7 @@ namespace	Bomberman
     AObject	*createType(char, unsigned int, unsigned int, bool *) const;
     void	addPlayers(unsigned int, unsigned int, unsigned int);
     void	generateBricks(unsigned int, unsigned int, unsigned int);
+    void	clearPlace(unsigned int, unsigned int);
 
   private:
     std::vector<AObject*>	terrain_;

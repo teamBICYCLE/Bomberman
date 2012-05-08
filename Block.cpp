@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May  4 16:28:18 2012 lois burg
+// Last update Tue May  8 15:32:24 2012 geoffroy lafontaine
 //
 
 #include "Block.hh"

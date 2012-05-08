@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May  4 18:26:59 2012 lois burg
+// Last update Tue May  8 15:32:11 2012 geoffroy lafontaine
 //
 
 #include "Player.hh"

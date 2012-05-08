@@ -4,11 +4,12 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sat May  5 19:01:14 2012 romain sylvian
+// Last update Tue May  8 15:43:49 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
 #include <iterator>
+#include <utility>
 #include <iostream>
 #include <fstream>
 #include "Map.hh"
@@ -113,19 +114,40 @@ void					Map::generateBricks(unsigned int width,
 void				Map::addPlayers(unsigned int width, unsigned int height,
 						unsigned int nbPlayers)
 {
+  (void)width;
+  (void)height;
+  (void)nbPlayers;
   terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-  if (nbPlayers > 1)
-    terrain_.push_back(new Player(Vector3d((width - 1) * 40, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-  if (nbPlayers > 2)
-    terrain_.push_back(new Player(Vector3d(0, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-  if (nbPlayers > 3)
-    terrain_.push_back(new Player(Vector3d((width - 1) * 40, 0, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+  clearPlace(0, 0);
+}
+
+void				Map::clearPlace(unsigned int x, unsigned int y)
+{
+  std::vector<AObject*>::iterator		it;
+  std::vector< std::pair<int, int> >		postab;
+  std::vector< std::pair<int, int> >::iterator	i;
+
+  postab.push_back(std::make_pair(0, 0));
+  postab.push_back(std::make_pair(1, 0));
+  postab.push_back(std::make_pair(0, 1));
+  postab.push_back(std::make_pair(-1, 0));
+  postab.push_back(std::make_pair(0, -1));
+  for (it = terrain_.begin(); it != terrain_.end(); ++it)
+    {
+      for (i = postab.begin(); i != postab.end(); ++i)
+      	if ((*it)->getPos().x == ((x + (*i).first) * 40) && (*it)->getPos().y == ((y + (*i).second) * 40)
+	    && dynamic_cast<Brick*>(*it))
+      	  {
+      	    delete (*it);
+      	    terrain_.erase(it);
+      	  }
+    }
 }
 
 bool Map::checkType(char c) const
 {
   if (std::string(MAP_FILE_ALLOWED).find(c) == std::string::npos)
-    throw Map::Failure("checkType", "Illegal character.");
+    throw Map::Failure("checkType", "Forbidden character.");
   else if (c == MAP_FILE_BLOCK || c == MAP_FILE_BRICK || c == MAP_FILE_PLAYER)
     return true;
   return false;
@@ -162,5 +184,5 @@ void Map::getFromFile(const std::string& fileName)
     }
   infile.close();
   if (!player)
-    throw Map::Failure("getFromFile", "No player seted in map.");
+    throw Map::Failure("getFromFile", "No player set on the map.");
 }

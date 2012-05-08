@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Fri May  4 18:25:12 2012 lois burg
+// Last update Tue May  8 15:32:28 2012 geoffroy lafontaine
 //
 
 #include "Brick.hh"
