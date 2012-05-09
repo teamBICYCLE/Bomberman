@@ -32,7 +32,7 @@ APowerup *PowerupFactory::create(void) const
 {
   uint nb = (rand() % (Bomberman::NONE * 5));
 
-    std::cout << nb << std::endl;
+    // std::cout << nb << std::endl;
     if (nb >= ref_.size())
         return NULL;
     return (ref_.at(nb)->clone());

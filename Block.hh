@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:02:52 2012 lois burg
-// Last update Thu May  3 16:48:22 2012 lois burg
+// Last update Mon May  7 18:32:35 2012 lois burg
 //
 
 #ifndef		__BLOCK_HH__
@@ -22,7 +22,7 @@ namespace	Bomberman
     virtual ~Block();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
   };

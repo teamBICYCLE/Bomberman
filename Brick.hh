@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Thu May  3 15:26:43 2012 romain sylvian
+// Last update Mon May  7 18:33:21 2012 lois burg
 //
 //
 
@@ -22,14 +22,14 @@ namespace	Bomberman
   class	Brick : public AObject
   {
   public:
-    Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+    Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz = Vector3d(40, 40, 0));
     virtual ~Brick();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys);
+    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
-    virtual void        loot(std::vector<AObject *> &);
+    virtual void		loot(std::list<AObject *> &);
 
   private:
     APowerup	*loot_;
