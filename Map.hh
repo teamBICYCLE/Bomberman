@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Tue May  8 16:04:44 2012 geoffroy lafontaine
+// Last update Wed May  9 14:49:04 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -65,6 +65,7 @@ namespace	Bomberman
     bool	checkType(char c) const;
     AObject	*createType(char, unsigned int, unsigned int, bool *) const;
     void	addPlayers(unsigned int, unsigned int, unsigned int);
+    void	placePlayer(unsigned int, unsigned int);
     void	generateBricks(unsigned int, unsigned int, unsigned int);
     void	clearPlace(unsigned int, unsigned int);
 
