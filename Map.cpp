@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May  9 15:58:49 2012 geoffroy lafontaine
+// Last update Wed May  9 17:22:01 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -61,7 +61,7 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
     for (unsigned int x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(width, height, nbPlayers);
-  addPlayers(width, height, 1);
+  addPlayers(width, height, 3);
 }
 
 Map::Map(const std::string& fileName)
@@ -90,7 +90,7 @@ void					Map::generateBricks(unsigned int width,
   unsigned int				y;
   bool					find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers);
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -113,22 +113,30 @@ void					Map::generateBricks(unsigned int width,
 void				Map::addPlayers(unsigned int width, unsigned int height,
 						unsigned int nbPlayers)
 {
-  (void)width;
-  (void)height;
-  placePlayer(0,0);
-  // placePlayer(width,0);
-  // placePlayer(0,height);
-  // placePlayer(width,height);
-  // for (int i = 0; i < nbPlayers; ++i)
-  //   {
-      
-  //   }
+  std::vector< std::pair<int, int> >		postab;
+
+  postab.push_back(std::make_pair(0, 0));
+  postab.push_back(std::make_pair(0, height - 1));
+  postab.push_back(std::make_pair(width - 1, 0));
+  postab.push_back(std::make_pair(width - 1, height - 1));
+  if (nbPlayers <= 4)
+    {
+      for (unsigned int i = 0; i < nbPlayers; ++i)
+	placePlayer(postab[i].first, postab[i].second);
+    }
+  if (nbPlayers > 4)
+    {
+      for (unsigned int j = 4; j < nbPlayers; ++j)
+	{
+	  std::cout << "add player" << std::endl;
+	}
+    }
 }
 
 void				Map::placePlayer(unsigned int x, unsigned int y)
 {
+  clearPlace(x, y);
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.5, 0.5, 0)));
-  clearPlace(0, 0);  
 }
 
 void				Map::clearPlace(unsigned int x, unsigned int y)
