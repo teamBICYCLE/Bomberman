@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May  9 12:20:32 2012 geoffroy lafontaine
+// Last update Wed May  9 15:19:55 2012 Thomas Duplomb
 //
 
 #include <algorithm>
@@ -17,6 +17,7 @@ using namespace	Bomberman;
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.01), bombRange_(2)
 {
+  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
   actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
   actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
@@ -37,7 +38,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   std::list<AObject*>::iterator		objIt;
   std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)>::iterator it;
 
-  (void)clock;
   restoreMap.insert(std::make_pair(gdl::Keys::Up, false));
   restoreMap.insert(std::make_pair(gdl::Keys::Down, false));
   restoreMap.insert(std::make_pair(gdl::Keys::Left, false));
@@ -59,19 +59,18 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   // std::cout << "Player pos: " << pos_ << std::endl;
   // std::cout << "Player sz: " << sz_ << std::endl;
   // std::cout << "Nb objs: " << objs.size() << std::endl;
+  this->model_.update(clock);
 }
 
 void		Player::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
-  glColor3ub(0, 255, 0);
-  glVertex3d(0.0d, 0.0d, 0.0d);
-  glVertex3d(0.0d, sz_.y, 0.0d);
-  glVertex3d(sz_.x, sz_.y, 0.0d);
-  glVertex3d(sz_.x, 0.0d, 0.0d);
+  glTranslated(pos_.x, pos_.y, pos_.z);
+  glScaled(0.002, 0.002, 0.002);
+  glRotated(90, 1, 0, 0);
+  glColor3d(0.1f, 0.50f, 0.38f);
+  this->model_.draw();
   glEnd();
 }
 

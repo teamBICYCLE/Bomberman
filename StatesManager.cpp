@@ -20,11 +20,10 @@ const char *  StatesManager::Exception::what() const throw()
   return ("State Manager: " + this->what_).c_str();
 }
 
-StatesManager::StatesManager(const std::string & winTitle, AGameState * state)
+StatesManager::StatesManager(const std::string & winTitle)
   : gdl::Game()
 {
   this->initialize(winTitle);
-  this->changeState(state);
 }
 
 StatesManager::~StatesManager()

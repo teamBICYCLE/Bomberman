@@ -46,7 +46,7 @@ namespace	Bomberman
     Vector3d		pos_;
     Vector3d		rot_;
     Vector3d		sz_;
-    gdl::Model		model_;
+    gdl::Model  	model_;
     const std::string	type_;
   };
 }

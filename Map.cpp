@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May  9 15:45:34 2012 geoffroy lafontaine
+// Last update Wed May  9 15:47:36 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -99,11 +99,11 @@ void					Map::generateBricks(unsigned int width,
     if ((x % 2) == 0 || (y % 2) == 0)
       {
 	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	  if ((*it)->getPos().x == (x * 40) && (*it)->getPos().y == (y * 40))
+	  if ((*it)->getPos().x == (x ) && (*it)->getPos().y == (y ))
 	    find = true;
 	if (!find)
 	  {
-	    terrain_.push_back(new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(0, 0, 0), Vector3d(40, 40, 0)));
+	    terrain_.push_back(new Brick(Vector3d(x , y , 0), Vector3d(0, 0, 0), Vector3d(1, 1, 0)));
 	    --nbBricks;
 	  }
 	find = false;
@@ -171,11 +171,11 @@ bool Map::checkType(char c) const
 AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) const
 {
     if (c == MAP_FILE_BLOCK)
-      return new Block(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+      return new Block(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
     else if (c == MAP_FILE_BRICK)
-      return new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+      return new Brick(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
     *player = true;
-    return new Player(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0));
+    return new Player(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(0, 0, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)
