@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Mon May  7 18:32:50 2012 lois burg
+// Last update Wed May  9 17:33:58 2012 Jonathan Machado
 //
 
 #ifndef		__AOBJECT_HH__
@@ -36,7 +36,7 @@ namespace	Bomberman
     virtual const Vector3d&	getPos(void) const;
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
-    virtual const std::string&	getType(void) const;
+    virtual const std::string&	getType(void) ;
 
   private:
     AObject(const AObject& other);
