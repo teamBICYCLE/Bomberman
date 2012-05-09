@@ -4,11 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-<<<<<<< HEAD
-// Last update Wed May  9 12:17:03 2012 geoffroy lafontaine
-=======
-// Last update Tue May  8 17:53:54 2012 lois burg
->>>>>>> 5511787b6a603187b1f7e0676dae34064cc72ffb
+// Last update Wed May  9 12:22:31 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
