@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Wed May  9 17:37:38 2012 romain sylvian
+// Last update Wed May  9 17:38:46 2012 romain sylvian
 //
 
 #ifndef		__AOBJECT_HH__
