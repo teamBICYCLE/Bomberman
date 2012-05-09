@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May  8 16:05:11 2012 geoffroy lafontaine
+// Last update Wed May  9 12:20:32 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.1), bombRange_(2)
+  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.01), bombRange_(2)
 {
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
   actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
@@ -55,7 +55,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	// checkUp(*objIt, save, restoreMap);
 	checkDown(*objIt, save, restoreMap);
       }
+    // std::cout << "----------------------" << std::endl;
   // std::cout << "Player pos: " << pos_ << std::endl;
+  // std::cout << "Player sz: " << sz_ << std::endl;
   // std::cout << "Nb objs: " << objs.size() << std::endl;
 }
 
@@ -63,7 +65,7 @@ void		Player::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
   glBegin(GL_QUADS);
   glColor3ub(0, 255, 0);
   glVertex3d(0.0d, 0.0d, 0.0d);
@@ -113,12 +115,14 @@ void	Player::checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bo
 {
   (void)obj;
   (void)save;
+  // std::cout << obj->getPos() << std::endl;
   if (restoreMap[gdl::Keys::Down] == false && obj->getPos().y > pos_.y)
     {
+      // std::cout << "This object " << obj->getPos() << " is below me: " << pos_ << std::endl;
       if ((obj->getPos().x <= pos_.x && (obj->getPos().x * obj->getSize().x + obj->getSize().x) > pos_.x * sz_.x && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)) ||
-	  (obj->getPos().x >= pos_.x && obj->getPos().x * obj->getSize().x < (pos_.x * sz_.x + sz_.x) && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)))
+	  (obj->getPos().x > pos_.x && obj->getPos().x * obj->getSize().x < (pos_.x * sz_.x + sz_.x) && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)))
 	{
-	  std::cout << "Collision DOWN with block at " << obj->getPos() << std::endl;
+	  // std::cout << "Collision DOWN with block at " << obj->getPos() << std::endl;
 	  pos_.y = save.y;
 	  restoreMap[gdl::Keys::Down] = true;
 	}

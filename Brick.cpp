@@ -5,7 +5,11 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
+<<<<<<< HEAD
 // Last update Tue May  8 16:04:08 2012 geoffroy lafontaine
+=======
+// Last update Tue May  8 17:49:53 2012 lois burg
+>>>>>>> 5511787b6a603187b1f7e0676dae34064cc72ffb
 //
 
 #include "Brick.hh"
@@ -44,7 +48,7 @@ void		Brick::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
   glBegin(GL_QUADS);
   glColor3ub(255, 0, 0);
   glVertex3d(0.0d, 0.0d, 0.0d);
