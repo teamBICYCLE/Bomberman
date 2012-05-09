@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May  9 15:19:55 2012 Thomas Duplomb
+// Last update Wed May  9 18:34:31 2012 lois burg
 //
 
 #include <algorithm>
@@ -104,9 +104,13 @@ void	Player::checkUp(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool
   (void)save;
   if (restoreMap[gdl::Keys::Up] == false && obj->getPos().y < pos_.y)
     {
-      std::cout << "Collision UP" << std::endl;
-      pos_.y = save.y;
-      restoreMap[gdl::Keys::Up] = true;
+      // std::cout << "Collision UP" << std::endl;
+      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) < pos_.y) ||
+	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < pos_.y))
+	{
+	  pos_.y = save.y;
+	  restoreMap[gdl::Keys::Up] = true;
+	}
     }
 }
 
@@ -118,8 +122,8 @@ void	Player::checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bo
   if (restoreMap[gdl::Keys::Down] == false && obj->getPos().y > pos_.y)
     {
       // std::cout << "This object " << obj->getPos() << " is below me: " << pos_ << std::endl;
-      if ((obj->getPos().x <= pos_.x && (obj->getPos().x * obj->getSize().x + obj->getSize().x) > pos_.x * sz_.x && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)) ||
-	  (obj->getPos().x > pos_.x && obj->getPos().x * obj->getSize().x < (pos_.x * sz_.x + sz_.x) && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)))
+      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)) ||
+	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y)))
 	{
 	  // std::cout << "Collision DOWN with block at " << obj->getPos() << std::endl;
 	  pos_.y = save.y;
