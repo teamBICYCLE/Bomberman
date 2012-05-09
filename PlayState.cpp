@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May  5 17:03:11 2012 romain sylvian
+// Last update Wed May  9 15:18:08 2012 Thomas Duplomb
 //
 
 #include <iostream>
@@ -54,8 +54,8 @@ void  PlayState::cleanUp()
 void  PlayState::update(StatesManager * sMg)
 {
   camera_.update(sMg->getGameClock(), sMg->getInput());
-  std::for_each(objs_.begin(), objs_.end(), [sMg](AObject *obj) -> void {
-    obj->update(sMg->getGameClock(), sMg->getInput());
+  std::for_each(objs_.begin(), objs_.end(), [sMg, this] (AObject *obj) -> void {
+      obj->update(sMg->getGameClock(), sMg->getInput(), objs_);
     });
 }
 

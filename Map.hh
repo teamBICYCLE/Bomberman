@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Sat May  5 12:35:01 2012 romain sylvian
+// Last update Tue May  8 16:04:44 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -27,7 +27,6 @@ namespace	Bomberman
 {
   class	Map
   {
-
   public:
     class	Failure : public std::runtime_error
     {
@@ -56,7 +55,10 @@ namespace	Bomberman
     ~Map(void);
 
   public:
-    const std::vector<AObject*>&	getTerrain(void) const;
+    const std::list<AObject*>&	getTerrain(void) const;
+
+  public:
+    static const int		BlockSize;
 
   protected:
     void	getFromFile(const std::string& fileName);
@@ -64,9 +66,10 @@ namespace	Bomberman
     AObject	*createType(char, unsigned int, unsigned int, bool *) const;
     void	addPlayers(unsigned int, unsigned int, unsigned int);
     void	generateBricks(unsigned int, unsigned int, unsigned int);
+    void	clearPlace(unsigned int, unsigned int);
 
   private:
-    std::vector<AObject*>	terrain_;
+    std::list<AObject*>	terrain_;
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May  4 16:28:18 2012 lois burg
+// Last update Tue May  8 16:03:57 2012 geoffroy lafontaine
 //
 
 #include "Block.hh"
@@ -24,10 +24,11 @@ Block::~Block()
 {
 }
 
-void		Block::update(gdl::GameClock& clock, gdl::Input& keys)
+void		Block::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
   (void)clock;
   (void)keys;
+  (void)objs;
 }
 
 #define ZIZIDEPOULE 0.5f
@@ -36,7 +37,7 @@ void		Block::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
   glBegin(GL_QUADS);
   ////////////////////////////////////////////////////////////////////////////////
   /// Configuration de la couleur des vertices
