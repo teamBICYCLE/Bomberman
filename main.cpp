@@ -20,9 +20,10 @@ using namespace std;
 int main(void)
 {
   try {
-    StatesManager   mg("Bomberman v0.1", new Bomberman::PlayState());
+    StatesManager   mg("Bomberman v0.1");
 
 
+  mg.changeState(new Bomberman::PlayState());
   mg.run();
   }
   catch (gdl::ModelException * e)

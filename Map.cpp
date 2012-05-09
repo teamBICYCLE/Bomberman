@@ -58,7 +58,7 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
   for (unsigned int y = 1; y < height - 1; y += 2)
     for (unsigned int x = 1; x < width - 1; x += 2)
-      terrain_.push_back(new Block(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+      terrain_.push_back(new Block(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
 
   generateBricks(width, height, nbPlayers);
   addPlayers(width, height, nbPlayers);
@@ -97,11 +97,11 @@ void					Map::generateBricks(unsigned int width,
     if ((x % 2) == 0 || (y % 2) == 0)
       {
 	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	  if ((*it)->getPos().x == (x * 40) && (*it)->getPos().y == (y * 40))
+	  if ((*it)->getPos().x == (x ) && (*it)->getPos().y == (y ))
 	    find = true;
 	if (!find)
 	  {
-	    terrain_.push_back(new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(0, 0, 0), Vector3d(40, 40, 0)));
+	    terrain_.push_back(new Brick(Vector3d(x , y , 0), Vector3d(0, 0, 0), Vector3d(1, 1, 0)));
 	    --nbBricks;
 	  }
 	find = false;
@@ -113,13 +113,13 @@ void					Map::generateBricks(unsigned int width,
 void				Map::addPlayers(unsigned int width, unsigned int height,
 						unsigned int nbPlayers)
 {
-  terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+  terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   if (nbPlayers > 1)
-    terrain_.push_back(new Player(Vector3d((width - 1) * 40, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+    terrain_.push_back(new Player(Vector3d((width - 1) , (height - 1) , 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   if (nbPlayers > 2)
-    terrain_.push_back(new Player(Vector3d(0, (height - 1) * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+    terrain_.push_back(new Player(Vector3d(0, (height - 1) , 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   if (nbPlayers > 3)
-    terrain_.push_back(new Player(Vector3d((width - 1) * 40, 0, 0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
+    terrain_.push_back(new Player(Vector3d((width - 1) , 0, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
 }
 
 bool Map::checkType(char c) const
@@ -134,11 +134,11 @@ bool Map::checkType(char c) const
 AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) const
 {
     if (c == MAP_FILE_BLOCK)
-      return new Block(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+      return new Block(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
     else if (c == MAP_FILE_BRICK)
-      return new Brick(Vector3d(x * 40, y * 40, 0), Vector3d(), Vector3d(40, 40, 0));
+      return new Brick(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
     *player = true;
-    return new Player(Vector3d(x * 40, y * 40, 0), Vector3d(0,0,0), Vector3d(40, 40, 0));
+    return new Player(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(0, 0, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)

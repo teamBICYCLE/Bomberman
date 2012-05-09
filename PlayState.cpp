@@ -17,6 +17,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GDL/Text.hpp>
 
 using namespace	Bomberman;
 
@@ -26,7 +27,7 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map(13, 13, 4);
+    Map	map("map/map1");
     int	viewport[4];
 
     mapH_ = 13;
@@ -54,11 +55,11 @@ void  PlayState::update(StatesManager * sMg)
 {
   camera_.update(sMg->getGameClock(), sMg->getInput());
   std::for_each(objs_.begin(), objs_.end(), [sMg](AObject *obj) -> void {
-      obj->update(sMg->getGameClock(), sMg->getInput());
+    obj->update(sMg->getGameClock(), sMg->getInput());
     });
 }
 
-#define MULTZ 40.0f
+#define MULTZ 1.0f
 
 void  PlayState::draw(StatesManager * sMg)
 {
@@ -73,19 +74,24 @@ void  PlayState::draw(StatesManager * sMg)
 //  glMatrixMode(GL_MODELVIEW);
 //  glLoadIdentity();
 //  glPushMatrix();
-  std::cout << this->mapH_ << " " << this->mapW_ << std::endl;
   camera_.draw();
-//  glBegin(GL_QUADS);
-//  glColor3d(0, 0, 1.0f);
-//  glVertex3d(0, 0, 0);
-//  glVertex3d(this->mapH_ * MULTZ, 0, 0);
-//  glVertex3d(this->mapH_ * MULTZ, this->mapW_ * MULTZ, 0);
-//  glVertex3d(0, this->mapW_ * MULTZ, 0);
-//  glEnd();
+  glPushMatrix();
+  glTranslated(-0.5f, -0.5f, 0);
+  glBegin(GL_QUADS);
+  glColor3f(0, 0, 1.0f);
+  glVertex3f(0, 0, 0);
+  glVertex3f((this->mapH_ * MULTZ), 0, 0);
+  glVertex3f((this->mapH_ * MULTZ), (this->mapW_ * MULTZ), 0);
+  glVertex3f(0, (this->mapW_ * MULTZ), 0);
+  glEnd();
+  glPopMatrix();
+  glPushMatrix();
   std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
-      obj->draw();
+   //  if (dynamic_cast<Player * >(obj))
+            obj->draw();
     });
 glPopMatrix();
+glFlush();
 }
 
 void  PlayState::pause()

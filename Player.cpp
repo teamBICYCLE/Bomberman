@@ -13,9 +13,9 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(1), bombRange_(2)
+: AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(1), bombRange_(2)
 {
-  this->model_ = gdl::Model::load("assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
 }
 
 Player::~Player()
@@ -26,28 +26,30 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys)
 {
   (void)clock;
   (void)keys;
-  std::cout << "Player update" << std::endl;
   if (keys.isKeyDown(gdl::Keys::Up))
-    pos_ += Vector3d(0, 1, 0);
+    pos_ += Vector3d(0, 0.01, 0);
   if (keys.isKeyDown(gdl::Keys::Down))
-    pos_ -= Vector3d(0, 1, 0);
+  {
+    pos_ -= Vector3d(0, 0.01, 0);
+    this->model_.play("Take 001");
+  }
   if (keys.isKeyDown(gdl::Keys::Left))
-    pos_ -= Vector3d(1, 0, 0);
+    pos_ -= Vector3d(0.01, 0, 0);
   if (keys.isKeyDown(gdl::Keys::Right))
-    pos_ += Vector3d(1, 0, 0);
-  std::cout << "Player pos: " << pos_ << std::endl;
+    pos_ += Vector3d(0.01, 0, 0);
   this->model_.update(clock);
-  this->model_.play("Take 001");
+//  this->model_.play("Take 001");
 }
 
 void		Player::draw(void)
 {
-  std::cout << "Drawing player of size: " << sz_ << std::endl;
-
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
-  this->model_.draw_immediate();
+  glScaled(0.002, 0.002, 0.002);
+  glRotated(90, 1, 0, 0);
+  glColor3d(0.1f, 0.50f, 0.38f);
+  this->model_.draw();
   glEnd();
 }
 

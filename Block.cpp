@@ -11,6 +11,7 @@
 #include "Block.hh"
 
 #include <GL/gl.h>
+#include <GDL/Image.hpp>
 
 using namespace	Bomberman;
 
@@ -29,11 +30,10 @@ void		Block::update(gdl::GameClock& clock, gdl::Input& keys)
   (void)keys;
 }
 
-#define ZIZIDEPOULE 20.0f
+#define ZIZIDEPOULE 0.5f
 
 void		Block::draw(void)
 {
-  std::cout << "Drawing block of size: " << sz_ << std::endl;
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
@@ -41,45 +41,58 @@ void		Block::draw(void)
   ////////////////////////////////////////////////////////////////////////////////
   /// Configuration de la couleur des vertices
   ////////////////////////////////////////////////////////////////////////////////
-  glColor3f(1.0f, 0.0f, 0.0f);
+  glColor3f(0.72f, 0.52f, 0.32f);
   ////////////////////////////////////////////////////////////////////////////////
   /// Dessin des vertices
   ////////////////////////////////////////////////////////////////////////////////
   /// Vertex superieur gauche
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex superieur droit
+glNormal3d(0, 1, 0);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-
-  /// Vertex superieur gauche
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex inferieur droit
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex superieur droit
   glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-
+  glColor3f(0.85f, 0.98f, 0.65f);
+  glNormal3d(1, 0, 0);
   /// Vertex superieur gauche
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
   /// Vertex inferieur gauche
   glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex inferieur droit
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex superieur droit
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
-
-  /// Vertex superieur gauche
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.31f, 0.64f, 0.84f);
+  glNormal3d(0, -1, 0);
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex inferieur droit
   glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
   /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.18f, 0.78f, 0.68f);
+  glNormal3d(-1, 0, 0);
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.13f, 0.65f, 0.78f);
+  glNormal3d(0, 0, -1);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+    glColor3f(0.07f, 0.65f, 0.46f);
+  glNormal3d(0, 0, 1);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
   ////////////////////////////////////////////////////////////////////////////////
   /// Fermeture du contexte de rendu
   ////////////////////////////////////////////////////////////////////////////////
