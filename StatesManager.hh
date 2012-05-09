@@ -31,7 +31,7 @@ private:
   };
 
 public:
-  StatesManager(const std::string &, AGameState * state);
+  StatesManager(const std::string &);
   virtual ~StatesManager();
 
   virtual void      initialize();
