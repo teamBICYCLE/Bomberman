@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 10 16:05:34 2012 geoffroy lafontaine
+// Last update Thu May 10 16:41:04 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -123,13 +123,6 @@ void				Map::addPlayers(unsigned int width, unsigned int height,
     {
       for (unsigned int i = 0; i < nbPlayers; ++i)
   	placePlayer(postab[i].first, postab[i].second);
-    }
-  if (nbPlayers > 4)
-    {
-      for (unsigned int j = 4; j < nbPlayers; ++j)
-  	{
-  	  std::cout << "add player" << std::endl;
-  	}
     }
 }
 
