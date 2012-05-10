@@ -22,13 +22,14 @@ public:
   void    initialize(void);
   void    update(const gdl::GameClock &, gdl::Input &);
   void    draw(void);
+  void    drawRepere(void);
 
 private:
-  static const float fov = 70.0f;
-  static const float winxSize = 800.0f;
-  static const float winySize = 600.0f;
-  static const float zNear = 1.0f;
-  static const float zFar = 10000.0f;
+  const float fov = 70.0f;
+  const float winxSize = 800.0f;
+  const float winySize = 600.0f;
+  const float zNear = 1.0f;
+  const float zFar = 1000.0f;
 
 protected:
   Vector3d    position_;

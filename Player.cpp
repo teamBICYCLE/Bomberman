@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.001), bombRange_(2)
+  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.05), bombRange_(2)
 {
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
@@ -62,7 +62,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   this->model_.update(clock);
 }
 
-#define ZIZIDEPOULE 0.3f
+#define ZIZIDEPOULE 0.5f
 
 void		Player::draw(void)
 {
@@ -85,62 +85,67 @@ void		Player::draw(void)
   glNormal3d(0, 1, 0);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
   /// Vertex inferieur droit
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(0, ZIZIDEPOULE, 0);
   /// Vertex superieur droit
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
 
   glColor3f(0.32f, 0.05f, 0.26f);
   glNormal3d(1, 0, 0);
   /// Vertex superieur gauche
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, 0, 0);
   /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
   /// Vertex superieur droit
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
   glColor3f(0.33f, 0.21f, 0.12f);
   glNormal3d(0, -1, 0);
   /// Vertex superieur gauche
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, 0, ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(0, 0, 0);
   /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, 0, 0);
   /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
   glColor3f(0.88f, 0.57f, 0.10f);
   glNormal3d(-1, 0, 0);
   /// Vertex superieur gauche
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
   /// Vertex inferieur gauche
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(0, ZIZIDEPOULE, 0);
   /// Vertex inferieur droit
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(0, 0, 0);
   /// Vertex superieur droit
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, 0, ZIZIDEPOULE);
   glColor3f(0.32f, 0.53f, 0.21f);
   glNormal3d(0, 0, -1);
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(0, 0, 0);
+  glVertex3f(ZIZIDEPOULE, 0, 0);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
+  glVertex3f(0, ZIZIDEPOULE, 0);
   glColor3f(0.91f, 0.18f, 0.42f);
     glNormal3d(0, 0, 1);
-  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, 0, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
   ////////////////////////////////////////////////////////////////////////////////
   /// Fermeture du contexte de rendu
   ////////////////////////////////////////////////////////////////////////////////
   glEnd();
+  
+ glPopMatrix();
+ glPushMatrix();
+  glTranslated(pos_.x, pos_.y, pos_.z);
+ glScaled(0.0028, 0.0028, 0.0028);
+ glRotated(90, 1, 0, 0);
 
+  this->model_.draw();
 
-  // this->model_.draw();
-  glEnd();
 }
 
 void	Player::checkLeft(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap)

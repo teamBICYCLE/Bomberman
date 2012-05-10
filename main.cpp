@@ -20,8 +20,7 @@ using namespace std;
 int main(void)
 {
   try {
-    StatesManager   mg("Bomberman v0.1");
-
+    StatesManager   mg("Bomberman v0.01");
 
   mg.changeState(new Bomberman::PlayState());
   mg.run();
