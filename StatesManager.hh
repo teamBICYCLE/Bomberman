@@ -35,7 +35,6 @@ public:
   virtual ~StatesManager();
 
   virtual void      initialize();
-  void              initialize(const std::string &);
   virtual void      unload();
 
   void      changeState(AGameState *);

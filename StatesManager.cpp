@@ -8,6 +8,7 @@
 **************************************************************************/
 
 #include "StatesManager.hh"
+#include "PlayState.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -23,7 +24,7 @@ const char *  StatesManager::Exception::what() const throw()
 StatesManager::StatesManager(const std::string & winTitle)
   : gdl::Game()
 {
-  this->initialize(winTitle);
+  this->window_.setTitle(winTitle);
 }
 
 StatesManager::~StatesManager()
@@ -34,12 +35,6 @@ StatesManager::~StatesManager()
 void      StatesManager::initialize()
 {
   this->window_.create();
-}
-
-void      StatesManager::initialize(const std::string & winTitle)
-{
-  this->window_.setTitle(winTitle);
-  this->initialize();
 }
 
 void      StatesManager::unload()
@@ -86,7 +81,7 @@ void      StatesManager::update()
   if (!this->states_.empty())
     this->states_.back()->update(this);
   else
-    throw Exception("No state to be update");
+     this->changeState(new Bomberman::PlayState());
 }
 
 void      StatesManager::draw()
