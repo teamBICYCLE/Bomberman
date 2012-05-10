@@ -19,6 +19,7 @@ SOURCES += main.cpp \
     Player.cpp \
     Map.cpp \
     Camera.cpp \
+    Bomb.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -41,3 +42,4 @@ HEADERS += \
     Player.hh \
     Map.hh \
     Camera.hh \
+    Bomb.hh

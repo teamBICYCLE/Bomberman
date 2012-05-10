@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Wed May  9 17:38:46 2012 romain sylvian
+// Last update Thu May 10 14:30:35 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -37,6 +37,7 @@ namespace	Bomberman
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
     virtual const std::string&	getType(void) const;
+    virtual bool		toRemove(void) const;
 
   private:
     AObject(const AObject& other);
@@ -48,6 +49,7 @@ namespace	Bomberman
     Vector3d		sz_;
     gdl::Model  	model_;
     const std::string	type_;
+    bool		removeLater_;
   };
 }
 #endif /* !__AOBJECT_HH__*/
