@@ -12,7 +12,6 @@
 #include <GL/glu.h>
 #include <SFML/Window.hpp>
 
-
 Camera::Camera()
   :position_(6.5f, 6.5f, 11.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
@@ -23,8 +22,8 @@ void    Camera::initialize()
 {
 //  glMatrixMode(GL_PROJECTION);
 //  glLoadIdentity();
-//  gluPerspective(this->fov, this->winxSize / this->winySize,
-//                 this->zNear, this->zFar);
+//  gluPerspective(Camera::fov, Camera::winxSize / this->winySize,
+//                 this->zNear, Camera::zFar);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -35,7 +34,8 @@ void    Camera::initialize()
 
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)
 {
-
+  (void)gameClock;
+  (void)input;
   //  if (input.isKeyDown(gdl::Keys::Up))
   //    position_.x -= 1;
   //  if (input.isKeyDown(gdl::Keys::Down))
@@ -84,13 +84,13 @@ void   Camera::drawRepere()
     glVertex3f(0, 0, 0);
     glVertex3f(0, 0, 1);
     glEnd();
-    
+
     glBegin(GL_LINES);
     glColor3f(0, 1, 0);
     glVertex3f(0, 0, 0);
     glVertex3f(0, 1, 0);
     glEnd();
-    
+
     glBegin(GL_LINES);
     glColor3f(1, 0, 0);
     glVertex3f(0, 0, 0);
