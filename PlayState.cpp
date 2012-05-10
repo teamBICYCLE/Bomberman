@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 10 15:27:19 2012 lois burg
+// Last update Thu May 10 15:53:53 2012 geoffroy lafontaine
 //
 
 #include <unistd.h>
@@ -28,7 +28,7 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("map/map1");
+    Map	map(13,13,1);
     // int	viewport[4];
 
     mapH_ = 13;
@@ -99,7 +99,7 @@ void  PlayState::draw(StatesManager * sMg)
 
     int time = ((1.0f/60.0f) - sMg->getGameClock().getElapsedTime()) * 1000000;
 
-    std::cout << "sleep: " << time << std::endl;
+    //    std::cout << "sleep: " << time << std::endl;
     usleep(time > 0 ? time : 0);
 }
 
