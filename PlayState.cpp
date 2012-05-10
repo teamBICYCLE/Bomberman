@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 10 14:30:13 2012 lois burg
+// Last update Thu May 10 15:27:19 2012 lois burg
 //
 
 #include <unistd.h>
@@ -28,8 +28,8 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("map/map4");
-    int	viewport[4];
+    Map	map("map/map1");
+    // int	viewport[4];
 
     mapH_ = 13;
     mapW_ = 13;
@@ -77,9 +77,9 @@ void  PlayState::draw(StatesManager * sMg)
     camera_.drawRepere();
     glPushMatrix();
 //    glTranslated(-0.5f, -0.5f, 0);
-    
-       
-    
+
+
+
     glBegin(GL_QUADS);
     glColor3f(0, 0, 1.0f);
     glVertex3f(0, 0, 0);
@@ -94,11 +94,11 @@ void  PlayState::draw(StatesManager * sMg)
     });
     glPopMatrix();
     glFlush();
-    
+
     // basic fps time handling
-    
+
     int time = ((1.0f/60.0f) - sMg->getGameClock().getElapsedTime()) * 1000000;
-  
+
     std::cout << "sleep: " << time << std::endl;
     usleep(time > 0 ? time : 0);
 }

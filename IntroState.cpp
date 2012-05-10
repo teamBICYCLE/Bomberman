@@ -24,11 +24,13 @@ void  IntroState::cleanUp()
 
 void  IntroState::update(StatesManager * sMg)
 {
+  (void)sMg;
   std::cout << "update Intro" << std::endl;
 }
 
 void  IntroState::draw(StatesManager * sMg)
 {
+  (void)sMg;
   std::cout << "draw Intro" << std::endl;
 }
 

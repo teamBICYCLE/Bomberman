@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 10 14:27:17 2012 lois burg
+// Last update Thu May 10 15:22:32 2012 lois burg
 //
 
 #include "Bomb.hh"
@@ -24,6 +24,9 @@ Bomb::~Bomb()
 
 void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
+  (void)clock;
+  (void)keys;
+  (void)objs;
   --timeOut_;
   if (!timeOut_)
     {
