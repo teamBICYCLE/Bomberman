@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May  9 17:19:47 2012 geoffroy lafontaine
+// Last update Thu May 10 14:30:13 2012 lois burg
 //
 
 #include <unistd.h>
@@ -54,10 +54,19 @@ void  PlayState::cleanUp()
 
 void  PlayState::update(StatesManager * sMg)
 {
+  std::list<AObject*>::iterator	it;
+
   camera_.update(sMg->getGameClock(), sMg->getInput());
-  std::for_each(objs_.begin(), objs_.end(), [sMg, this] (AObject *obj) -> void {
-      obj->update(sMg->getGameClock(), sMg->getInput(), objs_);
-    });
+  for (it = objs_.begin(); it != objs_.end();)
+    {
+      if (!(*it)->toRemove())
+	{
+	  (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	  ++it;
+	}
+      else
+	it = objs_.erase(it);
+    }
 }
 
 #define MULTZ 1.0f

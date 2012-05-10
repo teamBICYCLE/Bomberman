@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Thu May  3 15:33:00 2012 lois burg
+// Last update Thu May 10 14:31:13 2012 lois burg
 //
 
 #include "AObject.hh"
@@ -14,7 +14,7 @@ using namespace Bomberman;
 
 AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
   : pos_(pos), rot_(rot), sz_(sz), // model_(getModelByName(modelName)),
-    type_(modelName)
+    type_(modelName), removeLater_(false)
 {
 }
 
@@ -57,3 +57,7 @@ const std::string &AObject::getType(void) const
     return type_;
 }
 
+bool	AObject::toRemove(void) const
+{
+  return (removeLater_);
+}

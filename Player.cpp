@@ -5,11 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 10 11:37:38 2012 lois burg
+// Last update Thu May 10 14:32:17 2012 lois burg
 //
 
 #include <algorithm>
 #include "Brick.hh"
+#include "Bomb.hh"
 #include "Player.hh"
 
 using namespace	Bomberman;
@@ -240,7 +241,11 @@ void	Player::turnDown(std::list<AObject*>& objs)
 
 void	Player::putBomb(std::list<AObject*>& objs)
 {
-  objs.push_back(new Brick(pos_, rot_));
+  if (nbBombs_ > 0)
+    {
+      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 10, *this));
+      --nbBombs_;
+    }
 }
 
 const std::string&	Player::type(void) const
