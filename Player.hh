@@ -5,18 +5,19 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Tue May  8 11:52:37 2012 lois burg
+// Last update Thu May 10 17:27:01 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
 # define	__PLAYER_HH__
 
 # include	<sys/types.h>
-# include	"AObject.hh"
+# include	"Character.hh"
+# include	"BoundingBox.hh"
 
 namespace	Bomberman
 {
-  class	Player : public AObject
+  class	Player : public Character
   {
   public:
     Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
@@ -53,9 +54,7 @@ namespace	Bomberman
     void	checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
 
   private:
-    uint	life_;
     uint	nbBombs_;
-    double	speed_;
     uint	bombRange_;
     std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
   };

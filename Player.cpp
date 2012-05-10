@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 10 14:32:17 2012 lois burg
+// Last update Thu May 10 17:27:31 2012 lois burg
 //
 
 #include <algorithm>
@@ -16,7 +16,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.05), bombRange_(2)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2)
 {
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
@@ -46,20 +46,25 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
       (this->*(it->second))(objs);
-  //arreter l'iteration si tous les elements sont a true
-  // if (save != pos_)
-    for (objIt = objs.begin(); objIt != objs.end(); ++objIt)
+  //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
+  if (save != pos_)
+    for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
 	//au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	checkLeft(*objIt, save, restoreMap);
-	checkRight(*objIt, save, restoreMap);
-	checkUp(*objIt, save, restoreMap);
-	checkDown(*objIt, save, restoreMap);
+	if (bBox_.collideWith(*objIt))
+	  {
+	    if (bBox_.isAbove() || bBox_.isBelow())
+	      {
+		std::cout << "Block above/below!" << std::endl;
+		pos_.y = save.y;
+	      }
+	    if (bBox_.isLeft() || bBox_.isRight())
+	      {
+		std::cout << "Block on the sides!" << std::endl;
+		pos_.x = save.x;
+	      }
+	  }
       }
-    // std::cout << "----------------------" << std::endl;
-  // std::cout << "Player pos: " << pos_ << std::endl;
-  // std::cout << "Player sz: " << sz_ << std::endl;
-  // std::cout << "Nb objs: " << objs.size() << std::endl;
   this->model_.update(clock);
 }
 
@@ -129,7 +134,7 @@ void		Player::draw(void)
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
   glVertex3f(0, ZIZIDEPOULE, 0);
   glColor3f(0.91f, 0.18f, 0.42f);
-    glNormal3d(0, 0, 1);
+  glNormal3d(0, 0, 1);
   glVertex3f(0, 0, ZIZIDEPOULE);
   glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
@@ -138,12 +143,12 @@ void		Player::draw(void)
   /// Fermeture du contexte de rendu
   ////////////////////////////////////////////////////////////////////////////////
   glEnd();
-  
- glPopMatrix();
- glPushMatrix();
+
+  glPopMatrix();
+  glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
- glScaled(0.0028, 0.0028, 0.0028);
- glRotated(90, 1, 0, 0);
+  glScaled(0.0028, 0.0028, 0.0028);
+  glRotated(90, 1, 0, 0);
 
   this->model_.draw();
 
@@ -218,25 +223,25 @@ void	Player::checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bo
 void	Player::turnLeft(std::list<AObject*>& objs)
 {
   (void)objs;
-  pos_ -= Vector3d(speed_, 0, 0);
+  Character::turnLeft();
 }
 
 void	Player::turnRight(std::list<AObject*>& objs)
 {
   (void)objs;
-  pos_ += Vector3d(speed_, 0, 0);
+  Character::turnRight();
 }
 
 void	Player::turnUp(std::list<AObject*>& objs)
 {
   (void)objs;
-  pos_ -= Vector3d(0, speed_, 0);
+  Character::turnUp();
 }
 
 void	Player::turnDown(std::list<AObject*>& objs)
 {
   (void)objs;
-  pos_ += Vector3d(0, speed_, 0);
+  Character::turnDown();
 }
 
 void	Player::putBomb(std::list<AObject*>& objs)

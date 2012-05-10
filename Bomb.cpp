@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 10 15:22:32 2012 lois burg
+// Last update Thu May 10 16:16:59 2012 lois burg
 //
 
 #include "Bomb.hh"
@@ -30,7 +30,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   --timeOut_;
   if (!timeOut_)
     {
-      //explosion qui tue
+      //explosion qui tue et ajout des loots de tier 7
       owner_.setNbBombs(owner_.getNbBombs() + 1);
       removeLater_ = true;
     }
