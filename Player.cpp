@@ -75,7 +75,7 @@ void		Player::draw(void)
   glColor3d(0.1f, 0.50f, 0.38f);
 
 
-  glBegin(GL_QUADS);
+  glBegin(GL_LINE_LOOP);
   ////////////////////////////////////////////////////////////////////////////////
   /// Configuration de la couleur des vertices
   ///////////////////////////////////////////////////////////////////////////////
@@ -141,10 +141,11 @@ void		Player::draw(void)
   
  glPopMatrix();
  glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
- glScaled(0.0028, 0.0028, 0.0028);
- glRotated(90, 1, 0, 0);
-
+  glTranslated(pos_.x + (ZIZIDEPOULE / 2.0f) , pos_.y + (ZIZIDEPOULE / 2.0f), pos_.z);
+  glColor3d(1.0f, 0.0f, 0.0f);
+  glScaled(0.0035, 0.0035, 0.0023);
+  glRotated(90, 1, 0, 0);
+  glRotated(rot_.y, 0, 1, 0);
   this->model_.draw();
 
 }
@@ -219,31 +220,36 @@ void	Player::turnLeft(std::list<AObject*>& objs)
 {
   (void)objs;
   pos_ -= Vector3d(speed_, 0, 0);
+  rot_.y = 270;
+  model_.play("Take 001");
 }
 
 void	Player::turnRight(std::list<AObject*>& objs)
 {
   (void)objs;
   pos_ += Vector3d(speed_, 0, 0);
+  rot_.y = 90;
 }
 
 void	Player::turnUp(std::list<AObject*>& objs)
 {
   (void)objs;
   pos_ -= Vector3d(0, speed_, 0);
+  rot_.y = 0;
 }
 
 void	Player::turnDown(std::list<AObject*>& objs)
 {
   (void)objs;
   pos_ += Vector3d(0, speed_, 0);
+  rot_.y = 180;
 }
 
 void	Player::putBomb(std::list<AObject*>& objs)
 {
   if (nbBombs_ > 0)
     {
-      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 10, *this));
+      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 100, *this));
       --nbBombs_;
     }
 }

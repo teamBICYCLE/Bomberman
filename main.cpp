@@ -10,7 +10,6 @@
 
 #include "StatesManager.hh"
 #include "IntroState.hh"
-#include "PlayState.hh"
 #include <GDL/ModelException.hpp>
 
 #include "Map.hh"
@@ -21,9 +20,8 @@ int main(void)
 {
   try {
     StatesManager   mg("Bomberman v0.01");
-
-  mg.changeState(new Bomberman::PlayState());
-  mg.run();
+   
+    mg.run();
   }
   catch (gdl::ModelException * e)
   {

@@ -36,6 +36,12 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
 
 void	Bomb::draw(void)
 {
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x - 1, pos_.y, pos_.z);
+  glScaled(0.0035, 0.0035,0.0035);
+  glRotated(90, 1, 0, 0);
+  model_.draw();
 }
 
 const std::string&	Bomb::type(void) const
