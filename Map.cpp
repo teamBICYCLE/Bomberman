@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 10 10:31:22 2012 lois burg
+// Last update Thu May 10 17:30:10 2012 lois burg
 //
 
 #include <algorithm>
@@ -122,14 +122,7 @@ void				Map::addPlayers(unsigned int width, unsigned int height,
   if (nbPlayers <= 4)
     {
       for (unsigned int i = 0; i < nbPlayers; ++i)
-	placePlayer(postab[i].first, postab[i].second);
-    }
-  if (nbPlayers > 4)
-    {
-      for (unsigned int j = 4; j < nbPlayers; ++j)
-	{
-	  std::cout << "add player" << std::endl;
-	}
+  	placePlayer(postab[i].first, postab[i].second);
     }
 }
 
@@ -144,14 +137,16 @@ void				Map::clearPlace(unsigned int x, unsigned int y)
   std::list<AObject*>::iterator			it;
   std::vector< std::pair<int, int> >		postab;
   std::vector< std::pair<int, int> >::iterator	i;
+  bool						found = false;
 
   postab.push_back(std::make_pair(0, 0));
   postab.push_back(std::make_pair(1, 0));
   postab.push_back(std::make_pair(0, 1));
   postab.push_back(std::make_pair(-1, 0));
   postab.push_back(std::make_pair(0, -1));
-  for (it = terrain_.begin(); it != terrain_.end(); ++it)
+  for (it = terrain_.begin(); it != terrain_.end();)
     {
+      found = false;
       for (i = postab.begin(); i != postab.end(); ++i)
 	{
 	  if (((*it)->getPos().x == ((x + (*i).first)))
@@ -159,9 +154,12 @@ void				Map::clearPlace(unsigned int x, unsigned int y)
 	      && dynamic_cast<Brick*>(*it))
 	    {
       	      it = terrain_.erase(it);
+	      found = true;
 	      break;
 	    }
 	}
+      if (!found)
+	++it;
     }
 }
 

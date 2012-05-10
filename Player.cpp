@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 10 17:27:31 2012 lois burg
+// Last update Thu May 10 17:32:46 2012 lois burg
 //
 
 #include <algorithm>
@@ -54,15 +54,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	if (bBox_.collideWith(*objIt))
 	  {
 	    if (bBox_.isAbove() || bBox_.isBelow())
-	      {
-		std::cout << "Block above/below!" << std::endl;
-		pos_.y = save.y;
-	      }
+	      pos_.y = save.y;
 	    if (bBox_.isLeft() || bBox_.isRight())
-	      {
-		std::cout << "Block on the sides!" << std::endl;
-		pos_.x = save.x;
-	      }
+	      pos_.x = save.x;
 	  }
       }
   this->model_.update(clock);
@@ -80,7 +74,7 @@ void		Player::draw(void)
   glColor3d(0.1f, 0.50f, 0.38f);
 
 
-  glBegin(GL_QUADS);
+  glBegin(GL_LINE_LOOP);
   ////////////////////////////////////////////////////////////////////////////////
   /// Configuration de la couleur des vertices
   ///////////////////////////////////////////////////////////////////////////////
@@ -139,17 +133,17 @@ void		Player::draw(void)
   glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
   glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
   glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-  ////////////////////////////////////////////////////////////////////////////////
+ ////////////////////////////////////////////////////////////////////////////////
   /// Fermeture du contexte de rendu
   ////////////////////////////////////////////////////////////////////////////////
   glEnd();
-
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
-  glScaled(0.0028, 0.0028, 0.0028);
+  glTranslated(pos_.x + (ZIZIDEPOULE / 2.0f) , pos_.y + (ZIZIDEPOULE / 2.0f), pos_.z);
+  glColor3d(1.0f, 0.0f, 0.0f);
+  glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
-
+  glRotated(rot_.y, 0, 1, 0);
   this->model_.draw();
 
 }
@@ -224,6 +218,7 @@ void	Player::turnLeft(std::list<AObject*>& objs)
 {
   (void)objs;
   Character::turnLeft();
+  model_.play("Take 001");
 }
 
 void	Player::turnRight(std::list<AObject*>& objs)
@@ -248,7 +243,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   if (nbBombs_ > 0)
     {
-      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 10, *this));
+      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 100, *this));
       --nbBombs_;
     }
 }
