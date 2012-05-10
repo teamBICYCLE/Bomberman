@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May  9 15:19:55 2012 Thomas Duplomb
+// Last update Thu May 10 11:37:38 2012 lois burg
 //
 
 #include <algorithm>
@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.01), bombRange_(2)
+  : AObject(pos, rot, sz, "Player"), life_(1), nbBombs_(1), speed_(0.001), bombRange_(2)
 {
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
@@ -50,9 +50,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
     for (objIt = objs.begin(); objIt != objs.end(); ++objIt)
       {
 	//au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	// checkLeft(*objIt, save, restoreMap);
-	// checkRight(*objIt, save, restoreMap);
-	// checkUp(*objIt, save, restoreMap);
+	checkLeft(*objIt, save, restoreMap);
+	checkRight(*objIt, save, restoreMap);
+	checkUp(*objIt, save, restoreMap);
 	checkDown(*objIt, save, restoreMap);
       }
     // std::cout << "----------------------" << std::endl;
@@ -62,15 +62,84 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   this->model_.update(clock);
 }
 
+#define ZIZIDEPOULE 0.3f
+
 void		Player::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x, pos_.y, pos_.z);
-  glScaled(0.002, 0.002, 0.002);
-  glRotated(90, 1, 0, 0);
+  // glScaled(0.002, 0.002, 0.002);
+  // glRotated(90, 1, 0, 0);
   glColor3d(0.1f, 0.50f, 0.38f);
-  this->model_.draw();
+
+
+  glBegin(GL_QUADS);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Configuration de la couleur des vertices
+  ///////////////////////////////////////////////////////////////////////////////
+  glColor3f(0.23f, 0.50f, 0.62f);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Dessin des vertices
+  ////////////////////////////////////////////////////////////////////////////////
+  glNormal3d(0, 1, 0);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+
+  glColor3f(0.32f, 0.05f, 0.26f);
+  glNormal3d(1, 0, 0);
+  /// Vertex superieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.33f, 0.21f, 0.12f);
+  glNormal3d(0, -1, 0);
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.88f, 0.57f, 0.10f);
+  glNormal3d(-1, 0, 0);
+  /// Vertex superieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  /// Vertex inferieur gauche
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex inferieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  /// Vertex superieur droit
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3f(0.32f, 0.53f, 0.21f);
+  glNormal3d(0, 0, -1);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, -ZIZIDEPOULE);
+  glColor3f(0.91f, 0.18f, 0.42f);
+    glNormal3d(0, 0, 1);
+  glVertex3f(-ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, -ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  glVertex3f(-ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// Fermeture du contexte de rendu
+  ////////////////////////////////////////////////////////////////////////////////
+  glEnd();
+
+
+  // this->model_.draw();
   glEnd();
 }
 
@@ -80,9 +149,13 @@ void	Player::checkLeft(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bo
   (void)save;
   if (restoreMap[gdl::Keys::Left] == false && obj->getPos().x < pos_.x)
     {
-      std::cout << "Collision LEFT" << std::endl;
-      pos_.x = save.x;
-      restoreMap[gdl::Keys::Left] = true;
+      // std::cout << "Collision LEFT" << std::endl;
+      if ((obj->getPos().y <= pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
+	  (obj->getPos().y > pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)))
+	{
+	  pos_.x = save.x;
+	  restoreMap[gdl::Keys::Left] = true;
+	}
     }
 }
 
@@ -92,9 +165,13 @@ void	Player::checkRight(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, b
   (void)save;
   if (restoreMap[gdl::Keys::Right] == false && obj->getPos().x > pos_.x)
     {
-      std::cout << "Collision RIGHT" << std::endl;
-      pos_.x = save.x;
-      restoreMap[gdl::Keys::Right] = true;
+      // std::cout << "Collision RIGHT" << std::endl;
+      if ((obj->getPos().y <= pos_.y && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
+	  (obj->getPos().y > pos_.y && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y)))
+	{
+	  pos_.x = save.x;
+	  restoreMap[gdl::Keys::Right] = true;
+	}
     }
 }
 
@@ -104,9 +181,13 @@ void	Player::checkUp(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool
   (void)save;
   if (restoreMap[gdl::Keys::Up] == false && obj->getPos().y < pos_.y)
     {
-      std::cout << "Collision UP" << std::endl;
-      pos_.y = save.y;
-      restoreMap[gdl::Keys::Up] = true;
+      // std::cout << "Collision UP" << std::endl;
+      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
+	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y))
+	{
+	  pos_.y = save.y;
+	  restoreMap[gdl::Keys::Up] = true;
+	}
     }
 }
 
@@ -118,8 +199,8 @@ void	Player::checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bo
   if (restoreMap[gdl::Keys::Down] == false && obj->getPos().y > pos_.y)
     {
       // std::cout << "This object " << obj->getPos() << " is below me: " << pos_ << std::endl;
-      if ((obj->getPos().x <= pos_.x && (obj->getPos().x * obj->getSize().x + obj->getSize().x) > pos_.x * sz_.x && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)) ||
-	  (obj->getPos().x > pos_.x && obj->getPos().x * obj->getSize().x < (pos_.x * sz_.x + sz_.x) && obj->getPos().y * obj->getSize().y < (pos_.y * sz_.y + sz_.y)))
+      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)) ||
+	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y)))
 	{
 	  // std::cout << "Collision DOWN with block at " << obj->getPos() << std::endl;
 	  pos_.y = save.y;

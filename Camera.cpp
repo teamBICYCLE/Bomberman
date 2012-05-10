@@ -35,7 +35,7 @@ void    Camera::initialize()
 
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)
 {
-  
+
   //  if (input.isKeyDown(gdl::Keys::Up))
   //    position_.x -= 1;
   //  if (input.isKeyDown(gdl::Keys::Down))
@@ -59,10 +59,10 @@ void    Camera::draw()
             0, 1, 0);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
-  
+
   //glEnable(GL_LIGHTING);
   //glEnable(GL_LIGHT0);
-  
+
   GLfloat  pos[4];
   pos[0] = 0;
   pos[1] = 0;

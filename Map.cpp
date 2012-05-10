@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May  9 15:19:06 2012 Thomas Duplomb
+// Last update Wed May  9 17:22:01 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -15,8 +15,6 @@
 #include "Map.hh"
 
 using namespace Bomberman;
-
-const int	Map::BlockSize = 40.0d;
 
 Map::Failure::Failure(const std::string& func, const std::string& msg) throw()
   : std::runtime_error(msg), mFunc(func), mMsg(msg)
@@ -61,9 +59,9 @@ Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
 {
   for (unsigned int y = 1; y < height - 1; y += 2)
     for (unsigned int x = 1; x < width - 1; x += 2)
-      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(Map::BlockSize, Map::BlockSize, 0)));
+      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(width, height, nbPlayers);
-  addPlayers(width, height, 1);
+  addPlayers(width, height, 3);
 }
 
 Map::Map(const std::string& fileName)
@@ -92,7 +90,7 @@ void					Map::generateBricks(unsigned int width,
   unsigned int				y;
   bool					find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers);
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -115,11 +113,30 @@ void					Map::generateBricks(unsigned int width,
 void				Map::addPlayers(unsigned int width, unsigned int height,
 						unsigned int nbPlayers)
 {
-  (void)width;
-  (void)height;
-  (void)nbPlayers;
-  terrain_.push_back(new Player(Vector3d(0,0,0), Vector3d(0,0,0), Vector3d(40, 40, 0)));
-  clearPlace(0, 0);
+  std::vector< std::pair<int, int> >		postab;
+
+  postab.push_back(std::make_pair(0, 0));
+  postab.push_back(std::make_pair(0, height - 1));
+  postab.push_back(std::make_pair(width - 1, 0));
+  postab.push_back(std::make_pair(width - 1, height - 1));
+  if (nbPlayers <= 4)
+    {
+      for (unsigned int i = 0; i < nbPlayers; ++i)
+	placePlayer(postab[i].first, postab[i].second);
+    }
+  if (nbPlayers > 4)
+    {
+      for (unsigned int j = 4; j < nbPlayers; ++j)
+	{
+	  std::cout << "add player" << std::endl;
+	}
+    }
+}
+
+void				Map::placePlayer(unsigned int x, unsigned int y)
+{
+  clearPlace(x, y);
+  terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.5, 0.5, 0)));
 }
 
 void				Map::clearPlace(unsigned int x, unsigned int y)
@@ -137,7 +154,9 @@ void				Map::clearPlace(unsigned int x, unsigned int y)
     {
       for (i = postab.begin(); i != postab.end(); ++i)
 	{
-	  if (((*it)->getPos().x == ((x + (*i).first) * 40)) && ((*it)->getPos().y == ((y + (*i).second) * 40)) && dynamic_cast<Brick*>(*it))
+	  if (((*it)->getPos().x == ((x + (*i).first)))
+	      && ((*it)->getPos().y == ((y + (*i).second)))
+	      && dynamic_cast<Brick*>(*it))
 	    {
       	      it = terrain_.erase(it);
 	      break;
@@ -162,7 +181,7 @@ AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) c
     else if (c == MAP_FILE_BRICK)
       return new Brick(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
     *player = true;
-    return new Player(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(0, 0, 0));
+    return new Player(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(0.5, 0.5, 0));
 }
 
 void Map::getFromFile(const std::string& fileName)
