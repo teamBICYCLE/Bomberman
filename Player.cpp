@@ -304,21 +304,18 @@ void	Player::setBombRange(const uint range)
 void    Player::moveAnimation(void)
 {
   static bool wasRunning = false;
-  
-  // si il bouge:
-  // si le model ne cours pas encore, alors, animation de demarrage.
-  // sinon annimation de courage.
-  
+
   if (moved_)
   {
-    model_.stop_animation("stop");
-    if (!wasRunning)
+    if (!wasRunning && model_.anim_is_ended("stop"))
     {
       speedAdapter_ = 5;
+      model_.stop_animation("stop");
       model_.play("start");
     }
     else if (model_.anim_is_ended("start"))
     {
+      model_.stop_animation("stop");
       speedAdapter_ = 100;
       model_.play("run");
     }
@@ -326,17 +323,12 @@ void    Player::moveAnimation(void)
     wasRunning = true;
    
   }
-  else if (wasRunning == true)// && 
-         // (model_.anim_is_ended("run") && model_.anim_is_ended("start")))
+  else if (wasRunning == true)
   {
     model_.play("stop");
     wasRunning = false;
   }
-//  if (moved_ && model_.get_anim_state("start") == -1)
-//    model_.play("start");
-//  else if (moved_ && model_.anim_is_ended("start"))
-//    model_.play("run");
-//  else if (model_.get_anim_state("run") == 0 || model_.get_anim_state("start") == 0)
-//    model_.play("stop");
+  
+  // reset de la propriete moved.
   moved_ = false;
 }
