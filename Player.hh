@@ -54,9 +54,13 @@ namespace	Bomberman
     void	checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
 
   private:
+    void        moveAnimation(void);
+    
+  private:
     uint	nbBombs_;
     uint	bombRange_;
     std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
+    bool        moved_;
   };
 }
 

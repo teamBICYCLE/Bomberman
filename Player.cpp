@@ -16,9 +16,12 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), moved_(false)
 {
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_.cut_animation(model_, "Take 001", 0, 35, "start");
+  model_.cut_animation(model_, "Take 001", 36, 54, "run");
+  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
   actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
   actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
   actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
@@ -59,6 +62,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	      pos_.x = save.x;
 	  }
       }
+  this->moveAnimation();
   this->model_.update(clock);
 }
 
@@ -144,6 +148,7 @@ void		Player::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
+  
   this->model_.draw();
 
 }
@@ -218,25 +223,28 @@ void	Player::turnLeft(std::list<AObject*>& objs)
 {
   (void)objs;
   Character::turnLeft();
-  model_.play("Take 001");
+  moved_ = true;
 }
 
 void	Player::turnRight(std::list<AObject*>& objs)
 {
   (void)objs;
   Character::turnRight();
+  moved_ = true;
 }
 
 void	Player::turnUp(std::list<AObject*>& objs)
 {
   (void)objs;
   Character::turnUp();
+  moved_ = true;
 }
 
 void	Player::turnDown(std::list<AObject*>& objs)
 {
   (void)objs;
   Character::turnDown();
+  moved_ = true;
 }
 
 void	Player::putBomb(std::list<AObject*>& objs)
@@ -291,4 +299,39 @@ void	Player::setSpeed(const double speed)
 void	Player::setBombRange(const uint range)
 {
   bombRange_ = range;
+}
+
+void    Player::moveAnimation(void)
+{
+  static bool wasRunning = false;
+  
+  // si il bouge:
+  // si le model ne cours pas encore, alors, animation de demarrage.
+  // sinon annimation de courage.
+  
+  if (moved_)
+  {
+    model_.stop_animation("stop");
+    if (!wasRunning)
+    {
+      model_.play("start");
+    }
+    else if (model_.anim_is_ended("start"))
+      model_.play("run");
+    wasRunning = true;
+   
+  }
+  else if (wasRunning == true && 
+          (model_.anim_is_ended("run") && model_.anim_is_ended("start")))
+  {
+    model_.play("stop");
+    wasRunning = false;
+  }
+//  if (moved_ && model_.get_anim_state("start") == -1)
+//    model_.play("start");
+//  else if (moved_ && model_.anim_is_ended("start"))
+//    model_.play("run");
+//  else if (model_.get_anim_state("run") == 0 || model_.get_anim_state("start") == 0)
+//    model_.play("stop");
+  moved_ = false;
 }
