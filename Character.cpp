@@ -13,7 +13,7 @@
 using namespace	Bomberman;
 
 Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed)
-  : AObject(pos, rot, sz, modelName), life_(life), speed_(speed), bBox_(pos_, sz_)
+  : AObject(pos, rot, sz, modelName), life_(life), speed_(speed), speedAdapter_(100), bBox_(pos_, sz_)
 {
 }
 
@@ -23,25 +23,25 @@ Character::~Character()
 
 void	Character::turnLeft(void)
 {
-  pos_ -= Vector3d(speed_, 0, 0);
+  pos_ -= Vector3d(getSpeed(), 0, 0);
   rot_.y = 270;
 }
 
 void	Character::turnRight(void)
 {
-  pos_ += Vector3d(speed_, 0, 0);
+  pos_ += Vector3d(getSpeed(), 0, 0);
   rot_.y = 90;
 }
 
 void	Character::turnUp(void)
 {
-  pos_ -= Vector3d(0, speed_, 0);
+  pos_ -= Vector3d(0, getSpeed(), 0);
   rot_.y = 0;
 }
 
 void	Character::turnDown(void)
 {
-  pos_ += Vector3d(0, speed_, 0);
+  pos_ += Vector3d(0, getSpeed(), 0);
   rot_.y = 180;
 }
 
@@ -49,4 +49,9 @@ void	Character::takeDamage(uint damage)
 {
   if (life_ > 0)
     life_ -= damage;
+}
+
+double      Character::getSpeed(void) const
+{
+  return (speedAdapter_ * speed_) / 100;
 }

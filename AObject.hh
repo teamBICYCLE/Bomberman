@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Thu May 10 14:30:35 2012 lois burg
+// Last update Fri May 11 13:29:03 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -29,14 +29,20 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
+
+  public:
     virtual void		setPos(const Vector3d &);
     virtual void		setRot(const Vector3d &);
     virtual void		setSize(const Vector3d &);
 
+  public:
     virtual const Vector3d&	getPos(void) const;
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
     virtual const std::string&	getType(void) const;
+
+  public:
+    virtual void		destroy(void);
     virtual bool		toRemove(void) const;
 
   private:
@@ -44,12 +50,12 @@ namespace	Bomberman
     AObject& operator=(const AObject& other);
 
   protected:
-    Vector3d		pos_;
-    Vector3d		rot_;
-    Vector3d		sz_;
-    gdl::Model  	model_;
+    Vector3d            pos_;
+    Vector3d            rot_;
+    Vector3d            sz_;
+    gdl::Model          model_;
     const std::string	type_;
-    bool		removeLater_;
+    bool                removeLater_;
   };
 }
 #endif /* !__AOBJECT_HH__*/

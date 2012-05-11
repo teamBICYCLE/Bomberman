@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May  8 16:03:57 2012 geoffroy lafontaine
+// Last update Fri May 11 11:35:22 2012 lois burg
 //
 
 #include "Block.hh"
@@ -111,4 +111,9 @@ glNormal3d(0, 1, 0);
 const std::string&	Block::type(void) const
 {
   return (type_);
+}
+
+void	Block::destroy(void)
+{
+  //indestructible block
 }

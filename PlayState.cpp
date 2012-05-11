@@ -65,7 +65,10 @@ void  PlayState::update(StatesManager * sMg)
 	  ++it;
 	}
       else
-	it = objs_.erase(it);
+	{
+	  std::cout << "Erasing: " << (*it)->getType() << std::endl;
+	  it = objs_.erase(it);
+	}
     }
 }
 

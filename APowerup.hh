@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Wed May  9 17:46:17 2012 Jonathan Machado
+// Last update Fri May 11 11:34:49 2012 lois burg
 //
 
 #ifndef		__APOWERUP_HH__
