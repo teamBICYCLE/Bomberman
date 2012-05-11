@@ -273,7 +273,7 @@ uint	Player::getNbBombs(void) const
 
 double	Player::getSpeed(void) const
 {
-  return (speed_);
+  return ((speed_ * speedAdapter_) / 100);
 }
 
 uint	Player::getBombRange(void) const
@@ -314,15 +314,20 @@ void    Player::moveAnimation(void)
     model_.stop_animation("stop");
     if (!wasRunning)
     {
+      speedAdapter_ = 5;
       model_.play("start");
     }
     else if (model_.anim_is_ended("start"))
+    {
+      speedAdapter_ = 100;
       model_.play("run");
+    }
+    speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning = true;
    
   }
-  else if (wasRunning == true && 
-          (model_.anim_is_ended("run") && model_.anim_is_ended("start")))
+  else if (wasRunning == true)// && 
+         // (model_.anim_is_ended("run") && model_.anim_is_ended("start")))
   {
     model_.play("stop");
     wasRunning = false;
