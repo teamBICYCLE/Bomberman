@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Thu May 10 16:44:20 2012 lois burg
+// Last update Fri May 11 10:35:15 2012 lois burg
 //
 
 #include "BoundingBox.hh"
@@ -47,12 +47,22 @@ bool	BoundingBox::collideWith(const AObject *obj)
   below_ = collideDown(obj);
   left_ = collideLeft(obj);
   right_ = collideRight(obj);
+
+  // if (above_)
+  //   std::cout << "Above!" << std::endl;
+  // if (below_)
+  //   std::cout << "Below!" << std::endl;
+  // if (right_)
+  //   std::cout << "Right!" << std::endl;
+  // if (left_)
+  //   std::cout << "Left!" << std::endl;
+
   return (above_ || below_ || left_ || right_);
 }
 
 bool	BoundingBox::collideLeft(const AObject *obj)
 {
-  if (!left_ && obj->getPos().x < pos_.x)
+  if (obj->getPos().x < pos_.x)
     if (((obj->getPos().y <= pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
 	 (obj->getPos().y > pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y))))
       return (true);
@@ -61,7 +71,7 @@ bool	BoundingBox::collideLeft(const AObject *obj)
 
 bool	BoundingBox::collideRight(const AObject *obj)
 {
-  if (!right_ && obj->getPos().x > pos_.x)
+  if (obj->getPos().x > pos_.x)
     if (((obj->getPos().y <= pos_.y && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
 	 (obj->getPos().y > pos_.y && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y))))
       return (true);
@@ -70,7 +80,7 @@ bool	BoundingBox::collideRight(const AObject *obj)
 
 bool	BoundingBox::collideUp(const AObject *obj)
 {
-  if (!above_ && obj->getPos().y < pos_.y)
+  if (obj->getPos().y < pos_.y)
     if (((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
 	 (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y)))
       return (true);
@@ -79,7 +89,7 @@ bool	BoundingBox::collideUp(const AObject *obj)
 
 bool	BoundingBox::collideDown(const AObject *obj)
 {
-  if (!below_ && obj->getPos().y > pos_.y)
+  if (obj->getPos().y > pos_.y)
     if (((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)) ||
 	 (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y))))
       return (true);

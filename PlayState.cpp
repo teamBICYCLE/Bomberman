@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 10 17:51:10 2012 geoffroy lafontaine
+// Last update Fri May 11 13:40:44 2012 lois burg
 //
 
 #include <unistd.h>

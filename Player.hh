@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Thu May 10 17:27:01 2012 lois burg
+// Last update Fri May 11 11:35:31 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -19,6 +19,9 @@ namespace	Bomberman
 {
   class	Player : public Character
   {
+  public:
+    typedef void (Player::*t_playerActionFun)(std::list<AObject*>&);
+
   public:
     Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
     virtual ~Player();
@@ -48,15 +51,9 @@ namespace	Bomberman
     void	putBomb(std::list<AObject*>& objs);
 
   private:
-    void	checkLeft(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
-    void	checkRight(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
-    void	checkUp(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
-    void	checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap);
-
-  private:
     uint	nbBombs_;
     uint	bombRange_;
-    std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
+    std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
   };
 }
 

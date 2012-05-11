@@ -5,7 +5,7 @@
 // Login   <jonathan.machado@epitech.net>
 //
 // Started on  Thu Apr 26 20:21:29 2012 Jonathan Machado
-// Last update Thu May  3 16:42:31 2012 lois burg
+// Last update Fri May 11 11:10:22 2012 lois burg
 //
 
 #include <cmath>
@@ -195,6 +195,13 @@ double		 Vector3d::distanceSquared(const Vector3d& v) const
   dy = y - v.y;
   dz = z - v.z;
   return dx * dx + dy * dy + dz * dz;
+}
+
+void		Vector3d::round(void)
+{
+  x = ::round(x);
+  y = ::round(y);
+  z = ::round(z);
 }
 
 Vector3d	operator*(double s, const Vector3d& v)

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 10 17:32:46 2012 lois burg
+// Last update Fri May 11 15:13:35 2012 lois burg
 //
 
 #include <algorithm>
@@ -35,14 +35,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   Vector3d	verti(0, speed_, 0);
   Vector3d	hori(speed_, 0, 0);
   Vector3d	save(pos_);
-  std::map<gdl::Keys::Key, bool>	restoreMap;
   std::list<AObject*>::iterator		objIt;
-  std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)>::iterator it;
+  std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
 
-  restoreMap.insert(std::make_pair(gdl::Keys::Up, false));
-  restoreMap.insert(std::make_pair(gdl::Keys::Down, false));
-  restoreMap.insert(std::make_pair(gdl::Keys::Left, false));
-  restoreMap.insert(std::make_pair(gdl::Keys::Right, false));
   for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
       (this->*(it->second))(objs);
@@ -145,73 +140,6 @@ void		Player::draw(void)
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
   this->model_.draw();
-
-}
-
-void	Player::checkLeft(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap)
-{
-  (void)obj;
-  (void)save;
-  if (restoreMap[gdl::Keys::Left] == false && obj->getPos().x < pos_.x)
-    {
-      // std::cout << "Collision LEFT" << std::endl;
-      if ((obj->getPos().y <= pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
-	  (obj->getPos().y > pos_.y && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)))
-	{
-	  pos_.x = save.x;
-	  restoreMap[gdl::Keys::Left] = true;
-	}
-    }
-}
-
-void	Player::checkRight(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap)
-{
-  (void)obj;
-  (void)save;
-  if (restoreMap[gdl::Keys::Right] == false && obj->getPos().x > pos_.x)
-    {
-      // std::cout << "Collision RIGHT" << std::endl;
-      if ((obj->getPos().y <= pos_.y && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
-	  (obj->getPos().y > pos_.y && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y)))
-	{
-	  pos_.x = save.x;
-	  restoreMap[gdl::Keys::Right] = true;
-	}
-    }
-}
-
-void	Player::checkUp(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap)
-{
-  (void)obj;
-  (void)save;
-  if (restoreMap[gdl::Keys::Up] == false && obj->getPos().y < pos_.y)
-    {
-      // std::cout << "Collision UP" << std::endl;
-      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
-	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && (obj->getPos().y + obj->getSize().y) > pos_.y))
-	{
-	  pos_.y = save.y;
-	  restoreMap[gdl::Keys::Up] = true;
-	}
-    }
-}
-
-void	Player::checkDown(AObject *obj, Vector3d& save, std::map<gdl::Keys::Key, bool>& restoreMap)
-{
-  (void)obj;
-  (void)save;
-  // std::cout << obj->getPos() << std::endl;
-  if (restoreMap[gdl::Keys::Down] == false && obj->getPos().y > pos_.y)
-    {
-      // std::cout << "This object " << obj->getPos() << " is below me: " << pos_ << std::endl;
-      if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x && obj->getPos().y < (pos_.y + sz_.y)) ||
-	  (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y)))
-	{
-	  // std::cout << "Collision DOWN with block at " << obj->getPos() << std::endl;
-	  pos_.y = save.y;
-	  restoreMap[gdl::Keys::Down] = true;
-	}
-    }
 }
 
 void	Player::turnLeft(std::list<AObject*>& objs)
@@ -241,10 +169,16 @@ void	Player::turnDown(std::list<AObject*>& objs)
 
 void	Player::putBomb(std::list<AObject*>& objs)
 {
+  Bomb	*b;
+
   if (nbBombs_ > 0)
     {
-      objs.push_back(new Bomb(pos_, rot_, sz_, bombRange_, 100, *this));
-      --nbBombs_;
+      if ((b = new Bomb(pos_, rot_, sz_, bombRange_, 100, *this)))
+	{
+	  b->adjustPos();
+	  objs.push_back(b);
+	  --nbBombs_;
+	}
     }
 }
 

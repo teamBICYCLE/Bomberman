@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     Camera.cpp \
     Bomb.cpp \
     BoundingBox.cpp \
-    Character.cpp
+    Character.cpp \
+    Explosion.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -46,4 +47,5 @@ HEADERS += \
     Camera.hh \
     Bomb.hh \
     BoundingBox.hh \
-    Character.hh
+    Character.hh \
+    Explosion.hh

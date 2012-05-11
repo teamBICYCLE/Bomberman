@@ -5,12 +5,13 @@
 ** Login   <jonathan.machado@epitech.net>
 **
 ** Started on  Thu Apr 26 20:25:57 2012 Jonathan Machado
-// Last update Sun Apr 29 13:22:21 2012 Jonathan Machado
+// Last update Fri May 11 11:09:25 2012 lois burg
 */
 
-#ifndef __VECTOR3D_HPP__
-# define __VECTOR3D_HPP__
-# include <iostream>
+#ifndef		__VECTOR3D_HPP__
+# define	__VECTOR3D_HPP__
+
+# include	<iostream>
 
 class Vector3d
     {
@@ -19,30 +20,31 @@ class Vector3d
       Vector3d(const double *v);
       Vector3d(const Vector3d &v);
       Vector3d& operator= (const Vector3d& v);
-      void set(double x, double y, double z);
+      void	set(double x, double y, double z);
 
-      double& operator[](int i);
-      double operator[](int i) const;
+      double&	operator[](int i);
+      double	operator[](int i) const;
 
       Vector3d& operator+=(const Vector3d& v);
       Vector3d& operator-=(const Vector3d& v);
       Vector3d& operator*=(double s);
       Vector3d& operator/=(double s);
-      Vector3d operator+(const Vector3d& v) const;
-      Vector3d operator-(const Vector3d& v) const;
-      Vector3d operator*(double s) const;
-      Vector3d operator/(double s) const;
-      Vector3d operator-() const;
-      bool operator==(const Vector3d& v) const;
-      bool operator!=(const Vector3d& v) const;
+      Vector3d	operator+(const Vector3d& v) const;
+      Vector3d	operator-(const Vector3d& v) const;
+      Vector3d	operator*(double s) const;
+      Vector3d	operator/(double s) const;
+      Vector3d	operator-() const;
+      bool	operator==(const Vector3d& v) const;
+      bool	operator!=(const Vector3d& v) const;
 
-      double length() const;
-      double lengthSquared() const;
-      void normalize();
-      double dot(const Vector3d& v) const;
-      Vector3d cross(const Vector3d& v) const;
-      double distance(const Vector3d& v) const;
-      double distanceSquared(const Vector3d& v) const;
+      double	length() const;
+      double	lengthSquared() const;
+      void	normalize();
+      double	dot(const Vector3d& v) const;
+      Vector3d	cross(const Vector3d& v) const;
+      double	distance(const Vector3d& v) const;
+      double	distanceSquared(const Vector3d& v) const;
+      void	round(void);
 
       double	x;
       double	y;
