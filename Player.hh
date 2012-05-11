@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Fri May 11 11:35:31 2012 lois burg
+// Last update Fri May 11 18:14:27 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -51,9 +51,13 @@ namespace	Bomberman
     void	putBomb(std::list<AObject*>& objs);
 
   private:
+    void        moveAnimation(void);
+
+  private:
     uint	nbBombs_;
     uint	bombRange_;
-    std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
+    std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
+    bool        moved_;
   };
 }
 

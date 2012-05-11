@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Fri May 11 11:32:36 2012 lois burg
+// Last update Fri May 11 18:17:51 2012 lois burg
 //
 
 #include "AObject.hh"

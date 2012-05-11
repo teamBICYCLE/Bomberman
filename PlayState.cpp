@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May 11 13:40:44 2012 lois burg
+// Last update Fri May 11 18:25:31 2012 lois burg
 //
 
 #include <unistd.h>
@@ -65,7 +65,10 @@ void  PlayState::update(StatesManager * sMg)
 	  ++it;
 	}
       else
-	it = objs_.erase(it);
+	{
+	  std::cout << "Erasing: " << (*it)->getType() << std::endl;
+	  it = objs_.erase(it);
+	}
     }
 }
 

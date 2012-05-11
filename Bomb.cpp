@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Fri May 11 18:12:43 2012 lois burg
+// Last update Fri May 11 18:29:33 2012 lois burg
 //
 
 #include <algorithm>
@@ -41,7 +41,7 @@ void	Bomb::explode(std::list<AObject*>& objs)
 
   (void)objs;
   //explosion qui tue et ajout des loots de tier 7
-  objs.push_back(e);
+  // objs.push_back(e);
   for (int i = 1; i <= range_; ++i)
     {
     }
