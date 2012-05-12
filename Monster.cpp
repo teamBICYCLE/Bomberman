@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 // 
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sat May 12 10:50:39 2012 geoffroy lafontaine
+// Last update Sat May 12 15:16:31 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -18,6 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
 {
+  bBox_ = new BoundingBox(pos_, sz_);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
@@ -44,11 +45,11 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   if (save != pos_)
     for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
-	if (bBox_.collideWith(*objIt))
+	if (bBox_->collideWith(*objIt))
 	  {
-	    if (bBox_.isAbove() || bBox_.isBelow())
+	    if (bBox_->isAbove() || bBox_->isBelow())
 	      pos_.y = save.y;
-	    if (bBox_.isLeft() || bBox_.isRight())
+	    if (bBox_->isLeft() || bBox_->isRight())
 	      pos_.x = save.x;
 	  }
       }
@@ -177,4 +178,21 @@ void			Monster::moveAnimation(void)
   
   // reset de la propriete moved.
   moved_ = false;
+}
+
+/* Serialization */
+
+void Monster::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Monster::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Monster::sInit(void)
+{
+
 }

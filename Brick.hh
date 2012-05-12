@@ -31,6 +31,11 @@ namespace	Bomberman
     virtual const std::string&	type(void) const;
     virtual void		loot(std::list<AObject *> &);
 
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const;
+    virtual void unserialize(QDataStream &in);
+    static void sInit(void);
+
   private:
     APowerup	*loot_;
   };

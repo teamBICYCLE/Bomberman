@@ -39,6 +39,12 @@ namespace	Bomberman
     void	setNbBombs(const uint nbBombs);
     void	setBombRange(const uint range);
 
+  public:
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const;
+    virtual void unserialize(QDataStream &in);
+    static void sInit(void);
+
   private:
     void	turnLeft(std::list<AObject*>& objs);
     void	turnRight(std::list<AObject*>& objs);

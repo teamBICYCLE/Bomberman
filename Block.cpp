@@ -117,3 +117,20 @@ void	Block::destroy(void)
 {
   //indestructible block
 }
+
+/* Serialization */
+
+void Block::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Block::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Block::sInit(void)
+{
+
+}

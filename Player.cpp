@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat May 12 10:51:08 2012 geoffroy lafontaine
+// Last update Sat May 12 15:16:38 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -18,6 +18,7 @@ using namespace	Bomberman;
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), moved_(false)
 {
+  bBox_ = new BoundingBox(pos_, sz_);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
@@ -49,11 +50,11 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
     for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
 	//au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	if (bBox_.collideWith(*objIt))
+	if (bBox_->collideWith(*objIt))
 	  {
-	    if (bBox_.isAbove() || bBox_.isBelow())
+	    if (bBox_->isAbove() || bBox_->isBelow())
 	      pos_.y = save.y;
-	    if (bBox_.isLeft() || bBox_.isRight())
+	    if (bBox_->isLeft() || bBox_->isRight())
 	      pos_.x = save.x;
 	  }
       }
@@ -245,4 +246,19 @@ void    Player::moveAnimation(void)
   
   // reset de la propriete moved.
   moved_ = false;
+}
+
+void Player::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Player::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+static void sInit(void)
+{
+
 }

@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sat May 12 09:18:28 2012 geoffroy lafontaine
+// Last update Sat May 12 14:18:41 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -60,7 +60,7 @@ Map::Map(uint width, uint height, uint nbPlayers)
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  // generateBricks(width, height, nbPlayers);
+  generateBricks(width, height, nbPlayers);
   addPlayers(width, height, nbPlayers);
 }
 
