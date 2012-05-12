@@ -41,6 +41,11 @@ namespace	Bomberman
     void	setLife(const uint life);
     void	setSpeed(const double speed);
 
+  public:
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const = 0;
+    virtual void unserialize(QDataStream &in) = 0;
+
   protected:
     uint        life_;
     double      speed_;

@@ -26,6 +26,11 @@ namespace	Bomberman
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
     virtual void		destroy(void);
+
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const;
+    virtual void unserialize(QDataStream &in);
+    static void sInit(void);
   };
 }
 #endif /* !__BLOCK_HH__*/

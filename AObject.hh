@@ -15,6 +15,7 @@
 # include	<GDL/Input.hpp>
 # include	<GDL/Model.hpp>
 # include	<string>
+# include   <QDataStream>
 # include	"Vector3d.hh"
 
 namespace	Bomberman
@@ -29,6 +30,9 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
+    virtual void        serialize(QDataStream &out) const = 0;
+    virtual void        unserialize(QDataStream &in) = 0;
+    //virtual void        sInit(void) = 0;
 
   public:
     virtual void		setPos(const Vector3d &);

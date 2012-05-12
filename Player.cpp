@@ -246,3 +246,18 @@ void    Player::moveAnimation(void)
   // reset de la propriete moved.
   moved_ = false;
 }
+
+void Player::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Player::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+static void sInit(void)
+{
+
+}
