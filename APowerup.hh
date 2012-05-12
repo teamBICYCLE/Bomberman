@@ -28,7 +28,10 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
-    virtual APowerup		*clone(void) = 0;
+    virtual APowerup    *clone(void) = 0;
+    virtual void        serialize(QDataStream &out) const {(void)out;}
+    virtual void        unserialize(QDataStream &in) {(void)in;}
+    virtual void        sInit(void){}
 
   private:
     APowerup(const APowerup& other);

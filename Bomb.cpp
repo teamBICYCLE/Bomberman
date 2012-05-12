@@ -80,3 +80,20 @@ void	Bomb::destroy(std::list<AObject*>& objs)
   explode(objs);
   AObject::destroy();
 }
+
+/* Serialization */
+
+void Bomb::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Bomb::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Bomb::sInit(void)
+{
+
+}

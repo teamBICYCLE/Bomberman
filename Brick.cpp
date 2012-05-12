@@ -134,3 +134,20 @@ void Brick::loot(std::list<AObject *> &objs)
         objs.push_back(loot_);
     }
 }
+
+/* Serialization */
+
+void Brick::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Brick::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Brick::sInit(void)
+{
+
+}

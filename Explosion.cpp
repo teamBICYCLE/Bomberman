@@ -44,3 +44,20 @@ const std::string&	Explosion::type(void) const
 {
   return (type_);
 }
+
+/* Serialization */
+
+void Explosion::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Explosion::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Explosion::sInit(void)
+{
+
+}

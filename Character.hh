@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Sat May 12 10:51:58 2012 geoffroy lafontaine
+// Last update Sat May 12 14:55:54 2012 geoffroy lafontaine
 //
 
 #ifndef		__CHARACTER_HH__
@@ -41,11 +41,16 @@ namespace	Bomberman
     void	setLife(const uint life);
     void	setSpeed(const double speed);
 
+  public:
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const = 0;
+    virtual void unserialize(QDataStream &in) = 0;
+
   protected:
     uint        life_;
     double      speed_;
     double      speedAdapter_;
-    BoundingBox	bBox_;
+    BoundingBox	*bBox_;
     bool	moved_;
   };
 }

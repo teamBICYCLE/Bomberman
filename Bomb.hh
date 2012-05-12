@@ -25,17 +25,22 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
-    virtual const std::string&	type(void) const;
+    virtual const std::string   &type(void) const;
     virtual void		destroy(std::list<AObject*>& objs);
+
+    /* Serialization */
+    virtual void serialize(QDataStream &out) const;
+    virtual void unserialize(QDataStream &in);
+    static void sInit(void);
 
   public:
     void	adjustPos(void);
     void	explode(std::list<AObject*>& objs);
 
   private:
-    int		range_;
-    int		timeOut_;
-    Player&	owner_;
+    int         range_;
+    int         timeOut_;
+    Player&     owner_;
     Vector3d	speed_;
   };
 }
