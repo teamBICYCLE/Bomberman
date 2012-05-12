@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 11 15:13:35 2012 lois burg
+// Last update Sat May 12 10:51:08 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -195,19 +195,9 @@ const std::string&	Player::type(void) const
   return (type_);
 }
 
-uint	Player::getLife(void) const
-{
-  return (life_);
-}
-
 uint	Player::getNbBombs(void) const
 {
   return (nbBombs_);
-}
-
-double	Player::getSpeed(void) const
-{
-  return ((speed_ * speedAdapter_) / 100);
 }
 
 uint	Player::getBombRange(void) const
@@ -215,19 +205,9 @@ uint	Player::getBombRange(void) const
   return (bombRange_);
 }
 
-void	Player::setLife(const uint life)
-{
-  life_ = life;
-}
-
 void	Player::setNbBombs(const uint nbBombs)
 {
   nbBombs_ = nbBombs;
-}
-
-void	Player::setSpeed(const double speed)
-{
-  speed_ = speed;
 }
 
 void	Player::setBombRange(const uint range)

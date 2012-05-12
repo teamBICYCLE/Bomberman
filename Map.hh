@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Wed May  9 14:49:04 2012 geoffroy lafontaine
+// Last update Sat May 12 09:26:54 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -13,6 +13,7 @@
 
 # include	<ostream>
 # include	<stdexcept>
+# include	<sys/types.h>
 # include	"AObject.hh"
 # include	"Block.hh"
 # include	"Brick.hh"
@@ -49,8 +50,8 @@ namespace	Bomberman
     };
 
   public:
-    Map(unsigned int width = 13, unsigned int height = 13,
-	unsigned int nbPlayers = 1);
+    Map(uint width = 13, uint height = 13,
+	uint nbPlayers = 1);
     Map(const std::string& fileName);
     ~Map(void);
 
@@ -63,11 +64,11 @@ namespace	Bomberman
   protected:
     void	getFromFile(const std::string& fileName);
     bool	checkType(char c) const;
-    AObject	*createType(char, unsigned int, unsigned int, bool *) const;
-    void	addPlayers(unsigned int, unsigned int, unsigned int);
-    void	placePlayer(unsigned int, unsigned int);
-    void	generateBricks(unsigned int, unsigned int, unsigned int);
-    void	clearPlace(unsigned int, unsigned int);
+    AObject	*createType(char, uint, uint, bool *) const;
+    void	addPlayers(uint, uint, uint);
+    void	placePlayer(uint, uint);
+    void	generateBricks(uint, uint, uint);
+    void	clearPlace(uint, uint);
 
   private:
     std::list<AObject*>	terrain_;

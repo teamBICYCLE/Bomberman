@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Fri May 11 18:14:27 2012 lois burg
+// Last update Sat May 12 10:49:19 2012 geoffroy lafontaine
 //
 
 #ifndef		__PLAYER_HH__
@@ -32,15 +32,11 @@ namespace	Bomberman
     virtual const std::string&	type(void) const;
 
   public:
-    uint	getLife(void) const;
     uint	getNbBombs(void) const;
-    double	getSpeed(void) const;
     uint	getBombRange(void) const;
 
   public:
-    void	setLife(const uint life);
     void	setNbBombs(const uint nbBombs);
-    void	setSpeed(const double speed);
     void	setBombRange(const uint range);
 
   private:
