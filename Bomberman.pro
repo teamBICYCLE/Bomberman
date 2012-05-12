@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     Bomb.cpp \
     BoundingBox.cpp \
     Character.cpp \
-    Explosion.cpp
+    Explosion.cpp \
+    Monster.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -48,4 +49,5 @@ HEADERS += \
     Bomb.hh \
     BoundingBox.hh \
     Character.hh \
-    Explosion.hh
+    Explosion.hh \
+    Monster.hh

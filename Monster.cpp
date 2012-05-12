@@ -1,54 +1,49 @@
 //
-// Player.cpp for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
-//
-// Made by lois burg
-// Login   <burg_l@epitech.net>
-//
-// Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat May 12 10:51:08 2012 geoffroy lafontaine
+// Monster.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
+// 
+// Made by geoffroy lafontaine
+// Login   <lafont_g@epitech.net>
+// 
+// Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
+// Last update Sat May 12 10:50:39 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
-#include "Player.hh"
+#include "Monster.hh"
 
-using namespace	Bomberman;
+using namespace Bomberman;
 
-Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), moved_(false)
+Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
 {
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Down, &Player::turnDown));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+  actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+  actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+  actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+  actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
-Player::~Player()
+Monster::~Monster()
 {
 }
 
-void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
+void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs)
 {
   Vector3d	verti(0, speed_, 0);
   Vector3d	hori(speed_, 0, 0);
   Vector3d	save(pos_);
-  std::list<AObject*>::iterator		objIt;
-  std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
+  std::list<AObject*>::iterator objIt;
 
-  for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
-    if (keys.isKeyDown(it->first))
-      (this->*(it->second))(objs);
-  //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
+  if (actionsMap_[direction])
+    (this->*(actionsMap_[direction]))();
   if (save != pos_)
     for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
-	//au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
 	if (bBox_.collideWith(*objIt))
 	  {
 	    if (bBox_.isAbove() || bBox_.isBelow())
@@ -63,7 +58,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 
 #define ZIZIDEPOULE 0.5f
 
-void		Player::draw(void)
+void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
@@ -147,75 +142,12 @@ void		Player::draw(void)
   this->model_.draw();
 }
 
-void	Player::turnLeft(std::list<AObject*>& objs)
-{
-  (void)objs;
-  Character::turnLeft();
-  moved_ = true;
-}
-
-void	Player::turnRight(std::list<AObject*>& objs)
-{
-  (void)objs;
-  Character::turnRight();
-  moved_ = true;
-}
-
-void	Player::turnUp(std::list<AObject*>& objs)
-{
-  (void)objs;
-  Character::turnUp();
-  moved_ = true;
-}
-
-void	Player::turnDown(std::list<AObject*>& objs)
-{
-  (void)objs;
-  Character::turnDown();
-  moved_ = true;
-}
-
-void	Player::putBomb(std::list<AObject*>& objs)
-{
-  Bomb	*b;
-
-  if (nbBombs_ > 0)
-    {
-      if ((b = new Bomb(pos_, rot_, sz_, bombRange_, 100, *this)))
-	{
-	  b->adjustPos();
-	  objs.push_back(b);
-	  --nbBombs_;
-	}
-    }
-}
-
-const std::string&	Player::type(void) const
+const std::string&	Monster::type(void) const
 {
   return (type_);
 }
 
-uint	Player::getNbBombs(void) const
-{
-  return (nbBombs_);
-}
-
-uint	Player::getBombRange(void) const
-{
-  return (bombRange_);
-}
-
-void	Player::setNbBombs(const uint nbBombs)
-{
-  nbBombs_ = nbBombs;
-}
-
-void	Player::setBombRange(const uint range)
-{
-  bombRange_ = range;
-}
-
-void    Player::moveAnimation(void)
+void			Monster::moveAnimation(void)
 {
   static bool wasRunning = false;
 

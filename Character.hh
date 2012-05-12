@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Thu May 10 17:26:14 2012 lois burg
+// Last update Sat May 12 10:51:58 2012 geoffroy lafontaine
 //
 
 #ifndef		__CHARACTER_HH__
@@ -16,6 +16,8 @@
 
 namespace	Bomberman
 {
+  enum eDirection { UP, RIGHT, DOWN, LEFT };
+
   class	Character : public AObject
   {
   public:
@@ -31,14 +33,20 @@ namespace	Bomberman
   public:
     void	takeDamage(uint damage);
     
-  protected:
+  public:
+    uint	getLife(void) const;
     double      getSpeed(void) const;
+
+  public:
+    void	setLife(const uint life);
+    void	setSpeed(const double speed);
 
   protected:
     uint        life_;
     double      speed_;
     double      speedAdapter_;
     BoundingBox	bBox_;
+    bool	moved_;
   };
 }
 

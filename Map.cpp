@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 10 17:30:10 2012 lois burg
+// Last update Sat May 12 09:18:28 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -55,10 +55,10 @@ const char	*Map::Failure::what(void) const throw()
   return (("Map failure: " + mFunc + " failed - " + mMsg).c_str());
 }
 
-Map::Map(unsigned int width, unsigned int height, unsigned int nbPlayers)
+Map::Map(uint width, uint height, uint nbPlayers)
 {
-  for (unsigned int y = 1; y < height - 1; y += 2)
-    for (unsigned int x = 1; x < width - 1; x += 2)
+  for (uint y = 1; y < height - 1; y += 2)
+    for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   // generateBricks(width, height, nbPlayers);
   addPlayers(width, height, nbPlayers);
@@ -80,15 +80,13 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void					Map::generateBricks(unsigned int width,
-							    unsigned int height,
-							    unsigned int nbPlayers)
+void					Map::generateBricks(uint width, uint height, uint nbPlayers)
 {
-  unsigned int				nbBricks;
-  std::list<AObject*>::iterator		it;
-  unsigned int				x;
-  unsigned int				y;
-  bool					find = false;
+  uint				nbBricks;
+  std::list<AObject*>::iterator	it;
+  uint				x;
+  uint				y;
+  bool				find = false;
 
   nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
   do {
@@ -110,8 +108,8 @@ void					Map::generateBricks(unsigned int width,
   while (nbBricks > 0);
 }
 
-void				Map::addPlayers(unsigned int width, unsigned int height,
-						unsigned int nbPlayers)
+void				Map::addPlayers(uint width, uint height,
+						uint nbPlayers)
 {
   std::vector< std::pair<int, int> >		postab;
 
@@ -121,18 +119,18 @@ void				Map::addPlayers(unsigned int width, unsigned int height,
   postab.push_back(std::make_pair(width - 1, height - 1));
   if (nbPlayers <= 4)
     {
-      for (unsigned int i = 0; i < nbPlayers; ++i)
+      for (uint i = 0; i < nbPlayers; ++i)
   	placePlayer(postab[i].first, postab[i].second);
     }
 }
 
-void				Map::placePlayer(unsigned int x, unsigned int y)
+void				Map::placePlayer(uint x, uint y)
 {
   clearPlace(x, y);
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::clearPlace(unsigned int x, unsigned int y)
+void				Map::clearPlace(uint x, uint y)
 {
   std::list<AObject*>::iterator			it;
   std::vector< std::pair<int, int> >		postab;
@@ -172,7 +170,7 @@ bool Map::checkType(char c) const
   return false;
 }
 
-AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) const
+AObject *Map::createType(char c, uint x, uint y, bool *player) const
 {
     if (c == MAP_FILE_BLOCK)
       return new Block(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
@@ -184,11 +182,11 @@ AObject *Map::createType(char c, unsigned int x, unsigned int y, bool *player) c
 
 void Map::getFromFile(const std::string& fileName)
 {
-  std::string line;
-  std::ifstream infile;
-  unsigned int x;
-  unsigned int y = 0;
-  bool	player = false;
+  std::string			line;
+  std::ifstream			infile;
+  uint				x;
+  uint				y = 0;
+  bool				player = false;
 
   infile.open(fileName.c_str());
   if (infile.fail())
