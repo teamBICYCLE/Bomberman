@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Thu May 10 12:46:28 2012 lois burg
+// Last update Fri May 11 11:39:52 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__
@@ -26,6 +26,11 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
+    virtual void		destroy(std::list<AObject*>& objs);
+
+  public:
+    void	adjustPos(void);
+    void	explode(std::list<AObject*>& objs);
 
   private:
     int		range_;

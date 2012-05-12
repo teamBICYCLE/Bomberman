@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 10 17:51:10 2012 geoffroy lafontaine
+// Last update Fri May 11 09:54:45 2012 romain sylvian
 //
 
 #include <unistd.h>
@@ -28,7 +28,7 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map(13, 13, 1);
+    Map	map("map/map2");
     // int	viewport[4];
 
     mapH_ = 13;
@@ -65,7 +65,10 @@ void  PlayState::update(StatesManager * sMg)
 	  ++it;
 	}
       else
-	it = objs_.erase(it);
+	{
+	  std::cout << "Erasing: " << (*it)->getType() << std::endl;
+	  it = objs_.erase(it);
+	}
     }
 }
 

@@ -36,12 +36,12 @@ namespace	Bomberman
     bool	collideDown(const AObject *obj);
 
   private:
-    const Vector3d&	pos_;
-    const Vector3d&	sz_;
-    bool		above_;
-    bool		below_;
-    bool		left_;
-    bool		right_;
+    const Vector3d &pos_;
+    const Vector3d &sz_;
+    bool            above_;
+    bool            below_;
+    bool            left_;
+    bool            right_;
   };
 }
 

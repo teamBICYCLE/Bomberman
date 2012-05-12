@@ -35,8 +35,8 @@ namespace	Bomberman
     double      getSpeed(void) const;
 
   protected:
-    uint	life_;
-    double	speed_;
+    uint        life_;
+    double      speed_;
     double      speedAdapter_;
     BoundingBox	bBox_;
   };
