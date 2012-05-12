@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Fri May 11 13:29:03 2012 lois burg
+// Last update Sat May 12 14:55:37 2012 geoffroy lafontaine
 //
 
 #ifndef		__AOBJECT_HH__
@@ -62,4 +62,5 @@ namespace	Bomberman
     bool                removeLater_;
   };
 }
+
 #endif /* !__AOBJECT_HH__*/
