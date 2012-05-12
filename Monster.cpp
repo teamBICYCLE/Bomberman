@@ -179,3 +179,20 @@ void			Monster::moveAnimation(void)
   // reset de la propriete moved.
   moved_ = false;
 }
+
+/* Serialization */
+
+void Monster::serialize(QDataStream &out) const
+{
+    (void)out;
+}
+
+void Monster::unserialize(QDataStream &in)
+{
+    (void)in;
+}
+
+void Monster::sInit(void)
+{
+
+}
