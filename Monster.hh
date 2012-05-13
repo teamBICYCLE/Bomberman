@@ -24,6 +24,8 @@ namespace	Bomberman
 
   public:
     Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+    Monster(const Monster &);
+    Monster();
     virtual ~Monster();
 
   public:
@@ -51,5 +53,10 @@ namespace	Bomberman
     bool	moved_;
   };
 }
+
+/* Serialization */
+//Q_DECLARE_METATYPE(Bomberman::Monster);
+//QDataStream &operator << (QDataStream &out, const Bomberman::Monster &v);
+//QDataStream &operator >> (QDataStream &in, Bomberman::Monster &v);
 
 #endif /* !__MONSTER_HH__ */

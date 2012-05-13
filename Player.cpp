@@ -31,6 +31,20 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
 }
 
+Player::Player()
+    : Character(), nbBombs_(1), bombRange_(2),
+      bombTime_(2.0f), moved_(false)
+{
+}
+
+Player::Player(const Player &other)
+    : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
+      nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
+      bombTime_(other.bombTime_), moved_(other.moved_)
+{
+    // ?
+}
+
 Player::~Player()
 {
 }
@@ -275,6 +289,8 @@ void    Player::moveAnimation(void)
   moved_ = false;
 }
 
+/* Serialization */
+
 void Player::serialize(QDataStream &out) const
 {
     (void)out;
@@ -287,6 +303,18 @@ void Player::unserialize(QDataStream &in)
 
 void Player::sInit(void)
 {
-//    qRegisterMetaTypeStreamOperators<Player>("Player");
-//    qMetaTypeId<Player>();
+    qRegisterMetaTypeStreamOperators<Player>("Player");
+    qMetaTypeId<Player>();
+}
+
+QDataStream &operator<<(QDataStream &out, const Player &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Player &v)
+{
+    v.unserialize(in);
+    return in;
 }

@@ -18,8 +18,9 @@ namespace	Bomberman
   class	Block : public AObject
   {
   public:
-      Block(const Vector3d& pos = Vector3d(), const Vector3d& rot = Vector3d(), const Vector3d& sz = Vector3d());
+      Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
       Block(const Block &other);
+      Block();
       virtual ~Block();
 
   public:

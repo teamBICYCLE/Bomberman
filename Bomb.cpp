@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 13 17:33:18 2012 lois burg
+// Last update Sun May 13 21:06:38 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -25,8 +25,17 @@ Bomb::Bomb(const Bomb &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
-      model_(other.model_)
+      timeCreation_(other.timeCreation_)
 {
+    model_ = other.getModel();
+}
+
+Bomb::Bomb()
+  : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
+    range_(0), timeOut_(0), owner_(*(new Player())),
+    speed_(Vector3d()), timeCreation_(0)
+{
+    model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
 
 Bomb::~Bomb()
@@ -150,6 +159,18 @@ void Bomb::unserialize(QDataStream &in)
 
 void Bomb::sInit(void)
 {
-//    qRegisterMetaTypeStreamOperators<Bomb>("Bomb");
-//    qMetaTypeId<Bomb>();
+    qRegisterMetaTypeStreamOperators<Bomb>("Bomb");
+    qMetaTypeId<Bomb>();
+}
+
+QDataStream &operator<<(QDataStream &out, const Bomb &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Bomb &v)
+{
+    v.unserialize(in);
+    return in;
 }

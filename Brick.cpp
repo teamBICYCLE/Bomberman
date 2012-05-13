@@ -34,6 +34,11 @@ Brick::Brick(const Brick &other)
     loot_ = other.loot_;
 }
 
+Brick::Brick()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick")
+{
+}
+
 Brick::~Brick()
 {
 

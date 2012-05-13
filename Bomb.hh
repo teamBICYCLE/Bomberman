@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Sun May 13 17:27:55 2012 lois burg
+// Last update Sun May 13 20:56:10 2012 romain sylvian
 //
 
 #ifndef		__BOMB_HH__
@@ -20,8 +20,9 @@ namespace	Bomberman
   class	Bomb : public AObject
   {
   public:
-      Bomb(const Vector3d& pos = Vector3d(), const Vector3d& rot = Vector3d(), const Vector3d& sz = Vector3d(), int range = 0, int timeOut = 0, Player& owner = Player());
+      Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player &p);
       Bomb(const Bomb &);
+      Bomb();
       virtual ~Bomb();
 
   public:
@@ -59,8 +60,8 @@ namespace	Bomberman
 }
 
 /* Serialization */
-//Q_DECLARE_METATYPE(Bomberman::Bomb);
-//QDataStream &operator << (QDataStream &out, const Bomberman::Bomb &v);
-//QDataStream &operator >> (QDataStream &in, Bomberman::Bomb &v);
+Q_DECLARE_METATYPE(Bomberman::Bomb);
+QDataStream &operator << (QDataStream &out, const Bomberman::Bomb &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Bomb &v);
 
 #endif /* !__BOMB_HH__*/

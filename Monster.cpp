@@ -29,6 +29,18 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
+Monster::Monster(const Monster &other)
+    : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
+      moved_(other.moved_)
+{
+}
+
+Monster::Monster()
+    : Character(Vector3d(), Vector3d(), Vector3d(), "Monster", 1, 0.05),
+      moved_(false)
+{
+}
+
 Monster::~Monster()
 {
 }
@@ -197,3 +209,15 @@ void Monster::sInit(void)
 //    qRegisterMetaTypeStreamOperators<Monster>("Monster");
 //    qMetaTypeId<Monster>();
 }
+
+//QDataStream &operator<<(QDataStream &out, const Monster &v)
+//{
+//    v.serialize(out);
+//    return out;
+//}
+
+//QDataStream &operator>>(QDataStream &in, Monster &v)
+//{
+//    v.unserialize(in);
+//    return in;
+//}

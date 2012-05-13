@@ -25,6 +25,11 @@ Block::Block(const Block &other)
 {
 }
 
+Block::Block()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Block")
+{
+}
+
 Block::~Block()
 {
 }

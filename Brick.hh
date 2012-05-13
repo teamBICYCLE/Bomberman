@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Sun May 13 14:32:17 2012 lois burg
+// Last update Sun May 13 20:42:54 2012 romain sylvian
 //
 //
 
@@ -22,9 +22,10 @@ namespace	Bomberman
   class	Brick : public AObject
   {
   public:
-      Brick(const Vector3d& pos = Vector3d(), const Vector3d& rot = Vector3d(), const Vector3d& sz = Vector3d(40, 40, 0));
+      Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz = Vector3d(40, 40, 0));
       Brick(const Brick &);
-    virtual ~Brick();
+      Brick();
+      virtual ~Brick();
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
@@ -38,7 +39,7 @@ namespace	Bomberman
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
 
-  private:s
+  private:
     APowerup	*loot_;
   };
 }

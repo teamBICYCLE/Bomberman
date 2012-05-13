@@ -21,6 +21,7 @@ namespace	Bomberman
   public:  public:
     Explosion(const Vector3d& pos, const Vector3d& sz, uint damage);
     Explosion(const Explosion& other);
+    Explosion();
     virtual ~Explosion();
 
   public:
@@ -44,5 +45,11 @@ namespace	Bomberman
     float	timeOfCreation_;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Explosion);
+QDataStream &operator << (QDataStream &out, const Bomberman::Explosion &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Explosion &v);
+
 
 #endif /* !__EXPLOSION_HH__*/
