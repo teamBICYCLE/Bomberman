@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:37:08 2012 geoffroy lafontaine
-// Last update Fri May 11 11:32:02 2012 lois burg
+// Last update Sun May 13 15:20:43 2012 lois burg
 //
 
 #include "APowerup.hh"
@@ -21,7 +21,8 @@ APowerup::~APowerup(void)
 {
 }
 
-void	APowerup::activate(Player &p) const
+void	APowerup::activate(Player &p)
 {
   (void)p;
+  destroy();
 }

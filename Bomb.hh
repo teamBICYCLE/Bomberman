@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Fri May 11 11:39:52 2012 lois burg
+// Last update Sun May 13 16:10:01 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__
 # define	__BOMB_HH__
 
 # include	"AObject.hh"
+# include	"Explosion.hh"
 # include	"Player.hh" //a remplacer par la classe qui emglobera joueurs et monstres
 
 namespace	Bomberman
@@ -37,11 +38,21 @@ namespace	Bomberman
     void	adjustPos(void);
     void	explode(std::list<AObject*>& objs);
 
+  public:
+    float	getTimeOut(void) const;
+
+  public:
+    void	setTimeOut(const float timeOut);
+
+  private:
+    void	checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& objs);
+
   private:
     int         range_;
-    int         timeOut_;
+    float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
+    float	timeCreation_;
   };
 }
 

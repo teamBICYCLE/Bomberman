@@ -1,11 +1,11 @@
 //
 // Monster.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sat May 12 15:16:31 2012 geoffroy lafontaine
+// Last update Sun May 13 14:24:02 2012 lois burg
 //
 
 #include <algorithm>
@@ -18,7 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
 {
-  bBox_ = new BoundingBox(pos_, sz_);
+  bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
@@ -139,7 +139,7 @@ void		Monster::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-  
+
   this->model_.draw();
 }
 
@@ -168,14 +168,14 @@ void			Monster::moveAnimation(void)
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning = true;
-   
+
   }
   else if (wasRunning == true)
   {
     model_.play("stop");
     wasRunning = false;
   }
-  
+
   // reset de la propriete moved.
   moved_ = false;
 }

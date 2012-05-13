@@ -5,20 +5,21 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat May 12 19:01:32 2012 lois burg
+// Last update Sun May 13 16:12:52 2012 lois burg
 //
 
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
 #include "Player.hh"
+#include "Monster.hh"
 
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), moved_(false)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f), moved_(false)
 {
-  bBox_ = new BoundingBox(pos_, sz_);
+  bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
@@ -51,12 +52,19 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	  for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
 	    {
 	      //au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	      if (bBox_->collideWith(*objIt))
+	      if (!dynamic_cast<Player*>(*objIt) && bBox_->collideWith(*objIt))
 		{
-		  if (bBox_->isAbove() || bBox_->isBelow())
-		    pos_.y = save.y;
-		  if (bBox_->isLeft() || bBox_->isRight())
-		    pos_.x = save.x;
+		  if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Monster*>(*objIt))
+		    destroy();
+		  else if (dynamic_cast<APowerup*>(*objIt))
+		    dynamic_cast<APowerup*>(*objIt)->activate(*this);
+		  else
+		    {
+		      if (bBox_->isAbove() || bBox_->isBelow())
+			pos_.y = save.y;
+		      if (bBox_->isLeft() || bBox_->isRight())
+			pos_.x = save.x;
+		    }
 		}
 	    }
       }
@@ -183,10 +191,9 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
-  std::cout << "BOMB LOL" << std::endl;
   if (nbBombs_ > 0)
     {
-      if ((b = new Bomb(pos_, rot_, sz_, bombRange_, 100, *this)))
+      if ((b = new Bomb(pos_, rot_, sz_, bombRange_, bombTime_, *this)))
 	{
 	  b->adjustPos();
 	  objs.push_back(b);
@@ -210,6 +217,11 @@ uint	Player::getBombRange(void) const
   return (bombRange_);
 }
 
+float	Player::getBombTime(void) const
+{
+  return (bombTime_);
+}
+
 void	Player::setNbBombs(const uint nbBombs)
 {
   nbBombs_ = nbBombs;
@@ -218,6 +230,11 @@ void	Player::setNbBombs(const uint nbBombs)
 void	Player::setBombRange(const uint range)
 {
   bombRange_ = range;
+}
+
+void	Player::setBombTime(const float time)
+{
+  bombTime_ = time;
 }
 
 void    Player::moveAnimation(void)
