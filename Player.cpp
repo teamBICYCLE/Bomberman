@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 13 16:12:52 2012 lois burg
+// Last update Sun May 13 17:34:12 2012 lois burg
 //
 
 #include <algorithm>
@@ -42,6 +42,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   Vector3d	save(pos_);
   std::list<AObject*>::iterator		objIt;
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
+  bool	collide;
 
   for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
@@ -52,13 +53,15 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	  for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
 	    {
 	      //au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	      if (!dynamic_cast<Player*>(*objIt) && bBox_->collideWith(*objIt))
+	      collide = bBox_->collideWith(*objIt);
+	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		{
 		  if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Monster*>(*objIt))
 		    destroy();
 		  else if (dynamic_cast<APowerup*>(*objIt))
 		    dynamic_cast<APowerup*>(*objIt)->activate(*this);
-		  else
+		  else if (!dynamic_cast<Bomb*>(*objIt) ||
+			  (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this && bombCollide_))
 		    {
 		      if (bBox_->isAbove() || bBox_->isBelow())
 			pos_.y = save.y;
@@ -66,6 +69,8 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 			pos_.x = save.x;
 		    }
 		}
+	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this && !bombCollide_ && !collide)
+		bombCollide_ = true;
 	    }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
@@ -195,6 +200,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
     {
       if ((b = new Bomb(pos_, rot_, sz_, bombRange_, bombTime_, *this)))
 	{
+	  bombCollide_ = false;
 	  b->adjustPos();
 	  objs.push_back(b);
 	  --nbBombs_;

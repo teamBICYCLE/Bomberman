@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Sun May 13 14:24:22 2012 lois burg
+// Last update Sun May 13 16:55:27 2012 lois burg
 //
 
 #include "BoundingBox.hh"
@@ -43,7 +43,7 @@ bool	BoundingBox::isRight(void) const
 
 bool	BoundingBox::collideWith(const AObject *obj)
 {
-  if (owner_ == obj)
+  if (owner_ == obj || pos_.distance(obj->getPos()) > 2)
     return (false);
   above_ = collideUp(obj);
   below_ = collideDown(obj);

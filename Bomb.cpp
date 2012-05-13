@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 13 16:11:05 2012 lois burg
+// Last update Sun May 13 17:33:18 2012 lois burg
 //
 
 #include <algorithm>
@@ -86,9 +86,9 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 {
   if (!isInvalid)
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-	if (e->getBBox().collideWith(obj))
+	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
-	    if (dynamic_cast<Character*>(obj))
+	    if (dynamic_cast<Character*>(obj) || dynamic_cast<APowerup*>(obj))
 	      obj->destroy();
 	    else if (dynamic_cast<Bomb*>(obj))
 	      dynamic_cast<Bomb*>(obj)->setTimeOut(0.0f);
@@ -121,6 +121,11 @@ void	Bomb::setTimeOut(const float timeOut)
 float	Bomb::getTimeOut(void) const
 {
   return (timeOut_);
+}
+
+const Player&	Bomb::getOwner(void) const
+{
+  return (owner_);
 }
 
 /* Serialization */

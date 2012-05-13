@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Sun May 13 16:10:01 2012 lois burg
+// Last update Sun May 13 17:27:55 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__
@@ -40,6 +40,7 @@ namespace	Bomberman
 
   public:
     float	getTimeOut(void) const;
+    const Player&	getOwner(void) const;
 
   public:
     void	setTimeOut(const float timeOut);
