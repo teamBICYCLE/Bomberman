@@ -194,5 +194,6 @@ void Monster::unserialize(QDataStream &in)
 
 void Monster::sInit(void)
 {
-
+//    qRegisterMetaTypeStreamOperators<Monster>("Monster");
+//    qMetaTypeId<Monster>();
 }

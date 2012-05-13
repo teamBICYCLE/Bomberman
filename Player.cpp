@@ -258,7 +258,8 @@ void Player::unserialize(QDataStream &in)
     (void)in;
 }
 
-static void sInit(void)
+void Player::sInit(void)
 {
-
+//    qRegisterMetaTypeStreamOperators<Player>("Player");
+//    qMetaTypeId<Player>();
 }

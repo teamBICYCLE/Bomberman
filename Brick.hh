@@ -22,7 +22,8 @@ namespace	Bomberman
   class	Brick : public AObject
   {
   public:
-    Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz = Vector3d(40, 40, 0));
+      Brick(const Vector3d& pos = Vector3d(), const Vector3d& rot = Vector3d(), const Vector3d& sz = Vector3d(40, 40, 0));
+      Brick(const Brick &);
     virtual ~Brick();
 
   public:
@@ -36,8 +37,14 @@ namespace	Bomberman
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
 
-  private:
+  private:s
     APowerup	*loot_;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Brick);
+QDataStream &operator << (QDataStream &out, const Bomberman::Brick &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Brick &v);
+
 #endif /* !__BRICK_HH__*/

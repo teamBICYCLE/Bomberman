@@ -59,5 +59,6 @@ void Explosion::unserialize(QDataStream &in)
 
 void Explosion::sInit(void)
 {
-
+//    qRegisterMetaTypeStreamOperators<Explosion>("Explosion");
+//    qMetaTypeId<Explosion>();
 }

@@ -19,8 +19,9 @@ namespace	Bomberman
   class	Bomb : public AObject
   {
   public:
-    Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner);
-    virtual ~Bomb();
+      Bomb(const Vector3d& pos = Vector3d(), const Vector3d& rot = Vector3d(), const Vector3d& sz = Vector3d(), int range = 0, int timeOut = 0, Player& owner = Player());
+      Bomb(const Bomb &);
+      virtual ~Bomb();
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
@@ -44,5 +45,10 @@ namespace	Bomberman
     Vector3d	speed_;
   };
 }
+
+/* Serialization */
+//Q_DECLARE_METATYPE(Bomberman::Bomb);
+//QDataStream &operator << (QDataStream &out, const Bomberman::Bomb &v);
+//QDataStream &operator >> (QDataStream &in, Bomberman::Bomb &v);
 
 #endif /* !__BOMB_HH__*/

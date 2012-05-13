@@ -20,6 +20,14 @@ Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int ran
   model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
 
+Bomb::Bomb(const Bomb &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
+      range_(other.range_), timeOut_(other.timeOut_),
+      owner_(other.owner_), speed_(other.speed_),
+      model_(other.model_)
+{
+}
+
 Bomb::~Bomb()
 {
 }
@@ -95,5 +103,6 @@ void Bomb::unserialize(QDataStream &in)
 
 void Bomb::sInit(void)
 {
-
+//    qRegisterMetaTypeStreamOperators<Bomb>("Bomb");
+//    qMetaTypeId<Bomb>();
 }

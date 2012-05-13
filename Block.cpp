@@ -16,7 +16,12 @@
 using namespace	Bomberman;
 
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz,"Block")
+  : AObject(pos, rot, sz, "Block")
+{
+}
+
+Block::Block(const Block &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Block")
 {
 }
 
@@ -132,5 +137,18 @@ void Block::unserialize(QDataStream &in)
 
 void Block::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Block>("Block");
+    qMetaTypeId<Block>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Block &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Block &v)
+{
+    v.unserialize(in);
+    return in;
 }

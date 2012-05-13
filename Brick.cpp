@@ -28,6 +28,12 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     }
 }
 
+Brick::Brick(const Brick &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Brick")
+{
+    loot_ = other.loot_;
+}
+
 Brick::~Brick()
 {
 
@@ -149,5 +155,18 @@ void Brick::unserialize(QDataStream &in)
 
 void Brick::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Brick>("Brick");
+    qMetaTypeId<Brick>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Brick &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Brick &v)
+{
+    v.unserialize(in);
+    return in;
 }
