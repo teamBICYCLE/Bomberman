@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:02:09 2012 lois burg
-// Last update Thu May 10 15:55:24 2012 lois burg
+// Last update Sat May 12 16:02:13 2012 lois burg
 //
 
 #ifndef		__BOUNDING_BOX_HH__
@@ -36,8 +36,8 @@ namespace	Bomberman
     bool	collideDown(const AObject *obj);
 
   private:
-    const Vector3d &pos_;
-    const Vector3d &sz_;
+    const Vector3d& pos_;
+    const Vector3d& sz_;
     bool            above_;
     bool            below_;
     bool            left_;

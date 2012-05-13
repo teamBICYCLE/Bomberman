@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Fri May 11 18:29:14 2012 lois burg
+// Last update Sat May 12 18:26:02 2012 lois burg
 //
 
 #include "BoundingBox.hh"
@@ -48,16 +48,16 @@ bool	BoundingBox::collideWith(const AObject *obj)
   left_ = collideLeft(obj);
   right_ = collideRight(obj);
 
-  if (above_)
-    std::cout << "Above!" << std::endl;
-  if (below_)
-    std::cout << "Below!" << std::endl;
-  if (right_)
-    std::cout << "Right!" << std::endl;
-  if (left_)
-    std::cout << "Left!" << std::endl;
-  if (above_ || below_ || left_ || right_)
-    std::cout << "Collingind with " << obj->getType() << std::endl;
+  // if (above_)
+  //   std::cout << "Above!" << std::endl;
+  // if (below_)
+  //   std::cout << "Below!" << std::endl;
+  // if (right_)
+  //   std::cout << "Right!" << std::endl;
+  // if (left_)
+  //   std::cout << "Left!" << std::endl;
+  // if (above_ || below_ || left_ || right_)
+  //   std::cout << "Collingind with " << obj->getType() << std::endl;
 
   return (above_ || below_ || left_ || right_);
 }

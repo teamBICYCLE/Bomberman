@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat May 12 15:16:38 2012 geoffroy lafontaine
+// Last update Sat May 12 19:01:32 2012 lois burg
 //
 
 #include <algorithm>
@@ -44,20 +44,23 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 
   for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
-      (this->*(it->second))(objs);
-  //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
-  if (save != pos_)
-    for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
-	//au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
-	if (bBox_->collideWith(*objIt))
-	  {
-	    if (bBox_->isAbove() || bBox_->isBelow())
-	      pos_.y = save.y;
-	    if (bBox_->isLeft() || bBox_->isRight())
-	      pos_.x = save.x;
-	  }
+	save = pos_;
+	(this->*(it->second))(objs);
+	if (save != pos_)
+	  for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
+	    {
+	      //au lieu de restaurer a save, set a la valeur de l'objet que l'on collisione
+	      if (bBox_->collideWith(*objIt))
+		{
+		  if (bBox_->isAbove() || bBox_->isBelow())
+		    pos_.y = save.y;
+		  if (bBox_->isLeft() || bBox_->isRight())
+		    pos_.x = save.x;
+		}
+	    }
       }
+  //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -144,7 +147,7 @@ void		Player::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-  
+
   this->model_.draw();
 }
 
@@ -180,6 +183,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
+  std::cout << "BOMB LOL" << std::endl;
   if (nbBombs_ > 0)
     {
       if ((b = new Bomb(pos_, rot_, sz_, bombRange_, 100, *this)))
@@ -236,14 +240,14 @@ void    Player::moveAnimation(void)
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning = true;
-   
+
   }
   else if (wasRunning == true)
   {
     model_.play("stop");
     wasRunning = false;
   }
-  
+
   // reset de la propriete moved.
   moved_ = false;
 }
