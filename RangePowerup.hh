@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:11:59 2012 geoffroy lafontaine
-// Last update Mon May  7 18:31:50 2012 lois burg
+// Last update Sun May 13 15:21:01 2012 lois burg
 //
 
 #ifndef		__RANGEPOWERUP_HH__
@@ -23,7 +23,7 @@ namespace	Bomberman
     virtual ~RangePowerup(void);
 
   public:
-    virtual void		activate(Player&) const;
+    virtual void		activate(Player&);
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;

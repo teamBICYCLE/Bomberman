@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Sat May 12 15:10:51 2012 geoffroy lafontaine
+// Last update Sun May 13 11:15:33 2012 lois burg
 //
 
 #include "Character.hh"
@@ -54,6 +54,8 @@ void	Character::takeDamage(uint damage)
 {
   if (life_ > 0)
     life_ -= damage;
+  if (!life_)
+    destroy();
 }
 
 double      Character::getSpeed(void) const

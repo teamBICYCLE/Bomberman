@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Wed May  9 15:19:54 2012 Thomas Duplomb
+// Last update Sun May 13 14:34:21 2012 lois burg
 //
 
 #include "Brick.hh"
@@ -139,6 +139,12 @@ void Brick::loot(std::list<AObject *> &objs)
         std::cout << "Loot add to Vector !" << std::endl;
         objs.push_back(loot_);
     }
+}
+
+void	Brick::destroy(std::list<AObject*>& objs)
+{
+  loot(objs);
+  AObject::destroy();
 }
 
 /* Serialization */

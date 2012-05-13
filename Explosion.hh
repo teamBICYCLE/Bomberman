@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:47 2012 lois burg
-// Last update Fri May 11 15:14:38 2012 lois burg
+// Last update Sun May 13 13:38:40 2012 lois burg
 //
 
 #ifndef		__EXPLOSION_HH__
@@ -20,6 +20,7 @@ namespace	Bomberman
   {
   public:  public:
     Explosion(const Vector3d& pos, const Vector3d& sz, uint damage);
+    Explosion(const Explosion& other);
     virtual ~Explosion();
 
   public:
@@ -32,9 +33,15 @@ namespace	Bomberman
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
 
+  public:
+    uint		getDamage(void) const;
+    BoundingBox&	getBBox(void);
+
   private:
     uint	damage_;
     BoundingBox	bBox_;
+    float	timeOnScreen_;
+    float	timeOfCreation_;
   };
 }
 

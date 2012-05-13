@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Fri May 11 11:34:49 2012 lois burg
+// Last update Sun May 13 15:20:50 2012 lois burg
 //
 
 #ifndef		__APOWERUP_HH__
@@ -24,7 +24,7 @@ namespace	Bomberman
     virtual ~APowerup(void);
 
   public:
-    virtual void		activate(Player&) const;
+    virtual void		activate(Player&);
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;

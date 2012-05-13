@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:33:03 2012 geoffroy lafontaine
-// Last update Mon May  7 18:31:33 2012 lois burg
+// Last update Sun May 13 15:21:26 2012 lois burg
 //
 
 #include "RangePowerup.hh"
@@ -26,9 +26,11 @@ RangePowerup::RangePowerup(const RangePowerup &other)
 {
 }
 
-void	RangePowerup::activate(Player& p) const
+void	RangePowerup::activate(Player& p)
 {
+  std::cout << "Range up" << std::endl;
   p.setBombRange(p.getBombRange() + 1);
+  APowerup::activate(p);
 }
 
 void	RangePowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
