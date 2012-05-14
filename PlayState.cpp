@@ -61,15 +61,15 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (!(*it)->toRemove())
-	{
-	  (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	  ++it;
-	}
+        {
+          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+          ++it;
+        }
       else
-	{
-	  // std::cout << "Erasing: " << (*it)->getType() << std::endl;
-	  it = objs_.erase(it);
-	}
+        {
+          // std::cout << "Erasing: " << (*it)->getType() << std::endl;
+          it = objs_.erase(it);
+        }
     }
 }
 
