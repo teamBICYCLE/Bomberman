@@ -41,6 +41,8 @@ void SaveHandler::save(void) const
 
 void SaveHandler::load(void) const
 {
-//    QSettings save(SAVE_FILE, QSettings::IniFormat);
-//    if (save.)
+    if (!QFile::exists(SAVE_FILE))
+        std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
+    QSettings save(SAVE_FILE, QSettings::IniFormat);
+    (void)save;
 }
