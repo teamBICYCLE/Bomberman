@@ -229,6 +229,12 @@ QDataStream &operator>>(QDataStream &in, Vector3d &v)
     return in;
 }
 
+QDataStream &operator>>(QDataStream &in, const Vector3d &v)
+{
+    v.unserialize(in);
+    return in;
+}
+
 void Vector3d::serialize(QDataStream &out) const
 {
     out << x;
@@ -237,6 +243,13 @@ void Vector3d::serialize(QDataStream &out) const
 }
 
 void Vector3d::unserialize(QDataStream &in)
+{
+    in >> x;
+    in >> y;
+    in >> z;
+}
+
+void Vector3d::unserialize(QDataStream &in) const
 {
     in >> x;
     in >> y;

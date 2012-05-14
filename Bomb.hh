@@ -60,7 +60,7 @@ namespace	Bomberman
     float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
-    float	timeCreation_;
+    float       timeCreation_;
   };
 }
 

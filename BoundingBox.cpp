@@ -8,12 +8,29 @@
 // Last update Sun May 13 16:55:27 2012 lois burg
 //
 
+#include "Player.hh"
 #include "BoundingBox.hh"
 
 using namespace Bomberman;
 
 BoundingBox::BoundingBox(const Vector3d& pos, const Vector3d& sz, const AObject *owner)
   : pos_(pos), sz_(sz), owner_(owner), above_(false), below_(false), left_(false), right_(false)
+{
+}
+
+BoundingBox::BoundingBox(const BoundingBox &other)
+    : pos_(other.pos_), sz_(other.sz_),
+      owner_(other.owner_), above_(other.above_),
+      below_(other.below_), left_(other.left_),
+      right_(other.right_)
+{
+}
+
+BoundingBox::BoundingBox()
+    : pos_(Vector3d()), sz_(Vector3d()),
+      owner_((new Player())),
+      above_(false), below_(false), left_(false),
+      right_(false)
 {
 }
 
@@ -106,4 +123,58 @@ bool	BoundingBox::collideDown(const AObject *obj)
 	 (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x) && obj->getPos().y < (pos_.y + sz_.y))))
       return (true);
   return (false);
+}
+
+/* Serialization */
+
+void BoundingBox::serialize(QDataStream &out) const
+{
+    pos_.serialize(out);
+    sz_.serialize(out);
+    /* owner */
+    out << above_;
+    out << below_;
+    out << left_;
+    out << right_;
+}
+
+void BoundingBox::unserialize(QDataStream &in)
+{
+    pos_.unserialize(in);
+    sz_.unserialize(in);
+    /* owner */
+    in >> above_;
+    in >> below_;
+    in >> left_;
+    in >> right_;
+}
+
+void BoundingBox::sInit(void)
+{
+    qRegisterMetaTypeStreamOperators<BoundingBox>("BoundingBox");
+    qMetaTypeId<BoundingBox>();
+}
+
+QDataStream &operator<<(QDataStream &out, const BoundingBox &b)
+{
+    b.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, BoundingBox &b)
+{
+    b.unserialize(in);
+    return in;
+}
+
+BoundingBox &BoundingBox::operator=(const BoundingBox &b)
+{
+//    pos_ = b.pos_;
+//    sz_ = b.sz_;
+//    /* owner */
+    above_ = b.above_;
+    below_ = b.below_;
+    left_ = b.left_;
+    right_ = b.right_;
+    return *this;
 }

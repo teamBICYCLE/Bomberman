@@ -157,10 +157,10 @@ void Bomb::serialize(QDataStream &out) const
     pos_.serialize(out);
     rot_.serialize(out);
     sz_.serialize(out);
-//    out << removeLater_;
-//    out << range_;
-//    out << timeOut_;
-    //owner_.serialize(out);
+    out << removeLater_;
+    out << range_;
+    out << timeOut_;
+    owner_.serialize(out);
 }
 
 void Bomb::unserialize(QDataStream &in)
@@ -168,9 +168,10 @@ void Bomb::unserialize(QDataStream &in)
     pos_.unserialize(in);
     rot_.unserialize(in);
     sz_.unserialize(in);
-//    in >> removeLater_;
-//    in >> range_;
-//    in >> timeOut_;
+    in >> removeLater_;
+    in >> range_;
+    in >> timeOut_;
+    owner_.unserialize(in);
 }
 
 void Bomb::sInit(void)
@@ -200,7 +201,7 @@ Bomb &Bomb::operator=(const Bomb &v)
     removeLater_ = v.removeLater_;
     range_ = v.range_;
     timeOut_ = v.timeOut_;
-    //owner_ = v.owner_;
+    owner_ = v.owner_;
     speed_ = v.speed_;
     timeCreation_ = v.timeCreation_;
     return *this;
@@ -214,4 +215,6 @@ void Bomb::aff(void) const
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
     std::cout << "Range : " << range_ << std::endl;
     std::cout << "timeout : " << timeOut_ << std::endl;
+    std::cout << "remove : " << removeLater_ << std::endl;
+    owner_.aff();
 }

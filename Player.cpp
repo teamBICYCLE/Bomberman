@@ -52,7 +52,9 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_)
 {
-    // ?
+    bBox_ = other.bBox_;
+    model_ = other.model_;
+    actionsMap_ = other.actionsMap_;
 }
 
 Player::~Player()
@@ -303,12 +305,40 @@ void    Player::moveAnimation(void)
 
 void Player::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
+    out << life_;
+    out << speed_;
+    out << speedAdapter_;
+    bBox_->serialize(out);
+    out << moved_;
+    out << nbBombs_;
+    out << bombRange_;
+    out << bombTime_;
+    // actionsMap
+    out << moved_;
+    out << bombCollide_;
 }
 
 void Player::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
+    in >> life_;
+    in >> speed_;
+    in >> speedAdapter_;
+    bBox_->unserialize(in);
+    in >> moved_;
+    in >> nbBombs_;
+    in >> bombRange_;
+    in >> bombTime_;
+    // actionsMap
+    in >> moved_;
+    in >> bombCollide_;
 }
 
 void Player::sInit(void)
@@ -327,4 +357,28 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 {
     v.unserialize(in);
     return in;
+}
+
+Player &Player::operator=(const Player &p)
+{
+    nbBombs_ = p.nbBombs_;
+    bombRange_ = p.bombRange_;
+    bombTime_ = p.bombTime_;
+    actionsMap_ = p.actionsMap_;
+    moved_ = p.moved_;
+    bombCollide_ = p.bombCollide_;
+    return *this;
+}
+
+/* TMP */
+
+void Player::aff(void) const
+{
+    std::cout << "=== Player ===" << std::endl;
+    std::cout << "nbBombs :" << nbBombs_ << std::endl;
+    std::cout << "bombRange :" << bombRange_ << std::endl;
+    std::cout << "bombTime :" << bombTime_ << std::endl;
+    std::cout << "moved :" << moved_ << std::endl;
+    std::cout << "bombCollide :" << bombCollide_ << std::endl;
+    std::cout << "=== END PLAYER ===" << std::endl;
 }

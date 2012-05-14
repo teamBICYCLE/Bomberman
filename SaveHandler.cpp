@@ -29,7 +29,10 @@ SaveHandler::~SaveHandler()
 }
 
 /* verifier le remove_later */
-/* faire un set speed pour bomb */
+/* demander a lois pour le bombcollide */
+/* actionsMap serialiser ? */
+/* BoundingBox owner */
+/* BoundingBox() Player() */
 
 void SaveHandler::save(void) const
 {
@@ -41,27 +44,25 @@ void SaveHandler::save(void) const
     Monster::sInit();
     Explosion::sInit();
 
-    //Player *p = new Player(Vector3d(1, 1, 0), Vector3d(0, 0, 0), Vector3d(0.5, 0.5, 0));
+    Player *p = new Player(Vector3d(1, 1, 0), Vector3d(0, 0, 0), Vector3d(0.5, 0.5, 0));
 
-    //(void)p;
-    Brick a = Brick(Vector3d(1,1,1), Vector3d(1,2,1), Vector3d(1,3,1));
-//    QSettings w(SAVE_FILE, QSettings::IniFormat);
-//    w.setValue(QString(a.getType().c_str()), qVariantFromValue(a));
-//    w.sync();
+    Bomb a = Bomb(Vector3d(1,1,1), Vector3d(1,2,1), Vector3d(1,3,1), 1, 1, *p);
+    QSettings w(SAVE_FILE, QSettings::IniFormat);
+    w.setValue(QString(a.getType().c_str()), qVariantFromValue(a));
+    w.sync();
 
-//    a.aff();
-    std::cout << "eeeee" << std::endl;
+    a.aff();
 }
 
 void SaveHandler::load(void) const
 {
-//    Bomb a;
+    Bomb a;
 
-//    if (!QFile::exists(SAVE_FILE))
-//        std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
-//    QSettings s(SAVE_FILE, QSettings::IniFormat);
+    if (!QFile::exists(SAVE_FILE))
+        std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
+    QSettings s(SAVE_FILE, QSettings::IniFormat);
 
-//    a = s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>();
-//    std::cout << "aaaaaaaaa" << std::endl;
-//    a.aff();
+    a = s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>();
+    std::cout << "==================" << std::endl;
+    a.aff();
 }
