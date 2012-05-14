@@ -23,7 +23,7 @@ SaveHandler::SaveHandler()
 
 }
 
-SaveHandler::~saveHandler()
+SaveHandler::~SaveHandler()
 {
 
 }
