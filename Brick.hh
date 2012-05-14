@@ -38,6 +38,10 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Brick &operator=(const Brick &v);
+
+    /* TMP */
+    void aff(void) const;
 
   private:
     APowerup	*loot_;

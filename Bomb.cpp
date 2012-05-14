@@ -140,6 +140,11 @@ float	Bomb::getTimeOut(void) const
   return (timeOut_);
 }
 
+void    Bomb::setSpeed(const Vector3d &v)
+{
+    speed_ = v;
+}
+
 const Player&	Bomb::getOwner(void) const
 {
   return (owner_);
@@ -149,12 +154,23 @@ const Player&	Bomb::getOwner(void) const
 
 void Bomb::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+//    out << removeLater_;
+//    out << range_;
+//    out << timeOut_;
+    //owner_.serialize(out);
 }
 
 void Bomb::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+//    in >> removeLater_;
+//    in >> range_;
+//    in >> timeOut_;
 }
 
 void Bomb::sInit(void)
@@ -173,4 +189,29 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
 {
     v.unserialize(in);
     return in;
+}
+
+Bomb &Bomb::operator=(const Bomb &v)
+{
+    pos_ = v.pos_;
+    rot_ = v.rot_;
+    sz_ = v.sz_;
+    model_ = v.model_;
+    removeLater_ = v.removeLater_;
+    range_ = v.range_;
+    timeOut_ = v.timeOut_;
+    //owner_ = v.owner_;
+    speed_ = v.speed_;
+    timeCreation_ = v.timeCreation_;
+    return *this;
+}
+
+/* TMP */
+void Bomb::aff(void) const
+{
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "Range : " << range_ << std::endl;
+    std::cout << "timeout : " << timeOut_ << std::endl;
 }

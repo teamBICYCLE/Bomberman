@@ -18,6 +18,12 @@ AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, c
 {
 }
 
+AObject::AObject(const AObject &other)
+    : pos_(other.pos_), rot_(other.rot_), sz_(other.sz_),
+    type_(other.type_), removeLater_(other.removeLater_)
+{
+}
+
 AObject::~AObject(void)
 {
 }

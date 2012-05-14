@@ -35,6 +35,16 @@ Player::Player()
     : Character(), nbBombs_(1), bombRange_(2),
       bombTime_(2.0f), moved_(false)
 {
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
+    actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
+    actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
+    actionsMap_.insert(std::make_pair(gdl::Keys::Down, &Player::turnDown));
+    actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
 }
 
 Player::Player(const Player &other)

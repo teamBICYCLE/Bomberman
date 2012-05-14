@@ -24,6 +24,7 @@ namespace	Bomberman
   {
   public:
     AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName);
+    AObject(const AObject &);
     virtual ~AObject(void);
 
   public:
@@ -32,7 +33,6 @@ namespace	Bomberman
     virtual const std::string&	type(void) const = 0;
     virtual void        serialize(QDataStream &out) const = 0;
     virtual void        unserialize(QDataStream &in) = 0;
-    //virtual void        sInit(void) = 0;
 
   public:
     virtual void		setPos(const Vector3d &);
@@ -50,9 +50,9 @@ namespace	Bomberman
     virtual void		destroy(void);
     virtual bool		toRemove(void) const;
 
-  private:
-    AObject(const AObject& other);
-    AObject& operator=(const AObject& other);
+  //private:
+//    AObject(const AObject& other);
+//    AObject& operator=(const AObject& other);
 
   protected:
     Vector3d            pos_;

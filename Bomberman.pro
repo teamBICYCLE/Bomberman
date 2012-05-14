@@ -52,4 +52,4 @@ HEADERS += \
     Character.hh \
     Explosion.hh \
     Monster.hh \
-    SaveHandler.hpp
+    SaveHandler.hh
