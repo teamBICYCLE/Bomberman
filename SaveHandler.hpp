@@ -11,12 +11,12 @@
 
 # define    SAVE_FILE   "saves/save.bbm"
 
-class saveHandler
+class SaveHandler
 {
 
 public:
-    saveHandler();
-    ~saveHandler();
+    SaveHandler();
+    ~SaveHandler();
 
 public:
     void save(void) const;

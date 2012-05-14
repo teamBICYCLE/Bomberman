@@ -14,21 +14,21 @@
 #include "Bomb.hh"
 #include "Monster.hh"
 #include "Explosion.hh"
-#include "saveHandler.hpp"
+#include "SaveHandler.hpp"
 
 using namespace Bomberman;
 
-saveHandler::saveHandler()
+SaveHandler::SaveHandler()
 {
 
 }
 
-saveHandler::~saveHandler()
+SaveHandler::~saveHandler()
 {
 
 }
 
-void saveHandler::save(void) const
+void SaveHandler::save(void) const
 {
     QFile::remove(SAVE_FILE);
     Block::sInit();
@@ -39,7 +39,8 @@ void saveHandler::save(void) const
     Explosion::sInit();
 }
 
-void saveHandler::load(void) const
+void SaveHandler::load(void) const
 {
-
+//    QSettings save(SAVE_FILE, QSettings::IniFormat);
+//    if (save.)
 }
