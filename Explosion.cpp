@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Fri May 11 15:27:42 2012 lois burg
+// Last update Sun May 13 14:23:48 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -13,9 +13,20 @@
 using namespace	Bomberman;
 
 Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage)
-  : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_)
+  : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
 {
   model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+}
+
+Explosion::Explosion(const Explosion& other)
+  : AObject(other.getPos(), other.getRot(), other.getSize(), other.type()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
+{
+}
+
+Explosion::Explosion()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Explosion"), damage_(0),
+    bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), timeOfCreation_(-1)
+{
 }
 
 Explosion::~Explosion()
@@ -24,20 +35,46 @@ Explosion::~Explosion()
 
 void		Explosion::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  (void)clock;
   (void)keys;
   (void)objs;
+  if (timeOfCreation_ == -1)
+    timeOfCreation_ = clock.getTotalGameTime();
+  if (clock.getTotalGameTime() - timeOfCreation_ >= timeOnScreen_)
+    destroy();
 }
 
 void		Explosion::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glColor3ub(198, 8, 0);
-  glTranslated(pos_.x, pos_.y, pos_.z);
-  glScaled(0.0035, 0.0035,0.0035);
-  glRotated(90, 1, 0, 0);
-  model_.draw();
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
+  glBegin(GL_QUADS);
+  glColor3ub(198, 12, 0);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glEnd();
 }
 
 const std::string&	Explosion::type(void) const
@@ -45,7 +82,17 @@ const std::string&	Explosion::type(void) const
   return (type_);
 }
 
+uint	Explosion::getDamage(void) const
+{
+  return (damage_);
+}
+
 /* Serialization */
+
+BoundingBox&	Explosion::getBBox(void)
+{
+  return (bBox_);
+}
 
 void Explosion::serialize(QDataStream &out) const
 {
@@ -59,5 +106,18 @@ void Explosion::unserialize(QDataStream &in)
 
 void Explosion::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Explosion>("Explosion");
+    qMetaTypeId<Explosion>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Explosion &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Explosion &v)
+{
+    v.unserialize(in);
+    return in;
 }

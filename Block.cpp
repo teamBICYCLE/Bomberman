@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 11 11:35:22 2012 lois burg
+// Last update Sun May 13 11:37:05 2012 lois burg
 //
 
 #include "Block.hh"
@@ -16,7 +16,17 @@
 using namespace	Bomberman;
 
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz,"Block")
+  : AObject(pos, rot, sz, "Block")
+{
+}
+
+Block::Block(const Block &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Block")
+{
+}
+
+Block::Block()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Block")
 {
 }
 
@@ -132,5 +142,18 @@ void Block::unserialize(QDataStream &in)
 
 void Block::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Block>("Block");
+    qMetaTypeId<Block>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Block &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Block &v)
+{
+    v.unserialize(in);
+    return in;
 }

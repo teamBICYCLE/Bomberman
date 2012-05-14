@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Fri May 11 11:39:52 2012 lois burg
+// Last update Sun May 13 20:56:10 2012 romain sylvian
 //
 
 #ifndef		__BOMB_HH__
 # define	__BOMB_HH__
 
 # include	"AObject.hh"
+# include	"Explosion.hh"
 # include	"Player.hh" //a remplacer par la classe qui emglobera joueurs et monstres
 
 namespace	Bomberman
@@ -19,8 +20,10 @@ namespace	Bomberman
   class	Bomb : public AObject
   {
   public:
-    Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner);
-    virtual ~Bomb();
+      Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player &p);
+      Bomb(const Bomb &);
+      Bomb();
+      virtual ~Bomb();
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
@@ -37,12 +40,28 @@ namespace	Bomberman
     void	adjustPos(void);
     void	explode(std::list<AObject*>& objs);
 
+  public:
+    float	getTimeOut(void) const;
+    const Player&	getOwner(void) const;
+
+  public:
+    void	setTimeOut(const float timeOut);
+
+  private:
+    void	checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& objs);
+
   private:
     int         range_;
-    int         timeOut_;
+    float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
+    float	timeCreation_;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Bomb);
+QDataStream &operator << (QDataStream &out, const Bomberman::Bomb &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Bomb &v);
 
 #endif /* !__BOMB_HH__*/

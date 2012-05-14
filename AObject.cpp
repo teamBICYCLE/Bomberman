@@ -57,6 +57,11 @@ const std::string &AObject::getType(void) const
     return type_;
 }
 
+const gdl::Model &AObject::getModel(void) const
+{
+    return model_;
+}
+
 bool	AObject::toRemove(void) const
 {
   return (removeLater_);

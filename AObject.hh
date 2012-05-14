@@ -43,6 +43,7 @@ namespace	Bomberman
     virtual const Vector3d&	getPos(void) const;
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
+    virtual const gdl::Model& getModel(void) const;
     virtual const std::string&	getType(void) const;
 
   public:

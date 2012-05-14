@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:02:09 2012 lois burg
-// Last update Sat May 12 16:02:13 2012 lois burg
+// Last update Sun May 13 14:22:21 2012 lois burg
 //
 
 #ifndef		__BOUNDING_BOX_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class	BoundingBox
   {
   public:
-    BoundingBox(const Vector3d& pos, const Vector3d& sz);
+    BoundingBox(const Vector3d& pos, const Vector3d& sz, const AObject *owner);
     virtual ~BoundingBox();
 
   public:
@@ -30,18 +30,23 @@ namespace	Bomberman
     bool	isRight(void) const;
 
   private:
+    BoundingBox(const BoundingBox& other);
+    BoundingBox& operator=(const BoundingBox& other);
+
+  private:
     bool	collideLeft(const AObject *obj);
     bool	collideRight(const AObject *obj);
     bool	collideUp(const AObject *obj);
     bool	collideDown(const AObject *obj);
 
   private:
-    const Vector3d& pos_;
-    const Vector3d& sz_;
-    bool            above_;
-    bool            below_;
-    bool            left_;
-    bool            right_;
+    const Vector3d&	pos_;
+    const Vector3d&	sz_;
+    const AObject	*owner_;
+    bool		above_;
+    bool		below_;
+    bool		left_;
+    bool		right_;
   };
 }
 

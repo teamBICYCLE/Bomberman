@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Sat May 12 15:10:51 2012 geoffroy lafontaine
+// Last update Sun May 13 11:15:33 2012 lois burg
 //
 
 #include "Character.hh"
@@ -15,6 +15,12 @@ using namespace	Bomberman;
 Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed)
   : AObject(pos, rot, sz, modelName), life_(life), speed_(speed),
     speedAdapter_(100), moved_(false)
+{
+}
+
+Character::Character()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), ""),
+      life_(0), speed_(0), speedAdapter_(100), moved_(false)
 {
 }
 
@@ -54,6 +60,8 @@ void	Character::takeDamage(uint damage)
 {
   if (life_ > 0)
     life_ -= damage;
+  if (!life_)
+    destroy();
 }
 
 double      Character::getSpeed(void) const

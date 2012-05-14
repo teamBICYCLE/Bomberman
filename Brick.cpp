@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Wed May  9 15:19:54 2012 Thomas Duplomb
+// Last update Sun May 13 14:34:21 2012 lois burg
 //
 
 #include "Brick.hh"
@@ -26,6 +26,17 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
         loot_->setRot(rot);
         loot_->setSize(sz);
     }
+}
+
+Brick::Brick(const Brick &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Brick")
+{
+    loot_ = other.loot_;
+}
+
+Brick::Brick()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick")
+{
 }
 
 Brick::~Brick()
@@ -135,6 +146,12 @@ void Brick::loot(std::list<AObject *> &objs)
     }
 }
 
+void	Brick::destroy(std::list<AObject*>& objs)
+{
+  loot(objs);
+  AObject::destroy();
+}
+
 /* Serialization */
 
 void Brick::serialize(QDataStream &out) const
@@ -149,5 +166,18 @@ void Brick::unserialize(QDataStream &in)
 
 void Brick::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Brick>("Brick");
+    qMetaTypeId<Brick>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Brick &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Brick &v)
+{
+    v.unserialize(in);
+    return in;
 }
