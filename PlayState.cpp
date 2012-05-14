@@ -28,7 +28,7 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("map/map2");
+      Map	map(13, 13, 1);
     // Map	map(13, 13, 1);
     // int	viewport[4];
 
