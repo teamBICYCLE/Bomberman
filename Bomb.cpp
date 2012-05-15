@@ -214,9 +214,11 @@ void Bomb::aff(void) const
     std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
     std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "type : " << type_ << std::endl;
     std::cout << "Range : " << range_ << std::endl;
     std::cout << "timeout : " << timeOut_ << std::endl;
-    std::cout << "remove : " << removeLater_ << std::endl;
+    std::cout << "speed : " << speed_ << std::endl;
+    std::cout << "timeCreation : " << timeCreation_ << std::endl;
     owner_.aff();
     std::cout << "=== END BOMB ===" << std::endl;
 }

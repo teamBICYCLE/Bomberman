@@ -32,7 +32,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Player::Player()
-    : Character(), nbBombs_(1), bombRange_(2),
+    : Character("Player"), nbBombs_(1), bombRange_(2),
       bombTime_(2.0f), moved_(false)
 {
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
