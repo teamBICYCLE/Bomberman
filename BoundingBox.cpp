@@ -129,8 +129,8 @@ bool	BoundingBox::collideDown(const AObject *obj)
 
 void BoundingBox::serialize(QDataStream &out) const
 {
-    pos_.serialize(out);
-    sz_.serialize(out);
+    //pos_.serialize(out);
+    //sz_.serialize(out);
     /* owner */
     out << above_;
     out << below_;
@@ -140,8 +140,8 @@ void BoundingBox::serialize(QDataStream &out) const
 
 void BoundingBox::unserialize(QDataStream &in)
 {
-    pos_.unserialize(in);
-    sz_.unserialize(in);
+    //pos_.unserialize(in);
+    //sz_.unserialize(in);
     /* owner */
     in >> above_;
     in >> below_;
