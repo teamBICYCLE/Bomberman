@@ -32,7 +32,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Player::Player()
-    : Character(), nbBombs_(1), bombRange_(2),
+    : Character("Player"), nbBombs_(1), bombRange_(2),
       bombTime_(2.0f), moved_(false)
 {
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
@@ -316,8 +316,6 @@ void Player::serialize(QDataStream &out) const
     out << nbBombs_;
     out << bombRange_;
     out << bombTime_;
-    // actionsMap
-    out << moved_;
     out << bombCollide_;
 }
 
@@ -334,8 +332,6 @@ void Player::unserialize(QDataStream &in)
     in >> nbBombs_;
     in >> bombRange_;
     in >> bombTime_;
-    // actionsMap
-    in >> moved_;
     in >> bombCollide_;
 }
 
@@ -365,6 +361,17 @@ Player &Player::operator=(const Player &p)
     actionsMap_ = p.actionsMap_;
     moved_ = p.moved_;
     bombCollide_ = p.bombCollide_;
+    life_ = p.life_;
+    speed_ = p.speed_;
+    speedAdapter_ = p.speedAdapter_;
+    bBox_ = p.bBox_;
+    moved_ = p.moved_;
+    pos_ = p.pos_;
+    rot_ = p.rot_;
+    sz_ = p.sz_;
+    model_ = p.model_;
+    removeLater_ = p.removeLater_;
+
     return *this;
 }
 
@@ -372,11 +379,19 @@ Player &Player::operator=(const Player &p)
 
 void Player::aff(void) const
 {
-    std::cout << "=== Player ===" << std::endl;
-    std::cout << "nbBombs :" << nbBombs_ << std::endl;
-    std::cout << "bombRange :" << bombRange_ << std::endl;
-    std::cout << "bombTime :" << bombTime_ << std::endl;
-    std::cout << "moved :" << moved_ << std::endl;
-    std::cout << "bombCollide :" << bombCollide_ << std::endl;
+    std::cout << "=== START PLAYER ===" << std::endl;
+    std::cout << "nbBombs : " << nbBombs_ << std::endl;
+    std::cout << "bombRange : " << bombRange_ << std::endl;
+    std::cout << "bombTime : " << bombTime_ << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "bombCollide : " << bombCollide_ << std::endl;
+    std::cout << "life : " << life_ << std::endl;
+    std::cout << "speed : " << speed_ << std::endl;
+    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "pos : " << pos_ << std::endl;
+    std::cout << "rot : " << rot_ << std::endl;
+    std::cout << "size : " << sz_ << std::endl;
+    std::cout << "type : " << type_ << std::endl;
     std::cout << "=== END PLAYER ===" << std::endl;
 }
