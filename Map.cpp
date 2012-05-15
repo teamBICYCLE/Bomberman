@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sat May 12 14:18:41 2012 geoffroy lafontaine
+// Last update Tue May 15 11:28:06 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -62,6 +62,7 @@ Map::Map(uint width, uint height, uint nbPlayers)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(width, height, nbPlayers);
   addPlayers(width, height, nbPlayers);
+  addMonsters(width, height);
 }
 
 Map::Map(const std::string& fileName)
@@ -80,7 +81,7 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void					Map::generateBricks(uint width, uint height, uint nbPlayers)
+void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 {
   uint				nbBricks;
   std::list<AObject*>::iterator	it;
@@ -128,6 +129,54 @@ void				Map::placePlayer(uint x, uint y)
 {
   clearPlace(x, y);
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+}
+
+void				Map::addMonsters(uint width, uint height)
+{
+  uint				nbMonsters;
+  std::list<AObject*>::iterator	it;
+  uint				x = 0;
+  uint				y = 0;
+  bool				find = false;
+
+  nbMonsters = 5;
+  do {
+    x = rand() % width;
+    y = rand() % height;
+    x = (x < 2) ? x + 2 : x;
+    x = (x > width - 2) ? x - 2 : x;
+    y = (y < 2) ? y + 2 : y;
+    y = (y > height - 2) ? y - 2 : y;
+    if ((x % 2) == 0 || (y % 2) == 0)
+      {
+	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+	  if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+	    find = true;
+	if (!find)
+	  {
+	    placeMonster(x, y);
+	    --nbMonsters;
+	  }
+	find = false;
+      }
+  }
+  while (nbMonsters > 0);
+}
+
+void				Map::placeMonster(uint x, uint y)
+{
+  std::list<AObject*>::iterator	it;
+
+  for (it = terrain_.begin(); it != terrain_.end();)
+    {
+      if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
+	{
+	  it = terrain_.erase(it);
+	  break;
+	}
+      ++it;
+    }
+  terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
 void				Map::clearPlace(uint x, uint y)

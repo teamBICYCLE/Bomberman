@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 13 17:34:12 2012 lois burg
+// Last update Tue May 15 11:29:22 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -312,7 +312,6 @@ void Player::serialize(QDataStream &out) const
     out << life_;
     out << speed_;
     out << speedAdapter_;
-    bBox_->serialize(out);
     out << moved_;
     out << nbBombs_;
     out << bombRange_;
@@ -331,7 +330,6 @@ void Player::unserialize(QDataStream &in)
     in >> life_;
     in >> speed_;
     in >> speedAdapter_;
-    bBox_->unserialize(in);
     in >> moved_;
     in >> nbBombs_;
     in >> bombRange_;

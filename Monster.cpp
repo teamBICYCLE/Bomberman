@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun May 13 14:24:02 2012 lois burg
+// Last update Tue May 15 11:21:17 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -16,7 +16,7 @@
 using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
+  : Character(pos, rot, sz, "", 1, 0.05), moved_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");

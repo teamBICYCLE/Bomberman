@@ -21,8 +21,6 @@ namespace	Bomberman
   {
   public:
     BoundingBox(const Vector3d& pos, const Vector3d& sz, const AObject *owner);
-    BoundingBox(const BoundingBox &);
-    BoundingBox();
     virtual ~BoundingBox();
 
   public:
@@ -31,13 +29,6 @@ namespace	Bomberman
     bool	isBelow(void) const;
     bool	isLeft(void) const;
     bool	isRight(void) const;
-
-  public:
-    /* Serialization */
-    void serialize(QDataStream &out) const;
-    void unserialize(QDataStream &in);
-    static void sInit(void);
-    BoundingBox &operator=(const BoundingBox &p);
 
   private:
     bool	collideLeft(const AObject *obj);
@@ -55,10 +46,5 @@ namespace	Bomberman
     bool		right_;
   };
 }
-
-/* Serialization */
-Q_DECLARE_METATYPE(Bomberman::BoundingBox);
-QDataStream &operator << (QDataStream &out, const Bomberman::BoundingBox &b);
-QDataStream &operator >> (QDataStream &in, Bomberman::BoundingBox &b);
 
 #endif /* !__BOUNDING_BOX_HH__*/
