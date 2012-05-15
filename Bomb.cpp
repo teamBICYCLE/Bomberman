@@ -210,6 +210,7 @@ Bomb &Bomb::operator=(const Bomb &v)
 /* TMP */
 void Bomb::aff(void) const
 {
+    std::cout << "=== START BOMB ===" << std::endl;
     std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
     std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
@@ -217,4 +218,5 @@ void Bomb::aff(void) const
     std::cout << "timeout : " << timeOut_ << std::endl;
     std::cout << "remove : " << removeLater_ << std::endl;
     owner_.aff();
+    std::cout << "=== END BOMB ===" << std::endl;
 }

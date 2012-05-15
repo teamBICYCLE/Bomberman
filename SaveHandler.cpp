@@ -29,10 +29,6 @@ SaveHandler::~SaveHandler()
 }
 
 /* verifier le remove_later */
-/* demander a lois pour le bombcollide */
-/* actionsMap serialiser ? */
-/* BoundingBox owner */
-/* BoundingBox() Player() */
 
 void SaveHandler::save(void) const
 {
@@ -63,6 +59,6 @@ void SaveHandler::load(void) const
     QSettings s(SAVE_FILE, QSettings::IniFormat);
 
     a = s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>();
-    std::cout << "==================" << std::endl;
+    std::cout << std::endl << "================== SERIALISATION ==================" << std::endl << std::endl;
     a.aff();
 }
