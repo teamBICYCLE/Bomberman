@@ -40,6 +40,10 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Monster &operator=(const Monster &m);
+
+    /* tmp */
+    void aff(void) const;
 
   public:
     uint	getDamage(void) const;

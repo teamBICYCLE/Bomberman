@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Sat May 12 09:26:54 2012 geoffroy lafontaine
+// Last update Tue May 15 11:27:12 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -17,6 +17,8 @@
 # include	"AObject.hh"
 # include	"Block.hh"
 # include	"Brick.hh"
+# include	"Player.hh"
+# include	"Monster.hh"
 
 # define	MAP_FILE_EMPTY		'.'
 # define	MAP_FILE_BLOCK		'W'
@@ -67,6 +69,8 @@ namespace	Bomberman
     AObject	*createType(char, uint, uint, bool *) const;
     void	addPlayers(uint, uint, uint);
     void	placePlayer(uint, uint);
+    void	addMonsters(uint, uint);
+    void	placeMonster(uint, uint);
     void	generateBricks(uint, uint, uint);
     void	clearPlace(uint, uint);
 

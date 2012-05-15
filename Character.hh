@@ -22,7 +22,7 @@ namespace	Bomberman
   {
   public:
     Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed);
-    Character();
+    Character(const std::string &);
     virtual ~Character();
 
   public:

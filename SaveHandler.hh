@@ -10,6 +10,11 @@
 # define    SAVEHANDLER_HPP
 
 # define    SAVE_FILE   "saves/save.bbm"
+# include   <list>
+# include   <QSettings>
+# include   "AObject.hh"
+
+using namespace Bomberman;
 
 class SaveHandler
 {
@@ -18,9 +23,14 @@ public:
     SaveHandler();
     ~SaveHandler();
 
+
 public:
-    void save(void) const;
+    void save(std::list<AObject *> &) const;
     void load(void) const;
+
+private:
+    void writeObject(AObject *obj, QSettings &w) const;
+
 };
 
 #endif // SAVEHANDLER_HPP

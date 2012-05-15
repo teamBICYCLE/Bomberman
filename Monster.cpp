@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 17:34:49 2012 lois burg
+// Last update Tue May 15 18:05:35 2012 lois burg
 //
 
 #include <algorithm>
@@ -39,8 +39,7 @@ Monster::Monster(const Monster &other)
 }
 
 Monster::Monster()
-    : Character(Vector3d(), Vector3d(), Vector3d(), "Monster", 1, 0.05),
-      moved_(false)
+    : Character("Monster"), moved_(false)
 {
 }
 
@@ -222,12 +221,26 @@ void	Monster::setDamage(uint damage)
 
 void Monster::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
+    out << life_;
+    out << speed_;
+    out << speedAdapter_;
+    out << moved_;
 }
 
 void Monster::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
+    in >> life_;
+    in >> speed_;
+    in >> speedAdapter_;
+    in >> moved_;
 }
 
 void Monster::sInit(void)
@@ -236,14 +249,50 @@ void Monster::sInit(void)
     qMetaTypeId<Monster>();
 }
 
-QDataStream &operator<<(QDataStream &out, const Monster &v)
+QDataStream &operator<<(QDataStream &out, const Monster &m)
 {
-    v.serialize(out);
+    m.serialize(out);
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Monster &v)
+QDataStream &operator>>(QDataStream &in, Monster &m)
 {
-    v.unserialize(in);
+    m.unserialize(in);
     return in;
 }
+
+Monster &Monster::operator=(const Monster &m)
+{
+    actionsMap_ = m.actionsMap_;
+    moved_ = m.moved_;
+    life_ = m.life_;
+    speed_ = m.speed_;
+    speedAdapter_ = m.speedAdapter_;
+    bBox_ = m.bBox_;
+    moved_ = m.moved_;
+    pos_ = m.pos_;
+    rot_ = m.rot_;
+    sz_ = m.sz_;
+    model_ = m.model_;
+    removeLater_ = m.removeLater_;
+
+    return *this;
+}
+
+/* TMP */
+
+void Monster::aff(void) const
+{
+    std::cout << "=== START MONSTER ===" << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "life : " << life_ << std::endl;
+    std::cout << "speed : " << speed_ << std::endl;
+    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "pos : " << pos_ << std::endl;
+    std::cout << "rot : " << rot_ << std::endl;
+    std::cout << "size : " << sz_ << std::endl;
+    std::cout << "type : " << type_ << std::endl;
+    std::cout << "=== END MONSTER ===" << std::endl;
+}
+

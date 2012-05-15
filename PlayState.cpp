@@ -32,7 +32,6 @@ bool  PlayState::init()
   try {
       SaveHandler s;
       Map	map(13, 13, 1);
-    // Map	map(13, 13, 1);
     // int	viewport[4];
 
     mapH_ = 13;
@@ -44,9 +43,9 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-//    s.save();
-//    s.load();
-//    exit(0);
+    s.save(objs_);
+    s.load();
+    exit(0);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;

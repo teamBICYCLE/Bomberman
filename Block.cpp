@@ -177,7 +177,9 @@ Block &Block::operator=(const Block &v)
 /* TMP */
 void Block::aff(void) const
 {
+    std::cout << "=== START BLOCK ===" << std::endl;
     std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
     std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "=== END BLOCK ===" << std::endl;
 }
