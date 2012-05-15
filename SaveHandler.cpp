@@ -37,12 +37,12 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Brick *>(obj))));
         else if (obj->getType() == "Player")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Player *>(obj))));
-        else if (obj->getType() == "Bomb")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
+//        else if (obj->getType() == "Bomb")
+//            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
         else if (obj->getType() == "Monster")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Monster *>(obj))));
-        else if (obj->getType() == "Explosion")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
+//        else if (obj->getType() == "Explosion")
+//            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }
@@ -94,7 +94,7 @@ void SaveHandler::load(std::list<AObject*> &res) const
             res.push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
         else if (s.contains("Bomb"))
             res.push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-        else if (s.contains("Bomb"))
+        else if (s.contains("Monster"))
             res.push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));

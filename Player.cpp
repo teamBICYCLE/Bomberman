@@ -20,7 +20,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(2), bombRange_(2), bombTime_(2.0f),
     moved_(false), bombCollide_(true)
 {
-  // isInvincible_ = true; <- LOL
+  // isInvincible_ = true;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -53,9 +53,9 @@ Player::Player()
 Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
-      bombTime_(other.bombTime_), moved_(other.moved_)
+      bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_)
 {
-    bBox_ = other.bBox_;
+    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
     isInvincible_ = other.isInvincible_;
@@ -337,7 +337,7 @@ void Player::unserialize(QDataStream &in)
     pos_.unserialize(in);
     rot_.unserialize(in);
     sz_.unserialize(in);
-    in >> removeLater_;
+    in >> removeLater_;  
     in >> life_;
     in >> speed_;
     in >> speedAdapter_;
@@ -374,11 +374,15 @@ Player &Player::operator=(const Player &p)
     actionsMap_ = p.actionsMap_;
     moved_ = p.moved_;
     bombCollide_ = p.bombCollide_;
+
     life_ = p.life_;
     speed_ = p.speed_;
     speedAdapter_ = p.speedAdapter_;
-    bBox_ = p.bBox_;
+    bBox_ = new BoundingBox(*p.bBox_);
     moved_ = p.moved_;
+    isInvincible_ = p.isInvincible_;
+    save_ = p.save_;
+
     pos_ = p.pos_;
     rot_ = p.rot_;
     sz_ = p.sz_;

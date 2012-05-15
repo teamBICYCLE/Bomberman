@@ -33,14 +33,23 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage())
 {
-    bBox_ = other.bBox_;
-    model_ = other.getModel();
+    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
+    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
 Monster::Monster()
     : Character("Monster"), moved_(false)
 {
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Monster::~Monster()
