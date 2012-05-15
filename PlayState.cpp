@@ -44,8 +44,7 @@ bool  PlayState::init()
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
     s.save(objs_);
-    s.load();
-    exit(0);
+    //s.load(objs_);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;

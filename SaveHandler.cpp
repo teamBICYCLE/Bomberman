@@ -75,9 +75,28 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     std::cout << "---> Serialization done ! <---" << std::endl;
 }
 
-void SaveHandler::load(void) const
+void SaveHandler::load(std::list<AObject*> &res) const
 {
     if (!QFile::exists(SAVE_FILE))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
     QSettings s(SAVE_FILE, QSettings::IniFormat);
+    res.clear();
+
+    int size = s.beginReadArray("vector");
+    for (int i = 0; i < size; ++i)
+    {
+        s.setArrayIndex(i);
+        if (s.contains("Block"))
+            res.push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
+        else if (s.contains("Brick"))
+            res.push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
+        else if (s.contains("Player"))
+            res.push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
+        else if (s.contains("Bomb"))
+            res.push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+        else if (s.contains("Bomb"))
+            res.push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+        else if (s.contains("Explosion"))
+            res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+    }
 }

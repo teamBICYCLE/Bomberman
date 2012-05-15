@@ -26,7 +26,7 @@ public:
 
 public:
     void save(std::list<AObject *> &) const;
-    void load(void) const;
+    void load(std::list<AObject *> &) const;
 
 private:
     void writeObject(AObject *obj, QSettings &w) const;
