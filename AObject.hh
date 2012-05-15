@@ -59,6 +59,8 @@ namespace	Bomberman
     Vector3d            sz_;
     gdl::Model          model_;
     const std::string	type_;
+
+  public:
     bool                removeLater_;
   };
 }
