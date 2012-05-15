@@ -24,10 +24,13 @@ namespace	Bomberman
 
   public:
     Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+    Monster(const Monster &);
+    Monster();
     virtual ~Monster();
 
   public:
     virtual void		update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs);
+    virtual void        update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
 
@@ -51,5 +54,10 @@ namespace	Bomberman
     bool	moved_;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Monster);
+QDataStream &operator << (QDataStream &out, const Bomberman::Monster &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Monster &v);
 
 #endif /* !__MONSTER_HH__ */

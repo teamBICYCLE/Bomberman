@@ -29,8 +29,32 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
+Monster::Monster(const Monster &other)
+    : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
+      moved_(other.moved_)
+{
+    bBox_ = other.bBox_;
+    model_ = other.getModel();
+    actionsMap_ = other.actionsMap_;
+}
+
+Monster::Monster()
+    : Character(Vector3d(), Vector3d(), Vector3d(), "Monster", 1, 0.05),
+      moved_(false)
+{
+}
+
 Monster::~Monster()
 {
+}
+
+/* moche j'aime pas */
+
+void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
+{
+    (void)clock;
+    (void)keys;
+    (void)objs;
 }
 
 void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs)
@@ -45,13 +69,13 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   if (save != pos_)
     for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
       {
-	if (bBox_->collideWith(*objIt))
-	  {
-	    if (bBox_->isAbove() || bBox_->isBelow())
-	      pos_.y = save.y;
-	    if (bBox_->isLeft() || bBox_->isRight())
-	      pos_.x = save.x;
-	  }
+        if (bBox_->collideWith(*objIt))
+          {
+            if (bBox_->isAbove() || bBox_->isBelow())
+              pos_.y = save.y;
+            if (bBox_->isLeft() || bBox_->isRight())
+              pos_.x = save.x;
+          }
       }
   this->moveAnimation();
   this->model_.update(clock);
@@ -194,5 +218,18 @@ void Monster::unserialize(QDataStream &in)
 
 void Monster::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Monster>("Monster");
+    qMetaTypeId<Monster>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Monster &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Monster &v)
+{
+    v.unserialize(in);
+    return in;
 }

@@ -23,6 +23,12 @@ Explosion::Explosion(const Explosion& other)
 {
 }
 
+Explosion::Explosion()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Explosion"), damage_(0),
+    bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), timeOfCreation_(-1)
+{
+}
+
 Explosion::~Explosion()
 {
 }
@@ -100,5 +106,18 @@ void Explosion::unserialize(QDataStream &in)
 
 void Explosion::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Explosion>("Explosion");
+    qMetaTypeId<Explosion>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Explosion &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Explosion &v)
+{
+    v.unserialize(in);
+    return in;
 }

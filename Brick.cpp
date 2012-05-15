@@ -28,6 +28,17 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     }
 }
 
+Brick::Brick(const Brick &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Brick")
+{
+    loot_ = other.loot_;
+}
+
+Brick::Brick()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick")
+{
+}
+
 Brick::~Brick()
 {
 
@@ -145,15 +156,53 @@ void	Brick::destroy(std::list<AObject*>& objs)
 
 void Brick::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
 }
 
 void Brick::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
 }
 
 void Brick::sInit(void)
 {
-
+    qRegisterMetaTypeStreamOperators<Brick>("Brick");
+    qMetaTypeId<Brick>();
 }
+
+QDataStream &operator<<(QDataStream &out, const Brick &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Brick &v)
+{
+    v.unserialize(in);
+    return in;
+}
+
+Brick &Brick::operator=(const Brick &v)
+{
+    pos_ = v.pos_;
+    rot_ = v.rot_;
+    sz_ = v.sz_;
+    model_ = v.model_;
+    removeLater_ = v.removeLater_;
+    return *this;
+}
+
+/* TMP */
+void Brick::aff(void) const
+{
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+}
+

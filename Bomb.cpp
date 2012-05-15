@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 13 17:33:18 2012 lois burg
+// Last update Sun May 13 21:06:38 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -19,6 +19,23 @@ Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int ran
   : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1)
 {
   model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+}
+
+Bomb::Bomb(const Bomb &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
+      range_(other.range_), timeOut_(other.timeOut_),
+      owner_(other.owner_), speed_(other.speed_),
+      timeCreation_(other.timeCreation_)
+{
+    model_ = other.getModel();
+}
+
+Bomb::Bomb()
+  : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
+    range_(0), timeOut_(0), owner_(*(new Player())),
+    speed_(Vector3d()), timeCreation_(0)
+{
+    model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
 
 Bomb::~Bomb()
@@ -123,6 +140,11 @@ float	Bomb::getTimeOut(void) const
   return (timeOut_);
 }
 
+void    Bomb::setSpeed(const Vector3d &v)
+{
+    speed_ = v;
+}
+
 const Player&	Bomb::getOwner(void) const
 {
   return (owner_);
@@ -132,15 +154,67 @@ const Player&	Bomb::getOwner(void) const
 
 void Bomb::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
+    out << range_;
+    out << timeOut_;
+    owner_.serialize(out);
 }
 
 void Bomb::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
+    in >> range_;
+    in >> timeOut_;
+    owner_.unserialize(in);
 }
 
 void Bomb::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Bomb>("Bomb");
+    qMetaTypeId<Bomb>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Bomb &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Bomb &v)
+{
+    v.unserialize(in);
+    return in;
+}
+
+Bomb &Bomb::operator=(const Bomb &v)
+{
+    pos_ = v.pos_;
+    rot_ = v.rot_;
+    sz_ = v.sz_;
+    model_ = v.model_;
+    removeLater_ = v.removeLater_;
+    range_ = v.range_;
+    timeOut_ = v.timeOut_;
+    owner_ = v.owner_;
+    speed_ = v.speed_;
+    timeCreation_ = v.timeCreation_;
+    return *this;
+}
+
+/* TMP */
+void Bomb::aff(void) const
+{
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "Range : " << range_ << std::endl;
+    std::cout << "timeout : " << timeOut_ << std::endl;
+    std::cout << "remove : " << removeLater_ << std::endl;
+    owner_.aff();
 }

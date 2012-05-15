@@ -11,6 +11,7 @@
 #ifndef		__BOUNDING_BOX_HH__
 # define	__BOUNDING_BOX_HH__
 
+# include   <QDataStream>
 # include	"AObject.hh"
 # include	"Vector3d.hh"
 
@@ -28,10 +29,6 @@ namespace	Bomberman
     bool	isBelow(void) const;
     bool	isLeft(void) const;
     bool	isRight(void) const;
-
-  private:
-    BoundingBox(const BoundingBox& other);
-    BoundingBox& operator=(const BoundingBox& other);
 
   private:
     bool	collideLeft(const AObject *obj);

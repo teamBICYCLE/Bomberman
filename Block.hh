@@ -18,8 +18,10 @@ namespace	Bomberman
   class	Block : public AObject
   {
   public:
-    Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
-    virtual ~Block();
+      Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+      Block(const Block &other);
+      Block();
+      virtual ~Block();
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
@@ -31,6 +33,16 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Block &operator=(const Block &v);
+
+    /* TMP */
+    void aff(void) const;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Block);
+QDataStream &operator << (QDataStream &out, const Bomberman::Block &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Block &v);
+
 #endif /* !__BLOCK_HH__*/

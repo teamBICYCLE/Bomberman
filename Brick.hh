@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Sun May 13 14:32:17 2012 lois burg
+// Last update Sun May 13 20:42:54 2012 romain sylvian
 //
 //
 
@@ -22,8 +22,10 @@ namespace	Bomberman
   class	Brick : public AObject
   {
   public:
-    Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz = Vector3d(40, 40, 0));
-    virtual ~Brick();
+      Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz = Vector3d(40, 40, 0));
+      Brick(const Brick &);
+      Brick();
+      virtual ~Brick();
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
@@ -36,9 +38,19 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Brick &operator=(const Brick &v);
+
+    /* TMP */
+    void aff(void) const;
 
   private:
     APowerup	*loot_;
   };
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Brick);
+QDataStream &operator << (QDataStream &out, const Bomberman::Brick &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Brick &v);
+
 #endif /* !__BRICK_HH__*/

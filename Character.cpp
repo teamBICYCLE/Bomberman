@@ -18,6 +18,12 @@ Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& s
 {
 }
 
+Character::Character()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), ""),
+      life_(0), speed_(0), speedAdapter_(100), moved_(false)
+{
+}
+
 Character::~Character()
 {
 }

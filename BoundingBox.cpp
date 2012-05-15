@@ -8,6 +8,7 @@
 // Last update Sun May 13 16:55:27 2012 lois burg
 //
 
+#include "Player.hh"
 #include "BoundingBox.hh"
 
 using namespace Bomberman;

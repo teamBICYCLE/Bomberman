@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Sun May 13 17:11:51 2012 lois burg
+// Last update Sun May 13 20:45:14 2012 romain sylvian
 //
 
 #ifndef		__PLAYER_HH__
@@ -24,6 +24,8 @@ namespace	Bomberman
 
   public:
     Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+    Player(const Player &other);
+    Player();
     virtual ~Player();
 
   public:
@@ -46,6 +48,10 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Player &operator=(const Player &p);
+
+    /* tmp */
+    void aff(void) const;
 
   private:
     void	turnLeft(std::list<AObject*>& objs);
@@ -67,4 +73,8 @@ namespace	Bomberman
   };
 }
 
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Player);
+QDataStream &operator << (QDataStream &out, const Bomberman::Player &v);
+QDataStream &operator >> (QDataStream &in, Bomberman::Player &v);
 #endif /* !__PLAYER_HH__*/

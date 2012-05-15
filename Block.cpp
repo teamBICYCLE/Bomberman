@@ -16,7 +16,17 @@
 using namespace	Bomberman;
 
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz,"Block")
+  : AObject(pos, rot, sz, "Block")
+{
+}
+
+Block::Block(const Block &other)
+    : AObject(other.pos_, other.rot_, other.sz_, "Block")
+{
+}
+
+Block::Block()
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Block")
 {
 }
 
@@ -122,15 +132,52 @@ void	Block::destroy(void)
 
 void Block::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
 }
 
 void Block::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
 }
 
 void Block::sInit(void)
 {
+    qRegisterMetaTypeStreamOperators<Block>("Block");
+    qMetaTypeId<Block>();
+}
 
+QDataStream &operator<<(QDataStream &out, const Block &v)
+{
+    v.serialize(out);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Block &v)
+{
+    v.unserialize(in);
+    return in;
+}
+
+Block &Block::operator=(const Block &v)
+{
+    pos_ = v.pos_;
+    rot_ = v.rot_;
+    sz_ = v.sz_;
+    model_ = v.model_;
+    removeLater_ = v.removeLater_;
+    return *this;
+}
+
+/* TMP */
+void Block::aff(void) const
+{
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
 }
