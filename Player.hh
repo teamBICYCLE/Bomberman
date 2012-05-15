@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Sun May 13 20:45:14 2012 romain sylvian
+// Last update Tue May 15 17:28:25 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -42,6 +42,7 @@ namespace	Bomberman
     void	setNbBombs(const uint nbBombs);
     void	setBombRange(const uint range);
     void	setBombTime(const float time);
+    void	setBombCollide(bool b);
 
   public:
     /* Serialization */

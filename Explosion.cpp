@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Sun May 13 14:23:48 2012 lois burg
+// Last update Tue May 15 17:31:17 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -85,6 +85,11 @@ const std::string&	Explosion::type(void) const
 uint	Explosion::getDamage(void) const
 {
   return (damage_);
+}
+
+void	Explosion::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
 }
 
 /* Serialization */
