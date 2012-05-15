@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun May 13 14:24:02 2012 lois burg
+// Last update Tue May 15 17:34:49 2012 lois burg
 //
 
 #include <algorithm>
@@ -15,8 +15,8 @@
 
 using namespace Bomberman;
 
-Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
+Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -31,7 +31,7 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_)
+      moved_(other.moved_), damage_(other.getDamage())
 {
     bBox_ = other.bBox_;
     model_ = other.getModel();
@@ -172,6 +172,11 @@ const std::string&	Monster::type(void) const
   return (type_);
 }
 
+void	Monster::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
+}
+
 void			Monster::moveAnimation(void)
 {
   static bool wasRunning = false;
@@ -199,9 +204,18 @@ void			Monster::moveAnimation(void)
     model_.play("stop");
     wasRunning = false;
   }
-
   // reset de la propriete moved.
   moved_ = false;
+}
+
+uint	Monster::getDamage(void) const
+{
+  return (damage_);
+}
+
+void	Monster::setDamage(uint damage)
+{
+  damage_ = damage;
 }
 
 /* Serialization */
