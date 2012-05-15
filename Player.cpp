@@ -20,7 +20,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(2), bombRange_(2), bombTime_(2.0f),
     moved_(false), bombCollide_(true)
 {
-  // isInvincible_ = true;
+  // isInvincible_ = true; <- LOL
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -34,7 +34,6 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
 }
 
-//v-- da fuk is this constructor?
 Player::Player()
     : Character("Player"), nbBombs_(1), bombRange_(2),
       bombTime_(2.0f), moved_(false), bombCollide_(true)

@@ -23,7 +23,7 @@ namespace	Bomberman
     typedef void (Character::*t_monsterActionFun)(void);
 
   public:
-    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage);
+    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage = 1);
     Monster(const Monster &);
     Monster();
     virtual ~Monster();
