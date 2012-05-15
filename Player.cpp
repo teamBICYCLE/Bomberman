@@ -312,7 +312,6 @@ void Player::serialize(QDataStream &out) const
     out << life_;
     out << speed_;
     out << speedAdapter_;
-    bBox_->serialize(out);
     out << moved_;
     out << nbBombs_;
     out << bombRange_;
@@ -331,7 +330,6 @@ void Player::unserialize(QDataStream &in)
     in >> life_;
     in >> speed_;
     in >> speedAdapter_;
-    bBox_->unserialize(in);
     in >> moved_;
     in >> nbBombs_;
     in >> bombRange_;
