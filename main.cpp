@@ -14,13 +14,15 @@
 
 #include "Map.hh"
 
+#include "Player.hh"
+
 using namespace std;
 
 int main(void)
 {
   try {
     StatesManager   mg("Bomberman v0.01");
-   
+
     mg.run();
   }
   catch (gdl::ModelException * e)

@@ -35,6 +35,10 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Bomb & operator=(const Bomb &v);
+
+    /* Tmp */
+    void aff(void) const;
 
   public:
     void	adjustPos(void);
@@ -46,6 +50,7 @@ namespace	Bomberman
 
   public:
     void	setTimeOut(const float timeOut);
+    void    setSpeed(const Vector3d &s);
 
   private:
     void	checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& objs);
@@ -55,7 +60,7 @@ namespace	Bomberman
     float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
-    float	timeCreation_;
+    float       timeCreation_;
   };
 }
 

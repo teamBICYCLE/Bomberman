@@ -48,6 +48,10 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Player &operator=(const Player &p);
+
+    /* tmp */
+    void aff(void) const;
 
   private:
     void	turnLeft(std::list<AObject*>& objs);

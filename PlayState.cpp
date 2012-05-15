@@ -20,6 +20,8 @@
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
 
+#include "SaveHandler.hh"
+
 using namespace	Bomberman;
 
 bool  PlayState::init()
@@ -28,6 +30,7 @@ bool  PlayState::init()
 
   success = true;
   try {
+      SaveHandler s;
       Map	map(13, 13, 1);
     // Map	map(13, 13, 1);
     // int	viewport[4];
@@ -41,6 +44,9 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+//    s.save();
+//    s.load();
+//    exit(0);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -61,15 +67,15 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (!(*it)->toRemove())
-	{
-	  (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	  ++it;
-	}
+        {
+          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+          ++it;
+        }
       else
-	{
-	  // std::cout << "Erasing: " << (*it)->getType() << std::endl;
-	  it = objs_.erase(it);
-	}
+        {
+          // std::cout << "Erasing: " << (*it)->getType() << std::endl;
+          it = objs_.erase(it);
+        }
     }
 }
 

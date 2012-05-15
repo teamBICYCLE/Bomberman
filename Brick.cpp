@@ -156,12 +156,18 @@ void	Brick::destroy(std::list<AObject*>& objs)
 
 void Brick::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
 }
 
 void Brick::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
 }
 
 void Brick::sInit(void)
@@ -181,3 +187,22 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
     v.unserialize(in);
     return in;
 }
+
+Brick &Brick::operator=(const Brick &v)
+{
+    pos_ = v.pos_;
+    rot_ = v.rot_;
+    sz_ = v.sz_;
+    model_ = v.model_;
+    removeLater_ = v.removeLater_;
+    return *this;
+}
+
+/* TMP */
+void Brick::aff(void) const
+{
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+}
+
