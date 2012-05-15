@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun May 13 16:53:55 2012 lois burg
+// Last update Mon May 14 09:56:44 2012 Thomas Duplomb
 //
 
 #include <unistd.h>
@@ -102,7 +102,6 @@ void  PlayState::draw(StatesManager * sMg)
     // basic fps time handling
 
     int time = ((1.0f/60.0f) - sMg->getGameClock().getElapsedTime()) * 1000000;
-
     //    std::cout << "sleep: " << time << std::endl;
     usleep(time > 0 ? time : 0);
 }
