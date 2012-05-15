@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Sun May 13 15:20:50 2012 lois burg
+// Last update Tue May 15 17:37:16 2012 lois burg
 //
 
 #ifndef		__APOWERUP_HH__
@@ -28,6 +28,7 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
+    virtual void		interact(Character *ch);
     virtual APowerup    *clone(void) = 0;
     virtual void        serialize(QDataStream &out) const {(void)out;}
     virtual void        unserialize(QDataStream &in) {(void)in;}
