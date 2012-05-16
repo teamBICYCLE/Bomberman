@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Wed May 16 15:26:48 2012 thibault carpentier
+// Last update Wed May 16 16:33:19 2012 thibault carpentier
 //
 
 #include "Brain.hh"
@@ -33,6 +33,7 @@ int Brain::scriptCalling(VirtualMachine &vm, int fctNb)
 int Brain::test(VirtualMachine&vm)
 {
   (void)vm;
+  std::cout << "test fct" << std::endl;
   return (0);
 }
 
