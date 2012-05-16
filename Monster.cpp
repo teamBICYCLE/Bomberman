@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Wed May 16 15:50:46 2012 thibault carpentier
+// Last update Wed May 16 15:55:57 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -63,6 +63,9 @@ Monster::~Monster()
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
+    brainScript_.selectFct("thinking");
+    brainScript_.addParam (2);
+    brainScript_.callFct(1);
     (void)clock;
     (void)keys;
     (void)objs;
@@ -74,10 +77,6 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   Vector3d	hori(speed_, 0, 0);
   Vector3d	save(pos_);
   std::list<AObject*>::iterator objIt;
-
-  brainScript_.selectFct("thinking");
-  brainScript_.addParam (2);
-  brainScript_.callFct(1);
 
   if (actionsMap_[direction])
     (this->*(actionsMap_[direction]))();
