@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 18:54:24 2012 lois burg
+// Last update Wed May 16 18:56:53 2012 lois burg
 //
 
 #include <algorithm>
@@ -350,6 +350,7 @@ void Player::serialize(QDataStream &out) const
     out << bombCollide_;
     out << isInvincible_;
     out << id_;
+    out << wasRunning_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -368,6 +369,7 @@ void Player::unserialize(QDataStream &in)
     in >> bombCollide_;
     in >> isInvincible_;
     in >> id_;
+    in >> wasRunning_;
 }
 
 void Player::sInit(void)
