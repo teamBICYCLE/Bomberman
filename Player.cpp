@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 12:55:59 2012 lois burg
+// Last update Wed May 16 18:54:24 2012 lois burg
 //
 
 #include <algorithm>
@@ -18,47 +18,70 @@ using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
-    moved_(false), bombCollide_(true)
+    moved_(false), bombCollide_(true), wasRunning_(false)
 {
-  // isInvincible_ = true;
+  isInvincible_ = true;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
-  actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
-  actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+  if (id_ == 0)
+    {
+      actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
+      actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
+      actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
+      actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+    }
+  else
+    {
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad4, &Player::turnLeft));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad6, &Player::turnRight));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad8, &Player::turnUp));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad5, &Player::turnDown));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad0, &Player::putBomb));
+    }
 }
 
 Player::Player()
     : Character("Player"), nbBombs_(1), bombRange_(2),
-      bombTime_(2.0f), moved_(false), bombCollide_(true)
+      bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
-  actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
-  actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+  if (id_ == 0)
+    {
+      actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
+      actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
+      actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
+      actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+    }
+  else
+    {
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad4, &Player::turnLeft));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad6, &Player::turnRight));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad8, &Player::turnUp));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad5, &Player::turnDown));
+      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad0, &Player::putBomb));
+    }
 }
 
 Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
-      bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_)
+      bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_),
+      wasRunning_(other.wasRunning_)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = other.model_;
   actionsMap_ = other.actionsMap_;
-  isInvincible_ = other.isInvincible_;
+  id_ = other.id_;
 }
 
 Player::~Player()
@@ -67,8 +90,6 @@ Player::~Player()
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  Vector3d	verti(0, speed_, 0);
-  Vector3d	hori(speed_, 0, 0);
   std::list<AObject*>::iterator		objIt;
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
   bool		collide;
@@ -83,7 +104,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	    {
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
-          std::cout << collide << std::endl;
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this);
 		// {
@@ -103,10 +123,11 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
 		       !dynamic_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
 		{
-		  dynamic_cast<Bomb*>(*objIt)->setOwnerCollide(true);
-		  bombCollide_ = dynamic_cast<Bomb*>(*objIt)->getOwnerCollide();;
+		  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
+		  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
 		}
 	    }
+	std::cout << "Diff: " << pos_ - save_ << std::endl;
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
   this->moveAnimation();
@@ -285,11 +306,9 @@ void	Player::setBombCollide(bool b)
 
 void    Player::moveAnimation(void)
 {
-  static bool wasRunning = false;
-
   if (moved_)
   {
-    if (!wasRunning && model_.anim_is_ended("stop"))
+    if (!wasRunning_ && model_.anim_is_ended("stop"))
     {
       speedAdapter_ = 5;
       model_.stop_animation("stop");
@@ -302,12 +321,12 @@ void    Player::moveAnimation(void)
       model_.play("run");
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
-    wasRunning = true;
+    wasRunning_ = true;
   }
-  else if (wasRunning == true)
+  else if (wasRunning_ == true)
   {
     model_.play("stop");
-    wasRunning = false;
+    wasRunning_ = false;
   }
   // reset de la propriete moved.
   moved_ = false;
@@ -330,6 +349,7 @@ void Player::serialize(QDataStream &out) const
     out << bombTime_;
     out << bombCollide_;
     out << isInvincible_;
+    out << id_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -347,6 +367,7 @@ void Player::unserialize(QDataStream &in)
     in >> bombTime_;
     in >> bombCollide_;
     in >> isInvincible_;
+    in >> id_;
 }
 
 void Player::sInit(void)

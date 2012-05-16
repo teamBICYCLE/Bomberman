@@ -5,14 +5,13 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sun May 13 14:34:21 2012 lois burg
+// Last update Wed May 16 16:26:56 2012 lois burg
 //
 
+#include <GL/gl.h>
 #include "Brick.hh"
 
 using namespace	Bomberman;
-
-#include <GL/gl.h>
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : AObject(pos, rot, sz, "Brick")

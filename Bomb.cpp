@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Wed May 16 10:46:00 2012 lois burg
+// Last update Wed May 16 16:16:24 2012 lois burg
 //
 
 #include <algorithm>
@@ -112,7 +112,7 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	      dynamic_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
 	      dynamic_cast<Brick*>(obj)->destroy(objs);
-	    if (!dynamic_cast<Character*>(obj))
+	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj))
 	      isInvalid = true;
 	  }
       });

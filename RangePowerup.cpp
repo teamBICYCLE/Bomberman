@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:33:03 2012 geoffroy lafontaine
-// Last update Sun May 13 15:21:26 2012 lois burg
+// Last update Wed May 16 16:24:57 2012 lois burg
 //
 
 #include "RangePowerup.hh"
@@ -51,5 +51,5 @@ const std::string&	RangePowerup::type(void) const
 
 RangePowerup    *RangePowerup::clone(void)
 {
-    return (new RangePowerup(*this));
+  return (new RangePowerup(*this));
 }

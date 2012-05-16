@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:25:34 2012 geoffroy lafontaine
-// Last update Sun May 13 15:21:44 2012 lois burg
+// Last update Wed May 16 16:24:51 2012 lois burg
 //
 
 #include "AmmoPowerup.hh"

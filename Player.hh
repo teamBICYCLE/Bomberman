@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Tue May 15 17:28:25 2012 lois burg
+// Last update Wed May 16 18:54:31 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -70,6 +70,7 @@ namespace	Bomberman
     std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
     bool        moved_;
     bool	bombCollide_;
+    bool	wasRunning_;
   };
 }
 

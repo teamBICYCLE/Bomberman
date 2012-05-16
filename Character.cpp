@@ -5,23 +5,27 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Tue May 15 18:05:22 2012 lois burg
+// Last update Wed May 16 18:38:17 2012 lois burg
 //
 
 #include "Character.hh"
 
 using namespace	Bomberman;
 
+int	Character::CharacterId = 0;
+
 Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed)
   : AObject(pos, rot, sz, modelName), life_(life), speed_(speed),
-    speedAdapter_(100), moved_(false), isInvincible_(false)
+    speedAdapter_(100), moved_(false), isInvincible_(false), id_(Character::CharacterId)
 {
+  ++Character::CharacterId;
 }
 
 Character::Character(const std::string &type)
     : AObject(Vector3d(), Vector3d(), Vector3d(), type),
-      life_(0), speed_(0), speedAdapter_(100), moved_(false), isInvincible_(false)
+      life_(0), speed_(0), speedAdapter_(100), moved_(false), isInvincible_(false), id_(Character::CharacterId)
 {
+  ++Character::CharacterId;
 }
 
 Character::~Character()

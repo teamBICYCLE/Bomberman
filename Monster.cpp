@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 18:05:35 2012 lois burg
+// Last update Wed May 16 14:24:13 2012 lois burg
 //
 
 #include <algorithm>
@@ -238,6 +238,7 @@ void Monster::serialize(QDataStream &out) const
     out << speed_;
     out << speedAdapter_;
     out << moved_;
+    out << id_;
 }
 
 void Monster::unserialize(QDataStream &in)
@@ -250,6 +251,7 @@ void Monster::unserialize(QDataStream &in)
     in >> speed_;
     in >> speedAdapter_;
     in >> moved_;
+    in >> id_;
 }
 
 void Monster::sInit(void)

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Tue May 15 17:28:33 2012 lois burg
+// Last update Wed May 16 16:08:19 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -39,6 +39,7 @@ namespace	Bomberman
     uint	getLife(void) const;
     double      getSpeed(void) const;
     bool	isInvincible(void) const;
+    int		getId(void) const;
 
   public:
     void	setLife(const uint life);
@@ -53,6 +54,9 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const = 0;
     virtual void unserialize(QDataStream &in) = 0;
 
+  public:
+    static int	CharacterId;
+
   protected:
     uint        life_;
     double      speed_;
@@ -61,6 +65,7 @@ namespace	Bomberman
     bool	moved_;
     bool	isInvincible_;
     Vector3d	save_;
+    int		id_;
   };
 }
 

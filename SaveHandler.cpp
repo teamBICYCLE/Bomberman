@@ -62,6 +62,8 @@ void SaveHandler::save(std::list<AObject*> &objs) const
 
     QSettings w(SAVE_FILE, QSettings::IniFormat);
 
+    Character::CharacterId = 0;
+
     w.beginWriteArray("vector");
     int i = 0;
     for (it = objs.begin(); it != objs.end(); it++)
@@ -70,6 +72,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
         SaveHandler::writeObject((*it), w);
         i++;
     }
+
     w.endArray();
     w.sync();
     std::cout << "---> Serialization done ! <---" << std::endl;
@@ -80,6 +83,9 @@ void SaveHandler::load(std::list<AObject*> &res) const
     if (!QFile::exists(SAVE_FILE))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
     QSettings s(SAVE_FILE, QSettings::IniFormat);
+    int lastId = Character::CharacterId;
+
+    Character::CharacterId = 0;
     res.clear();
 
     int size = s.beginReadArray("vector");
@@ -99,4 +105,5 @@ void SaveHandler::load(std::list<AObject*> &res) const
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
     }
+    Character::CharacterId = lastId;
 }
