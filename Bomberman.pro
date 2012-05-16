@@ -24,11 +24,19 @@ SOURCES += main.cpp \
     Character.cpp \
     Explosion.cpp \
     Monster.cpp \
-    SaveHandler.cpp
+    SaveHandler.cpp \
+    ia/VirtualMachine.cpp \
+    ia/Debugger.cpp \
+    ia/Script.cpp \
+    ia/RestoreStack.cpp \
+    ia/This.cpp \
+    ia/LoadScript.cpp \
+    ia/Failure.cpp \
+    ia/Brain.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
-LIBS	+= -lgdl_gl -lGL -lGLU
+LIBS	+= -lgdl_gl -lGL -lGLU -L./ia/liblua/ -llua-5.1
 
 HEADERS += \
     StatesManager.hh \
@@ -52,4 +60,11 @@ HEADERS += \
     Character.hh \
     Explosion.hh \
     Monster.hh \
-    SaveHandler.hh
+    SaveHandler.hh \
+    ia/luainc.hh \
+    ia/VirtualMachine.hh \
+    ia/Debugger.hh \
+    ia/Script.hh \
+    ia/LoadScript.hh \
+    ia/Failure.hh \
+    ia/Brain.hh

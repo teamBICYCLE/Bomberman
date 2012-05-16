@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 15 11:28:06 2012 geoffroy lafontaine
+// Last update Wed May 16 18:45:24 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -57,16 +57,16 @@ const char	*Map::Failure::what(void) const throw()
 
 Map::Map(uint width, uint height, uint nbPlayers)
 {
-    if ((width * height) < (nbPlayers * 4))
-        throw Map::Failure("Map", "too many players for this map.");
+  if ((width * height) < (nbPlayers * 4))
+    throw Map::Failure("Map", "too many players for this map.");
 
-    for (uint y = 1; y < height - 1; y += 2)
-        for (uint x = 1; x < width - 1; x += 2)
-            terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-
-    generateBricks(width, height, nbPlayers);
-    addPlayers(width, height, nbPlayers);
-    addMonsters(width, height);
+  for (uint y = 1; y < height - 1; y += 2)
+    for (uint x = 1; x < width - 1; x += 2)
+      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+  generateBricks(width, height, nbPlayers);
+  generateBorder(width, height);
+  addPlayers(width, height, nbPlayers);
+  addMonsters(width, height, 5);
 }
 
 Map::Map(const std::string& fileName)
@@ -85,6 +85,20 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
+void				Map::generateBorder(uint width, uint height)
+{
+  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
+    {
+      terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
+  for (int y = 0; y < static_cast<int>(height); ++y)
+    {
+      terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
+}
+
 void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 {
   uint				nbBricks;
@@ -93,7 +107,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   uint				y;
   bool				find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width + height)/*(width > height ? width : height)*/;
   do {
     x = rand() % width;
     y = rand() % height;
@@ -109,6 +123,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 	  }
 	find = false;
       }
+    std::cout << "aaaa" << std::endl;
   }
   while (nbBricks > 0);
 }
@@ -135,15 +150,13 @@ void				Map::placePlayer(uint x, uint y)
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::addMonsters(uint width, uint height)
+void				Map::addMonsters(uint width, uint height, uint nbMonsters)
 {
-  uint				nbMonsters;
   std::list<AObject*>::iterator	it;
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
 
-  nbMonsters = 5;
   do {
     x = rand() % width;
     y = rand() % height;

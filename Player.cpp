@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 18:56:53 2012 lois burg
+// Last update Wed May 16 19:05:00 2012 lois burg
 //
 
 #include <algorithm>
@@ -20,7 +20,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
     moved_(false), bombCollide_(true), wasRunning_(false)
 {
-  isInvincible_ = true;
+  // isInvincible_ = true;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -127,7 +127,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 		  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
 		}
 	    }
-	std::cout << "Diff: " << pos_ - save_ << std::endl;
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
   this->moveAnimation();
