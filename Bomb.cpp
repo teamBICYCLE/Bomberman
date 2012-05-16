@@ -211,21 +211,6 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
     return in;
 }
 
-Bomb &Bomb::operator=(const Bomb &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    range_ = v.range_;
-    timeOut_ = v.timeOut_;
-    owner_ = v.owner_;
-    speed_ = v.speed_;
-    timeCreation_ = v.timeCreation_;
-    return *this;
-}
-
 /* TMP */
 void Bomb::aff(void) const
 {

@@ -37,12 +37,12 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Brick *>(obj))));
         else if (obj->getType() == "Player")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Player *>(obj))));
-//        else if (obj->getType() == "Bomb")
-//            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
+        else if (obj->getType() == "Bomb")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
         else if (obj->getType() == "Monster")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Monster *>(obj))));
-//        else if (obj->getType() == "Explosion")
-//            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
+        else if (obj->getType() == "Explosion")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }

@@ -36,7 +36,6 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    Bomb & operator=(const Bomb &v);
 
     /* Tmp */
     void aff(void) const;

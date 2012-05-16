@@ -139,20 +139,6 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
     return in;
 }
 
-Explosion &Explosion::operator=(const Explosion &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    damage_ = v.damage_;
-    timeOnScreen_ = v.timeOnScreen_;
-    timeOfCreation_ = v.timeOfCreation_;
-
-    return *this;
-}
-
 /* TMP */
 
 void Explosion::aff(void) const
