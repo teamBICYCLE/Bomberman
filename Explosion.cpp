@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Sun May 13 14:23:48 2012 lois burg
+// Last update Tue May 15 17:31:17 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -87,6 +87,11 @@ uint	Explosion::getDamage(void) const
   return (damage_);
 }
 
+void	Explosion::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
+}
+
 /* Serialization */
 
 BoundingBox&	Explosion::getBBox(void)
@@ -96,12 +101,24 @@ BoundingBox&	Explosion::getBBox(void)
 
 void Explosion::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
+    out << damage_;
+    out << timeOnScreen_;
+    out << timeOfCreation_;
 }
 
 void Explosion::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
+    in >> damage_;
+    in >> timeOnScreen_;
+    in >> timeOfCreation_;
 }
 
 void Explosion::sInit(void)
@@ -120,4 +137,18 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
 {
     v.unserialize(in);
     return in;
+}
+
+/* TMP */
+
+void Explosion::aff(void) const
+{
+    std::cout << "=== START Explosion ===" << std::endl;
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "Damage : " << damage_ << std::endl;
+    std::cout << "timeonscreen : " << timeOnScreen_ << std::endl;
+    std::cout << "timeofcreation : " << timeOfCreation_ << std::endl;
+    std::cout << "=== END Explosion ===" << std::endl;
 }

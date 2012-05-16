@@ -5,22 +5,17 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Fri May 11 18:17:51 2012 lois burg
+// Last update Tue May 15 17:36:09 2012 lois burg
 //
 
 #include "AObject.hh"
+#include "Character.hh"
 
 using namespace Bomberman;
 
 AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
   : pos_(pos), rot_(rot), sz_(sz), // model_(getModelByName(modelName)),
     type_(modelName), removeLater_(false)
-{
-}
-
-AObject::AObject(const AObject &other)
-    : pos_(other.pos_), rot_(other.rot_), sz_(other.sz_),
-    type_(other.type_), removeLater_(other.removeLater_)
 {
 }
 
@@ -76,4 +71,9 @@ bool	AObject::toRemove(void) const
 void	AObject::destroy(void)
 {
   removeLater_ = true;
+}
+
+void	AObject::interact(Character *ch)
+{
+  ch->bump();
 }

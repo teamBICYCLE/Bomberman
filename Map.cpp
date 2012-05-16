@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May 16 15:21:24 2012 geoffroy lafontaine
+// Last update Wed May 16 15:28:27 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -57,6 +57,9 @@ const char	*Map::Failure::what(void) const throw()
 
 Map::Map(uint width, uint height, uint nbPlayers)
 {
+  if ((width * height) < (nbPlayers * 4))
+    throw Map::Failure("Map", "too many players for this map.");
+
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));

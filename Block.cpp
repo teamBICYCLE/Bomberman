@@ -164,20 +164,12 @@ QDataStream &operator>>(QDataStream &in, Block &v)
     return in;
 }
 
-Block &Block::operator=(const Block &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    return *this;
-}
-
 /* TMP */
 void Block::aff(void) const
 {
+    std::cout << "=== START BLOCK ===" << std::endl;
     std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
     std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "=== END BLOCK ===" << std::endl;
 }

@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 11:21:17 2012 geoffroy lafontaine
+// Last update Tue May 15 18:05:35 2012 lois burg
 //
 
 #include <algorithm>
@@ -15,8 +15,8 @@
 
 using namespace Bomberman;
 
-Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "", 1, 0.05), moved_(false)
+Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -31,17 +31,25 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_)
+      moved_(other.moved_), damage_(other.getDamage())
 {
-    bBox_ = other.bBox_;
-    model_ = other.getModel();
+    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
+    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
 Monster::Monster()
-    : Character(Vector3d(), Vector3d(), Vector3d(), "Monster", 1, 0.05),
-      moved_(false)
+    : Character("Monster"), moved_(false)
 {
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Monster::~Monster()
@@ -172,6 +180,11 @@ const std::string&	Monster::type(void) const
   return (type_);
 }
 
+void	Monster::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
+}
+
 void			Monster::moveAnimation(void)
 {
   static bool wasRunning = false;
@@ -199,21 +212,44 @@ void			Monster::moveAnimation(void)
     model_.play("stop");
     wasRunning = false;
   }
-
   // reset de la propriete moved.
   moved_ = false;
+}
+
+uint	Monster::getDamage(void) const
+{
+  return (damage_);
+}
+
+void	Monster::setDamage(uint damage)
+{
+  damage_ = damage;
 }
 
 /* Serialization */
 
 void Monster::serialize(QDataStream &out) const
 {
-    (void)out;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    out << removeLater_;
+    out << life_;
+    out << speed_;
+    out << speedAdapter_;
+    out << moved_;
 }
 
 void Monster::unserialize(QDataStream &in)
 {
-    (void)in;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    in >> removeLater_;
+    in >> life_;
+    in >> speed_;
+    in >> speedAdapter_;
+    in >> moved_;
 }
 
 void Monster::sInit(void)
@@ -222,14 +258,32 @@ void Monster::sInit(void)
     qMetaTypeId<Monster>();
 }
 
-QDataStream &operator<<(QDataStream &out, const Monster &v)
+QDataStream &operator<<(QDataStream &out, const Monster &m)
 {
-    v.serialize(out);
+    m.serialize(out);
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Monster &v)
+QDataStream &operator>>(QDataStream &in, Monster &m)
 {
-    v.unserialize(in);
+    m.unserialize(in);
     return in;
 }
+
+/* TMP */
+
+void Monster::aff(void) const
+{
+    std::cout << "=== START MONSTER ===" << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "life : " << life_ << std::endl;
+    std::cout << "speed : " << speed_ << std::endl;
+    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
+    std::cout << "moved : " << moved_ << std::endl;
+    std::cout << "pos : " << pos_ << std::endl;
+    std::cout << "rot : " << rot_ << std::endl;
+    std::cout << "size : " << sz_ << std::endl;
+    std::cout << "type : " << type_ << std::endl;
+    std::cout << "=== END MONSTER ===" << std::endl;
+}
+

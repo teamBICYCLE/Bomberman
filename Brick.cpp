@@ -31,7 +31,15 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 Brick::Brick(const Brick &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Brick")
 {
-    loot_ = other.loot_;
+    PowerupFactory *factory = PowerupFactory::getInstance();
+
+    loot_ = factory->create();
+    if (loot_ != NULL)
+    {
+        loot_->setPos(other.pos_);
+        loot_->setRot(other.rot_);
+        loot_->setSize(other.sz_);
+    }
 }
 
 Brick::Brick()
@@ -188,21 +196,13 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
     return in;
 }
 
-Brick &Brick::operator=(const Brick &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    return *this;
-}
-
 /* TMP */
 void Brick::aff(void) const
 {
+    std::cout << "=== START BRICK ===" << std::endl;
     std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
     std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
     std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "=== END BLOCK ===" << std::endl;
 }
 
