@@ -27,6 +27,7 @@ public:
 public:
     void save(std::list<AObject *> &) const;
     void load(std::list<AObject *> &) const;
+    bool saveFileExist(void) const;
 
 private:
     void writeObject(AObject *obj, QSettings &w) const;

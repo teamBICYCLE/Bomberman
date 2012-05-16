@@ -32,17 +32,17 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
     if (!obj->removeLater_)
     {
         if (obj->getType() == "Block")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Block *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Block *>(obj))));
         else if (obj->getType() == "Brick")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Brick *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Brick *>(obj))));
         else if (obj->getType() == "Player")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Player *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Player *>(obj))));
         else if (obj->getType() == "Bomb")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Bomb *>(obj))));
         else if (obj->getType() == "Monster")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Monster *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Monster *>(obj))));
         else if (obj->getType() == "Explosion")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Explosion *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }
@@ -73,6 +73,11 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     w.endArray();
     w.sync();
     std::cout << "---> Serialization done ! <---" << std::endl;
+}
+
+bool SaveHandler::saveFileExist(void) const
+{
+    return QFile::exists(SAVE_FILE);
 }
 
 void SaveHandler::load(std::list<AObject*> &res) const
