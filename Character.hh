@@ -48,11 +48,6 @@ namespace	Bomberman
   public:
     virtual void	destroy(void);
 
-  public:
-    /* Serialization */
-    virtual void serialize(QDataStream &out) const = 0;
-    virtual void unserialize(QDataStream &in) = 0;
-
   protected:
     uint        life_;
     double      speed_;
