@@ -83,7 +83,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	    {
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
-          std::cout << collide << std::endl;
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this);
 		// {
