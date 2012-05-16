@@ -59,6 +59,7 @@ Player::Player(const Player &other)
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
     isInvincible_ = other.isInvincible_;
+    std::cout << "eeeeeeee" << std::endl;
 }
 
 Player::~Player()
