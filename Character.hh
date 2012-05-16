@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Sat May 12 14:55:54 2012 geoffroy lafontaine
+// Last update Tue May 15 17:28:33 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -33,14 +33,20 @@ namespace	Bomberman
 
   public:
     void	takeDamage(uint damage);
-    
+    void	bump(void);
+
   public:
     uint	getLife(void) const;
     double      getSpeed(void) const;
+    bool	isInvincible(void) const;
 
   public:
     void	setLife(const uint life);
     void	setSpeed(const double speed);
+    void	setInvincible(bool b);
+
+  public:
+    virtual void	destroy(void);
 
   public:
     /* Serialization */
@@ -53,6 +59,8 @@ namespace	Bomberman
     double      speedAdapter_;
     BoundingBox	*bBox_;
     bool	moved_;
+    bool	isInvincible_;
+    Vector3d	save_;
   };
 }
 

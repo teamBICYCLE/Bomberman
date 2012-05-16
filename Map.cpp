@@ -57,12 +57,16 @@ const char	*Map::Failure::what(void) const throw()
 
 Map::Map(uint width, uint height, uint nbPlayers)
 {
-  for (uint y = 1; y < height - 1; y += 2)
-    for (uint x = 1; x < width - 1; x += 2)
-      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  generateBricks(width, height, nbPlayers);
-  addPlayers(width, height, nbPlayers);
-  addMonsters(width, height);
+    if ((width * height) < (nbPlayers * 4))
+        throw Map::Failure("Map", "too many players for this map.");
+
+    for (uint y = 1; y < height - 1; y += 2)
+        for (uint x = 1; x < width - 1; x += 2)
+            terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+
+    generateBricks(width, height, nbPlayers);
+    addPlayers(width, height, nbPlayers);
+    addMonsters(width, height);
 }
 
 Map::Map(const std::string& fileName)

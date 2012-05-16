@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 11:41:04 2012 romain sylvian
+// Last update Tue May 15 18:05:35 2012 lois burg
 //
 
 #include <algorithm>
@@ -15,8 +15,8 @@
 
 using namespace Bomberman;
 
-Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false)
+Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -31,16 +31,25 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_)
+      moved_(other.moved_), damage_(other.getDamage())
 {
-    bBox_ = other.bBox_;
-    model_ = other.getModel();
+    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
+    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
 Monster::Monster()
     : Character("Monster"), moved_(false)
 {
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Monster::~Monster()
@@ -171,6 +180,11 @@ const std::string&	Monster::type(void) const
   return (type_);
 }
 
+void	Monster::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
+}
+
 void			Monster::moveAnimation(void)
 {
   static bool wasRunning = false;
@@ -198,9 +212,18 @@ void			Monster::moveAnimation(void)
     model_.play("stop");
     wasRunning = false;
   }
-
   // reset de la propriete moved.
   moved_ = false;
+}
+
+uint	Monster::getDamage(void) const
+{
+  return (damage_);
+}
+
+void	Monster::setDamage(uint damage)
+{
+  damage_ = damage;
 }
 
 /* Serialization */
@@ -245,24 +268,6 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
 {
     m.unserialize(in);
     return in;
-}
-
-Monster &Monster::operator=(const Monster &m)
-{
-    actionsMap_ = m.actionsMap_;
-    moved_ = m.moved_;
-    life_ = m.life_;
-    speed_ = m.speed_;
-    speedAdapter_ = m.speedAdapter_;
-    bBox_ = m.bBox_;
-    moved_ = m.moved_;
-    pos_ = m.pos_;
-    rot_ = m.rot_;
-    sz_ = m.sz_;
-    model_ = m.model_;
-    removeLater_ = m.removeLater_;
-
-    return *this;
 }
 
 /* TMP */

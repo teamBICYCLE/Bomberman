@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Sun May 13 14:23:48 2012 lois burg
+// Last update Tue May 15 17:31:17 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -87,6 +87,11 @@ uint	Explosion::getDamage(void) const
   return (damage_);
 }
 
+void	Explosion::interact(Character *ch)
+{
+  ch->takeDamage(damage_);
+}
+
 /* Serialization */
 
 BoundingBox&	Explosion::getBBox(void)
@@ -132,20 +137,6 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Explosion &Explosion::operator=(const Explosion &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    damage_ = v.damage_;
-    timeOnScreen_ = v.timeOnScreen_;
-    timeOfCreation_ = v.timeOfCreation_;
-
-    return *this;
 }
 
 /* TMP */

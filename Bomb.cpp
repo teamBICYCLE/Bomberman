@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 13 21:06:38 2012 romain sylvian
+// Last update Tue May 15 17:40:30 2012 lois burg
 //
 
 #include <algorithm>
@@ -16,7 +16,7 @@
 using namespace	Bomberman;
 
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1)
+  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false)
 {
   model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
@@ -25,7 +25,8 @@ Bomb::Bomb(const Bomb &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
-      timeCreation_(other.timeCreation_)
+      timeCreation_(other.timeCreation_),
+      ownerCollide_(other.getOwnerCollide())
 {
     model_ = other.getModel();
 }
@@ -124,9 +125,17 @@ const std::string&	Bomb::type(void) const
   return (type_);
 }
 
+void	Bomb::interact(Character *ch)
+{
+  if (&owner_ == ch && ownerCollide_)
+    ch->bump();
+}
+
 void	Bomb::destroy(std::list<AObject*>& objs)
 {
   explode(objs);
+  if (!ownerCollide_)
+    owner_.setBombCollide(true);
   AObject::destroy();
 }
 
@@ -148,6 +157,16 @@ void    Bomb::setSpeed(const Vector3d &v)
 const Player&	Bomb::getOwner(void) const
 {
   return (owner_);
+}
+
+bool	Bomb::getOwnerCollide(void) const
+{
+  return (ownerCollide_);
+}
+
+void	Bomb::setOwnerCollide(bool b)
+{
+  ownerCollide_ = b;
 }
 
 /* Serialization */
@@ -190,21 +209,6 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Bomb &Bomb::operator=(const Bomb &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    range_ = v.range_;
-    timeOut_ = v.timeOut_;
-    owner_ = v.owner_;
-    speed_ = v.speed_;
-    timeCreation_ = v.timeCreation_;
-    return *this;
 }
 
 /* TMP */

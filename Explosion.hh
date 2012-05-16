@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:47 2012 lois burg
-// Last update Sun May 13 13:38:40 2012 lois burg
+// Last update Tue May 15 17:30:14 2012 lois burg
 //
 
 #ifndef		__EXPLOSION_HH__
 # define	__EXPLOSION_HH__
 
 # include	"AObject.hh"
+# include	"Character.hh"
 # include	"BoundingBox.hh"
 
 namespace	Bomberman
@@ -28,12 +29,12 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string&	type(void) const;
+    virtual void		interact(Character *ch);
 
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    Explosion &operator=(const Explosion &v);
 
     /* tmp */
     void aff(void) const;

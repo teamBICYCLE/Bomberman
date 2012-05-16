@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Sun May 13 11:15:33 2012 lois burg
+// Last update Tue May 15 18:05:22 2012 lois burg
 //
 
 #include "Character.hh"
@@ -14,13 +14,13 @@ using namespace	Bomberman;
 
 Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed)
   : AObject(pos, rot, sz, modelName), life_(life), speed_(speed),
-    speedAdapter_(100), moved_(false)
+    speedAdapter_(100), moved_(false), isInvincible_(false)
 {
 }
 
 Character::Character(const std::string &type)
     : AObject(Vector3d(), Vector3d(), Vector3d(), type),
-      life_(0), speed_(0), speedAdapter_(100), moved_(false)
+      life_(0), speed_(0), speedAdapter_(100), moved_(false), isInvincible_(false)
 {
 }
 
@@ -64,6 +64,14 @@ void	Character::takeDamage(uint damage)
     destroy();
 }
 
+void	Character::bump(void)
+{
+  if (bBox_->isAbove() || bBox_->isBelow())
+    pos_.y = save_.y;
+  if (bBox_->isLeft() || bBox_->isRight())
+    pos_.x = save_.x;
+}
+
 double      Character::getSpeed(void) const
 {
   return (speedAdapter_ * speed_) / 100;
@@ -72,6 +80,16 @@ double      Character::getSpeed(void) const
 uint		Character::getLife(void) const
 {
   return (life_);
+}
+
+bool	Character::isInvincible(void) const
+{
+  return (isInvincible_);
+}
+
+void	Character::setInvincible(bool b)
+{
+  isInvincible_ = b;
 }
 
 void		Character::setLife(const uint life)
@@ -84,3 +102,8 @@ void		Character::setSpeed(const double speed)
   speed_ = speed;
 }
 
+void	Character::destroy(void)
+{
+  if (!isInvincible_)
+    AObject::destroy();
+}
