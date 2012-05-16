@@ -270,24 +270,6 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
     return in;
 }
 
-Monster &Monster::operator=(const Monster &m)
-{
-    actionsMap_ = m.actionsMap_;
-    moved_ = m.moved_;
-    life_ = m.life_;
-    speed_ = m.speed_;
-    speedAdapter_ = m.speedAdapter_;
-    bBox_ = m.bBox_;
-    moved_ = m.moved_;
-    pos_ = m.pos_;
-    rot_ = m.rot_;
-    sz_ = m.sz_;
-    model_ = m.model_;
-    removeLater_ = m.removeLater_;
-
-    return *this;
-}
-
 /* TMP */
 
 void Monster::aff(void) const

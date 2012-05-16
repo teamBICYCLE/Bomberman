@@ -18,11 +18,13 @@ BoundingBox::BoundingBox(const Vector3d& pos, const Vector3d& sz, const AObject 
 {
 }
 
-BoundingBox::BoundingBox(const BoundingBox &other)
-    : pos_(other.pos_), sz_(other.sz_), owner_(other.owner_),
+BoundingBox::BoundingBox(const BoundingBox &other, const AObject *owner)
+    : pos_(other.pos_), sz_(other.sz_), owner_(owner),
       above_(other.above_), below_(other.below_),
       left_(other.left_), right_(other.right_)
 {
+    std::cout << "eeeeeeeee" << std::endl;
+    std::cout << other.pos_ << std::endl;
 }
 
 BoundingBox::~BoundingBox()

@@ -196,16 +196,6 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
     return in;
 }
 
-Brick &Brick::operator=(const Brick &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    return *this;
-}
-
 /* TMP */
 void Brick::aff(void) const
 {

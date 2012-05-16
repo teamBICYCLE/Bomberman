@@ -21,7 +21,7 @@ namespace	Bomberman
   {
   public:
     BoundingBox(const Vector3d& pos, const Vector3d& sz, const AObject *owner);
-    BoundingBox(const BoundingBox &other);
+    BoundingBox(const BoundingBox &other, const AObject *owner);
     virtual ~BoundingBox();
 
   public:

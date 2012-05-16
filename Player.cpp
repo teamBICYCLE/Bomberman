@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 12:54:26 2012 lois burg
+// Last update Wed May 16 12:55:59 2012 lois burg
 //
 
 #include <algorithm>
@@ -83,6 +83,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	    {
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
+          std::cout << collide << std::endl;
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this);
 		// {
@@ -364,32 +365,6 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Player &Player::operator=(const Player &p)
-{
-    nbBombs_ = p.nbBombs_;
-    bombRange_ = p.bombRange_;
-    bombTime_ = p.bombTime_;
-    actionsMap_ = p.actionsMap_;
-    moved_ = p.moved_;
-    bombCollide_ = p.bombCollide_;
-
-    life_ = p.life_;
-    speed_ = p.speed_;
-    speedAdapter_ = p.speedAdapter_;
-    bBox_ = new BoundingBox(*p.bBox_);
-    moved_ = p.moved_;
-    isInvincible_ = p.isInvincible_;
-    save_ = p.save_;
-
-    pos_ = p.pos_;
-    rot_ = p.rot_;
-    sz_ = p.sz_;
-    model_ = p.model_;
-    removeLater_ = p.removeLater_;
-
-    return *this;
 }
 
 /* TMP */
