@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May 16 15:28:27 2012 geoffroy lafontaine
+// Last update Wed May 16 16:04:15 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -66,7 +66,7 @@ Map::Map(uint width, uint height, uint nbPlayers)
   generateBricks(width, height, nbPlayers);
   generateBorder(width, height);
   addPlayers(width, height, nbPlayers);
-  // addMonsters(width, height);
+  addMonsters(width, height, 5);
 }
 
 Map::Map(const std::string& fileName)
@@ -107,7 +107,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   uint				y;
   bool				find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width + height)/*(width > height ? width : height)*/;
   do {
     x = rand() % width;
     y = rand() % height;
@@ -123,6 +123,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 	  }
 	find = false;
       }
+    std::cout << "aaaa" << std::endl;
   }
   while (nbBricks > 0);
 }
@@ -149,15 +150,13 @@ void				Map::placePlayer(uint x, uint y)
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::addMonsters(uint width, uint height)
+void				Map::addMonsters(uint width, uint height, uint nbMonsters)
 {
-  uint				nbMonsters;
   std::list<AObject*>::iterator	it;
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
 
-  nbMonsters = 5;
   do {
     x = rand() % width;
     y = rand() % height;
