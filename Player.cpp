@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 10:39:58 2012 Jonathan Machado
+// Last update Wed May 16 12:54:26 2012 lois burg
 //
 
 #include <algorithm>
@@ -17,7 +17,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(2), bombRange_(2), bombTime_(2.0f),
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
     moved_(false), bombCollide_(true)
 {
   // isInvincible_ = true;
@@ -27,10 +27,10 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
-  actionsMap_.insert(std::make_pair(gdl::Keys::Down, &Player::turnDown));
+  actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
+  actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
+  actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
   actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
 }
 
@@ -38,16 +38,16 @@ Player::Player()
     : Character("Player"), nbBombs_(1), bombRange_(2),
       bombTime_(2.0f), moved_(false), bombCollide_(true)
 {
-    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
-    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
-    model_.cut_animation(model_, "Take 001", 0, 35, "start");
-    model_.cut_animation(model_, "Take 001", 36, 54, "run");
-    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-    actionsMap_.insert(std::make_pair(gdl::Keys::Left, &Player::turnLeft));
-    actionsMap_.insert(std::make_pair(gdl::Keys::Right, &Player::turnRight));
-    actionsMap_.insert(std::make_pair(gdl::Keys::Up, &Player::turnUp));
-    actionsMap_.insert(std::make_pair(gdl::Keys::Down, &Player::turnDown));
-    actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
+  bBox_ = new BoundingBox(pos_, sz_, this);
+  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_.cut_animation(model_, "Take 001", 0, 35, "start");
+  model_.cut_animation(model_, "Take 001", 36, 54, "run");
+  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+  actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
+  actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
+  actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
+  actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
 }
 
 Player::Player(const Player &other)
@@ -55,10 +55,10 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_)
 {
-    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
-    model_ = other.model_;
-    actionsMap_ = other.actionsMap_;
-    isInvincible_ = other.isInvincible_;
+  bBox_ = new BoundingBox(pos_, sz_, this);
+  model_ = other.model_;
+  actionsMap_ = other.actionsMap_;
+  isInvincible_ = other.isInvincible_;
 }
 
 Player::~Player()
@@ -328,6 +328,7 @@ void Player::serialize(QDataStream &out) const
     out << bombRange_;
     out << bombTime_;
     out << bombCollide_;
+    out << isInvincible_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -344,6 +345,7 @@ void Player::unserialize(QDataStream &in)
     in >> bombRange_;
     in >> bombTime_;
     in >> bombCollide_;
+    in >> isInvincible_;
 }
 
 void Player::sInit(void)

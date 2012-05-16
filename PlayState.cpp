@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Tue May 15 11:25:25 2012 lois burg
+// Last update Wed May 16 12:39:04 2012 lois burg
 //
 
 #include <unistd.h>
@@ -43,8 +43,8 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-//    s.save(objs_);
-//    s.load(objs_);
+    s.save(objs_);
+    s.load(objs_);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
