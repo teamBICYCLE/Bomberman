@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 15 18:06:06 2012 lois burg
+// Last update Wed May 16 10:39:58 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -232,7 +232,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 
   if (nbBombs_ > 0 && bombCollide_)
     {
-      if ((b = new Bomb(pos_, rot_, sz_, bombRange_, bombTime_, *this)))
+      if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1,1,1), bombRange_, bombTime_, *this)))
 	{
 	  bombCollide_ = b->getOwnerCollide();
 	  b->adjustPos();
@@ -302,14 +302,12 @@ void    Player::moveAnimation(void)
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning = true;
-
   }
   else if (wasRunning == true)
   {
     model_.play("stop");
     wasRunning = false;
   }
-
   // reset de la propriete moved.
   moved_ = false;
 }
@@ -337,7 +335,7 @@ void Player::unserialize(QDataStream &in)
     pos_.unserialize(in);
     rot_.unserialize(in);
     sz_.unserialize(in);
-    in >> removeLater_;  
+    in >> removeLater_;
     in >> life_;
     in >> speed_;
     in >> speedAdapter_;
