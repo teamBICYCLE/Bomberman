@@ -75,6 +75,11 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     std::cout << "---> Serialization done ! <---" << std::endl;
 }
 
+bool SaveHandler::saveFileExist(void) const
+{
+    return QFile::exists(SAVE_FILE);
+}
+
 void SaveHandler::load(std::list<AObject*> &res) const
 {
     if (!QFile::exists(SAVE_FILE))
