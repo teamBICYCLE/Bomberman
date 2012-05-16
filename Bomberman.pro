@@ -36,7 +36,7 @@ SOURCES += main.cpp \
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
-LIBS	+= -lgdl_gl -lGL -lGLU -llua
+LIBS	+= -lgdl_gl -lGL -lGLU -L./ia/liblua/ -llua-5.1
 
 HEADERS += \
     StatesManager.hh \
