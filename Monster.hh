@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Tue May 15 17:33:25 2012 lois burg
+// Last update Wed May 16 15:28:51 2012 thibault carpentier
 //
 
 #ifndef		__MONSTER_HH__
@@ -14,6 +14,9 @@
 # include	<sys/types.h>
 # include	"Character.hh"
 # include	"BoundingBox.hh"
+# include	"ia/Brain.hh"
+
+# define SCRIPT_FILE "lua/test.lua"
 
 namespace	Bomberman
 {
@@ -63,6 +66,7 @@ namespace	Bomberman
     std::map<eDirection, void (Character::*)(void)> actionsMap_;
     bool	moved_;
     uint	damage_;
+    Bomberman::Thinking::Brain brainScript_;
   };
 }
 
