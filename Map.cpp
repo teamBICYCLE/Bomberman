@@ -4,7 +4,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 15 11:28:06 2012 geoffroy lafontaine
+// Last update Wed May 16 15:21:24 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -61,8 +61,9 @@ Map::Map(uint width, uint height, uint nbPlayers)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(width, height, nbPlayers);
+  generateBorder(width, height);
   addPlayers(width, height, nbPlayers);
-  addMonsters(width, height);
+  // addMonsters(width, height);
 }
 
 Map::Map(const std::string& fileName)
@@ -79,6 +80,20 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   if (terrain_.empty())
     throw Map::Failure("getTerrain", "Loaded map is empty.");
   return (terrain_);
+}
+
+void				Map::generateBorder(uint width, uint height)
+{
+  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
+    {
+      terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
+  for (int y = 0; y < static_cast<int>(height); ++y)
+    {
+      terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
 }
 
 void				Map::generateBricks(uint width, uint height, uint nbPlayers)

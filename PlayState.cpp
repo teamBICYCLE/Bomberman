@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Tue May 15 11:25:25 2012 lois burg
+// Last update Wed May 16 15:20:03 2012 geoffroy lafontaine
 //
 
 #include <unistd.h>
@@ -31,8 +31,7 @@ bool  PlayState::init()
   success = true;
   try {
       SaveHandler s;
-      Map	map(13, 13, 1);
-    // Map	map(13, 13, 1);
+    Map	map(12, 12, 1);
     // int	viewport[4];
 
     mapH_ = 13;

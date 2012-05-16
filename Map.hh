@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Tue May 15 11:27:12 2012 geoffroy lafontaine
+// Last update Wed May 16 15:06:45 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -72,6 +72,7 @@ namespace	Bomberman
     void	addMonsters(uint, uint);
     void	placeMonster(uint, uint);
     void	generateBricks(uint, uint, uint);
+    void	generateBorder(uint, uint);
     void	clearPlace(uint, uint);
 
   private:
