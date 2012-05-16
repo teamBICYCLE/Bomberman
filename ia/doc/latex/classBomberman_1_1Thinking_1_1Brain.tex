@@ -1,0 +1,143 @@
+\hypertarget{classBomberman_1_1Thinking_1_1Brain}{
+\section{Bomberman::Thinking::Brain Class Reference}
+\label{classBomberman_1_1Thinking_1_1Brain}\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+}
+
+
+\hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} class encapsulate calls from lua and organise Scripting calls.  
+
+
+
+
+{\ttfamily \#include $<$Brain.hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBomberman_1_1Thinking_1_1Brain_a7f1f608a4157bf556c71e09e00352572}{Brain} (void)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classBomberman_1_1Thinking_1_1Brain_a8a8eee0a0dd9d1e771d1e452496dead9}{$\sim$Brain} (void)
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+int \hyperlink{classBomberman_1_1Thinking_1_1Brain_a328b9de11566dedba18161aa82ca232b}{scriptCalling} (VirtualMachine \&vm, int fctNb)
+\begin{DoxyCompactList}\small\item\em Method redirecting calls. \end{DoxyCompactList}\item 
+void \hyperlink{classBomberman_1_1Thinking_1_1Brain_ab271bda1c21a134ab8aa375755439ba9}{getReturn} (VirtualMachine \&vm, const std::string \&strFunc)
+\begin{DoxyCompactList}\small\item\em Method hanling returns from functions called in lua. \end{DoxyCompactList}\item 
+int \hyperlink{classBomberman_1_1Thinking_1_1Brain_a8f68d82b0a73f1ff626e54f238d51cee}{test} (VirtualMachine \&vm)
+\begin{DoxyCompactList}\small\item\em The test Method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} class encapsulate calls from lua and organise Scripting calls. 
+
+The \hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} class is a encapsulation of Api Methods, and herit from Script to organise Scipting calls. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBomberman_1_1Thinking_1_1Brain_a7f1f608a4157bf556c71e09e00352572}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!Brain@{Brain}}
+\index{Brain@{Brain}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{Brain}]{\setlength{\rightskip}{0pt plus 5cm}Bomberman::Thinking::Brain::Brain (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}
+\label{classBomberman_1_1Thinking_1_1Brain_a7f1f608a4157bf556c71e09e00352572}
+
+
+Constructor. 
+
+Constructor of \hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} Class, initialise the Api Methods to makes them callabe by the lua. \hypertarget{classBomberman_1_1Thinking_1_1Brain_a8a8eee0a0dd9d1e771d1e452496dead9}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!$\sim$Brain@{$\sim$Brain}}
+\index{$\sim$Brain@{$\sim$Brain}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{$\sim$Brain}]{\setlength{\rightskip}{0pt plus 5cm}Bomberman::Thinking::Brain::$\sim$Brain (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}
+\label{classBomberman_1_1Thinking_1_1Brain_a8a8eee0a0dd9d1e771d1e452496dead9}
+
+
+Destructor. 
+
+Destructor of \hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} Class. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBomberman_1_1Thinking_1_1Brain_ab271bda1c21a134ab8aa375755439ba9}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!getReturn@{getReturn}}
+\index{getReturn@{getReturn}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{getReturn}]{\setlength{\rightskip}{0pt plus 5cm}void Bomberman::Thinking::Brain::getReturn (
+\begin{DoxyParamCaption}
+\item[{VirtualMachine \&}]{vm, }
+\item[{const std::string \&}]{strFunc}
+\end{DoxyParamCaption}
+)}}
+\label{classBomberman_1_1Thinking_1_1Brain_ab271bda1c21a134ab8aa375755439ba9}
+
+
+Method hanling returns from functions called in lua. 
+
+Method called by Lua each time a Lua function is called from the C++, to use Lua return values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vm} & : The Virtual Machine where the script is emulated. \\
+\hline
+{\em strFunc} & : The name of the returning function. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(void) 
+\end{DoxyReturn}
+\hypertarget{classBomberman_1_1Thinking_1_1Brain_a328b9de11566dedba18161aa82ca232b}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!scriptCalling@{scriptCalling}}
+\index{scriptCalling@{scriptCalling}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{scriptCalling}]{\setlength{\rightskip}{0pt plus 5cm}int Bomberman::Thinking::Brain::scriptCalling (
+\begin{DoxyParamCaption}
+\item[{VirtualMachine \&}]{vm, }
+\item[{int}]{fctNb}
+\end{DoxyParamCaption}
+)}}
+\label{classBomberman_1_1Thinking_1_1Brain_a328b9de11566dedba18161aa82ca232b}
+
+
+Method redirecting calls. 
+
+Method called by Lua each time that an C++ function is called, redirecting calls to the real method called.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vm} & : The Virtual Machine where the script is emulated. \\
+\hline
+{\em fctNb} & : The id of the called Method on the stack. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(int) -\/1 if the method does not exist and the number of return value of the Method called on succes 
+\end{DoxyReturn}
+\hypertarget{classBomberman_1_1Thinking_1_1Brain_a8f68d82b0a73f1ff626e54f238d51cee}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!test@{test}}
+\index{test@{test}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{test}]{\setlength{\rightskip}{0pt plus 5cm}int Bomberman::Thinking::Brain::test (
+\begin{DoxyParamCaption}
+\item[{VirtualMachine \&}]{vm}
+\end{DoxyParamCaption}
+)}}
+\label{classBomberman_1_1Thinking_1_1Brain_a8f68d82b0a73f1ff626e54f238d51cee}
+
+
+The test Method. 
+
+This is the TESSSST ! A BIG TEST !
+
+
+\begin{DoxyParams}{Parameters}
+{\em vm} & : (Automatically added by lua) The Virtual Machine where the script is emulated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(int) The number of value pushed on the lua-\/stack. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Brain_8hh}{Brain.hh}\end{DoxyCompactItemize}
