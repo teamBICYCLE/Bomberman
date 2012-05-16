@@ -13,6 +13,7 @@
 #include "Bomb.hh"
 #include "Player.hh"
 #include "Monster.hh"
+#include "KeysConfig.hh"
 
 using namespace	Bomberman;
 
@@ -27,22 +28,14 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  if (id_ == 0)
-    {
-      actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
-      actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
-      actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
-      actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
-    }
-  else
-    {
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad4, &Player::turnLeft));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad6, &Player::turnRight));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad8, &Player::turnUp));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad5, &Player::turnDown));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad0, &Player::putBomb));
-    }
+
+  KeysConfig conf;
+
+  actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
+  actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
+  actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
+  actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
 }
 
 Player::Player()
@@ -54,22 +47,14 @@ Player::Player()
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  if (id_ == 0)
-    {
-      actionsMap_.insert(std::make_pair(gdl::Keys::A, &Player::turnLeft));
-      actionsMap_.insert(std::make_pair(gdl::Keys::D, &Player::turnRight));
-      actionsMap_.insert(std::make_pair(gdl::Keys::W, &Player::turnUp));
-      actionsMap_.insert(std::make_pair(gdl::Keys::S, &Player::turnDown));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Space, &Player::putBomb));
-    }
-  else
-    {
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad4, &Player::turnLeft));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad6, &Player::turnRight));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad8, &Player::turnUp));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad5, &Player::turnDown));
-      actionsMap_.insert(std::make_pair(gdl::Keys::Numpad0, &Player::putBomb));
-    }
+
+  KeysConfig conf;
+
+  actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
+  actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
+  actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
+  actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
 }
 
 Player::Player(const Player &other)

@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     ia/This.cpp \
     ia/LoadScript.cpp \
     ia/Failure.cpp \
-    ia/Brain.cpp
+    ia/Brain.cpp \
+    KeysConfig.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -67,4 +68,5 @@ HEADERS += \
     ia/Script.hh \
     ia/LoadScript.hh \
     ia/Failure.hh \
-    ia/Brain.hh
+    ia/Brain.hh \
+    KeysConfig.hh
