@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 18:05:35 2012 lois burg
+// Last update Wed May 16 15:50:46 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -18,6 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
+  brainScript_.compileFile (SCRIPT_FILE);
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -33,6 +34,7 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage())
 {
+    brainScript_.compileFile (SCRIPT_FILE);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
@@ -41,6 +43,7 @@ Monster::Monster(const Monster &other)
 Monster::Monster()
     : Character("Monster"), moved_(false)
 {
+    brainScript_.compileFile (SCRIPT_FILE);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
     model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
     model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -71,6 +74,10 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   Vector3d	hori(speed_, 0, 0);
   Vector3d	save(pos_);
   std::list<AObject*>::iterator objIt;
+
+  brainScript_.selectFct("thinking");
+  brainScript_.addParam (2);
+  brainScript_.callFct(1);
 
   if (actionsMap_[direction])
     (this->*(actionsMap_[direction]))();

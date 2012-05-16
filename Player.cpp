@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 16 12:55:59 2012 lois burg
+// Last update Wed May 16 14:48:08 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -83,7 +83,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	    {
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
-          std::cout << collide << std::endl;
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this);
 		// {
