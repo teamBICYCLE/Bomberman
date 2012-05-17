@@ -1,10 +1,11 @@
+//
 // Map.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
 //
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 17 16:51:24 2012 geoffroy lafontaine
+// Last update Thu May 17 16:53:49 2012 geoffroy lafontaine
 //
 
 #include <algorithm>

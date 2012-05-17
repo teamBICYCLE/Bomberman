@@ -5,11 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 17 10:47:00 2012 lois burg
+// Last update Thu May 17 14:02:34 2012 lois burg
 //
 
 #include <unistd.h>
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include "Vector3d.hh"
 #include "Player.hh"
@@ -34,6 +35,7 @@ bool  PlayState::init()
     Map	map(13, 13, 2);
     // int	viewport[4];
 
+    bestScore_ = 0;
     mapH_ = 13;
     mapW_ = 13;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
@@ -59,22 +61,48 @@ void  PlayState::cleanUp()
 
 void  PlayState::update(StatesManager * sMg)
 {
+  int		nbPlayers = 0;
+  int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
 
   camera_.update(sMg->getGameClock(), sMg->getInput());
   for (it = objs_.begin(); it != objs_.end();)
     {
+      if (dynamic_cast<Player*>(*it))
+	{
+	  ++nbPlayers;
+	  if (bestScore_ < static_cast<Player*>(*it)->getScore())
+	    bestScore_ = static_cast<Player*>(*it)->getScore();
+	}
+      else if (dynamic_cast<Monster*>(*it))
+	++nbMonsters;
       if (!(*it)->toRemove())
-        {
-          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-          ++it;
-        }
+	{
+	  (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	  ++it;
+	}
       else
-        {
-          // std::cout << "Erasing: " << (*it)->getType() << std::endl;
-          it = objs_.erase(it);
-        }
+	it = objs_.erase(it);
     }
+  if ((!nbPlayers || (nbPlayers == 1 && !nbMonsters)) && bestScore_ != -1)
+    saveScore(bestScore_);//push du statut gameover
+}
+
+void	PlayState::saveScore(int score) const
+{
+  static bool LOL = false;
+  std::ofstream	leaderboards("scores/leaderboards.sc", std::ios::app);
+
+  if (LOL)
+    return;
+  if (leaderboards.good())
+    {
+      LOL = true;
+      std::cout << score << std::endl;
+      leaderboards << "AAAA: " << score << std::endl;
+      leaderboards.close();
+    }
+  std::cout << "GAME OVER! Highscore: " << score << std::endl;
 }
 
 #define MULTZ 1.0f

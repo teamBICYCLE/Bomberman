@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Tue May 15 17:36:09 2012 lois burg
+// Last update Thu May 17 15:52:13 2012 lois burg
 //
 
 #include "AObject.hh"
@@ -75,5 +75,5 @@ void	AObject::destroy(void)
 
 void	AObject::interact(Character *ch)
 {
-  ch->bump();
+  ch->bump(pos_);
 }

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Thu May 17 10:47:57 2012 lois burg
+// Last update Thu May 17 16:08:00 2012 lois burg
 //
 
 #include "Character.hh"
@@ -58,18 +58,22 @@ void	Character::turnDown(void)
   pos_ += Vector3d(0, getSpeed(), 0);
   rot_.y = 180;
   moved_ = true;
-}
+ }
 
 void	Character::takeDamage(uint damage)
 {
-  if (life_ > 0)
-    life_ -= damage;
-  if (!life_)
-    destroy();
+  if (!isInvincible_)
+    {
+      if (life_ > 0)
+	life_ -= damage;
+      if (!life_)
+	destroy();
+    }
 }
 
-void	Character::bump(void)
+void	Character::bump(const Vector3d& bumpPos)
 {
+  (void)bumpPos;
   if (bBox_->isAbove() || bBox_->isBelow())
     pos_.y = save_.y;
   if (bBox_->isLeft() || bBox_->isRight())

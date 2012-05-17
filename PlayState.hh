@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Wed May  9 15:17:44 2012 Thomas Duplomb
+// Last update Thu May 17 14:02:46 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -29,10 +29,14 @@ namespace	Bomberman
     virtual void resume();
 
   private:
-    size_t			mapW_;
-    size_t			mapH_;
-    std::list<AObject*>	        objs_;
-    Camera                      camera_;
+    void	saveScore(int score) const;
+
+  private:
+    size_t		mapW_;
+    size_t		mapH_;
+    std::list<AObject*>	objs_;
+    Camera              camera_;
+    int			bestScore_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/
