@@ -5,9 +5,10 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 09:26:23 2012 thibault carpentier
+// Last update Thu May 17 11:49:54 2012 lois burg
 //
 
+#include <fstream>
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
@@ -19,7 +20,7 @@ using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
-    moved_(false), bombCollide_(true), wasRunning_(false)
+    moved_(false), bombCollide_(true), wasRunning_(false), score_(0)
 {
   // isInvincible_ = true;
 
@@ -40,7 +41,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
 Player::Player()
     : Character("Player"), nbBombs_(1), bombRange_(2),
-      bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false)
+      bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
+      score_(0)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -61,8 +63,9 @@ Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_),
-      wasRunning_(other.wasRunning_)
+      wasRunning_(other.wasRunning_), score_(other.score_)
 {
+  isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = other.model_;
   actionsMap_ = other.actionsMap_;
@@ -248,9 +251,17 @@ void	Player::putBomb(std::list<AObject*>& objs)
     }
 }
 
-const std::string&	Player::type(void) const
+void	Player::destroy(void)
 {
-  return (type_);
+  std::ofstream	leaderboards("scores/leaderboards.sc", std::ios::app);
+
+  if (leaderboards.good())
+    {
+      std::cout << score_ << std::endl;
+      leaderboards << "Player: " << score_ << std::endl;
+      leaderboards.close();
+    }
+  Character::destroy();
 }
 
 uint	Player::getNbBombs(void) const
@@ -266,6 +277,11 @@ uint	Player::getBombRange(void) const
 float	Player::getBombTime(void) const
 {
   return (bombTime_);
+}
+
+int	Player::getScoreValue(void) const
+{
+  return (5);
 }
 
 void	Player::setNbBombs(const uint nbBombs)
@@ -286,6 +302,12 @@ void	Player::setBombTime(const float time)
 void	Player::setBombCollide(bool b)
 {
   bombCollide_ = b;
+}
+
+void	Player::addScore(int val)
+{
+  score_ += val;
+  std::cout << "Score: " << score_ << std::endl;
 }
 
 void    Player::moveAnimation(void)
@@ -335,6 +357,7 @@ void Player::serialize(QDataStream &out) const
     out << isInvincible_;
     out << id_;
     out << wasRunning_;
+    out << score_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -354,6 +377,7 @@ void Player::unserialize(QDataStream &in)
     in >> isInvincible_;
     in >> id_;
     in >> wasRunning_;
+    in >> score_;
 }
 
 void Player::sInit(void)

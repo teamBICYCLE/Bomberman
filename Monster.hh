@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Wed May 16 15:28:51 2012 thibault carpentier
+// Last update Thu May 17 11:48:42 2012 lois burg
 //
 
 #ifndef		__MONSTER_HH__
@@ -35,7 +35,6 @@ namespace	Bomberman
     virtual void	update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs);
     virtual void        update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
-    virtual const std::string&	type(void) const;
     virtual void	interact(Character *ch);
 
   public:

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Wed May 16 18:54:31 2012 lois burg
+// Last update Thu May 17 11:48:23 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -31,18 +31,20 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
-    virtual const std::string&	type(void) const;
+    virtual void		destroy(void);
 
   public:
     uint	getNbBombs(void) const;
     uint	getBombRange(void) const;
     float	getBombTime(void) const;
+    virtual int	getScoreValue(void) const;
 
   public:
     void	setNbBombs(const uint nbBombs);
     void	setBombRange(const uint range);
     void	setBombTime(const float time);
     void	setBombCollide(bool b);
+    void	addScore(int val);
 
   public:
     /* Serialization */
@@ -71,6 +73,7 @@ namespace	Bomberman
     bool        moved_;
     bool	bombCollide_;
     bool	wasRunning_;
+    int		score_;
   };
 }
 
