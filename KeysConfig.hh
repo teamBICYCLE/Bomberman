@@ -10,6 +10,8 @@
 # define    __KEYSCONFIG_HH__
 
 # define KEYS_FILE    "config/keys.conf"
+# define PLAYER_1       "[PLAYER 1]"
+# define PLAYER_2       "[PLAYER 2]"
 
 # include <map>
 # include <QString>
@@ -49,7 +51,7 @@ private:
     keysMap defaultPlayer1_;
     keysMap defaultPlayer2_;
     std::map<const std::string, gdl::Keys::Key> ref_;
-    QStringList fileData_;
+    std::list<std::string> fileData_;
 };
 
 #endif // KEYSCONFIG_HH

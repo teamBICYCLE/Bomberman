@@ -84,7 +84,6 @@ void KeysConfig::getFileData(void)
 {
     std::string line;
     std::ifstream infile;
-    std::string res("");
 
     infile.open(KEYS_FILE);
     if (infile.fail())
@@ -95,25 +94,33 @@ void KeysConfig::getFileData(void)
     while (!infile.eof())
     {
         getline(infile, line);
-        res.append(line);
+        fileData_.push_back(line);
     }
     infile.close();
-
-    fileData_ = QString(res.c_str()).split("\n", QString::SkipEmptyParts);
 }
 
 bool KeysConfig::fileIsValid(int id) const
 {
-    (void)id;
-    return true;
+    const char *search = PLAYER_1;
+    std::list<std::string>::const_iterator it;
+
+    if (id == 2)
+        search = PLAYER_2;
+
+    for (it = fileData_.begin(); it != fileData_.end(); it++)
+    {
+        if ((*it).find(search, 0, strlen(search)) != std::string::npos)
+            return true;
+    }
+    return false;
 }
 
 gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
 {
-//    if (KeysConfig::fileIsValid(id + 1))
-//    {
-
-//    }
+    if (id <= 1 && KeysConfig::fileIsValid(id + 1))
+    {
+        std::cout << "valid Player" << (id + 1) << std::endl;
+    }
     if (id == 0)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
