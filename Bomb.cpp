@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Wed May 16 16:16:24 2012 lois burg
+// Last update Thu May 17 10:50:59 2012 lois burg
 //
 
 #include <algorithm>
@@ -107,11 +107,15 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
 	    if (dynamic_cast<Character*>(obj) || dynamic_cast<APowerup*>(obj))
-	      obj->destroy();
+	      {
+		if (dynamic_cast<Character*>(obj))
+		  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
+		obj->destroy();
+	      }
 	    else if (dynamic_cast<Bomb*>(obj))
-	      dynamic_cast<Bomb*>(obj)->setTimeOut(0.0f);
+	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
-	      dynamic_cast<Brick*>(obj)->destroy(objs);
+	      static_cast<Brick*>(obj)->destroy(objs);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj))
 	      isInvalid = true;
 	  }
@@ -127,7 +131,8 @@ const std::string&	Bomb::type(void) const
 
 void	Bomb::interact(Character *ch)
 {
-  if (&owner_ == ch && ownerCollide_)
+  if ((&owner_ == ch && ownerCollide_) ||
+      &owner_ != ch)
     ch->bump();
 }
 
