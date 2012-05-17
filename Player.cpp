@@ -5,10 +5,9 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 11:49:54 2012 lois burg
+// Last update Thu May 17 16:11:36 2012 lois burg
 //
 
-#include <fstream>
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
@@ -22,7 +21,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
     moved_(false), bombCollide_(true), wasRunning_(false), score_(0)
 {
-  // isInvincible_ = true;
+  isInvincible_ = true;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -82,7 +81,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
   bool		collide;
 
-  for (it = actionsMap_.begin(); it != actionsMap_.end(); ++it)
+  for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
       {
 	save_ = pos_;
@@ -94,20 +93,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	      collide = bBox_->collideWith(*objIt);
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this);
-		// {
-		//   if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Monster*>(*objIt))
-		//     destroy();
-		//   else if (dynamic_cast<APowerup*>(*objIt))
-		//     dynamic_cast<APowerup*>(*objIt)->activate(*this);
-		//   else if (!dynamic_cast<Bomb*>(*objIt) ||
-		// 	   (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this && dynamic_cast<Bomb*>(*objIt)->getOwnerCollide()))
-		//     {
-		//       if (bBox_->isAbove() || bBox_->isBelow())
-		// 	pos_.y = save_.y;
-		//       if (bBox_->isLeft() || bBox_->isRight())
-		// 	pos_.x = save_.x;
-		//     }
-		// }
 	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
 		       !dynamic_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
 		{
@@ -207,6 +192,12 @@ void		Player::draw(void)
   this->model_.draw();
 }
 
+void	Player::interact(Character *ch)
+{
+  if (dynamic_cast<Monster*>(ch))
+    takeDamage(static_cast<Monster*>(ch)->getDamage());
+}
+
 void	Player::turnLeft(std::list<AObject*>& objs)
 {
   (void)objs;
@@ -251,19 +242,6 @@ void	Player::putBomb(std::list<AObject*>& objs)
     }
 }
 
-void	Player::destroy(void)
-{
-  std::ofstream	leaderboards("scores/leaderboards.sc", std::ios::app);
-
-  if (leaderboards.good())
-    {
-      std::cout << score_ << std::endl;
-      leaderboards << "Player: " << score_ << std::endl;
-      leaderboards.close();
-    }
-  Character::destroy();
-}
-
 uint	Player::getNbBombs(void) const
 {
   return (nbBombs_);
@@ -282,6 +260,11 @@ float	Player::getBombTime(void) const
 int	Player::getScoreValue(void) const
 {
   return (5);
+}
+
+int	Player::getScore(void) const
+{
+  return (score_);
 }
 
 void	Player::setNbBombs(const uint nbBombs)
