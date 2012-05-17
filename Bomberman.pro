@@ -21,9 +21,11 @@ SOURCES += main.cpp \
     Camera.cpp \
     Bomb.cpp \
     BoundingBox.cpp \
+    GhostBoundingBox.cpp \
     Character.cpp \
     Explosion.cpp \
     Monster.cpp \
+    Ghost.cpp \
     SaveHandler.cpp \
     ia/VirtualMachine.cpp \
     ia/Debugger.cpp \
@@ -58,9 +60,11 @@ HEADERS += \
     Camera.hh \
     Bomb.hh \
     BoundingBox.hh \
+    GhostBoundingBox.hh \
     Character.hh \
     Explosion.hh \
     Monster.hh \
+    Ghost.hh \
     SaveHandler.hh \
     ia/luainc.hh \
     ia/VirtualMachine.hh \

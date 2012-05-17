@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Wed May 16 16:04:27 2012 geoffroy lafontaine
+// Last update Thu May 17 16:48:30 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -19,6 +19,7 @@
 # include	"Brick.hh"
 # include	"Player.hh"
 # include	"Monster.hh"
+# include	"Ghost.hh"
 
 # define	MAP_FILE_EMPTY		'.'
 # define	MAP_FILE_BLOCK		'W'
@@ -71,6 +72,8 @@ namespace	Bomberman
     void	placePlayer(uint, uint);
     void	addMonsters(uint, uint, uint);
     void	placeMonster(uint, uint);
+    void	addGhosts(uint, uint, uint);
+    void	placeGhost(uint, uint);
     void	generateBricks(uint, uint, uint);
     void	generateBorder(uint, uint);
     void	clearPlace(uint, uint);

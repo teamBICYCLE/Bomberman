@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Thu May 17 11:48:42 2012 lois burg
+// Last update Thu May 17 15:34:45 2012 geoffroy lafontaine
 //
 
 #ifndef		__MONSTER_HH__
@@ -52,16 +52,16 @@ namespace	Bomberman
   public:
     void	setDamage(uint damage);
 
-  private:
+  protected:
     void	turnLeft(void);
     void	turnRight(void);
     void	turnUp(void);
     void	turnDown(void);
 
-  private:
+  protected:
     void	moveAnimation(void);
 
-  private:
+  protected:
     std::map<eDirection, void (Character::*)(void)> actionsMap_;
     bool	moved_;
     uint	damage_;
