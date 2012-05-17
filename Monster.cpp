@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Thu May 17 16:54:00 2012 geoffroy lafontaine
+// Last update Thu May 17 17:26:10 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -18,7 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
-  brainScript_.compileFile (SCRIPT_FILE);
+  brainScript_.compileFile (MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -34,7 +34,7 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage())
 {
-    brainScript_.compileFile (SCRIPT_FILE);
+    brainScript_.compileFile (MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
@@ -43,7 +43,7 @@ Monster::Monster(const Monster &other)
 Monster::Monster()
     : Character("Monster"), moved_(false)
 {
-    brainScript_.compileFile (SCRIPT_FILE);
+    brainScript_.compileFile (MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
     model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
     model_.cut_animation(model_, "Take 001", 0, 35, "start");
