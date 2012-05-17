@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Thu May 17 14:25:48 2012 lois burg
+// Last update Thu May 17 16:53:39 2012 geoffroy lafontaine
 //
 
 #include "Player.hh"
@@ -23,7 +23,6 @@ BoundingBox::BoundingBox(const BoundingBox &other, const AObject *owner)
       above_(other.above_), below_(other.below_),
       left_(other.left_), right_(other.right_)
 {
-    std::cout << "eeeeeeeee" << std::endl;
     std::cout << other.pos_ << std::endl;
 }
 

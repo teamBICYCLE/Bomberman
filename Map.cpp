@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 17 16:17:03 2012 lois burg
+// Last update Thu May 17 16:53:49 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -64,10 +64,11 @@ Map::Map(uint width, uint height, uint nbPlayers)
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  // generateBricks(width, height, nbPlayers);
+  generateBricks(width, height, nbPlayers);
   generateBorder(width, height);
   addPlayers(width, height, nbPlayers);
   addMonsters(width, height, 5);
+  addGhosts(width, height, 2);
 }
 
 Map::Map(const std::string& fileName)
@@ -195,6 +196,52 @@ void				Map::placeMonster(uint x, uint y)
       ++it;
     }
   terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+}
+
+void				Map::addGhosts(uint width, uint height, uint nbGhosts)
+{
+  std::list<AObject*>::iterator	it;
+  uint				x = 0;
+  uint				y = 0;
+  bool				find = false;
+
+  do {
+    x = rand() % width;
+    y = rand() % height;
+    x = (x < 3) ? x + 3 : x;
+    x = (x > width - 3) ? x - 3 : x;
+    y = (y < 3) ? y + 3 : y;
+    y = (y > height - 3) ? y - 3 : y;
+    if ((x % 2) == 0 || (y % 2) == 0)
+      {
+	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+	  if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+	    find = true;
+	if (!find)
+	  {
+	    placeGhost(x, y);
+	    --nbGhosts;
+	  }
+	find = false;
+      }
+  }
+  while (nbGhosts > 0);
+}
+
+void				Map::placeGhost(uint x, uint y)
+{
+  std::list<AObject*>::iterator	it;
+
+  for (it = terrain_.begin(); it != terrain_.end();)
+    {
+      if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
+	{
+	  it = terrain_.erase(it);
+	  break;
+	}
+      ++it;
+    }
+  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
 void				Map::clearPlace(uint x, uint y)
