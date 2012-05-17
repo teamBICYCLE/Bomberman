@@ -5,7 +5,8 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Wed May 16 18:58:53 2012 lois burg
+// Last update Thu May 17 11:54:44 2012 thibault carpentier
+// Last update Thu May 17 11:51:12 2012 lois burg
 //
 
 #include <algorithm>
@@ -56,19 +57,14 @@ Monster::Monster()
 }
 
 Monster::~Monster()
-{
-}
-
-/* moche j'aime pas */
+{}
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-    brainScript_.selectFct("thinking");
-    brainScript_.addParam (2);
-    brainScript_.callFct(1);
-    (void)clock;
+    // brainScript_.selectFct("thinking");
+    // brainScript_.callFct(1);
+    update(clock, brainScript_.getDecision(), objs);
     (void)keys;
-    (void)objs;
 }
 
 void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs)
@@ -179,11 +175,6 @@ void		Monster::draw(void)
   glRotated(rot_.y, 0, 1, 0);
 
   this->model_.draw();
-}
-
-const std::string&	Monster::type(void) const
-{
-  return (type_);
 }
 
 void	Monster::interact(Character *ch)

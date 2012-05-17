@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Tue May 15 14:34:35 2012 thibault carpentier
+// Last update Thu May 17 10:28:30 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -57,6 +57,7 @@
 # include <iostream>
 # include "VirtualMachine.hh"
 # include "Script.hh"
+# include "Character.hh"
 
 using namespace Bomberman;
 using namespace LuaVirtualMachine;
@@ -125,7 +126,14 @@ namespace Bomberman
        *
        */
       void getReturn(VirtualMachine &vm, const std::string &strFunc);
-
+      /*!
+       *  \brief returning the movement decided by the Script.
+       *
+       *  Return the final decision of the thinking fonction
+       *  \return (eDirection) (direction enum)
+       *
+       */
+      eDirection getDecision(void) const;
 
       /*!
        *  \brief The test Method.
@@ -156,6 +164,8 @@ namespace Bomberman
        *  \param Unused.
        */
       Brain& operator=(Brain const &);
+
+      eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
     };

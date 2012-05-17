@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Wed May 16 18:58:45 2012 lois burg
+// Last update Thu May 17 11:28:27 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -16,7 +16,7 @@
 
 namespace	Bomberman
 {
-  enum eDirection { UP, RIGHT, DOWN, LEFT };
+  enum eDirection { UP, RIGHT, DOWN, LEFT, NODIR};
 
   class	Character : public AObject
   {
@@ -40,6 +40,7 @@ namespace	Bomberman
     double      getSpeed(void) const;
     bool	isInvincible(void) const;
     int		getId(void) const;
+    virtual int	getScoreValue(void) const;
 
   public:
     void	setLife(const uint life);

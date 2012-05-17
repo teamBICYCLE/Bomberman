@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:35:37 2012 geoffroy lafontaine
-// Last update Wed May 16 16:24:54 2012 lois burg
+// Last update Thu May 17 11:50:28 2012 lois burg
 //
 
 #include "VelocityPowerup.hh"
@@ -42,11 +42,6 @@ void	VelocityPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<
 
 void	VelocityPowerup::draw(void)
 {
-}
-
-const std::string&	VelocityPowerup::type(void) const
-{
-  return (type_);
 }
 
 VelocityPowerup *VelocityPowerup::clone(void)

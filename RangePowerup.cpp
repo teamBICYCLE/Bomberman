@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:33:03 2012 geoffroy lafontaine
-// Last update Wed May 16 16:24:57 2012 lois burg
+// Last update Thu May 17 11:50:37 2012 lois burg
 //
 
 #include "RangePowerup.hh"
@@ -42,11 +42,6 @@ void	RangePowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AOb
 
 void	RangePowerup::draw(void)
 {
-}
-
-const std::string&	RangePowerup::type(void) const
-{
-  return (type_);
 }
 
 RangePowerup    *RangePowerup::clone(void)
