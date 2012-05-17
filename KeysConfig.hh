@@ -9,9 +9,13 @@
 #ifndef     __KEYSCONFIG_HH__
 # define    __KEYSCONFIG_HH__
 
-# define KEYS_FILE    "config/keys.conf"
-# define PLAYER_1       "[PLAYER 1]"
-# define PLAYER_2       "[PLAYER 2]"
+# define KEYS_FILE_P1       "config/player1.conf"
+# define KEYS_FILE_P2       "config/player2.conf"
+# define UP_CFG             "[UP]"
+# define DOWN_CFG           "[DOWN]"
+# define LEFT_CFG           "[LEFT]"
+# define RIGHT_CFG          "[RIGHT]"
+# define BOMB_CFG           "[PUT_BOMB]"
 
 # include <map>
 # include <QString>
@@ -42,16 +46,25 @@ public:
 
 public:
     gdl::Keys::Key &get(eKeys, int);
+    gdl::Keys::Key &searchKey(eKeys k, int id);
+
+private:
+    void getFileDataPlayer1(void);
+    void getFileDataPlayer2(void);
 
 private:
     bool fileIsValid(int) const;
-    void getFileData(void);
+    bool checkFormat(const std::string &, int) const;
+    const std::string clean(const std::string &str) const;
+    bool checkArg(const std::string &str) const;
 
 private:
     keysMap defaultPlayer1_;
     keysMap defaultPlayer2_;
     std::map<const std::string, gdl::Keys::Key> ref_;
-    std::list<std::string> fileData_;
+    std::map<eKeys, const std::string> config_;
+    std::list<std::string> fileDataP1_;
+    std::list<std::string> fileDataP2_;
 };
 
 #endif // KEYSCONFIG_HH

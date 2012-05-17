@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 17 16:53:49 2012 geoffroy lafontaine
+// Last update Thu May 17 19:08:27 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -125,7 +125,6 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 	  }
 	find = false;
       }
-    std::cout << "aaaa" << std::endl;
   }
   while (nbBricks > 0);
 }

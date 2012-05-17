@@ -73,55 +73,126 @@ KeysConfig::KeysConfig()
     ref_.insert(std::make_pair("LEFT_CTRL", gdl::Keys::LControl));
     ref_.insert(std::make_pair("RIGHT_CTRL", gdl::Keys::RControl));
 
-    KeysConfig::getFileData();
+    config_.insert(std::make_pair(K_UP, UP_CFG));
+    config_.insert(std::make_pair(K_DOWN, DOWN_CFG));
+    config_.insert(std::make_pair(K_LEFT, LEFT_CFG));
+    config_.insert(std::make_pair(K_RIGHT, RIGHT_CFG));
+    config_.insert(std::make_pair(K_PUT_BOMB, BOMB_CFG));
+
+    KeysConfig::getFileDataPlayer1();
+    KeysConfig::getFileDataPlayer2();
 }
 
 KeysConfig::~KeysConfig()
 {
 }
 
-void KeysConfig::getFileData(void)
+void KeysConfig::getFileDataPlayer1(void)
 {
     std::string line;
     std::ifstream infile;
 
-    infile.open(KEYS_FILE);
-    if (infile.fail())
+    infile.open(KEYS_FILE_P1);
+    if (!infile.fail())
     {
-        // faire un throw
-        std::cerr << "File : error !" << std::endl;
+        while (!infile.eof())
+        {
+            getline(infile, line);
+            fileDataP1_.push_back(line);
+        }
     }
-    while (!infile.eof())
+    infile.close();
+}
+
+void KeysConfig::getFileDataPlayer2(void)
+{
+    std::string line;
+    std::ifstream infile;
+
+    infile.open(KEYS_FILE_P2);
+    if (!infile.fail())
     {
-        getline(infile, line);
-        fileData_.push_back(line);
+        while (!infile.eof())
+        {
+            getline(infile, line);
+            fileDataP2_.push_back(line);
+        }
     }
     infile.close();
 }
 
 bool KeysConfig::fileIsValid(int id) const
 {
-    const char *search = PLAYER_1;
-    std::list<std::string>::const_iterator it;
+    if (id == 0 && fileDataP1_.size() > 0)
+        return true;
 
-    if (id == 2)
-        search = PLAYER_2;
+    if (id == 1 && fileDataP2_.size() > 0)
+        return true;
 
-    for (it = fileData_.begin(); it != fileData_.end(); it++)
-    {
-        if ((*it).find(search, 0, strlen(search)) != std::string::npos)
-            return true;
-    }
     return false;
+}
+
+bool KeysConfig::checkFormat(const std::string &str, int n) const
+{
+    if (str[n] == ' ' || str[n] == '\t' || str[n] == '=')
+        return true;
+    return false;
+}
+
+const std::string KeysConfig::clean(const std::string &str) const
+{
+    std::string ret("");
+
+    for (uint i = 0;  i != str.length(); i++)
+        if (str[i] != ' ' && str[i] != '\t')
+            ret.append(str.substr(i, 1));
+    return ret;
+}
+
+bool KeysConfig::checkArg(const std::string &str) const
+{
+    std::map<const std::string, gdl::Keys::Key>::const_iterator end = ref_.end();
+    if (ref_.find(KeysConfig::clean(str)) != end)
+        return true;
+    std::cerr << "Keys Configuration : Undefined reference to : " << str << std::endl;
+    return false;
+}
+
+gdl::Keys::Key &KeysConfig::searchKey(eKeys k, int id)
+{
+    const std::string search = config_[k];
+    std::list<std::string>::iterator it;
+
+    if (id == 0)
+    {
+        for (it = fileDataP1_.begin(); it != fileDataP1_.end(); it++)
+        {
+            if ((*it).find(search.c_str(), 0, search.length()) != std::string::npos
+                    && checkFormat((*it), search.length())
+                    && checkArg(it->substr(it->find('=') + 1)))
+                return ref_[KeysConfig::clean(it->substr(it->find('=') + 1))];
+        }
+        return defaultPlayer1_[k];
+    }
+    else if (id == 1)
+    {
+        for (it = fileDataP2_.begin(); it != fileDataP2_.end(); it++)
+        {
+            if ((*it).find(search.c_str(), 0, search.length()) != std::string::npos
+                    && checkFormat((*it), search.length())
+                    && checkArg(it->substr(it->find('=') + 1)))
+                return ref_[KeysConfig::clean(it->substr(it->find('=') + 1))];
+        }
+        return defaultPlayer2_[k];
+    }
+    return defaultPlayer1_[k];
 }
 
 gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
 {
-    if (id <= 1 && KeysConfig::fileIsValid(id + 1))
-    {
-        std::cout << "valid Player" << (id + 1) << std::endl;
-    }
-    if (id == 0)
+    if (KeysConfig::fileIsValid(id))
+        return searchKey(k, id);
+    else if (id == 0)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
 }
