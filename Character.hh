@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Wed May 16 18:58:45 2012 lois burg
+// Last update Thu May 17 10:14:34 2012 thibault carpentier
 //
 
 #ifndef		__CHARACTER_HH__
@@ -16,7 +16,7 @@
 
 namespace	Bomberman
 {
-  enum eDirection { UP, RIGHT, DOWN, LEFT };
+  enum eDirection { UP, RIGHT, DOWN, LEFT, NODIR};
 
   class	Character : public AObject
   {
