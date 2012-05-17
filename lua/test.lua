@@ -13,5 +13,15 @@ function this.thinking(this)
    -- print(a)
    -- print(b)
    math.randomseed(os.time())
-   return math.random(1, 5)
+   a = math.random(1, 5)
+   if a == 1
+   then return UP
+   elseif a == 2
+   then return RIGHT
+   elseif a == 3
+   then return DOWN
+   elseif a == 4
+   then return LEFT
+   end
+return NODIR
 end
