@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Thu May 17 11:48:23 2012 lois burg
+// Last update Thu May 17 15:27:49 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -29,15 +29,16 @@ namespace	Bomberman
     virtual ~Player();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
-    virtual void		draw(void);
-    virtual void		destroy(void);
+    virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void	draw(void);
+    virtual void	interact(Character *ch);
 
   public:
     uint	getNbBombs(void) const;
     uint	getBombRange(void) const;
     float	getBombTime(void) const;
     virtual int	getScoreValue(void) const;
+    int		getScore(void) const;
 
   public:
     void	setNbBombs(const uint nbBombs);

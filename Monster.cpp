@@ -5,8 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Thu May 17 11:54:44 2012 thibault carpentier
-// Last update Thu May 17 11:51:12 2012 lois burg
+// Last update Thu May 17 16:17:16 2012 lois burg
 //
 
 #include <algorithm>
@@ -61,32 +60,22 @@ Monster::~Monster()
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-    // brainScript_.selectFct("thinking");
-    // brainScript_.callFct(1);
+    brainScript_.selectFct("thinking");
+    brainScript_.callFct(1);
     update(clock, brainScript_.getDecision(), objs);
     (void)keys;
 }
 
 void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs)
 {
-  Vector3d	verti(0, speed_, 0);
-  Vector3d	hori(speed_, 0, 0);
-  Vector3d	save(pos_);
   std::list<AObject*>::iterator objIt;
 
+  save_ = pos_;
   if (actionsMap_[direction])
     (this->*(actionsMap_[direction]))();
-  if (save != pos_)
-    for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
-      {
-        if (bBox_->collideWith(*objIt))
-          {
-            if (bBox_->isAbove() || bBox_->isBelow())
-              pos_.y = save.y;
-            if (bBox_->isLeft() || bBox_->isRight())
-              pos_.x = save.x;
-          }
-      }
+  for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
+    if (bBox_->collideWith(*objIt))
+      (*objIt)->interact(this);
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -179,7 +168,8 @@ void		Monster::draw(void)
 
 void	Monster::interact(Character *ch)
 {
-  ch->takeDamage(damage_);
+  if (dynamic_cast<Player*>(ch))
+    ch->takeDamage(damage_);
 }
 
 void			Monster::moveAnimation(void)
