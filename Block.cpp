@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 13 11:37:05 2012 lois burg
+// Last update Thu May 17 11:49:59 2012 lois burg
 //
 
 #include "Block.hh"
@@ -116,11 +116,6 @@ glNormal3d(0, 1, 0);
 //  glVertex3d(sz_.x, sz_.y, 0.0d);
 //  glVertex3d(sz_.x, 0.0d, 0.0d);
 //  glEnd();
-}
-
-const std::string&	Block::type(void) const
-{
-  return (type_);
 }
 
 void	Block::destroy(void)

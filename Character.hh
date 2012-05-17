@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Thu May 17 11:18:16 2012 lois burg
+// Last update Thu May 17 11:28:27 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -40,7 +40,7 @@ namespace	Bomberman
     double      getSpeed(void) const;
     bool	isInvincible(void) const;
     int		getId(void) const;
-    int		getScoreValue(void) const;
+    virtual int	getScoreValue(void) const;
 
   public:
     void	setLife(const uint life);

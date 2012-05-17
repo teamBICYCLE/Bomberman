@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:25:34 2012 geoffroy lafontaine
-// Last update Wed May 16 16:24:51 2012 lois burg
+// Last update Thu May 17 11:50:33 2012 lois burg
 //
 
 #include "AmmoPowerup.hh"
@@ -42,11 +42,6 @@ void	AmmoPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObj
 
 void	AmmoPowerup::draw(void)
 {
-}
-
-const std::string&	AmmoPowerup::type(void) const
-{
-  return (type_);
 }
 
 AmmoPowerup *AmmoPowerup::clone(void)

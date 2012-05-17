@@ -5,9 +5,10 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 11:18:25 2012 lois burg
+// Last update Thu May 17 11:49:54 2012 lois burg
 //
 
+#include <fstream>
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
@@ -250,9 +251,17 @@ void	Player::putBomb(std::list<AObject*>& objs)
     }
 }
 
-const std::string&	Player::type(void) const
+void	Player::destroy(void)
 {
-  return (type_);
+  std::ofstream	leaderboards("scores/leaderboards.sc", std::ios::app);
+
+  if (leaderboards.good())
+    {
+      std::cout << score_ << std::endl;
+      leaderboards << "Player: " << score_ << std::endl;
+      leaderboards.close();
+    }
+  Character::destroy();
 }
 
 uint	Player::getNbBombs(void) const

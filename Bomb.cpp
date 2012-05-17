@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 17 10:50:59 2012 lois burg
+// Last update Thu May 17 11:50:50 2012 lois burg
 //
 
 #include <algorithm>
@@ -122,11 +122,6 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
       });
   if (!isInvalid)
     objs.push_back(new Explosion(*e));
-}
-
-const std::string&	Bomb::type(void) const
-{
-  return (type_);
 }
 
 void	Bomb::interact(Character *ch)

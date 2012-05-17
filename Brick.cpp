@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Wed May 16 16:26:56 2012 lois burg
+// Last update Thu May 17 11:50:11 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -137,11 +137,6 @@ void		Brick::draw(void)
 //  glVertex3d(sz_.x, sz_.y, 0.0d);
 //  glVertex3d(sz_.x, 0.0d, 0.0d);
 //  glEnd();
-}
-
-const std::string&	Brick::type(void) const
-{
-  return (type_);
 }
 
 void Brick::loot(std::list<AObject *> &objs)

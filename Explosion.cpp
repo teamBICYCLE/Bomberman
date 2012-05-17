@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Tue May 15 17:31:17 2012 lois burg
+// Last update Thu May 17 11:51:01 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -19,7 +19,7 @@ Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage)
 }
 
 Explosion::Explosion(const Explosion& other)
-  : AObject(other.getPos(), other.getRot(), other.getSize(), other.type()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
+  : AObject(other.getPos(), other.getRot(), other.getSize(), other.getType()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
 {
 }
 
@@ -75,11 +75,6 @@ void		Explosion::draw(void)
   glVertex3f(1.0F, 1.0F, 1.0F);
   glVertex3f(0, 1.0F, 1.0F);
   glEnd();
-}
-
-const std::string&	Explosion::type(void) const
-{
-  return (type_);
 }
 
 uint	Explosion::getDamage(void) const
