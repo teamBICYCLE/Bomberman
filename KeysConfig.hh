@@ -12,6 +12,9 @@
 # define KEYS_FILE    "config/keys.conf"
 
 # include <map>
+# include <QString>
+# include <QStringList>
+# include <fstream>
 # include "AObject.hh"
 # include "Player.hh"
 
@@ -39,8 +42,14 @@ public:
     gdl::Keys::Key &get(eKeys, int);
 
 private:
+    bool fileIsValid(int) const;
+    void getFileData(void);
+
+private:
     keysMap defaultPlayer1_;
     keysMap defaultPlayer2_;
+    std::map<const std::string, gdl::Keys::Key> ref_;
+    QStringList fileData_;
 };
 
 #endif // KEYSCONFIG_HH
