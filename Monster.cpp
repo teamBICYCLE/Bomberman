@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Thu May 17 11:54:44 2012 thibault carpentier
+// Last update Thu May 17 13:12:42 2012 thibault carpentier
 // Last update Thu May 17 11:51:12 2012 lois burg
 //
 
@@ -61,8 +61,8 @@ Monster::~Monster()
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-    // brainScript_.selectFct("thinking");
-    // brainScript_.callFct(1);
+    brainScript_.selectFct("thinking");
+    brainScript_.callFct(1);
     update(clock, brainScript_.getDecision(), objs);
     (void)keys;
 }
