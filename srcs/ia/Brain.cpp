@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Thu May 17 13:59:24 2012 thibault carpentier
+// Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
 #include "Brain.hh"
@@ -14,7 +14,8 @@ using namespace Bomberman;
 using namespace Thinking;
 using namespace LuaVirtualMachine;
 
-Brain::Brain(void)
+Brain::Brain(int x, int y)
+  : danger_(x, y)
 {
   lua_State *state = getVM().getLua();
 
