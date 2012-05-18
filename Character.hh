@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Tue May 15 17:28:33 2012 lois burg
+// Last update Thu May 17 15:52:31 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -16,7 +16,7 @@
 
 namespace	Bomberman
 {
-  enum eDirection { UP, RIGHT, DOWN, LEFT };
+  enum eDirection { UP, RIGHT, DOWN, LEFT, NODIR};
 
   class	Character : public AObject
   {
@@ -33,12 +33,14 @@ namespace	Bomberman
 
   public:
     void	takeDamage(uint damage);
-    void	bump(void);
+    void	bump(const Vector3d& bumpPos);
 
   public:
     uint	getLife(void) const;
     double      getSpeed(void) const;
     bool	isInvincible(void) const;
+    int		getId(void) const;
+    virtual int	getScoreValue(void) const;
 
   public:
     void	setLife(const uint life);
@@ -53,6 +55,9 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const = 0;
     virtual void unserialize(QDataStream &in) = 0;
 
+  public:
+    static int	CharacterId;
+
   protected:
     uint        life_;
     double      speed_;
@@ -61,6 +66,7 @@ namespace	Bomberman
     bool	moved_;
     bool	isInvincible_;
     Vector3d	save_;
+    int		id_;
   };
 }
 

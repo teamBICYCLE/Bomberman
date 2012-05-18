@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Tue May 15 17:36:51 2012 lois burg
+// Last update Fri May 18 10:59:51 2012 Thomas Duplomb
 //
 
 #ifndef		__AOBJECT_HH__
@@ -31,10 +31,10 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
-    virtual const std::string&	type(void) const = 0;
-    virtual void		interact(Character *ch);
+    //virtual const std::string&	type(void) const = 0;
     //virtual void                serialize(QDataStream &out) const = 0;
     //virtual void                unserialize(QDataStream &in) = 0;
+    virtual void		interact(Character *ch, std::list<AObject*>& objs);
 
   public:
     virtual void		setPos(const Vector3d &);
@@ -61,7 +61,7 @@ namespace	Bomberman
     Vector3d            rot_;
     Vector3d            sz_;
     gdl::Model          model_;
-    const std::string	type_;
+    std::string		type_;
 
   public:
     bool                removeLater_;

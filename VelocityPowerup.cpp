@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:35:37 2012 geoffroy lafontaine
-// Last update Tue May 15 11:11:07 2012 lois burg
+// Last update Thu May 17 17:53:46 2012 lois burg
 //
 
 #include "VelocityPowerup.hh"
@@ -42,11 +42,36 @@ void	VelocityPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<
 
 void	VelocityPowerup::draw(void)
 {
-}
-
-const std::string&	VelocityPowerup::type(void) const
-{
-  return (type_);
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
+  glBegin(GL_QUADS);
+  glColor3ub(86, 130, 3);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glEnd();
 }
 
 VelocityPowerup *VelocityPowerup::clone(void)

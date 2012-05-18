@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Sun May 13 20:42:54 2012 romain sylvian
+// Last update Thu May 17 11:49:31 2012 lois burg
 //
 //
 
@@ -30,7 +30,6 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
-    virtual const std::string&	type(void) const;
     virtual void		loot(std::list<AObject *> &);
     virtual void		destroy(std::list<AObject*>& objs);
 
@@ -38,7 +37,6 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    Brick &operator=(const Brick &v);
 
     /* TMP */
     void aff(void) const;

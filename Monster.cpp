@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 15 18:05:35 2012 lois burg
+// Last update Fri May 18 10:36:40 2012 lois burg
 //
 
 #include <algorithm>
@@ -18,6 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage)
 {
+  brainScript_.compileFile (MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -33,49 +34,48 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage())
 {
-    bBox_ = other.bBox_;
-    model_ = other.getModel();
+    brainScript_.compileFile (MONSTER_SCRIPT);
+    bBox_ = new BoundingBox(other.pos_, other.sz_, this);
+    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
 Monster::Monster()
     : Character("Monster"), moved_(false)
 {
+    brainScript_.compileFile (MONSTER_SCRIPT);
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Monster::~Monster()
-{
-}
-
-/* moche j'aime pas */
+{}
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-    (void)clock;
+    brainScript_.selectFct("thinking");
+    brainScript_.callFct(1);
+    update(clock, brainScript_.getDecision(), objs);
     (void)keys;
-    (void)objs;
 }
 
 void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs)
 {
-  Vector3d	verti(0, speed_, 0);
-  Vector3d	hori(speed_, 0, 0);
-  Vector3d	save(pos_);
   std::list<AObject*>::iterator objIt;
 
+  save_ = pos_;
   if (actionsMap_[direction])
     (this->*(actionsMap_[direction]))();
-  if (save != pos_)
-    for (objIt = objs.begin(); objIt != objs.end() && save != pos_; ++objIt)
-      {
-        if (bBox_->collideWith(*objIt))
-          {
-            if (bBox_->isAbove() || bBox_->isBelow())
-              pos_.y = save.y;
-            if (bBox_->isLeft() || bBox_->isRight())
-              pos_.x = save.x;
-          }
-      }
+  for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
+    if (bBox_->collideWith(*objIt))
+      (*objIt)->interact(this, objs);
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -166,14 +166,11 @@ void		Monster::draw(void)
   this->model_.draw();
 }
 
-const std::string&	Monster::type(void) const
+void	Monster::interact(Character *ch, std::list<AObject*>& objs)
 {
-  return (type_);
-}
-
-void	Monster::interact(Character *ch)
-{
-  ch->takeDamage(damage_);
+  (void)objs;
+  if (dynamic_cast<Player*>(ch))
+    ch->takeDamage(damage_);
 }
 
 void			Monster::moveAnimation(void)
@@ -229,6 +226,7 @@ void Monster::serialize(QDataStream &out) const
     out << speed_;
     out << speedAdapter_;
     out << moved_;
+    out << id_;
 }
 
 void Monster::unserialize(QDataStream &in)
@@ -241,6 +239,7 @@ void Monster::unserialize(QDataStream &in)
     in >> speed_;
     in >> speedAdapter_;
     in >> moved_;
+    in >> id_;
 }
 
 void Monster::sInit(void)
@@ -259,24 +258,6 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
 {
     m.unserialize(in);
     return in;
-}
-
-Monster &Monster::operator=(const Monster &m)
-{
-    actionsMap_ = m.actionsMap_;
-    moved_ = m.moved_;
-    life_ = m.life_;
-    speed_ = m.speed_;
-    speedAdapter_ = m.speedAdapter_;
-    bBox_ = m.bBox_;
-    moved_ = m.moved_;
-    pos_ = m.pos_;
-    rot_ = m.rot_;
-    sz_ = m.sz_;
-    model_ = m.model_;
-    removeLater_ = m.removeLater_;
-
-    return *this;
 }
 
 /* TMP */

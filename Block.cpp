@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 13 11:37:05 2012 lois burg
+// Last update Thu May 17 11:49:59 2012 lois burg
 //
 
 #include "Block.hh"
@@ -118,11 +118,6 @@ glNormal3d(0, 1, 0);
 //  glEnd();
 }
 
-const std::string&	Block::type(void) const
-{
-  return (type_);
-}
-
 void	Block::destroy(void)
 {
   //indestructible block
@@ -162,16 +157,6 @@ QDataStream &operator>>(QDataStream &in, Block &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Block &Block::operator=(const Block &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    return *this;
 }
 
 /* TMP */

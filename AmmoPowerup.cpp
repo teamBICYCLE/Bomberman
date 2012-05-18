@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:25:34 2012 geoffroy lafontaine
-// Last update Sun May 13 15:21:44 2012 lois burg
+// Last update Thu May 17 17:55:06 2012 lois burg
 //
 
 #include "AmmoPowerup.hh"
@@ -42,11 +42,36 @@ void	AmmoPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObj
 
 void	AmmoPowerup::draw(void)
 {
-}
-
-const std::string&	AmmoPowerup::type(void) const
-{
-  return (type_);
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
+  glBegin(GL_QUADS);
+  glColor3ub(0, 127, 255);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(0, 0, 0);
+  glVertex3f(1.0F, 0, 0);
+  glVertex3f(1.0F, 1.0F, 0);
+  glVertex3f(0, 1.0F, 0);
+  glVertex3f(0, 0, 1.0F);
+  glVertex3f(1.0F, 0, 1.0F);
+  glVertex3f(1.0F, 1.0F, 1.0F);
+  glVertex3f(0, 1.0F, 1.0F);
+  glEnd();
 }
 
 AmmoPowerup *AmmoPowerup::clone(void)

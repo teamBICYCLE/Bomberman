@@ -5,14 +5,13 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sun May 13 14:34:21 2012 lois burg
+// Last update Thu May 17 11:50:11 2012 lois burg
 //
 
+#include <GL/gl.h>
 #include "Brick.hh"
 
 using namespace	Bomberman;
-
-#include <GL/gl.h>
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : AObject(pos, rot, sz, "Brick")
@@ -31,7 +30,15 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 Brick::Brick(const Brick &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Brick")
 {
-    loot_ = other.loot_;
+    PowerupFactory *factory = PowerupFactory::getInstance();
+
+    loot_ = factory->create();
+    if (loot_ != NULL)
+    {
+        loot_->setPos(other.pos_);
+        loot_->setRot(other.rot_);
+        loot_->setSize(other.sz_);
+    }
 }
 
 Brick::Brick()
@@ -132,11 +139,6 @@ void		Brick::draw(void)
 //  glEnd();
 }
 
-const std::string&	Brick::type(void) const
-{
-  return (type_);
-}
-
 void Brick::loot(std::list<AObject *> &objs)
 {
     if (loot_ != NULL)
@@ -186,16 +188,6 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Brick &Brick::operator=(const Brick &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    return *this;
 }
 
 /* TMP */

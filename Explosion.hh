@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:47 2012 lois burg
-// Last update Tue May 15 17:30:14 2012 lois burg
+// Last update Thu May 17 17:38:49 2012 lois burg
 //
 
 #ifndef		__EXPLOSION_HH__
@@ -28,14 +28,12 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
-    virtual const std::string&	type(void) const;
-    virtual void		interact(Character *ch);
+    virtual void		interact(Character *ch, std::list<AObject*>& objs);
 
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    Explosion &operator=(const Explosion &v);
 
     /* tmp */
     void aff(void) const;

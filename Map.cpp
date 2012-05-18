@@ -1,10 +1,11 @@
+//
 // Map.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
 //
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 15 11:28:06 2012 geoffroy lafontaine
+// Last update Thu May 17 19:08:27 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -57,16 +58,17 @@ const char	*Map::Failure::what(void) const throw()
 
 Map::Map(uint width, uint height, uint nbPlayers)
 {
-    if ((width * height) < (nbPlayers * 4))
-        throw Map::Failure("Map", "too many players for this map.");
+  if ((width * height) < (nbPlayers * 4))
+    throw Map::Failure("Map", "too many players for this map.");
 
-    for (uint y = 1; y < height - 1; y += 2)
-        for (uint x = 1; x < width - 1; x += 2)
-            terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-
-    generateBricks(width, height, nbPlayers);
-    addPlayers(width, height, nbPlayers);
-    addMonsters(width, height);
+  for (uint y = 1; y < height - 1; y += 2)
+    for (uint x = 1; x < width - 1; x += 2)
+      terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+  generateBricks(width, height, nbPlayers);
+  generateBorder(width, height);
+  addPlayers(width, height, nbPlayers);
+  addMonsters(width, height, 5);
+  addGhosts(width, height, 2);
 }
 
 Map::Map(const std::string& fileName)
@@ -85,6 +87,20 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
+void				Map::generateBorder(uint width, uint height)
+{
+  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
+    {
+      terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
+  for (int y = 0; y < static_cast<int>(height); ++y)
+    {
+      terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+    }
+}
+
 void				Map::generateBricks(uint width, uint height, uint nbPlayers)
 {
   uint				nbBricks;
@@ -93,7 +109,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   uint				y;
   bool				find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width > height ? width : height);
+  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width + height)/*(width > height ? width : height)*/;
   do {
     x = rand() % width;
     y = rand() % height;
@@ -135,15 +151,13 @@ void				Map::placePlayer(uint x, uint y)
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::addMonsters(uint width, uint height)
+void				Map::addMonsters(uint width, uint height, uint nbMonsters)
 {
-  uint				nbMonsters;
   std::list<AObject*>::iterator	it;
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
 
-  nbMonsters = 5;
   do {
     x = rand() % width;
     y = rand() % height;
@@ -181,6 +195,52 @@ void				Map::placeMonster(uint x, uint y)
       ++it;
     }
   terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+}
+
+void				Map::addGhosts(uint width, uint height, uint nbGhosts)
+{
+  std::list<AObject*>::iterator	it;
+  uint				x = 0;
+  uint				y = 0;
+  bool				find = false;
+
+  do {
+    x = rand() % width;
+    y = rand() % height;
+    x = (x < 3) ? x + 3 : x;
+    x = (x > width - 3) ? x - 3 : x;
+    y = (y < 3) ? y + 3 : y;
+    y = (y > height - 3) ? y - 3 : y;
+    if ((x % 2) == 0 || (y % 2) == 0)
+      {
+	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+	  if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+	    find = true;
+	if (!find)
+	  {
+	    placeGhost(x, y);
+	    --nbGhosts;
+	  }
+	find = false;
+      }
+  }
+  while (nbGhosts > 0);
+}
+
+void				Map::placeGhost(uint x, uint y)
+{
+  std::list<AObject*>::iterator	it;
+
+  for (it = terrain_.begin(); it != terrain_.end();)
+    {
+      if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
+	{
+	  it = terrain_.erase(it);
+	  break;
+	}
+      ++it;
+    }
+  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
 void				Map::clearPlace(uint x, uint y)

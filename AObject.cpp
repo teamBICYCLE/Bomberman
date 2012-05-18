@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Tue May 15 17:36:09 2012 lois burg
+// Last update Thu May 17 17:24:33 2012 lois burg
 //
 
 #include "AObject.hh"
@@ -73,7 +73,8 @@ void	AObject::destroy(void)
   removeLater_ = true;
 }
 
-void	AObject::interact(Character *ch)
+void	AObject::interact(Character *ch, std::list<AObject*>& objs)
 {
-  ch->bump();
+  (void)objs;
+  ch->bump(pos_);
 }

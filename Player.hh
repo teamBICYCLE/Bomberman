@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Tue May 15 17:28:25 2012 lois burg
+// Last update Thu May 17 18:38:02 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -29,27 +29,31 @@ namespace	Bomberman
     virtual ~Player();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
-    virtual void		draw(void);
-    virtual const std::string&	type(void) const;
+    virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void	draw(void);
+    virtual void	interact(Character *ch, std::list<AObject*>& objs);
 
   public:
     uint	getNbBombs(void) const;
+    int		getNbMines(void) const;
     uint	getBombRange(void) const;
     float	getBombTime(void) const;
+    virtual int	getScoreValue(void) const;
+    int		getScore(void) const;
 
   public:
-    void	setNbBombs(const uint nbBombs);
+    void	setNbBombs(const uint nb);
+    void	setNbMines(const int nb);
     void	setBombRange(const uint range);
     void	setBombTime(const float time);
     void	setBombCollide(bool b);
+    void	addScore(int val);
 
   public:
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    Player &operator=(const Player &p);
 
     /* tmp */
     void aff(void) const;
@@ -60,17 +64,22 @@ namespace	Bomberman
     void	turnUp(std::list<AObject*>& objs);
     void	turnDown(std::list<AObject*>& objs);
     void	putBomb(std::list<AObject*>& objs);
+    void	putMine(std::list<AObject*>& objs);
 
   private:
     void        moveAnimation(void);
 
   private:
     uint	nbBombs_;
+    int		nbMines_;
     uint	bombRange_;
+    uint	mineRange_;
     float	bombTime_;
     std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
     bool        moved_;
     bool	bombCollide_;
+    bool	wasRunning_;
+    int		score_;
   };
 }
 

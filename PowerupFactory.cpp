@@ -18,6 +18,7 @@ PowerupFactory::PowerupFactory()
     ref_.push_back(new VelocityPowerup(Vector3d(), Vector3d(), Vector3d()));
     ref_.push_back(new RangePowerup(Vector3d(), Vector3d(), Vector3d()));
     ref_.push_back(new AmmoPowerup(Vector3d(), Vector3d(), Vector3d()));
+    ref_.push_back(new MinePowerup(Vector3d(), Vector3d(), Vector3d()));
 }
 
 PowerupFactory::~PowerupFactory()

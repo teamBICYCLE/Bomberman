@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Tue May 15 17:40:30 2012 lois burg
+// Last update Thu May 17 18:54:34 2012 lois burg
 //
 
 #include <algorithm>
 #include "Explosion.hh"
 #include "Bomb.hh"
+#include "Mine.hh"
 #include "Brick.hh"
 
 using namespace	Bomberman;
@@ -80,7 +81,6 @@ void	Bomb::explode(std::list<AObject*>& objs)
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
       // std::cout << "--------------------" << std::endl;
     }
-  owner_.setNbBombs(owner_.getNbBombs() + 1);
 }
 
 void	Bomb::draw(void)
@@ -106,13 +106,21 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
-	    if (dynamic_cast<Character*>(obj) || dynamic_cast<APowerup*>(obj))
+	    if (dynamic_cast<Character*>(obj))
+	      {
+		if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
+		  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
+		static_cast<Character*>(obj)->takeDamage(e->getDamage());
+	      }
+	    else if (dynamic_cast<APowerup*>(obj))
 	      obj->destroy();
+	    else if (dynamic_cast<Mine*>(obj))
+	      static_cast<Mine*>(obj)->setChainReaction(true);
 	    else if (dynamic_cast<Bomb*>(obj))
-	      dynamic_cast<Bomb*>(obj)->setTimeOut(0.0f);
+	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
-	      dynamic_cast<Brick*>(obj)->destroy(objs);
-	    if (!dynamic_cast<Character*>(obj))
+	      static_cast<Brick*>(obj)->destroy(objs);
+	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj))
 	      isInvalid = true;
 	  }
       });
@@ -120,20 +128,18 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
     objs.push_back(new Explosion(*e));
 }
 
-const std::string&	Bomb::type(void) const
+void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
 {
-  return (type_);
-}
-
-void	Bomb::interact(Character *ch)
-{
-  if (&owner_ == ch && ownerCollide_)
-    ch->bump();
+  (void)objs;
+  if ((&owner_ == ch && ownerCollide_) ||
+      &owner_ != ch)
+    ch->bump(pos_);
 }
 
 void	Bomb::destroy(std::list<AObject*>& objs)
 {
   explode(objs);
+  owner_.setNbBombs(owner_.getNbBombs() + 1);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
   AObject::destroy();
@@ -209,21 +215,6 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Bomb &Bomb::operator=(const Bomb &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    range_ = v.range_;
-    timeOut_ = v.timeOut_;
-    owner_ = v.owner_;
-    speed_ = v.speed_;
-    timeCreation_ = v.timeCreation_;
-    return *this;
 }
 
 /* TMP */

@@ -12,6 +12,7 @@
 #include "Player.hh"
 #include "Bomb.hh"
 #include "Monster.hh"
+#include "Ghost.hh"
 #include "Explosion.hh"
 #include "SaveHandler.hh"
 
@@ -32,17 +33,19 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
     if (!obj->removeLater_)
     {
         if (obj->getType() == "Block")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Block *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Block *>(obj))));
         else if (obj->getType() == "Brick")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Brick *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Brick *>(obj))));
         else if (obj->getType() == "Player")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Player *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Player *>(obj))));
         else if (obj->getType() == "Bomb")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Bomb *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Bomb *>(obj))));
         else if (obj->getType() == "Monster")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Monster *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Monster *>(obj))));
+        else if (obj->getType() == "Ghost")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Ghost *>(obj))));
         else if (obj->getType() == "Explosion")
-            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(dynamic_cast<Explosion *>(obj))));
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Explosion *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }
@@ -58,9 +61,12 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     Player::sInit();
     Bomb::sInit();
     Monster::sInit();
+    Ghost::sInit();
     Explosion::sInit();
 
     QSettings w(SAVE_FILE, QSettings::IniFormat);
+
+    Character::CharacterId = 0;
 
     w.beginWriteArray("vector");
     int i = 0;
@@ -70,9 +76,15 @@ void SaveHandler::save(std::list<AObject*> &objs) const
         SaveHandler::writeObject((*it), w);
         i++;
     }
+
     w.endArray();
     w.sync();
     std::cout << "---> Serialization done ! <---" << std::endl;
+}
+
+bool SaveHandler::saveFileExist(void) const
+{
+    return QFile::exists(SAVE_FILE);
 }
 
 void SaveHandler::load(std::list<AObject*> &res) const
@@ -80,6 +92,9 @@ void SaveHandler::load(std::list<AObject*> &res) const
     if (!QFile::exists(SAVE_FILE))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
     QSettings s(SAVE_FILE, QSettings::IniFormat);
+    int lastId = Character::CharacterId;
+
+    Character::CharacterId = 0;
     res.clear();
 
     int size = s.beginReadArray("vector");
@@ -94,9 +109,12 @@ void SaveHandler::load(std::list<AObject*> &res) const
             res.push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
         else if (s.contains("Bomb"))
             res.push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-        else if (s.contains("Bomb"))
+        else if (s.contains("Monster"))
             res.push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+        else if (s.contains("Ghost"))
+            res.push_back(new Monster(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
     }
+    Character::CharacterId = lastId;
 }

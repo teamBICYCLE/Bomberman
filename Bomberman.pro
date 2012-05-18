@@ -21,18 +21,31 @@ SOURCES += main.cpp \
     Camera.cpp \
     Bomb.cpp \
     BoundingBox.cpp \
+    GhostBoundingBox.cpp \
     Character.cpp \
     Explosion.cpp \
     Monster.cpp \
-    SaveHandler.cpp \
     MenuState.cpp \
     MenuEntry.cpp \
     MenuLine.cpp \
-    FlatTexture.cpp
+    FlatTexture.cpp \
+    Ghost.cpp \
+    SaveHandler.cpp \
+    ia/VirtualMachine.cpp \
+    ia/Debugger.cpp \
+    ia/Script.cpp \
+    ia/RestoreStack.cpp \
+    ia/This.cpp \
+    ia/LoadScript.cpp \
+    ia/Failure.cpp \
+    ia/Brain.cpp \
+    KeysConfig.cpp \
+    Mine.cpp \
+    MinePowerup.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
-LIBS	+= -lgdl_gl -lGL -lGLU
+LIBS	+= -lgdl_gl -lGL -lGLU -L./ia/liblua/ -llua
 
 HEADERS += \
     StatesManager.hh \
@@ -53,11 +66,24 @@ HEADERS += \
     Camera.hh \
     Bomb.hh \
     BoundingBox.hh \
+    GhostBoundingBox.hh \
     Character.hh \
     Explosion.hh \
     Monster.hh \
-    SaveHandler.hh \
     MenuState.hh \
     MenuEntry.hh \
     MenuLine.hh \
-    FlatTexture.hh
+    FlatTexture.hh \
+    Ghost.hh \
+    SaveHandler.hh \
+    ia/luainc.hh \
+    ia/VirtualMachine.hh \
+    ia/Debugger.hh \
+    ia/Script.hh \
+    ia/LoadScript.hh \
+    ia/Failure.hh \
+    ia/Brain.hh \
+    KeysConfig.hh \
+    Mine.hh \
+    MinePowerup.hh
+

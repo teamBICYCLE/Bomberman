@@ -5,23 +5,27 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Tue May 15 18:05:22 2012 lois burg
+// Last update Thu May 17 16:08:00 2012 lois burg
 //
 
 #include "Character.hh"
 
 using namespace	Bomberman;
 
+int	Character::CharacterId = 0;
+
 Character::Character(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName, uint life, double speed)
   : AObject(pos, rot, sz, modelName), life_(life), speed_(speed),
-    speedAdapter_(100), moved_(false), isInvincible_(false)
+    speedAdapter_(100), moved_(false), isInvincible_(false), id_(Character::CharacterId)
 {
+  ++Character::CharacterId;
 }
 
 Character::Character(const std::string &type)
     : AObject(Vector3d(), Vector3d(), Vector3d(), type),
-      life_(0), speed_(0), speedAdapter_(100), moved_(false), isInvincible_(false)
+      life_(0), speed_(0), speedAdapter_(100), moved_(false), isInvincible_(false), id_(Character::CharacterId)
 {
+  ++Character::CharacterId;
 }
 
 Character::~Character()
@@ -54,18 +58,22 @@ void	Character::turnDown(void)
   pos_ += Vector3d(0, getSpeed(), 0);
   rot_.y = 180;
   moved_ = true;
-}
+ }
 
 void	Character::takeDamage(uint damage)
 {
-  if (life_ > 0)
-    life_ -= damage;
-  if (!life_)
-    destroy();
+  if (!isInvincible_)
+    {
+      if (life_ > 0)
+	life_ -= damage;
+      if (!life_)
+	destroy();
+    }
 }
 
-void	Character::bump(void)
+void	Character::bump(const Vector3d& bumpPos)
 {
+  (void)bumpPos;
   if (bBox_->isAbove() || bBox_->isBelow())
     pos_.y = save_.y;
   if (bBox_->isLeft() || bBox_->isRight())
@@ -85,6 +93,11 @@ uint		Character::getLife(void) const
 bool	Character::isInvincible(void) const
 {
   return (isInvincible_);
+}
+
+int	Character::getScoreValue(void) const
+{
+  return (1);
 }
 
 void	Character::setInvincible(bool b)

@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:49:39 2012 geoffroy lafontaine
-// Last update Sun May 13 15:21:11 2012 lois burg
+// Last update Thu May 17 11:49:11 2012 lois burg
 //
 
 #ifndef		__VELOCITYPOWERUP_HH__
@@ -26,7 +26,6 @@ namespace	Bomberman
     virtual void		activate(Player&);
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
-    virtual const std::string&	type(void) const;
     virtual VelocityPowerup *clone(void);
 
   private:

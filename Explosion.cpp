@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Tue May 15 17:31:17 2012 lois burg
+// Last update Thu May 17 17:39:22 2012 lois burg
 //
 
 #include "Explosion.hh"
@@ -19,7 +19,7 @@ Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage)
 }
 
 Explosion::Explosion(const Explosion& other)
-  : AObject(other.getPos(), other.getRot(), other.getSize(), other.type()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
+  : AObject(other.getPos(), other.getRot(), other.getSize(), other.getType()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
 {
 }
 
@@ -77,18 +77,14 @@ void		Explosion::draw(void)
   glEnd();
 }
 
-const std::string&	Explosion::type(void) const
-{
-  return (type_);
-}
-
 uint	Explosion::getDamage(void) const
 {
   return (damage_);
 }
 
-void	Explosion::interact(Character *ch)
+void	Explosion::interact(Character *ch, std::list<AObject*>& objs)
 {
+  (void)objs;
   ch->takeDamage(damage_);
 }
 
@@ -137,20 +133,6 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
 {
     v.unserialize(in);
     return in;
-}
-
-Explosion &Explosion::operator=(const Explosion &v)
-{
-    pos_ = v.pos_;
-    rot_ = v.rot_;
-    sz_ = v.sz_;
-    model_ = v.model_;
-    removeLater_ = v.removeLater_;
-    damage_ = v.damage_;
-    timeOnScreen_ = v.timeOnScreen_;
-    timeOfCreation_ = v.timeOfCreation_;
-
-    return *this;
 }
 
 /* TMP */
