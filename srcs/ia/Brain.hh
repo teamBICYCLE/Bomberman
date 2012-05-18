@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Fri May 18 14:01:22 2012 thibault carpentier
+// Last update Fri May 18 17:56:28 2012 Jonathan Machado
 //
 
 /* Documentation tag for Doxygen
@@ -55,9 +55,11 @@
 # include <map>
 # include <string>
 # include <iostream>
+# include <list>
 # include "VirtualMachine.hh"
 # include "Script.hh"
 # include "Character.hh"
+# include  "DangerMap.hh"
 
 using namespace Bomberman;
 using namespace LuaVirtualMachine;
@@ -93,7 +95,7 @@ namespace Bomberman
        *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
        *
        */
-      Brain(void);
+      Brain(int, int);
       /*!
        *  \brief Destructor.
        *
@@ -169,6 +171,7 @@ namespace Bomberman
       eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
+      DangerMap danger_;
     };
   }
 }

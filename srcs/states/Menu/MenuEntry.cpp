@@ -7,20 +7,27 @@
  * ----------------------------------------------------------------------------
  */
 
-#include <algorithm>
 #include "MenuEntry.hh"
-#include "AGameState.hh"
 
-namespace Bomberman {
+#include <algorithm>
+#include "AGameState.hh"
+#include "StartGame.hh"
+#include "Quit.hh"
+
+namespace Menu {
 MenuEntry::MenuEntry() : selected_(0) {
-  items_.push_back(MenuLine("start"));
-  items_.push_back(MenuLine("stop", 300.0f));
+  items_.push_back(new StartGame("Ressources/Images/Menu/start.png",
+                                 "Ressources/Images/Menu/start_h.png"));
+  items_.push_back(new Quit("Ressources/Images/Menu/stop.png",
+                            "Ressources/Images/Menu/stop_h.png",
+                            Vector3d(0.0f, 300.0f, 0)));
 }
 
 MenuEntry::~MenuEntry() {
 }
 
-void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys, StatesManager * sMg)
+void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys,
+                          StatesManager * sMg)
 {
   static bool  noUp = true, noDown = true;
 
@@ -39,7 +46,7 @@ void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys, StatesManager
   }
   if (keys.isKeyDown(gdl::Keys::Return))
   {
-    items_[selected_].activate(sMg);
+    items_[selected_]->activate(sMg);
   }
 
   // prevent keys to be consider pressed twice (force user to re-press)
@@ -47,16 +54,16 @@ void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys, StatesManager
   noDown = !keys.isKeyDown(gdl::Keys::Down);
 
   unsigned int i = 0;
-  std::for_each(items_.begin(), items_.end(), [&i, &clock, this](MenuLine & obj) -> void {
-    obj.update(clock, i == selected_);
+  std::for_each(items_.begin(), items_.end(), [&i, &clock, this](MenuLine * obj) -> void {
+    obj->update(clock, i == selected_);
     ++i;
   });
 }
 
 void    MenuEntry::draw()
 {
-  std::for_each(items_.begin(), items_.end(), [](MenuLine & obj) -> void {
-    obj.draw();
+  std::for_each(items_.begin(), items_.end(), [](MenuLine * obj) -> void {
+    obj->draw();
   });
 }
 

@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Fri May 18 12:29:58 2012 thibault carpentier
+// Last update Fri May 18 17:39:01 2012 Jonathan Machado
 //
 
 #ifndef		__MONSTER_HH__
@@ -27,7 +27,7 @@ namespace	Bomberman
     typedef void (Character::*t_monsterActionFun)(void);
 
   public:
-    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage = 1);
+    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *, uint damage = 1);
     Monster(const Monster &);
     Monster();
     virtual ~Monster();
@@ -66,7 +66,7 @@ namespace	Bomberman
     std::map<eDirection, void (Character::*)(void)> actionsMap_;
     bool	moved_;
     uint	damage_;
-    Bomberman::Thinking::Brain brainScript_;
+    Bomberman::Thinking::Brain *brainScript_;
   };
 }
 

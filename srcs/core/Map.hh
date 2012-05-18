@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Thu May 17 16:48:30 2012 geoffroy lafontaine
+// Last update Fri May 18 17:58:27 2012 Jonathan Machado
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -71,9 +71,9 @@ namespace	Bomberman
     void	addPlayers(uint, uint, uint);
     void	placePlayer(uint, uint);
     void	addMonsters(uint, uint, uint);
-    void	placeMonster(uint, uint);
+    void	placeMonster(uint, uint, Thinking::Brain *);
     void	addGhosts(uint, uint, uint);
-    void	placeGhost(uint, uint);
+    void	placeGhost(uint, uint, Thinking::Brain *);
     void	generateBricks(uint, uint, uint);
     void	generateBorder(uint, uint);
     void	clearPlace(uint, uint);

@@ -16,20 +16,20 @@
 # include "AObject.hh"
 # include "MenuLine.hh"
 
-namespace Bomberman {  
+namespace Menu {
 class MenuEntry {
 public:
   MenuEntry();
   virtual ~MenuEntry();
 
   void                          addEntry(const std::string & name);
-  
-  virtual void                  update(gdl::GameClock& clock, 
+
+  virtual void                  update(gdl::GameClock& clock,
           gdl::Input& keys, StatesManager * sMg);
     virtual void		draw(void);
   private:
     unsigned int                  selected_;
-    std::vector<MenuLine>         items_;
+    std::vector<MenuLine *>       items_;
 };
 }
 

@@ -13,12 +13,12 @@
 # include "AGameState.hh"
 # include "MenuEntry.hh"
 
-namespace Bomberman {
+namespace Menu {
 class MenuState : public AGameState {
 public:
   MenuState();
   virtual ~MenuState();
-  
+
   virtual bool init();
   virtual void cleanUp();
 
@@ -26,11 +26,11 @@ public:
   virtual void draw(StatesManager *);
   virtual void pause();
   virtual void resume();
-  
+
 private:
   // std::vector<AObject *>         scene_;
   MenuEntry     test_;
-  
+
 private:
   MenuState(const MenuState& orig);
 };

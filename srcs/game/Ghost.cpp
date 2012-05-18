@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:35:19 2012 geoffroy lafontaine
-// Last update Thu May 17 17:29:47 2012 thibault carpentier
+// Last update Fri May 18 17:47:04 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -16,11 +16,11 @@
 
 using namespace Bomberman;
 
-Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage)
-  : Monster(pos, rot, sz, damage)
+Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
+  : Monster(pos, rot, sz, b, damage)
 {
   std::cout << "Ghost created." << std::endl;
-  brainScript_.compileFile (GHOST_SCRIPT);
+  brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -33,9 +33,9 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint 
 }
 
 Ghost::Ghost(const Ghost &other)
-  : Monster(other.pos_, other.rot_, other.sz_, other.damage_)
+  : Monster(other.pos_, other.rot_, other.sz_, other.brainScript_, other.damage_)
 {
-    brainScript_.compileFile (GHOST_SCRIPT);
+    brainScript_->compileFile(GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
@@ -44,16 +44,16 @@ Ghost::Ghost(const Ghost &other)
 Ghost::Ghost()
   : Monster()
 {
-    brainScript_.compileFile (GHOST_SCRIPT);
-    bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
-    model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
-    model_.cut_animation(model_, "Take 001", 0, 35, "start");
-    model_.cut_animation(model_, "Take 001", 36, 54, "run");
-    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
-    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
-    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
-    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
+  brainScript_->compileFile(GHOST_SCRIPT);
+  bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
+  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_.cut_animation(model_, "Take 001", 0, 35, "start");
+  model_.cut_animation(model_, "Take 001", 36, 54, "run");
+  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+  actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+  actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+  actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+  actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Ghost::~Ghost()

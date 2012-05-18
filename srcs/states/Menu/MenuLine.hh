@@ -14,24 +14,26 @@
 # include <GDL/GameClock.hpp>
 # include "StatesManager.hh"
 # include "flatTexture.hh"
+# include "Vector3d.hh"
 
-namespace Bomberman {
+namespace Menu {
 class MenuLine {
 public:
-  MenuLine(const std::string & name, double offset = 0);
+  MenuLine(const std::string & normalImagePath,
+           const std::string & highlightImagePath,
+           const Vector3d & pos);
   MenuLine(const MenuLine& orig);
   virtual ~MenuLine();
-  
-  virtual void          update(gdl::GameClock& clock, bool highlight);
-  virtual void          draw(void);
-  void                  activate(StatesManager * sMg);
-  
+
+  void              update(gdl::GameClock& clock, bool highlight);
+  void              draw(void);
+  virtual void      activate(StatesManager * sMg) = 0;
+
 private:
-  std::string           name_;
   bool                  highlighted_;
-  flatTexture           image_;
-  double                offset_;
-  
+  flatTexture           normal_;
+  flatTexture           highlight_;
+  Vector3d              pos_;
 };
 }
 

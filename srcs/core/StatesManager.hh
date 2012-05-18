@@ -44,6 +44,8 @@ public:
 
   virtual void      update();
   virtual void      draw();
+  void              start(AGameState * state);
+  void              quit();
 
   gdl::Input        &getInput(void);
   gdl::GameClock    &getGameClock(void);

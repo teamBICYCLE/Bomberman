@@ -41,11 +41,13 @@ SOURCES += \
     srcs/ia/Debugger.cpp \
     srcs/ia/Brain.cpp \
     srcs/states/PlayState.cpp \
-    srcs/states/MenuState.cpp \
-    srcs/states/MenuLine.cpp \
-    srcs/states/MenuEntry.cpp \
+    srcs/states/Menu/MenuState.cpp \
+    srcs/states/Menu/MenuLine.cpp \
+    srcs/states/Menu/MenuEntry.cpp \
     srcs/states/IntroState.cpp \
-    srcs/main.cpp
+    srcs/main.cpp \
+    srcs/states/Menu/StartGame.cpp \
+    srcs/states/Menu/Quit.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -92,7 +94,9 @@ HEADERS += \
     srcs/ia/Failure.hh \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \
-    srcs/states/MenuState.hh \
-    srcs/states/MenuLine.hh \
-    srcs/states/MenuEntry.hh \
-    srcs/states/IntroState.hh
+    srcs/states/Menu/MenuState.hh \
+    srcs/states/Menu/MenuLine.hh \
+    srcs/states/Menu/MenuEntry.hh \
+    srcs/states/IntroState.hh \
+    srcs/states/Menu/StartGame.hh \
+    srcs/states/Menu/Quit.hh

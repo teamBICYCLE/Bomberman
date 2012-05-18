@@ -9,7 +9,7 @@
 //
 
 #include "StatesManager.hh"
-#include "IntroState.hh"
+#include "Menu/MenuState.hh"
 #include <GDL/ModelException.hpp>
 
 #include "Map.hh"
@@ -23,7 +23,7 @@ int main(void)
   try {
     StatesManager   mg("Bomberman v0.01");
 
-    mg.run();
+    mg.start(new Menu::MenuState());
   }
   catch (gdl::ModelException * e)
   {
