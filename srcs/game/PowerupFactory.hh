@@ -13,6 +13,7 @@
 # include "APowerup.hh"
 # include "MinePowerup.hh"
 # include "AmmoPowerup.hh"
+# include "KickPowerup.hh"
 # include "VelocityPowerup.hh"
 # include "RangePowerup.hh"
 # include "Vector3d.hh"

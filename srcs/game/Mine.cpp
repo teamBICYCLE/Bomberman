@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Fri May 18 11:33:29 2012 lois burg
+// Last update Fri May 18 12:45:40 2012 lois burg
 //
 
 #include "Mine.hh"
