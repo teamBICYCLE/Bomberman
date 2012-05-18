@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 18:39:47 2012 lois burg
+// Last update Fri May 18 15:36:26 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -32,6 +32,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   KeysConfig conf;
 
+  std::cout << "id : " << id_ << std::endl;
   actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
   actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
   actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
@@ -433,5 +434,6 @@ void Player::aff(void) const
     std::cout << "rot : " << rot_ << std::endl;
     std::cout << "size : " << sz_ << std::endl;
     std::cout << "type : " << type_ << std::endl;
+    std::cout << "score : " << score_ << std::endl;
     std::cout << "=== END PLAYER ===" << std::endl;
 }

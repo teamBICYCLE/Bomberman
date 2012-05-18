@@ -24,8 +24,10 @@
 # define	MAP_FILE_EMPTY		'.'
 # define	MAP_FILE_BLOCK		'W'
 # define	MAP_FILE_BRICK		'B'
-# define	MAP_FILE_PLAYER		'J'
-# define	MAP_FILE_ALLOWED	".WBJ"
+# define	MAP_FILE_PLAYER		'P'
+# define    MAP_FILE_MONSTER    'M'
+# define    MAP_FILE_GHOST      'G'
+# define	MAP_FILE_ALLOWED	".WBPMG"
 
 namespace	Bomberman
 {
@@ -65,17 +67,22 @@ namespace	Bomberman
     static const int		BlockSize;
 
   protected:
-    void	getFromFile(const std::string& fileName);
-    bool	checkType(char c) const;
-    AObject	*createType(char, uint, uint, bool *) const;
-    void	addPlayers(uint, uint, uint);
-    void	placePlayer(uint, uint);
-    void	addMonsters(uint, uint, uint);
-    void	placeMonster(uint, uint);
-    void	addGhosts(uint, uint, uint);
-    void	placeGhost(uint, uint);
+    void	getFromFile(const std::string&);
+    void    addBlocks(const std::string &, int, std::list<AObject*> *);
+    void    addBricks(const std::string &, int, std::list<AObject*> *);
+    void    addGhosts(const std::string &, int, std::list<AObject*> *);
+    void    addMonsters(const std::string &, int, std::list<AObject*> *);
+    void    addPlayers(const std::string &, int, bool *);
+
+  protected:
+    void	generatePlayers(uint, uint, uint);
+    void	generateMonsters(uint, uint, uint);
+    void	generateGhosts(uint, uint, uint);
     void	generateBricks(uint, uint, uint);
     void	generateBorder(uint, uint);
+    void	placePlayer(uint, uint);
+    void	placeMonster(uint, uint);
+    void	placeGhost(uint, uint);
     void	clearPlace(uint, uint);
 
   private:
