@@ -1,4 +1,4 @@
-# makefile for installing Lua
+#- makefile for installing Lua
 # see INSTALL for installation instructions
 # see src/Makefile and src/luaconf.h for further customization
 

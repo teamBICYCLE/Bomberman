@@ -31,6 +31,7 @@ SOURCES += \
     srcs/graphics/flatTexture.cpp \
     srcs/graphics/Camera.cpp \
     srcs/ia/VirtualMachine.cpp \
+    srcs/ia/DangerMap.cpp \
     srcs/ia/This.cpp \
     srcs/ia/Script.cpp \
     srcs/ia/RestoreStack.cpp \
@@ -52,7 +53,7 @@ QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/
 
 
-LIBS	+= -lgdl_gl -lGL -lGLU -llua
+LIBS	+= -lgdl_gl -lGL -lGLU  -llua -ldl
 HEADERS += \
     srcs/core/Vector3d.hh \
     srcs/core/StatesManager.hh \
@@ -82,6 +83,7 @@ HEADERS += \
     srcs/graphics/flatTexture.hh \
     srcs/graphics/Camera.hh \
     srcs/ia/VirtualMachine.hh \
+    srcs/ia/DangerMap.hh \
     srcs/ia/This.hh \
     srcs/ia/Script.hh \
     srcs/ia/RestoreStack.hh \
