@@ -5,21 +5,32 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Fri May 18 14:31:25 2012 thibault carpentier
+// Last update Fri May 18 17:55:56 2012 Jonathan Machado
 //
 
 #ifndef _DANGERMAP_H_
 # define _DANGERMAP_H_
+# include <list>
+# include <utility>
+# include <vector>
+# include "AObject.hh"
 
-class DangerMap
+namespace Bomberman
 {
-private:
-  DangerMap(DangerMap const &);
-  DangerMap& operator=(DangerMap const &);
+  class DangerMap
+  {
 
-public:
-  DangerMap();
-  ~DangerMap();
-};
+  private:
+    DangerMap(DangerMap const &);
+    DangerMap& operator=(DangerMap const &);
+
+    std::vector<std::vector<std::pair<int, int> > > danger_;
+    int x_, y_;
+
+  public:
+    DangerMap(int, int);
+    ~DangerMap(void);
+  };
+}
 
 #endif /*!_DANGERMAP_H_*/

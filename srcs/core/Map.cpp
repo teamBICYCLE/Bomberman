@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 17 19:08:27 2012 romain sylvian
+// Last update Fri May 18 18:01:46 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -157,7 +157,9 @@ void				Map::addMonsters(uint width, uint height, uint nbMonsters)
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
+  Thinking::Brain		*b;
 
+  b = new Thinking::Brain(width, height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -172,7 +174,7 @@ void				Map::addMonsters(uint width, uint height, uint nbMonsters)
 	    find = true;
 	if (!find)
 	  {
-	    placeMonster(x, y);
+	    placeMonster(x, y, b);
 	    --nbMonsters;
 	  }
 	find = false;
@@ -181,7 +183,7 @@ void				Map::addMonsters(uint width, uint height, uint nbMonsters)
   while (nbMonsters > 0);
 }
 
-void				Map::placeMonster(uint x, uint y)
+void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
 {
   std::list<AObject*>::iterator	it;
 
@@ -194,7 +196,7 @@ void				Map::placeMonster(uint x, uint y)
 	}
       ++it;
     }
-  terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+  terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void				Map::addGhosts(uint width, uint height, uint nbGhosts)
@@ -203,7 +205,9 @@ void				Map::addGhosts(uint width, uint height, uint nbGhosts)
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
+  Thinking::Brain		*b;
 
+  b = new Thinking::Brain(width, height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -218,7 +222,7 @@ void				Map::addGhosts(uint width, uint height, uint nbGhosts)
 	    find = true;
 	if (!find)
 	  {
-	    placeGhost(x, y);
+	    placeGhost(x, y, b);
 	    --nbGhosts;
 	  }
 	find = false;
@@ -227,7 +231,7 @@ void				Map::addGhosts(uint width, uint height, uint nbGhosts)
   while (nbGhosts > 0);
 }
 
-void				Map::placeGhost(uint x, uint y)
+void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)
 {
   std::list<AObject*>::iterator	it;
 
@@ -240,7 +244,7 @@ void				Map::placeGhost(uint x, uint y)
 	}
       ++it;
     }
-  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void				Map::clearPlace(uint x, uint y)

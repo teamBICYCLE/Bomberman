@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Fri May 18 12:29:16 2012 thibault carpentier
+// Last update Fri May 18 17:43:00 2012 Jonathan Machado
 //
 
 #ifndef		__GHOST_HH__
@@ -22,7 +22,7 @@ namespace	Bomberman
   class Ghost : public Monster
   {
   public:
-    Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint damage = 1);
+    Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *, uint damage = 1);
     Ghost(const Ghost &);
     Ghost();
     virtual ~Ghost();
