@@ -74,6 +74,10 @@ KeysConfig::KeysConfig()
     ref_.insert(std::make_pair("RETURN", gdl::Keys::Return));
     ref_.insert(std::make_pair("LEFT_CTRL", gdl::Keys::LControl));
     ref_.insert(std::make_pair("RIGHT_CTRL", gdl::Keys::RControl));
+    ref_.insert(std::make_pair("+", gdl::Keys::Add));
+    ref_.insert(std::make_pair("-", gdl::Keys::Subtract));
+    ref_.insert(std::make_pair("LEFT_ALT", gdl::Keys::LAlt));
+    ref_.insert(std::make_pair("RIGHT_ALT", gdl::Keys::RAlt));
 
     config_.insert(std::make_pair(K_UP, UP_CFG));
     config_.insert(std::make_pair(K_DOWN, DOWN_CFG));
