@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 17 19:08:27 2012 romain sylvian
+// Last update Fri May 18 18:01:46 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -157,7 +157,9 @@ void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
+  Thinking::Brain		*b;
 
+  b = new Thinking::Brain(width, height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -172,7 +174,7 @@ void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
 	    find = true;
 	if (!find)
 	  {
-	    placeMonster(x, y);
+	    placeMonster(x, y, b);
 	    --nbMonsters;
 	  }
 	find = false;
@@ -181,7 +183,7 @@ void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
   while (nbMonsters > 0);
 }
 
-void				Map::placeMonster(uint x, uint y)
+void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
 {
   std::list<AObject*>::iterator	it;
 
@@ -194,7 +196,7 @@ void				Map::placeMonster(uint x, uint y)
 	}
       ++it;
     }
-  terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+  terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
@@ -203,7 +205,9 @@ void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
+  Thinking::Brain		*b;
 
+  b = new Thinking::Brain(width, height);
   do {
     x = rand() % width;
     y = rand() % height;
@@ -218,7 +222,7 @@ void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
 	    find = true;
 	if (!find)
 	  {
-	    placeGhost(x, y);
+	    placeGhost(x, y, b);
 	    --nbGhosts;
 	  }
 	find = false;
@@ -227,7 +231,7 @@ void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
   while (nbGhosts > 0);
 }
 
-void				Map::placeGhost(uint x, uint y)
+void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)
 {
   std::list<AObject*>::iterator	it;
 
@@ -240,7 +244,7 @@ void				Map::placeGhost(uint x, uint y)
 	}
       ++it;
     }
-  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+  terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void				Map::clearPlace(uint x, uint y)
@@ -300,21 +304,21 @@ void Map::addPlayers(const std::string &l, int y, bool *player)
     }
 }
 
-void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp)
+void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
 {
     for (uint i = 0; i != l.length(); i++)
     {
         if (l[i] == MAP_FILE_GHOST)
-            tmp->push_back(new Ghost(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+            tmp->push_back(new Ghost(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
     }
 }
 
-void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp)
+void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
 {
     for (uint i = 0; i != l.length(); i++)
     {
         if (l[i] == MAP_FILE_MONSTER)
-            tmp->push_back(new Monster(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
+            tmp->push_back(new Monster(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
     }
 }
 
@@ -328,6 +332,11 @@ void Map::getFromFile(const std::string& fileName)
   std::list<AObject*>	tmp;
   std::list<AObject*>::iterator it;
 
+  /* tmp */
+  Thinking::Brain		*b;
+
+  b = new Thinking::Brain(13, 13);
+
   infile.open(fileName.c_str());
   if (infile.fail())
     throw Map::Failure("getFromFile", "File doesn't exist.");
@@ -337,8 +346,8 @@ void Map::getFromFile(const std::string& fileName)
       Map::addBlocks(line, y + 1, &tmp);
       Map::addBricks(line, y + 1, &tmp);
       Map::addPlayers(line, y + 1, &player);
-      Map::addGhosts(line, y + 1, &tmp);
-      Map::addMonsters(line, y + 1, &tmp);
+      Map::addGhosts(line, y + 1, &tmp, b);
+      Map::addMonsters(line, y + 1, &tmp ,b);
       if (line.length() > x)
           x = line.length();
       y++;

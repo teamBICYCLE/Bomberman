@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Thu May 17 16:48:30 2012 geoffroy lafontaine
+// Last update Fri May 18 17:58:27 2012 Jonathan Machado
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -70,8 +70,8 @@ namespace	Bomberman
     void	getFromFile(const std::string&);
     void    addBlocks(const std::string &, int, std::list<AObject*> *);
     void    addBricks(const std::string &, int, std::list<AObject*> *);
-    void    addGhosts(const std::string &, int, std::list<AObject*> *);
-    void    addMonsters(const std::string &, int, std::list<AObject*> *);
+    void    addGhosts(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
+    void    addMonsters(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
     void    addPlayers(const std::string &, int, bool *);
 
   protected:
@@ -81,8 +81,8 @@ namespace	Bomberman
     void	generateBricks(uint, uint, uint);
     void	generateBorder(uint, uint);
     void	placePlayer(uint, uint);
-    void	placeMonster(uint, uint);
-    void	placeGhost(uint, uint);
+    void	placeMonster(uint, uint, Thinking::Brain *);
+    void	placeGhost(uint, uint, Thinking::Brain *);
     void	clearPlace(uint, uint);
 
   private:

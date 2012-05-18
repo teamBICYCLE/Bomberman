@@ -15,15 +15,19 @@
 #include "PlayState.hh"
 
 
-namespace Bomberman {
-MenuLine::MenuLine(const std::string & name, double offset) 
-: name_(name), highlighted_(false), image_("Ressources/Images/Menu/" + name + ".png"),
-offset_(offset) {
+namespace Menu {
+  MenuLine::MenuLine(const std::string & normalImagePath,
+           const std::string & highlightImagePath,
+           const Vector3d & pos)
+    : highlighted_(false), normal_(normalImagePath),
+      highlight_(highlightImagePath), pos_(pos)
+{
 }
 
 MenuLine::MenuLine(const MenuLine& orig) :
-name_(orig.name_), highlighted_(orig.highlighted_), image_(orig.image_),
-offset_(orig.offset_) {
+highlighted_(orig.highlighted_), normal_(orig.normal_),
+  highlight_(orig.highlight_), pos_(orig.pos_)
+{
 }
 
 MenuLine::~MenuLine() {
@@ -38,17 +42,12 @@ void            MenuLine::update(gdl::GameClock& clock, bool highlight)
 void            MenuLine::draw()
 {
   glPushMatrix();
+  glTranslated(pos_.x, pos_.y, 0);
   if (highlighted_)
-    glScaled(1.1f, 1.1f, 1.1f);
-  glTranslated(0, offset_, 0);
-  image_.draw();
+    highlight_.draw();
+  else
+    normal_.draw();
   glPopMatrix();
-}
-
-void            MenuLine::activate(StatesManager * sMg)
-{
-  sMg->pushState(new Bomberman::PlayState());
-  std::cout << "clicked" << std::endl;
 }
 
 }

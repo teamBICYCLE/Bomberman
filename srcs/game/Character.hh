@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Thu May 17 15:52:31 2012 lois burg
+// Last update Fri May 18 15:30:18 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -41,6 +41,7 @@ namespace	Bomberman
     bool	isInvincible(void) const;
     int		getId(void) const;
     virtual int	getScoreValue(void) const;
+    const BoundingBox	*getBBox(void) const;
 
   public:
     void	setLife(const uint life);

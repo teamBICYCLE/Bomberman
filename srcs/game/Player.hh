@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Thu May 17 18:38:02 2012 lois burg
+// Last update Fri May 18 16:54:11 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
 # define	__PLAYER_HH__
 
+# include	<map>
 # include	<sys/types.h>
 # include	"Character.hh"
 # include	"BoundingBox.hh"
@@ -21,6 +22,7 @@ namespace	Bomberman
   {
   public:
     typedef void (Player::*t_playerActionFun)(std::list<AObject*>&);
+    typedef bool (BoundingBox::*t_collideFun)(const AObject*);
 
   public:
     Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
@@ -40,6 +42,7 @@ namespace	Bomberman
     float	getBombTime(void) const;
     virtual int	getScoreValue(void) const;
     int		getScore(void) const;
+    bool	getKickAbility(void) const;
 
   public:
     void	setNbBombs(const uint nb);
@@ -48,6 +51,7 @@ namespace	Bomberman
     void	setBombTime(const float time);
     void	setBombCollide(bool b);
     void	addScore(int val);
+    void	setKickAbility(bool b);
 
   public:
     /* Serialization */
@@ -75,11 +79,13 @@ namespace	Bomberman
     uint	bombRange_;
     uint	mineRange_;
     float	bombTime_;
-    std::map<gdl::Keys::Key, void (Player::*)(std::list<AObject*>&)> actionsMap_;
+    std::map<gdl::Keys::Key, t_collideFun>	collideMap_;
+    std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
     bool        moved_;
     bool	bombCollide_;
     bool	wasRunning_;
     int		score_;
+    bool	kickAbility_;
   };
 }
 

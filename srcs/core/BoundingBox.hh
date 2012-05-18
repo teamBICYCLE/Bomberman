@@ -5,13 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:02:09 2012 lois burg
-// Last update Thu May 17 16:44:32 2012 geoffroy lafontaine
+// Last update Fri May 18 16:33:11 2012 lois burg
 //
 
 #ifndef		__BOUNDING_BOX_HH__
 # define	__BOUNDING_BOX_HH__
 
-# include   <QDataStream>
+# include	<QDataStream>
 # include	"AObject.hh"
 # include	"Vector3d.hh"
 
@@ -31,11 +31,12 @@ namespace	Bomberman
     bool	isLeft(void) const;
     bool	isRight(void) const;
 
-  protected:
+  public:
     bool	collideLeft(const AObject *obj);
     bool	collideRight(const AObject *obj);
     bool	collideUp(const AObject *obj);
     bool	collideDown(const AObject *obj);
+    void	resetColliding(void);
 
   protected:
     const Vector3d&	pos_;

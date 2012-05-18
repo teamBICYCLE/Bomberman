@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 18 15:36:26 2012 romain sylvian
+// Last update Fri May 18 18:34:39 2012 lois burg
 //
 
 #include <algorithm>
@@ -19,10 +19,12 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(-1), bombRange_(2), mineRange_(2),
-    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
+    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
   isInvincible_ = true;
+  // kickAbility_ = true;
+  // nbBombs_ = 2;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -32,7 +34,6 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   KeysConfig conf;
 
-  std::cout << "id : " << id_ << std::endl;
   actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
   actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
   actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
@@ -42,9 +43,9 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Player::Player()
-  : Character("Player"), nbBombs_(1), nbMines_(-1), bombRange_(2), mineRange_(2),
-      bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
-      score_(0)
+  : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
+    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
+    score_(0), kickAbility_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
@@ -53,6 +54,11 @@ Player::Player()
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
 
   KeysConfig conf;
+
+  collideMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &BoundingBox::collideLeft));
+  collideMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &BoundingBox::collideRight));
+  collideMap_.insert(std::make_pair(conf.get(K_UP, id_), &BoundingBox::collideUp));
+  collideMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &BoundingBox::collideDown));
 
   actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
   actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
@@ -66,12 +72,14 @@ Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
-      bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_)
+      bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
+      kickAbility_(other.kickAbility_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = other.model_;
   actionsMap_ = other.actionsMap_;
+  collideMap_ = other.collideMap_;
   id_ = other.id_;
 }
 
@@ -95,6 +103,8 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	    {
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
+	      bBox_->resetColliding();
+	      (bBox_->*collideMap_[it->first])(*objIt);
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this, objs);
 	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
@@ -103,6 +113,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 		  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
 		  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
 		}
+	      bBox_->resetColliding();
 	    }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
@@ -293,6 +304,11 @@ int	Player::getScore(void) const
   return (score_);
 }
 
+bool	Player::getKickAbility(void) const
+{
+  return (kickAbility_);
+}
+
 void	Player::setNbBombs(const uint nb)
 {
   nbBombs_ = nb;
@@ -322,6 +338,11 @@ void	Player::addScore(int val)
 {
   score_ += val;
   std::cout << "Score: " << score_ << std::endl;
+}
+
+void	Player::setKickAbility(bool b)
+{
+  kickAbility_ = b;
 }
 
 void    Player::moveAnimation(void)
@@ -374,6 +395,7 @@ void Player::serialize(QDataStream &out) const
     out << id_;
     out << wasRunning_;
     out << score_;
+    out << kickAbility_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -396,6 +418,7 @@ void Player::unserialize(QDataStream &in)
     in >> id_;
     in >> wasRunning_;
     in >> score_;
+    in >> kickAbility_;
 }
 
 void Player::sInit(void)

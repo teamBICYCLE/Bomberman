@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 17 18:54:34 2012 lois burg
+// Last update Fri May 18 18:24:24 2012 lois burg
 //
 
 #include <algorithm>
@@ -17,7 +17,7 @@
 using namespace	Bomberman;
 
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false)
+  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
 {
   model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
@@ -27,7 +27,8 @@ Bomb::Bomb(const Bomb &other)
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
       timeCreation_(other.timeCreation_),
-      ownerCollide_(other.getOwnerCollide())
+      ownerCollide_(other.getOwnerCollide()),
+      bBox_(other.bBox_)
 {
     model_ = other.getModel();
 }
@@ -35,7 +36,7 @@ Bomb::Bomb(const Bomb &other)
 Bomb::Bomb()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
     range_(0), timeOut_(0), owner_(*(new Player())),
-    speed_(Vector3d()), timeCreation_(0)
+    speed_(Vector3d()), timeCreation_(0), bBox_(pos_, sz_, this)
 {
     model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
 }
@@ -46,13 +47,25 @@ Bomb::~Bomb()
 
 void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
+  std::list<AObject*>::iterator	objIt = objs.begin();
+  Vector3d	save(pos_);
+  Vector3d	nullSpeed;
+
   (void)keys;
-  (void)objs;
   if (timeCreation_ == -1)
     timeCreation_ = clock.getTotalGameTime();
   if (clock.getTotalGameTime() - timeCreation_ >= timeOut_)
     destroy(objs);
   pos_ += speed_;
+  for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
+    if (*objIt != &owner_ && bBox_.collideWith(*objIt))
+      {
+	pos_ = save + sz_ / 2;
+	adjustPos();
+	speed_ = nullSpeed;
+	if (dynamic_cast<Explosion*>(*objIt))
+	  destroy(objs);
+      }
 }
 
 void	Bomb::explode(std::list<AObject*>& objs)
@@ -63,8 +76,6 @@ void	Bomb::explode(std::list<AObject*>& objs)
   bool		leftInvalid = false;
   bool		rightInvalid = false;
 
-  (void)objs;
-  (void)e;
   //explosion qui tue et ajout des loots de tier 7
   objs.push_back(new Explosion(*e));
   for (int i = 1; i <= range_; ++i)
@@ -95,9 +106,9 @@ void	Bomb::draw(void)
 
 void	Bomb::adjustPos(void)
 {
-  pos_.x = (int)pos_.x;
-  pos_.y = (int)pos_.y;
-  pos_.z = (int)pos_.z;
+  pos_.x = static_cast<int>(pos_.x);
+  pos_.y = static_cast<int>(pos_.y);
+  pos_.z = static_cast<int>(pos_.z);
 }
 
 void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& objs)
@@ -120,7 +131,8 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
 	      static_cast<Brick*>(obj)->destroy(objs);
-	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj))
+	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+		!dynamic_cast<Mine*>(obj))
 	      isInvalid = true;
 	  }
       });
@@ -130,10 +142,26 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 
 void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
 {
+  Player	*p;
+  const BoundingBox	*b;
+
   (void)objs;
   if ((&owner_ == ch && ownerCollide_) ||
       &owner_ != ch)
-    ch->bump(pos_);
+    {
+      ch->bump(pos_);
+      if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
+	{
+	  p = static_cast<Player*>(ch);
+	  b = p->getBBox();
+	  if (b->isAbove() || b->isBelow())
+	    speed_ = Vector3d(0, p->getSpeed(), 0);
+	  else if (b->isLeft() || b->isRight())
+	    speed_ = Vector3d(p->getSpeed(), 0, 0);
+	  if (b->isAbove() || b->isLeft())
+	    speed_ *= (-1);
+	}
+    }
 }
 
 void	Bomb::destroy(std::list<AObject*>& objs)
