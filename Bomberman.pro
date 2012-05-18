@@ -31,6 +31,7 @@ SOURCES += \
     srcs/graphics/flatTexture.cpp \
     srcs/graphics/Camera.cpp \
     srcs/ia/VirtualMachine.cpp \
+    srcs/ia/DangerMap.cpp \
     srcs/ia/This.cpp \
     srcs/ia/Script.cpp \
     srcs/ia/RestoreStack.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     srcs/graphics/flatTexture.hh \
     srcs/graphics/Camera.hh \
     srcs/ia/VirtualMachine.hh \
+    srcs/ia/DangerMap.hh \
     srcs/ia/This.hh \
     srcs/ia/Script.hh \
     srcs/ia/RestoreStack.hh \
