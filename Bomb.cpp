@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 17 16:12:07 2012 lois burg
+// Last update Thu May 17 18:54:34 2012 lois burg
 //
 
 #include <algorithm>
 #include "Explosion.hh"
 #include "Bomb.hh"
+#include "Mine.hh"
 #include "Brick.hh"
 
 using namespace	Bomberman;
@@ -80,7 +81,6 @@ void	Bomb::explode(std::list<AObject*>& objs)
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
       // std::cout << "--------------------" << std::endl;
     }
-  owner_.setNbBombs(owner_.getNbBombs() + 1);
 }
 
 void	Bomb::draw(void)
@@ -114,6 +114,8 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	      }
 	    else if (dynamic_cast<APowerup*>(obj))
 	      obj->destroy();
+	    else if (dynamic_cast<Mine*>(obj))
+	      static_cast<Mine*>(obj)->setChainReaction(true);
 	    else if (dynamic_cast<Bomb*>(obj))
 	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
@@ -126,8 +128,9 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
     objs.push_back(new Explosion(*e));
 }
 
-void	Bomb::interact(Character *ch)
+void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
 {
+  (void)objs;
   if ((&owner_ == ch && ownerCollide_) ||
       &owner_ != ch)
     ch->bump(pos_);
@@ -136,6 +139,7 @@ void	Bomb::interact(Character *ch)
 void	Bomb::destroy(std::list<AObject*>& objs)
 {
   explode(objs);
+  owner_.setNbBombs(owner_.getNbBombs() + 1);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
   AObject::destroy();

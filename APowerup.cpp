@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:37:08 2012 geoffroy lafontaine
-// Last update Thu May 17 11:50:23 2012 lois burg
+// Last update Thu May 17 17:36:59 2012 lois burg
 //
 
 #include "APowerup.hh"
@@ -27,8 +27,9 @@ void	APowerup::activate(Player &p)
   destroy();
 }
 
-void	APowerup::interact(Character *ch)
+void	APowerup::interact(Character *ch, std::list<AObject*>& objs)
 {
+  (void)objs;
   if (dynamic_cast<Player*>(ch))
     activate(*static_cast<Player*>(ch));
   else

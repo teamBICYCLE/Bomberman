@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 16:11:36 2012 lois burg
+// Last update Thu May 17 18:39:47 2012 lois burg
 //
 
 #include <algorithm>
 #include "Brick.hh"
 #include "Bomb.hh"
+#include "Mine.hh"
 #include "Player.hh"
 #include "Monster.hh"
 #include "KeysConfig.hh"
@@ -18,8 +19,8 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), bombRange_(2), bombTime_(2.0f),
-    moved_(false), bombCollide_(true), wasRunning_(false), score_(0)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(-1), bombRange_(2), mineRange_(2),
+    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0)
 {
   isInvincible_ = true;
 
@@ -36,10 +37,11 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
   actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
+  actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
 }
 
 Player::Player()
-    : Character("Player"), nbBombs_(1), bombRange_(2),
+  : Character("Player"), nbBombs_(1), nbMines_(-1), bombRange_(2), mineRange_(2),
       bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
       score_(0)
 {
@@ -56,13 +58,14 @@ Player::Player()
   actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
   actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
+  actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
 }
 
 Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
-      nbBombs_(other.nbBombs_), bombRange_(other.bombRange_),
-      bombTime_(other.bombTime_), moved_(other.moved_), bombCollide_(other.bombCollide_),
-      wasRunning_(other.wasRunning_), score_(other.score_)
+      nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
+      mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
+      bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -92,7 +95,7 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
 	      collide = bBox_->collideWith(*objIt);
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
-		(*objIt)->interact(this);
+		(*objIt)->interact(this, objs);
 	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
 		       !dynamic_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
 		{
@@ -192,8 +195,9 @@ void		Player::draw(void)
   this->model_.draw();
 }
 
-void	Player::interact(Character *ch)
+void	Player::interact(Character *ch, std::list<AObject*>& objs)
 {
+  (void)objs;
   if (dynamic_cast<Monster*>(ch))
     takeDamage(static_cast<Monster*>(ch)->getDamage());
 }
@@ -232,7 +236,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 
   if (nbBombs_ > 0 && bombCollide_)
     {
-      if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1,1,1), bombRange_, bombTime_, *this)))
+      if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
 	{
 	  bombCollide_ = b->getOwnerCollide();
 	  b->adjustPos();
@@ -242,9 +246,30 @@ void	Player::putBomb(std::list<AObject*>& objs)
     }
 }
 
+void	Player::putMine(std::list<AObject*>& objs)
+{
+  Mine	*m;
+
+  if (nbMines_ > 0 && bombCollide_)
+    {
+      if ((m = new Mine(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), mineRange_, bombTime_, *this)))
+	{
+	  bombCollide_ = m->getOwnerCollide();
+	  m->adjustPos();
+	  objs.push_back(m);
+	  --nbMines_;
+	}
+    }
+}
+
 uint	Player::getNbBombs(void) const
 {
   return (nbBombs_);
+}
+
+int	Player::getNbMines(void) const
+{
+  return (nbMines_);
 }
 
 uint	Player::getBombRange(void) const
@@ -267,9 +292,14 @@ int	Player::getScore(void) const
   return (score_);
 }
 
-void	Player::setNbBombs(const uint nbBombs)
+void	Player::setNbBombs(const uint nb)
 {
-  nbBombs_ = nbBombs;
+  nbBombs_ = nb;
+}
+
+void	Player::setNbMines(const int nb)
+{
+  nbMines_ = nb;
 }
 
 void	Player::setBombRange(const uint range)
@@ -334,7 +364,9 @@ void Player::serialize(QDataStream &out) const
     out << speedAdapter_;
     out << moved_;
     out << nbBombs_;
+    out << nbMines_;
     out << bombRange_;
+    out << mineRange_;
     out << bombTime_;
     out << bombCollide_;
     out << isInvincible_;
@@ -354,7 +386,9 @@ void Player::unserialize(QDataStream &in)
     in >> speedAdapter_;
     in >> moved_;
     in >> nbBombs_;
+    in >> nbMines_;
     in >> bombRange_;
+    in >> mineRange_;
     in >> bombTime_;
     in >> bombCollide_;
     in >> isInvincible_;

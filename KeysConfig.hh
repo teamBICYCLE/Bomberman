@@ -23,7 +23,8 @@ enum eKeys
     K_RIGHT,
     K_DOWN,
     K_LEFT,
-    K_PUT_BOMB
+    K_PUT_BOMB,
+    K_PUT_MINE
 };
 
 typedef std::map<eKeys, gdl::Keys::Key> keysMap;

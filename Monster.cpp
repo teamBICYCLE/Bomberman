@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Thu May 17 16:54:00 2012 geoffroy lafontaine
+// Last update Thu May 17 17:25:59 2012 lois burg
 //
 
 #include <algorithm>
@@ -75,7 +75,7 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
     (this->*(actionsMap_[direction]))();
   for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
     if (bBox_->collideWith(*objIt))
-      (*objIt)->interact(this);
+      (*objIt)->interact(this, objs);
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -166,8 +166,9 @@ void		Monster::draw(void)
   this->model_.draw();
 }
 
-void	Monster::interact(Character *ch)
+void	Monster::interact(Character *ch, std::list<AObject*>& objs)
 {
+  (void)objs;
   if (dynamic_cast<Player*>(ch))
     ch->takeDamage(damage_);
 }

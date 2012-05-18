@@ -15,12 +15,14 @@ KeysConfig::KeysConfig()
     defaultPlayer1_.insert(std::make_pair(K_UP, gdl::Keys::W));
     defaultPlayer1_.insert(std::make_pair(K_DOWN, gdl::Keys::S));
     defaultPlayer1_.insert(std::make_pair(K_PUT_BOMB, gdl::Keys::Space));
+    defaultPlayer1_.insert(std::make_pair(K_PUT_MINE, gdl::Keys::LShift));
 
     defaultPlayer2_.insert(std::make_pair(K_LEFT, gdl::Keys::Numpad4));
     defaultPlayer2_.insert(std::make_pair(K_RIGHT, gdl::Keys::Numpad6));
     defaultPlayer2_.insert(std::make_pair(K_UP, gdl::Keys::Numpad8));
     defaultPlayer2_.insert(std::make_pair(K_DOWN, gdl::Keys::Numpad5));
     defaultPlayer2_.insert(std::make_pair(K_PUT_BOMB, gdl::Keys::Numpad0));
+    defaultPlayer2_.insert(std::make_pair(K_PUT_MINE, gdl::Keys::Add));
 }
 
 KeysConfig::~KeysConfig()

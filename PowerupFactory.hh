@@ -11,6 +11,7 @@
 
 # include <vector>
 # include "APowerup.hh"
+# include "MinePowerup.hh"
 # include "AmmoPowerup.hh"
 # include "VelocityPowerup.hh"
 # include "RangePowerup.hh"
