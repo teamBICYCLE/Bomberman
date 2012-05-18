@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Thu May 17 17:27:56 2012 thibault carpentier
+// Last update Fri May 18 12:29:16 2012 thibault carpentier
 //
 
 #ifndef		__GHOST_HH__
@@ -17,7 +17,7 @@
 namespace	Bomberman
 {
 
-# define GHOST_SCRIPT "./lua/Ghost.lua"
+# define GHOST_SCRIPT "./Ressources/lua/Ghost.lua"
 
   class Ghost : public Monster
   {

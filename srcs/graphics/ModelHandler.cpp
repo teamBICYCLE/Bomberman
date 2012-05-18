@@ -7,10 +7,13 @@
 
 #include "ModelHandler.hh"
 
+using namespace Bomberman;
+
 ModelHandler::ModelHandler() {
 }
 
 ModelHandler::ModelHandler(const ModelHandler& orig) {
+    (void)orig;
 }
 
 ModelHandler::~ModelHandler() {

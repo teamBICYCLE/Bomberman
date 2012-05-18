@@ -9,7 +9,11 @@
 # define	MODELHANDLER_HH
 
 # include <map>
+# include <string>
+# include "AObject.hh"
 
+namespace Bomberman
+{
 class ModelHandler {
 public:
   ModelHandler();
@@ -18,12 +22,12 @@ public:
   bool          loadModel(const std::string & path, const std::string & name);
   
 private:
-  std::map<std::string, AObject>        objects_;
+  std::map<std::string, AObject*>        objects_;
   
 private:
   ModelHandler(const ModelHandler& orig);
   ModelHandler &        operator=(const ModelHandler &);
 };
-
+}
 #endif	/* MODELHANDLER_HH */
 

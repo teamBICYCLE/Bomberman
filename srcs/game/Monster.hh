@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Fri May 18 10:36:48 2012 lois burg
+// Last update Fri May 18 12:29:58 2012 thibault carpentier
 //
 
 #ifndef		__MONSTER_HH__
@@ -14,11 +14,11 @@
 # include	<sys/types.h>
 # include	"Character.hh"
 # include	"BoundingBox.hh"
-# include	"ia/Brain.hh"
+# include	"Brain.hh"
 
 namespace	Bomberman
 {
-# define MONSTER_SCRIPT "lua/Monster.lua"
+# define MONSTER_SCRIPT "./Ressources/lua/Monster.lua"
 
   class Monster : public Character
   {

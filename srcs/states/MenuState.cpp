@@ -21,6 +21,7 @@ MenuState::~MenuState()
 
 bool    MenuState::init()
 {
+    return true;
 }
 void    MenuState::cleanUp()
 {

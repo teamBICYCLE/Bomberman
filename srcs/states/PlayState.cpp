@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May 18 10:59:18 2012 Thomas Duplomb
+// Last update Fri May 18 12:25:20 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -90,7 +90,7 @@ void  PlayState::update(StatesManager * sMg)
 void	PlayState::saveScore(int score) const
 {
   static bool LOL = false;
-  std::ofstream	leaderboards("scores/leaderboards.sc", std::ios::app);
+  std::ofstream	leaderboards("./Ressources/scores/leaderboards.sc", std::ios::app);
 
   if (LOL)
     return;
@@ -108,7 +108,8 @@ void	PlayState::saveScore(int score) const
 
 void  PlayState::draw(StatesManager * sMg)
 {
-    camera_.draw();
+  (void)sMg;
+  camera_.draw();
     camera_.drawRepere();
     glPushMatrix();
 //    glTranslated(-0.5f, -0.5f, 0);

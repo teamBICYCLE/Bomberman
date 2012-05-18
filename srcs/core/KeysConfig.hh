@@ -9,7 +9,7 @@
 #ifndef     __KEYSCONFIG_HH__
 # define    __KEYSCONFIG_HH__
 
-# define KEYS_FILE          "config/player"
+# define KEYS_FILE          "./Ressources/config/player"
 # define KEYS_FILE_EXT      ".conf"
 # define UP_CFG             "[UP]"
 # define DOWN_CFG           "[DOWN]"

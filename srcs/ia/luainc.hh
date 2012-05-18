@@ -13,9 +13,9 @@
 
  extern "C"
  {
-  # include "liblua/lua.h"
-  # include "liblua/lauxlib.h"
-  # include "liblua/lualib.h"
+  # include "lua.h"
+  # include "lauxlib.h"
+  # include "lualib.h"
  }
 
 #endif /*!_LUAINC_H_*/
