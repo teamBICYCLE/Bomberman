@@ -13,6 +13,7 @@
 # include	<cstdlib>
 # include	<GDL/Input.hpp>
 # include	<GDL/GameClock.hpp>
+# include       <string>
 
 class StatesManager;
 
