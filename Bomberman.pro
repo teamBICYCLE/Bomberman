@@ -27,6 +27,7 @@ SOURCES += \
     srcs/game/Bomb.cpp \
     srcs/game/Block.cpp \
     srcs/game/AmmoPowerup.cpp \
+    srcs/game/KickPowerup.cpp \
     srcs/graphics/ModelHandler.cpp \
     srcs/graphics/flatTexture.cpp \
     srcs/graphics/Camera.cpp \
@@ -52,7 +53,7 @@ INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/
 
 
 LIBS	+= -lgdl_gl -lGL -lGLU  -llua -ldl
-HEADERS += \ 
+HEADERS += \
     srcs/core/Vector3d.hh \
     srcs/core/StatesManager.hh \
     srcs/core/SaveHandler.hh \
@@ -77,6 +78,7 @@ HEADERS += \
     srcs/game/Bomb.hh \
     srcs/game/Block.hh \
     srcs/game/AmmoPowerup.hh \
+    srcs/game/KickPowerup.hh \
     srcs/graphics/ModelHandler.hh \
     srcs/graphics/flatTexture.hh \
     srcs/graphics/Camera.hh \
