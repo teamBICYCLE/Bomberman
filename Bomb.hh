@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Thu May 17 18:48:59 2012 lois burg
+// Last update Fri May 18 11:32:43 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__

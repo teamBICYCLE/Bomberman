@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 17 18:54:34 2012 lois burg
+// Last update Fri May 18 11:37:41 2012 lois burg
 //
 
 #include <algorithm>
@@ -63,8 +63,6 @@ void	Bomb::explode(std::list<AObject*>& objs)
   bool		leftInvalid = false;
   bool		rightInvalid = false;
 
-  (void)objs;
-  (void)e;
   //explosion qui tue et ajout des loots de tier 7
   objs.push_back(new Explosion(*e));
   for (int i = 1; i <= range_; ++i)
@@ -120,7 +118,8 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
 	    else if (dynamic_cast<Brick*>(obj))
 	      static_cast<Brick*>(obj)->destroy(objs);
-	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj))
+	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+		!dynamic_cast<Mine*>(obj))
 	      isInvalid = true;
 	  }
       });

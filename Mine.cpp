@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Thu May 17 18:54:25 2012 lois burg
+// Last update Fri May 18 11:33:29 2012 lois burg
 //
 
 #include "Mine.hh"
@@ -53,10 +53,16 @@ void	Mine::interact(Character *ch, std::list<AObject*>& objs)
 void	Mine::destroy(std::list<AObject*>& objs)
 {
   explode(objs);
-  owner_.setNbMines(owner_.getNbMines() + 1);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
   AObject::destroy();
+}
+
+void	Mine::explode(std::list<AObject*>& objs)
+{
+  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1);
+
+  objs.push_back(new Explosion(*e));
 }
 
 void	Mine::setChainReaction(bool b)

@@ -133,11 +133,11 @@ bool KeysConfig::checkFormat(const std::string &str, int n) const
 
 const std::string KeysConfig::clean(const std::string &str) const
 {
-    std::string ret("");
+  std::string ret("");
 
     for (uint i = 0;  i != str.length(); i++)
         if (str[i] != ' ' && str[i] != '\t')
-            ret.append(str.substr(i, 1));
+	  ret.append(str.substr(i, 1));
     return ret;
 }
 

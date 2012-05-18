@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 18:22:54 2012 lois burg
-// Last update Thu May 17 18:33:57 2012 lois burg
+// Last update Fri May 18 11:32:06 2012 lois burg
 //
 
 #include "MinePowerup.hh"
@@ -28,13 +28,8 @@ MinePowerup::~MinePowerup(void)
 
 void MinePowerup::activate(Player& p)
 {
-  int	nbMines = p.getNbMines();
-
   std::cout << "Mine up" << std::endl;
-  if (nbMines < 0)
-    p.setNbMines(1);
-  else
-    p.setNbMines(nbMines + 1);
+  p.setNbMines(p.getNbMines() + 1);
   APowerup::activate(p);
 }
 
