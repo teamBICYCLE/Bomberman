@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Sat May 12 14:55:37 2012 geoffroy lafontaine
+// Last update Tue May 15 17:36:51 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -15,11 +15,13 @@
 # include	<GDL/Input.hpp>
 # include	<GDL/Model.hpp>
 # include	<string>
-# include   <QDataStream>
+# include	<QDataStream>
 # include	"Vector3d.hh"
 
 namespace	Bomberman
 {
+  class	Character;
+
   class	AObject
   {
   public:
@@ -30,9 +32,9 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual const std::string&	type(void) const = 0;
-    virtual void        serialize(QDataStream &out) const = 0;
-    virtual void        unserialize(QDataStream &in) = 0;
-    //virtual void        sInit(void) = 0;
+    virtual void		interact(Character *ch);
+    //virtual void                serialize(QDataStream &out) const = 0;
+    //virtual void                unserialize(QDataStream &in) = 0;
 
   public:
     virtual void		setPos(const Vector3d &);
@@ -43,7 +45,7 @@ namespace	Bomberman
     virtual const Vector3d&	getPos(void) const;
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
-    virtual const gdl::Model& getModel(void) const;
+    virtual const gdl::Model&   getModel(void) const;
     virtual const std::string&	getType(void) const;
 
   public:
@@ -60,6 +62,8 @@ namespace	Bomberman
     Vector3d            sz_;
     gdl::Model          model_;
     const std::string	type_;
+
+  public:
     bool                removeLater_;
   };
 }

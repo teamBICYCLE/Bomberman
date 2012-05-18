@@ -5,10 +5,9 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Mon May 14 09:56:44 2012 Thomas Duplomb
+// Last update Tue May 15 20:10:43 2012 Thomas Duplomb
 //
 
-#include <unistd.h>
 #include <iostream>
 #include <algorithm>
 #include "Vector3d.hh"
@@ -20,6 +19,8 @@
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
 
+#include "SaveHandler.hh"
+
 using namespace	Bomberman;
 
 bool  PlayState::init()
@@ -28,8 +29,8 @@ bool  PlayState::init()
 
   success = true;
   try {
-    Map	map("map/map2");
-    // Map	map(13, 13, 1);
+      SaveHandler s;
+      Map	map(13, 13, 1);
     // int	viewport[4];
 
     mapH_ = 13;
@@ -41,6 +42,8 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+    //s.save(objs_);
+    //s.load(objs_);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -61,15 +64,15 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (!(*it)->toRemove())
-	{
-	  (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	  ++it;
-	}
+        {
+          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+          ++it;
+        }
       else
-	{
-	  // std::cout << "Erasing: " << (*it)->getType() << std::endl;
-	  it = objs_.erase(it);
-	}
+        {
+          // std::cout << "Erasing: " << (*it)->getType() << std::endl;
+          it = objs_.erase(it);
+        }
     }
 }
 
@@ -101,9 +104,7 @@ void  PlayState::draw(StatesManager * sMg)
 
     // basic fps time handling
 
-    int time = ((1.0f/60.0f) - sMg->getGameClock().getElapsedTime()) * 1000000;
-    //    std::cout << "sleep: " << time << std::endl;
-    usleep(time > 0 ? time : 0);
+
 }
 
 void  PlayState::pause()

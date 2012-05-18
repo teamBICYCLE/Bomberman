@@ -55,6 +55,7 @@ class Vector3d
     /* Serialization */
     public:
       virtual void serialize(QDataStream &out) const;
+      virtual void unserialize(QDataStream &in) const;
       virtual void unserialize(QDataStream &in);
       static void sInit(void);
 
@@ -64,6 +65,7 @@ class Vector3d
     Q_DECLARE_METATYPE(Vector3d);
     QDataStream &operator << (QDataStream &out, const Vector3d &v);
     QDataStream &operator >> (QDataStream &in, Vector3d &v);
+    QDataStream &operator >> (QDataStream &in, const Vector3d &v);
 
 inline std::ostream& operator<< (std::ostream& s, const Vector3d& v)
 {

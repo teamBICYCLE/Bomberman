@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Sun May 13 20:56:10 2012 romain sylvian
+// Last update Tue May 15 17:39:08 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__
@@ -29,12 +29,17 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual const std::string   &type(void) const;
+    virtual void		interact(Character *ch);
     virtual void		destroy(std::list<AObject*>& objs);
 
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    Bomb & operator=(const Bomb &v);
+
+    /* Tmp */
+    void aff(void) const;
 
   public:
     void	adjustPos(void);
@@ -43,9 +48,12 @@ namespace	Bomberman
   public:
     float	getTimeOut(void) const;
     const Player&	getOwner(void) const;
+    bool	getOwnerCollide(void) const;
 
   public:
     void	setTimeOut(const float timeOut);
+    void	setSpeed(const Vector3d &s);
+    void	setOwnerCollide(bool b);
 
   private:
     void	checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& objs);
@@ -55,7 +63,8 @@ namespace	Bomberman
     float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
-    float	timeCreation_;
+    float       timeCreation_;
+    bool	ownerCollide_;
   };
 }
 

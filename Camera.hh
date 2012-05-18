@@ -22,8 +22,9 @@ public:
   void    initialize(void);
   void    update(const gdl::GameClock &, gdl::Input &);
   void    draw(void);
+ 
   void    drawRepere(void);
-
+  
 private:
   // static const float fov = 70.0f;
   // static const float winxSize = 800.0f;

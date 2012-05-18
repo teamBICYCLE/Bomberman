@@ -13,7 +13,7 @@
 #include <SFML/Window.hpp>
 
 Camera::Camera()
-  :position_(6.5f, 13.5f, 5.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(6.5f, 6.5f, 15.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
@@ -59,9 +59,9 @@ void    Camera::draw()
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-// glOrtho(-50, 600, -50, 600, 1, 100000);
-  gluPerspective(this->fov, this->winxSize / this->winySize,
-                 this->zNear, this->zFar);
+  //glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);
+ gluPerspective(this->fov, this->winxSize / this->winySize,
+                this->zNear, this->zFar);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glScaled(1, -1, 1);

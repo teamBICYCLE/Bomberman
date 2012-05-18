@@ -24,7 +24,11 @@ SOURCES += main.cpp \
     Character.cpp \
     Explosion.cpp \
     Monster.cpp \
-    saveHandler.cpp
+    SaveHandler.cpp \
+    MenuState.cpp \
+    MenuEntry.cpp \
+    MenuLine.cpp \
+    FlatTexture.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -52,4 +56,8 @@ HEADERS += \
     Character.hh \
     Explosion.hh \
     Monster.hh \
-    saveHandler.hpp
+    SaveHandler.hh \
+    MenuState.hh \
+    MenuEntry.hh \
+    MenuLine.hh \
+    FlatTexture.hh

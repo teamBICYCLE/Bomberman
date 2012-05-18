@@ -7,8 +7,9 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
+#include <unistd.h>
 #include "StatesManager.hh"
-#include "PlayState.hh"
+#include "MenuState.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -81,15 +82,21 @@ void      StatesManager::update()
   if (!this->states_.empty())
     this->states_.back()->update(this);
   else
-     this->changeState(new Bomberman::PlayState());
+     this->changeState(new Bomberman::MenuState());
 }
 
 void      StatesManager::draw()
 {
+  int   time;
+  
   if (!this->states_.empty())
     this->states_.back()->draw(this);
   else
     throw Exception("No state to be drawn");
+  
+  time = ((1.0f/60.0f) - gameClock_.getElapsedTime()) * 1000000;
+    //    std::cout << "sleep: " << time << std::endl;
+    usleep(time > 0 ? time : 0);
 }
 
 gdl::Input  &StatesManager::getInput(void)
