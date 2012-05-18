@@ -260,8 +260,6 @@
 */
 #if defined(LUA_USE_READLINE)
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #define lua_readline(L,b,p)	((void)L, ((b)=readline(p)) != NULL)
 #define lua_saveline(L,idx) \
 	/* if (lua_strlen(L,idx) > 0)  /\* non-empty line? *\/ \ */
