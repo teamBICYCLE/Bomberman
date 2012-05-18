@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------------
  */
 
-
+#include <algorithm>
 #include "MenuEntry.hh"
 #include "AGameState.hh"
 
@@ -23,7 +23,7 @@ MenuEntry::~MenuEntry() {
 void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys, StatesManager * sMg)
 {
   static bool  noUp = true, noDown = true;
-  
+
   if (keys.isKeyDown(gdl::Keys::Up) && noUp)
   {
     if (selected_ - 1 > selected_)
@@ -41,11 +41,11 @@ void    MenuEntry::update(gdl::GameClock& clock, gdl::Input& keys, StatesManager
   {
     items_[selected_].activate(sMg);
   }
-  
+
   // prevent keys to be consider pressed twice (force user to re-press)
   noUp = !keys.isKeyDown(gdl::Keys::Up);
   noDown = !keys.isKeyDown(gdl::Keys::Down);
-  
+
   unsigned int i = 0;
   std::for_each(items_.begin(), items_.end(), [&i, &clock, this](MenuLine & obj) -> void {
     obj.update(clock, i == selected_);

@@ -91,6 +91,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Method redirecting calls.  <a href="#a328b9de11566dedba18161aa82ca232b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBomberman_1_1Thinking_1_1Brain.html#ab271bda1c21a134ab8aa375755439ba9">getReturn</a> (VirtualMachine &amp;vm, const std::string &amp;strFunc)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Method hanling returns from functions called in lua.  <a href="#ab271bda1c21a134ab8aa375755439ba9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">eDirection&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBomberman_1_1Thinking_1_1Brain.html#a71113227c22ea6973bf0210384939696">getDecision</a> (void) const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returning the movement decided by the Script.  <a href="#a71113227c22ea6973bf0210384939696"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBomberman_1_1Thinking_1_1Brain.html#a8f68d82b0a73f1ff626e54f238d51cee">test</a> (VirtualMachine &amp;vm)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The test Method.  <a href="#a8f68d82b0a73f1ff626e54f238d51cee"></a><br/></td></tr>
 </table>
@@ -139,6 +141,27 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a71113227c22ea6973bf0210384939696"></a><!-- doxytag: member="Bomberman::Thinking::Brain::getDecision" ref="a71113227c22ea6973bf0210384939696" args="(void) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">eDirection Bomberman::Thinking::Brain::getDecision </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returning the movement decided by the Script. </p>
+<p>Return the final decision of the thinking fonction </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>(eDirection) (direction enum) </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab271bda1c21a134ab8aa375755439ba9"></a><!-- doxytag: member="Bomberman::Thinking::Brain::getReturn" ref="ab271bda1c21a134ab8aa375755439ba9" args="(VirtualMachine &amp;vm, const std::string &amp;strFunc)" -->
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +283,7 @@ Public Member Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 15 2012 for API IA Bomberman by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Fri May 18 2012 for API IA Bomberman by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

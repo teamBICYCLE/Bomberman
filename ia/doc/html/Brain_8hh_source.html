@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00005"></a>00005 <span class="comment">// Login   &lt;carpen_t@epitech.net&gt;</span>
 <a name="l00006"></a>00006 <span class="comment">//</span>
 <a name="l00007"></a>00007 <span class="comment">// Started on  Mon May 14 13:25:11 2012 thibault carpentier</span>
-<a name="l00008"></a>00008 <span class="comment">// Last update Tue May 15 14:34:35 2012 thibault carpentier</span>
+<a name="l00008"></a>00008 <span class="comment">// Last update Thu May 17 10:28:30 2012 thibault carpentier</span>
 <a name="l00009"></a>00009 <span class="comment">//</span>
 <a name="l00010"></a>00010 
 <a name="l00011"></a>00011 <span class="comment">/* Documentation tag for Doxygen</span>
@@ -82,38 +82,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00057"></a>00057 <span class="preprocessor"># include &lt;iostream&gt;</span>
 <a name="l00058"></a>00058 <span class="preprocessor"># include &quot;VirtualMachine.hh&quot;</span>
 <a name="l00059"></a>00059 <span class="preprocessor"># include &quot;Script.hh&quot;</span>
-<a name="l00060"></a>00060 
-<a name="l00061"></a>00061 <span class="keyword">using namespace </span>Bomberman;
-<a name="l00062"></a>00062 <span class="keyword">using namespace </span>LuaVirtualMachine;
-<a name="l00063"></a>00063 
-<a name="l00069"></a>00069 <span class="keyword">namespace </span>Bomberman
-<a name="l00070"></a>00070 {
-<a name="l00076"></a>00076   <span class="keyword">namespace </span>Thinking
-<a name="l00077"></a>00077   {
-<a name="l00083"></a><a class="code" href="classBomberman_1_1Thinking_1_1Brain.html">00083</a>     <span class="keyword">class </span><a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> : <span class="keyword">public</span> Script
-<a name="l00084"></a>00084     {
-<a name="l00085"></a>00085     <span class="keyword">typedef</span> int (<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Bomberman::Thinking::Brain</a>::*fctMeth)(VirtualMachine &amp;);
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087    <span class="keyword">public</span>:
-<a name="l00094"></a>00094       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<span class="keywordtype">void</span>);
-<a name="l00101"></a>00101       ~<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<span class="keywordtype">void</span>);
-<a name="l00102"></a>00102 
-<a name="l00115"></a>00115       <span class="keywordtype">int</span> scriptCalling(VirtualMachine &amp;vm, <span class="keywordtype">int</span> fctNb);
-<a name="l00127"></a>00127       <span class="keywordtype">void</span> getReturn(VirtualMachine &amp;vm, <span class="keyword">const</span> std::string &amp;strFunc);
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 
-<a name="l00140"></a>00140       <span class="keywordtype">int</span> test(VirtualMachine &amp;vm);
-<a name="l00141"></a>00141 
-<a name="l00142"></a>00142     <span class="keyword">private</span>:
-<a name="l00150"></a>00150       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> <span class="keyword">const</span> &amp;);
-<a name="l00158"></a>00158       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>&amp; operator=(<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> <span class="keyword">const</span> &amp;);
-<a name="l00159"></a>00159 
-<a name="l00160"></a>00160       std::map&lt;int, fctMeth&gt; meth_; 
-<a name="l00161"></a>00161     };
-<a name="l00162"></a>00162   }
-<a name="l00163"></a>00163 }
-<a name="l00164"></a>00164 
-<a name="l00165"></a>00165 <span class="preprocessor">#endif </span>
+<a name="l00060"></a>00060 <span class="preprocessor"># include &quot;Character.hh&quot;</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="keyword">using namespace </span>Bomberman;
+<a name="l00063"></a>00063 <span class="keyword">using namespace </span>LuaVirtualMachine;
+<a name="l00064"></a>00064 
+<a name="l00070"></a>00070 <span class="keyword">namespace </span>Bomberman
+<a name="l00071"></a>00071 {
+<a name="l00077"></a>00077   <span class="keyword">namespace </span>Thinking
+<a name="l00078"></a>00078   {
+<a name="l00084"></a><a class="code" href="classBomberman_1_1Thinking_1_1Brain.html">00084</a>     <span class="keyword">class </span><a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> : <span class="keyword">public</span> Script
+<a name="l00085"></a>00085     {
+<a name="l00086"></a>00086     <span class="keyword">typedef</span> int (<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Bomberman::Thinking::Brain</a>::*fctMeth)(VirtualMachine &amp;);
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088    <span class="keyword">public</span>:
+<a name="l00095"></a>00095       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<span class="keywordtype">void</span>);
+<a name="l00102"></a>00102       ~<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<span class="keywordtype">void</span>);
+<a name="l00103"></a>00103 
+<a name="l00116"></a>00116       <span class="keywordtype">int</span> scriptCalling(VirtualMachine &amp;vm, <span class="keywordtype">int</span> fctNb);
+<a name="l00128"></a>00128       <span class="keywordtype">void</span> getReturn(VirtualMachine &amp;vm, <span class="keyword">const</span> std::string &amp;strFunc);
+<a name="l00136"></a>00136       eDirection getDecision(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
+<a name="l00137"></a>00137 
+<a name="l00148"></a>00148       <span class="keywordtype">int</span> test(VirtualMachine &amp;vm);
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150     <span class="keyword">private</span>:
+<a name="l00158"></a>00158       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>(<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> <span class="keyword">const</span> &amp;);
+<a name="l00166"></a>00166       <a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a>&amp; operator=(<a class="code" href="classBomberman_1_1Thinking_1_1Brain.html" title="Brain class encapsulate calls from lua and organise Scripting calls.">Brain</a> <span class="keyword">const</span> &amp;);
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168       eDirection decision_; 
+<a name="l00170"></a>00170       std::map&lt;int, fctMeth&gt; meth_; 
+<a name="l00171"></a>00171     };
+<a name="l00172"></a>00172   }
+<a name="l00173"></a>00173 }
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 <span class="preprocessor">#endif </span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -130,7 +132,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 15 2012 for API IA Bomberman by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Fri May 18 2012 for API IA Bomberman by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

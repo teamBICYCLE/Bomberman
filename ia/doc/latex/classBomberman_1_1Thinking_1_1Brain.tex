@@ -22,6 +22,8 @@ int \hyperlink{classBomberman_1_1Thinking_1_1Brain_a328b9de11566dedba18161aa82ca
 \begin{DoxyCompactList}\small\item\em Method redirecting calls. \end{DoxyCompactList}\item 
 void \hyperlink{classBomberman_1_1Thinking_1_1Brain_ab271bda1c21a134ab8aa375755439ba9}{getReturn} (VirtualMachine \&vm, const std::string \&strFunc)
 \begin{DoxyCompactList}\small\item\em Method hanling returns from functions called in lua. \end{DoxyCompactList}\item 
+eDirection \hyperlink{classBomberman_1_1Thinking_1_1Brain_a71113227c22ea6973bf0210384939696}{getDecision} (void) const 
+\begin{DoxyCompactList}\small\item\em returning the movement decided by the Script. \end{DoxyCompactList}\item 
 int \hyperlink{classBomberman_1_1Thinking_1_1Brain_a8f68d82b0a73f1ff626e54f238d51cee}{test} (VirtualMachine \&vm)
 \begin{DoxyCompactList}\small\item\em The test Method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -61,6 +63,22 @@ Destructor.
 Destructor of \hyperlink{classBomberman_1_1Thinking_1_1Brain}{Brain} Class. 
 
 \subsection{Member Function Documentation}
+\hypertarget{classBomberman_1_1Thinking_1_1Brain_a71113227c22ea6973bf0210384939696}{
+\index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!getDecision@{getDecision}}
+\index{getDecision@{getDecision}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
+\subsubsection[{getDecision}]{\setlength{\rightskip}{0pt plus 5cm}eDirection Bomberman::Thinking::Brain::getDecision (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}
+\label{classBomberman_1_1Thinking_1_1Brain_a71113227c22ea6973bf0210384939696}
+
+
+returning the movement decided by the Script. 
+
+Return the final decision of the thinking fonction \begin{DoxyReturn}{Returns}
+(eDirection) (direction enum) 
+\end{DoxyReturn}
 \hypertarget{classBomberman_1_1Thinking_1_1Brain_ab271bda1c21a134ab8aa375755439ba9}{
 \index{Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}!getReturn@{getReturn}}
 \index{getReturn@{getReturn}!Bomberman::Thinking::Brain@{Bomberman::Thinking::Brain}}
