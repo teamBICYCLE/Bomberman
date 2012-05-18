@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Thu May 17 10:28:30 2012 thibault carpentier
+// Last update Fri May 18 14:01:22 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -90,6 +90,7 @@ namespace Bomberman
        *  \brief Constructor.
        *
        *  Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
        *
        */
       Brain(void);
