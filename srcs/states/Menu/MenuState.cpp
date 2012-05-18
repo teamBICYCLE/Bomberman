@@ -11,7 +11,7 @@
 #include "MenuState.hh"
 #include "MenuEntry.hh"
 
-namespace Bomberman {
+namespace Menu {
 MenuState::MenuState() {
 }
 
@@ -35,7 +35,7 @@ void    MenuState::update(StatesManager * sMg)
 void    MenuState::draw(StatesManager *)
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(0, 800, 800, 0);

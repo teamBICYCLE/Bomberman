@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Thu May 17 16:08:00 2012 lois burg
+// Last update Fri May 18 15:31:06 2012 lois burg
 //
 
 #include "Character.hh"
@@ -78,6 +78,11 @@ void	Character::bump(const Vector3d& bumpPos)
     pos_.y = save_.y;
   if (bBox_->isLeft() || bBox_->isRight())
     pos_.x = save_.x;
+}
+
+const BoundingBox	*Character::getBBox(void) const
+{
+  return (bBox_);
 }
 
 double      Character::getSpeed(void) const

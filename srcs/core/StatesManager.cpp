@@ -9,7 +9,7 @@
 
 #include <unistd.h>
 #include "StatesManager.hh"
-#include "MenuState.hh"
+#include "Menu/MenuState.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -82,21 +82,34 @@ void      StatesManager::update()
   if (!this->states_.empty())
     this->states_.back()->update(this);
   else
-     this->changeState(new Bomberman::MenuState());
+    this->quit();
+    //throw Exception("No state to be update");
 }
 
 void      StatesManager::draw()
 {
   int   time;
-  
+
   if (!this->states_.empty())
     this->states_.back()->draw(this);
   else
-    throw Exception("No state to be drawn");
-  
+    this->quit();
+    //throw Exception("No state to be drawn");
+
   time = ((1.0f/60.0f) - gameClock_.getElapsedTime()) * 1000000;
     //    std::cout << "sleep: " << time << std::endl;
-    usleep(time > 0 ? time : 0);
+  usleep(time > 0 ? time : 0);
+}
+
+void StatesManager::start(AGameState *state)
+{
+  this->pushState(state);
+  this->run();
+}
+
+void StatesManager::quit()
+{
+  this->window_.close();
 }
 
 gdl::Input  &StatesManager::getInput(void)

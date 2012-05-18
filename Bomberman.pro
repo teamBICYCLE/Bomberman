@@ -27,6 +27,7 @@ SOURCES += \
     srcs/game/Bomb.cpp \
     srcs/game/Block.cpp \
     srcs/game/AmmoPowerup.cpp \
+    srcs/game/KickPowerup.cpp \
     srcs/graphics/ModelHandler.cpp \
     srcs/graphics/flatTexture.cpp \
     srcs/graphics/Camera.cpp \
@@ -40,11 +41,13 @@ SOURCES += \
     srcs/ia/Debugger.cpp \
     srcs/ia/Brain.cpp \
     srcs/states/PlayState.cpp \
-    srcs/states/MenuState.cpp \
-    srcs/states/MenuLine.cpp \
-    srcs/states/MenuEntry.cpp \
+    srcs/states/Menu/MenuState.cpp \
+    srcs/states/Menu/MenuLine.cpp \
+    srcs/states/Menu/MenuEntry.cpp \
     srcs/states/IntroState.cpp \
-    srcs/main.cpp
+    srcs/main.cpp \
+    srcs/states/Menu/StartGame.cpp \
+    srcs/states/Menu/Quit.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -52,7 +55,7 @@ INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/
 
 
 LIBS	+= -lgdl_gl -lGL -lGLU  -llua -ldl
-HEADERS += \ 
+HEADERS += \
     srcs/core/Vector3d.hh \
     srcs/core/StatesManager.hh \
     srcs/core/SaveHandler.hh \
@@ -77,6 +80,7 @@ HEADERS += \
     srcs/game/Bomb.hh \
     srcs/game/Block.hh \
     srcs/game/AmmoPowerup.hh \
+    srcs/game/KickPowerup.hh \
     srcs/graphics/ModelHandler.hh \
     srcs/graphics/flatTexture.hh \
     srcs/graphics/Camera.hh \
@@ -90,7 +94,9 @@ HEADERS += \
     srcs/ia/Failure.hh \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \
-    srcs/states/MenuState.hh \
-    srcs/states/MenuLine.hh \
-    srcs/states/MenuEntry.hh \
-    srcs/states/IntroState.hh
+    srcs/states/Menu/MenuState.hh \
+    srcs/states/Menu/MenuLine.hh \
+    srcs/states/Menu/MenuEntry.hh \
+    srcs/states/IntroState.hh \
+    srcs/states/Menu/StartGame.hh \
+    srcs/states/Menu/Quit.hh

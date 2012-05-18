@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Thu May 17 16:53:39 2012 geoffroy lafontaine
+// Last update Fri May 18 16:33:53 2012 lois burg
 //
 
 #include "Player.hh"
@@ -23,11 +23,18 @@ BoundingBox::BoundingBox(const BoundingBox &other, const AObject *owner)
       above_(other.above_), below_(other.below_),
       left_(other.left_), right_(other.right_)
 {
-    std::cout << other.pos_ << std::endl;
 }
 
 BoundingBox::~BoundingBox()
 {
+}
+
+void	BoundingBox::resetColliding(void)
+{
+  above_ = false;
+  right_ = false;
+  below_ = false;
+  left_ = false;
 }
 
 bool	BoundingBox::isAbove(void) const
@@ -54,10 +61,10 @@ bool	BoundingBox::collideWith(const AObject *obj)
 {
   if (owner_ == obj || pos_.distance(obj->getPos()) > 2)
     return (false);
-  above_ = collideUp(obj);
-  below_ = collideDown(obj);
-  left_ = collideLeft(obj);
-  right_ = collideRight(obj);
+  collideUp(obj);
+  collideDown(obj);
+  collideLeft(obj);
+  collideRight(obj);
 
   // if (above_)
   //   std::cout << "Above!" << std::endl;
@@ -75,44 +82,48 @@ bool	BoundingBox::collideWith(const AObject *obj)
 
 bool	BoundingBox::collideLeft(const AObject *obj)
 {
+  left_ = false;
   if (obj->getPos() == pos_)
-    return (true);
-  if (obj->getPos().x < pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x)
+    left_ = true;
+  if (!left_ && obj->getPos().x < pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x)
     if ((obj->getPos().y <= pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
 	 (obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y)))
-      return (true);
-  return (false);
+      left_ = true;
+  return (left_);
 }
 
 bool	BoundingBox::collideRight(const AObject *obj)
 {
+  right_ = false;
   if (obj->getPos() == pos_)
-    return (true);
-  if (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x))
+    right_ = true;
+  if (!right_ && obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x))
     if ((obj->getPos().y <= pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
 	 (obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y)))
-      return (true);
-  return (false);
+      right_ = true;
+  return (right_);
 }
 
 bool	BoundingBox::collideUp(const AObject *obj)
 {
+  above_ = false;
   if (obj->getPos() == pos_)
-    return (true);
-  if (obj->getPos().y < pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y)
+    above_ = true;
+  if (!above_ && obj->getPos().y < pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y)
   if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x) ||
        (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x)))
-      return (true);
-  return (false);
+    above_ = true;
+  return (above_);
 }
 
 bool	BoundingBox::collideDown(const AObject *obj)
 {
+  below_ = false;
   if (obj->getPos() == pos_)
-    return (true);
-  if (obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y))
+    below_ = true;
+  if (!below_ && obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y))
     if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x) ||
 	 (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x)))
-      return (true);
-  return (false);
+      below_ = true;
+  return (below_);
 }
