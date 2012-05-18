@@ -12,6 +12,7 @@
 #include "Player.hh"
 #include "Bomb.hh"
 #include "Monster.hh"
+#include "Ghost.hh"
 #include "Explosion.hh"
 #include "SaveHandler.hh"
 
@@ -41,6 +42,8 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Bomb *>(obj))));
         else if (obj->getType() == "Monster")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Monster *>(obj))));
+        else if (obj->getType() == "Ghost")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Ghost *>(obj))));
         else if (obj->getType() == "Explosion")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Explosion *>(obj))));
         else
@@ -58,6 +61,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     Player::sInit();
     Bomb::sInit();
     Monster::sInit();
+    Ghost::sInit();
     Explosion::sInit();
 
     QSettings w(SAVE_FILE, QSettings::IniFormat);
@@ -107,6 +111,8 @@ void SaveHandler::load(std::list<AObject*> &res) const
             res.push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
         else if (s.contains("Monster"))
             res.push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+        else if (s.contains("Ghost"))
+            res.push_back(new Monster(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
     }

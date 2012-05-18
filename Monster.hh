@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Thu May 17 17:23:58 2012 lois burg
+// Last update Fri May 18 10:36:48 2012 lois burg
 //
 
 #ifndef		__MONSTER_HH__
@@ -16,12 +16,13 @@
 # include	"BoundingBox.hh"
 # include	"ia/Brain.hh"
 
-# define SCRIPT_FILE "lua/test.lua"
-
 namespace	Bomberman
 {
+# define MONSTER_SCRIPT "lua/Monster.lua"
+
   class Monster : public Character
   {
+
   public:
     typedef void (Character::*t_monsterActionFun)(void);
 

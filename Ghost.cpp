@@ -1,11 +1,11 @@
 //
 // Ghost.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Thu May 17 15:35:19 2012 geoffroy lafontaine
-// Last update Thu May 17 16:27:36 2012 geoffroy lafontaine
+// Last update Thu May 17 17:29:47 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -20,7 +20,7 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint 
   : Monster(pos, rot, sz, damage)
 {
   std::cout << "Ghost created." << std::endl;
-  brainScript_.compileFile (SCRIPT_FILE);
+  brainScript_.compileFile (GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -35,7 +35,7 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, uint 
 Ghost::Ghost(const Ghost &other)
   : Monster(other.pos_, other.rot_, other.sz_, other.damage_)
 {
-    brainScript_.compileFile (SCRIPT_FILE);
+    brainScript_.compileFile (GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
@@ -44,7 +44,7 @@ Ghost::Ghost(const Ghost &other)
 Ghost::Ghost()
   : Monster()
 {
-    brainScript_.compileFile (SCRIPT_FILE);
+    brainScript_.compileFile (GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
     model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
     model_.cut_animation(model_, "Take 001", 0, 35, "start");

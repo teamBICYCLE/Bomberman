@@ -1,11 +1,11 @@
 //
 // Ghost.hh for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Thu May 17 15:53:59 2012 geoffroy lafontaine
+// Last update Thu May 17 17:27:56 2012 thibault carpentier
 //
 
 #ifndef		__GHOST_HH__
@@ -16,6 +16,9 @@
 
 namespace	Bomberman
 {
+
+# define GHOST_SCRIPT "./lua/Ghost.lua"
+
   class Ghost : public Monster
   {
   public:
@@ -23,7 +26,7 @@ namespace	Bomberman
     Ghost(const Ghost &);
     Ghost();
     virtual ~Ghost();
-    
+
   public:
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
