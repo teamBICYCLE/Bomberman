@@ -74,7 +74,7 @@ namespace	Bomberman
     void    addBricks(const std::string &, int, std::list<AObject*> *);
     void    addGhosts(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
     void    addMonsters(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
-    void    addPlayers(const std::string &, int, bool *);
+    void    addPlayers(std::list<std::string> &map);
 
   protected:
     void	generatePlayers(uint nbPlayers);

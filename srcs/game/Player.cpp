@@ -26,6 +26,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   // kickAbility_ = true;
   // nbBombs_ = 2;
 
+      std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
