@@ -38,6 +38,7 @@ bool  PlayState::init()
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
+    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
