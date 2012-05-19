@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Sat May 19 11:38:03 2012 thibault carpentier
+// Last update Sat May 19 14:13:19 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
@@ -15,7 +15,7 @@ using namespace Bomberman;
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
-  for (int i = 0; i < x; ++i)
+  for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
 
@@ -30,8 +30,17 @@ void DangerMap::resetDanger(void)
       danger_[y][x] = std::pair<int, int>(0, 0);
 }
 
+int DangerMap::updateDanger(const std::list<AObject*>::const_iterator it)
+{
+  if ((*it)->getType() == "Bomb" || (*it)->getType() == "Mine" ||
+      (*it)->getType() == "Explosion")
+    return (10);
+  return (1);
+}
+
 void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 {
+  objs_ = objs;
   std::list<AObject*>::const_iterator it;
 
   resetDanger();
@@ -39,7 +48,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
     for (int y = 0; y < y_; ++y)
       for (it = objs.begin(); it != objs.end(); ++it)
 	if (static_cast<int>((*it)->getPos().x) == x && static_cast<int>((*it)->getPos().y) == y)
-	  danger_[y][x] = std::pair<int, int>(1, 0);
+	  danger_[y][x].first += updateDanger(it);
 
   // temporaire
   // std::vector<std::vector<std::pair<int, int> > >::iterator test;
