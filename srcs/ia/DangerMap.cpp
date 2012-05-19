@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Sat May 19 15:45:24 2012 thibault carpentier
+// Last update Sat May 19 15:55:07 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
@@ -20,6 +20,7 @@ DangerMap::DangerMap(int x, int y)
   dangerMeth_["KickPowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["AmmoPowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["Mine"] = &DangerMap::mineDanger;
+  dangerMeth_["Explosion"] = &DangerMap::explosionDanger;
   dangerMeth_["Player"] = &DangerMap::playerDanger;
   //  dangerMeth_["Monster"] = &DangerMap::
 
@@ -58,6 +59,12 @@ int DangerMap::powerupDanger(const std::list<AObject*>::const_iterator &it)
 }
 
 int DangerMap::mineDanger(const std::list<AObject*>::const_iterator &it)
+{
+  (void)it;
+  return (100);
+}
+
+int DangerMap::explosionDanger(const std::list<AObject*>::const_iterator &it)
 {
   (void)it;
   return (100);

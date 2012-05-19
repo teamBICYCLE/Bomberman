@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Sat May 19 15:33:04 2012 thibault carpentier
+// Last update Sat May 19 15:54:43 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -32,6 +32,7 @@ namespace Bomberman
 
     int powerupDanger(const std::list<AObject *>::const_iterator &it);
     int mineDanger(const std::list<AObject*>::const_iterator &it);
+    int explosionDanger(const std::list<AObject*>::const_iterator &it);
     int playerDanger(const std::list<AObject*>::const_iterator &it);
 
     std::vector<std::vector<std::pair<int, int> > > danger_;
