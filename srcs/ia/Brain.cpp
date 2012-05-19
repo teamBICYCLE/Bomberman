@@ -5,6 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
+// Last update Fri May 18 18:26:33 2012 thibault carpentier
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
@@ -29,8 +30,6 @@ Brain::Brain(int x, int y)
   lua_setglobal(state, "LEFT");
   lua_pushinteger(state, eDirection::NODIR);
   lua_setglobal(state, "NODIR");
-
-
   meth_[registerFct("test")] = &Brain::test;
 }
 
@@ -60,7 +59,7 @@ void Brain::getReturn(VirtualMachine &vm, const std::string &strFunc)
   if (strFunc == "thinking")
     {
       if (lua_gettop(state) == 1 && lua_isnumber(state, 1))
-	decision_ = (eDirection)lua_tonumber(state, 1);
+	decision_ = static_cast<eDirection>(lua_tonumber(state, 1));
     }
   return;
 }
@@ -68,4 +67,9 @@ void Brain::getReturn(VirtualMachine &vm, const std::string &strFunc)
 eDirection Brain::getDecision(void) const
 {
   return (decision_);
+}
+
+void Brain::updateDangerMap(std::list<AObject*> &objs)
+{
+  danger_.updateGameVision(objs);
 }
