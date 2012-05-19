@@ -66,9 +66,9 @@ Map::Map(uint width, uint height, uint nbPlayers)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(width, height, nbPlayers);
   generateBorder(width, height);
-  addPlayers(width, height, nbPlayers);
-  addMonsters(width, height, 5);
-  addGhosts(width, height, 2);
+  generatePlayers(width, height, nbPlayers);
+  generateMonsters(width, height, 5);
+  generateGhosts(width, height, 2);
 }
 
 Map::Map(const std::string& fileName)
@@ -129,7 +129,7 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   while (nbBricks > 0);
 }
 
-void				Map::addPlayers(uint width, uint height,
+void				Map::generatePlayers(uint width, uint height,
 						uint nbPlayers)
 {
   std::vector< std::pair<int, int> >		postab;
@@ -151,7 +151,7 @@ void				Map::placePlayer(uint x, uint y)
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::addMonsters(uint width, uint height, uint nbMonsters)
+void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
 {
   std::list<AObject*>::iterator	it;
   uint				x = 0;
@@ -199,7 +199,7 @@ void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
   terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
-void				Map::addGhosts(uint width, uint height, uint nbGhosts)
+void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
 {
   std::list<AObject*>::iterator	it;
   uint				x = 0;
@@ -278,32 +278,64 @@ void				Map::clearPlace(uint x, uint y)
     }
 }
 
-bool Map::checkType(char c) const
+void Map::addBlocks(const std::string &l, int y, std::list<AObject*> *tmp)
 {
-  if (std::string(MAP_FILE_ALLOWED).find(c) == std::string::npos)
-    throw Map::Failure("checkType", "Forbidden character.");
-  else if (c == MAP_FILE_BLOCK || c == MAP_FILE_BRICK || c == MAP_FILE_PLAYER)
-    return true;
-  return false;
+    for (uint i = 0; i != l.length(); i++)
+        if (l[i] == MAP_FILE_BLOCK)
+            tmp->push_back(new Block(Vector3d(i + 1, y, 0), Vector3d(), Vector3d(1, 1, 0)));
 }
 
-AObject *Map::createType(char c, uint x, uint y, bool *player) const
+void Map::addBricks(const std::string &l, int y, std::list<AObject*> *tmp)
 {
-    if (c == MAP_FILE_BLOCK)
-      return new Block(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
-    else if (c == MAP_FILE_BRICK)
-      return new Brick(Vector3d(x , y , 0), Vector3d(), Vector3d(1, 1, 0));
-    *player = true;
-    return new Player(Vector3d(x , y , 0), Vector3d(0,0,0), Vector3d(0.5, 0.5, 0));
+    for (uint i = 0; i != l.length(); i++)
+        if (l[i] == MAP_FILE_BRICK)
+            tmp->push_back(new Brick(Vector3d(i + 1, y, 0), Vector3d(), Vector3d(1, 1, 0)));
+}
+
+void Map::addPlayers(const std::string &l, int y, bool *player)
+{
+    for (uint i = 0; i != l.length(); i++)
+    {
+        if (l[i] == MAP_FILE_PLAYER)
+        {
+            terrain_.push_back(new Player(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.5, 0.5, 0)));
+            *player = true;
+        }
+    }
+}
+
+void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
+{
+    for (uint i = 0; i != l.length(); i++)
+    {
+        if (l[i] == MAP_FILE_GHOST)
+            tmp->push_back(new Ghost(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
+    }
+}
+
+void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
+{
+    for (uint i = 0; i != l.length(); i++)
+    {
+        if (l[i] == MAP_FILE_MONSTER)
+            tmp->push_back(new Monster(Vector3d(i + 1, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
+    }
 }
 
 void Map::getFromFile(const std::string& fileName)
 {
-  std::string			line;
-  std::ifstream			infile;
-  uint				x;
+  std::string       line;
+  std::ifstream     infile;
   uint				y = 0;
+  uint              x = 0;
   bool				player = false;
+  std::list<AObject*>	tmp;
+  std::list<AObject*>::iterator it;
+
+  /* tmp */
+  Thinking::Brain		*b;
+
+  b = new Thinking::Brain(13, 13);
 
   infile.open(fileName.c_str());
   if (infile.fail())
@@ -311,11 +343,18 @@ void Map::getFromFile(const std::string& fileName)
   while (!infile.eof())
     {
       getline(infile, line);
-      for (x = 0; x != line.length(); x++)
-	if (checkType(line[x]))
-	  terrain_.push_back(createType(line[x], x, y, &player));
+      Map::addBlocks(line, y + 1, &tmp);
+      Map::addBricks(line, y + 1, &tmp);
+      Map::addPlayers(line, y + 1, &player);
+      Map::addGhosts(line, y + 1, &tmp, b);
+      Map::addMonsters(line, y + 1, &tmp ,b);
+      if (line.length() > x)
+          x = line.length();
       y++;
     }
+  for (it = tmp.begin(); it != tmp.end(); it++)
+      terrain_.push_back((*it));
+  Map::generateBorder((x + 2), (y + 2));
   infile.close();
   if (!player)
     throw Map::Failure("getFromFile", "No player set on the map.");
