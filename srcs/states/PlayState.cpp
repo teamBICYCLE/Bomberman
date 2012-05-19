@@ -31,8 +31,8 @@ bool  PlayState::init()
   success = true;
   try {
     SaveHandler s;
-    //Map	map("Ressources/Map/map2");
-    Map	map(13, 13, 1);
+    Map	map("Ressources/Map/map2");
+    //Map	map(2, 7, 1);
     // int	viewport[4];
 
     bestScore_ = 0;

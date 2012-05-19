@@ -57,6 +57,7 @@ const char	*Map::Failure::what(void) const throw()
 }
 
 Map::Map(uint width, uint height, uint nbPlayers)
+    : width_(width), height_(height)
 {
   if ((width * height) < (nbPlayers * 4))
     throw Map::Failure("Map", "too many players for this map.");
@@ -64,11 +65,11 @@ Map::Map(uint width, uint height, uint nbPlayers)
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  generateBricks(width, height, nbPlayers);
-  generateBorder(width, height);
-  generatePlayers(width, height, nbPlayers);
-  generateMonsters(width, height, 1);
-  generateGhosts(width, height, 0);
+  generateBricks(nbPlayers);
+  generateBorder();
+  generatePlayers(nbPlayers);
+  generateMonsters(1);
+  generateGhosts(0);
 }
 
 Map::Map(const std::string& fileName)
@@ -87,21 +88,21 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void				Map::generateBorder(uint width, uint height)
+void				Map::generateBorder(void)
 {
-  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
+  for (int x = -1; x < static_cast<int>(width_) + 1; ++x)
     {
       terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height_, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
-  for (int y = 0; y < static_cast<int>(height); ++y)
+  for (int y = 0; y < static_cast<int>(height_); ++y)
     {
       terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width_, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
 }
 
-void				Map::generateBricks(uint width, uint height, uint nbPlayers)
+void				Map::generateBricks(uint nbPlayers)
 {
   uint				nbBricks;
   std::list<AObject*>::iterator	it;
@@ -109,10 +110,10 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   uint				y;
   bool				find = false;
 
-  nbBricks = (width * height) - terrain_.size() - (3 * nbPlayers) - (width + height)/*(width > height ? width : height)*/;
+  nbBricks = (width_ * height_) - terrain_.size() - (3 * nbPlayers) - (width_ + height_)/*(width > height ? width : height)*/;
   do {
-    x = rand() % width;
-    y = rand() % height;
+    x = rand() % width_;
+    y = rand() % height_;
     if ((x % 2) == 0 || (y % 2) == 0)
       {
 	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
@@ -129,20 +130,19 @@ void				Map::generateBricks(uint width, uint height, uint nbPlayers)
   while (nbBricks > 0);
 }
 
-void				Map::generatePlayers(uint width, uint height,
-						uint nbPlayers)
+void				Map::generatePlayers(uint nbPlayers)
 {
   std::vector< std::pair<int, int> >		postab;
 
   postab.push_back(std::make_pair(0, 0));
-  postab.push_back(std::make_pair(0, height - 1));
-  postab.push_back(std::make_pair(width - 1, 0));
-  postab.push_back(std::make_pair(width - 1, height - 1));
+  postab.push_back(std::make_pair(0, height_ - 1));
+  postab.push_back(std::make_pair(width_ - 1, 0));
+  postab.push_back(std::make_pair(width_ - 1, height_ - 1));
   if (nbPlayers <= 4)
-    {
+  {
       for (uint i = 0; i < nbPlayers; ++i)
-  	placePlayer(postab[i].first, postab[i].second);
-    }
+          placePlayer(postab[i].first, postab[i].second);
+  }
 }
 
 void				Map::placePlayer(uint x, uint y)
@@ -151,7 +151,7 @@ void				Map::placePlayer(uint x, uint y)
   terrain_.push_back(new Player(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0)));
 }
 
-void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
+void				Map::generateMonsters(uint nbMonsters)
 {
   std::list<AObject*>::iterator	it;
   uint				x = 0;
@@ -159,15 +159,15 @@ void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
   bool				find = false;
   Thinking::Brain		*b;
 
-  b = new Thinking::Brain(width, height);
+  b = new Thinking::Brain(width_, height_);
   while (nbMonsters > 0)
   {
-      x = rand() % width;
-      y = rand() % height;
+      x = rand() % width_;
+      y = rand() % height_;
       x = (x < 2) ? x + 2 : x;
-      x = (x > width - 2) ? x - 2 : x;
+      x = (x > width_ - 2) ? x - 2 : x;
       y = (y < 2) ? y + 2 : y;
-      y = (y > height - 2) ? y - 2 : y;
+      y = (y > height_ - 2) ? y - 2 : y;
       if ((x % 2) == 0 || (y % 2) == 0)
       {
           for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
@@ -199,23 +199,23 @@ void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
   terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
-void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
+void				Map::generateGhosts(uint nbGhosts)
 {
   std::list<AObject*>::iterator	it;
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
-  Thinking::Brain		*b;
+  Thinking::Brain   *b;
 
-  b = new Thinking::Brain(width, height);
+  b = new Thinking::Brain(width_, height_);
   while (nbGhosts > 0)
   {
-    x = rand() % width;
-    y = rand() % height;
+    x = rand() % width_;
+    y = rand() % height_;
     x = (x < 3) ? x + 3 : x;
-    x = (x > width - 3) ? x - 3 : x;
+    x = (x > width_ - 3) ? x - 3 : x;
     y = (y < 3) ? y + 3 : y;
-    y = (y > height - 3) ? y - 3 : y;
+    y = (y > height_ - 3) ? y - 3 : y;
     if ((x % 2) == 0 || (y % 2) == 0)
     {
         for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
@@ -321,20 +321,52 @@ void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp, Thi
     }
 }
 
-void Map::getFromFile(const std::string& fileName)
+void Map::mapFileIsValid(std::list<std::string> &map) const
 {
-  std::string       line;
-  std::ifstream     infile;
-  uint				y = 0;
-  uint              x = 0;
-  bool				player = false;
-  std::list<AObject*>	tmp;
-  std::list<AObject*>::iterator it;
+    uint max = map.front().length();
+    std::list<std::string>::const_iterator it;
 
-  /* tmp */
-  Thinking::Brain		*b;
+    for (it = map.begin(); it != map.end(); it++)
+    {
+        if (it->length() > max)
+            throw Map::Failure("Map", "Map is not valid !");
+    }
+}
 
-  b = new Thinking::Brain(13, 13);
+void Map::setFromFile(std::list<std::string> &map)
+{
+    std::list<AObject*> tmp;
+    std::list<AObject*>::iterator it;
+    std::list<std::string>::iterator itm;
+    bool player = false;
+    uint y = 0;
+    Thinking::Brain		*b;
+
+    width_ = map.front().length();
+    height_ = map.size();
+    b = new Thinking::Brain(map.front().length(), map.size());
+    for (itm = map.begin(); itm != map.end(); itm++)
+    {
+        Map::addBlocks((*itm), y + 1, &tmp);
+        Map::addBricks((*itm), y + 1, &tmp);
+        Map::addPlayers((*itm), y + 1, &player);
+        Map::addGhosts((*itm), y + 1, &tmp, b);
+        Map::addMonsters((*itm), y + 1, &tmp ,b);
+        y++;
+    }
+    for (it = tmp.begin(); it != tmp.end(); it++)
+        terrain_.push_back((*it));
+    Map::generateBorder();
+
+    if (!player)
+      throw Map::Failure("getFromFile", "No player set on the map.");
+}
+
+void                            Map::getFromFile(const std::string& fileName)
+{
+  std::string                   line;
+  std::ifstream                 infile;
+  std::list<std::string>        map;
 
   infile.open(fileName.c_str());
   if (infile.fail())
@@ -342,19 +374,19 @@ void Map::getFromFile(const std::string& fileName)
   while (!infile.eof())
     {
       getline(infile, line);
-      Map::addBlocks(line, y + 1, &tmp);
-      Map::addBricks(line, y + 1, &tmp);
-      Map::addPlayers(line, y + 1, &player);
-      Map::addGhosts(line, y + 1, &tmp, b);
-      Map::addMonsters(line, y + 1, &tmp ,b);
-      if (line.length() > x)
-          x = line.length();
-      y++;
+      map.push_back(line);
     }
-  for (it = tmp.begin(); it != tmp.end(); it++)
-      terrain_.push_back((*it));
-  Map::generateBorder((x + 2), (y + 2));
   infile.close();
-  if (!player)
-    throw Map::Failure("getFromFile", "No player set on the map.");
+  Map::mapFileIsValid(map);
+  Map::setFromFile(map);
+}
+
+uint    Map::getWidth(void) const
+{
+    return width_;
+}
+
+uint    Map::getHeight(void) const
+{
+    return height_;
 }

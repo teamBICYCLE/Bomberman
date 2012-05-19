@@ -13,10 +13,10 @@
 using namespace Bomberman;
 
 DangerMap::DangerMap(int x, int y)
-  : danger_(x), x_(x), y_(y)
+  : danger_(y), x_(x), y_(y)
 {
   for (int i = 0; i < x; ++i)
-    danger_[i] = std::vector<std::pair<int, int> >(y);
+    danger_[i] = std::vector<std::pair<int, int> >(x);
 }
 
 DangerMap::~DangerMap(void)

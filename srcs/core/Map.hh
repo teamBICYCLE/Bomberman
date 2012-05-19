@@ -67,6 +67,8 @@ namespace	Bomberman
     static const int		BlockSize;
 
   protected:
+    void    setFromFile(std::list<std::string> &map);
+    void    mapFileIsValid(std::list<std::string> &map) const;
     void	getFromFile(const std::string&);
     void    addBlocks(const std::string &, int, std::list<AObject*> *);
     void    addBricks(const std::string &, int, std::list<AObject*> *);
@@ -75,18 +77,24 @@ namespace	Bomberman
     void    addPlayers(const std::string &, int, bool *);
 
   protected:
-    void	generatePlayers(uint, uint, uint);
-    void	generateMonsters(uint, uint, uint);
-    void	generateGhosts(uint, uint, uint);
-    void	generateBricks(uint, uint, uint);
-    void	generateBorder(uint, uint);
+    void	generatePlayers(uint nbPlayers);
+    void	generateMonsters(uint);
+    void	generateGhosts(uint);
+    void	generateBricks(uint);
+    void	generateBorder(void);
     void	placePlayer(uint, uint);
     void	placeMonster(uint, uint, Thinking::Brain *);
     void	placeGhost(uint, uint, Thinking::Brain *);
     void	clearPlace(uint, uint);
 
+  public:
+    uint    getWidth(void) const;
+    uint    getHeight(void) const;
+
   private:
     std::list<AObject*>	terrain_;
+    uint                width_;
+    uint                height_;
   };
 }
 
