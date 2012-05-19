@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 19 15:28:02 2012 lois burg
+// Last update Sat May 19 16:09:58 2012 lois burg
 //
 
 #include <iostream>
@@ -36,8 +36,8 @@ bool  PlayState::init()
     // int	viewport[4];
 
     bestScore_ = 0;
-    mapH_ = 13;
-    mapW_ = 13;
+    mapH_ = map.getHeight();
+    mapW_ = map.getWidth();
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
