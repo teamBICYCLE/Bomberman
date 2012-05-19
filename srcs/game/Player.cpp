@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 18 18:34:39 2012 lois burg
+// Last update Sat May 19 10:40:51 2012 lois burg
 //
 
 #include <algorithm>
@@ -462,5 +462,6 @@ void Player::aff(void) const
     std::cout << "rot : " << rot_ << std::endl;
     std::cout << "size : " << sz_ << std::endl;
     std::cout << "type : " << type_ << std::endl;
+    std::cout << "score : " << score_ << std::endl;
     std::cout << "=== END PLAYER ===" << std::endl;
 }
