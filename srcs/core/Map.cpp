@@ -340,7 +340,7 @@ void Map::mapFileIsValid(std::list<std::string> &map) const
     for (it = map.begin(); it != map.end(); it++)
     {
         if (it->length() > max)
-            throw Map::Failure("Map", "Map is not valid !");
+            throw Map::Failure("getFromFile", "Map is not valid !");
     }
 }
 
@@ -381,7 +381,8 @@ void                            Map::getFromFile(const std::string& fileName)
   while (!infile.eof())
     {
       getline(infile, line);
-      map.push_back(line);
+      if (!line.empty())
+        map.push_back(line);
     }
   infile.close();
   Map::mapFileIsValid(map);
