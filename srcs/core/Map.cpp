@@ -66,7 +66,7 @@ Map::Map(uint width, uint height, uint nbPlayers)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
   generateBricks(nbPlayers);
-  generateBorder();
+  generateBorder(width_, height_);
   generatePlayers(nbPlayers);
   generateMonsters(1);
   generateGhosts(0);
@@ -88,17 +88,17 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void				Map::generateBorder(void)
+void				Map::generateBorder(uint width, uint height)
 {
-  for (int x = -1; x < static_cast<int>(width_) + 1; ++x)
+  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
     {
       terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(x, height_, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
-  for (int y = 0; y < static_cast<int>(height_); ++y)
+  for (int y = 0; y < static_cast<int>(height); ++y)
     {
       terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(width_, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
 }
 
@@ -356,7 +356,7 @@ void Map::setFromFile(std::list<std::string> &map)
     }
     for (it = tmp.begin(); it != tmp.end(); it++)
         terrain_.push_back((*it));
-    Map::generateBorder();
+    Map::generateBorder(width_ + 2, height_ + 2);
 
     if (!player)
       throw Map::Failure("getFromFile", "No player set on the map.");
