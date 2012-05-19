@@ -11,11 +11,3 @@ Player: 0
 Player: 7
 Player: 0
 Player: 8
-AAAA: 0
-AAAA: 0
-AAAA: 0
-AAAA: 0
-AAAA: 0
-AAAA: 0
-AAAA: 0
-AAAA: 0

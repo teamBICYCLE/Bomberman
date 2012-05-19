@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Fri May 18 17:56:28 2012 Jonathan Machado
+// Last update Fri May 18 18:26:28 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -137,6 +137,18 @@ namespace Bomberman
        *
        */
       eDirection getDecision(void) const;
+      /*!
+       *  \brief Method used to update the game vision for the IA.
+       *
+       *  Method called by before the lua is thinking to create a danger map.
+       *
+       *
+       *  \param objs : list of objects actually on the map.
+       *  \param
+       *  \return (void)
+       *
+       */
+      void updateDangerMap(std::list<AObject*>&objs);
 
       /*!
        *  \brief The test Method.
@@ -171,7 +183,7 @@ namespace Bomberman
       eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
-      DangerMap danger_;
+      DangerMap danger_;  /*!< Class used to create a map showing danger to the IA*/
     };
   }
 }

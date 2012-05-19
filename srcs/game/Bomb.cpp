@@ -19,7 +19,7 @@ using namespace	Bomberman;
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
   : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
 {
-  model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Bomb::Bomb(const Bomb &other)

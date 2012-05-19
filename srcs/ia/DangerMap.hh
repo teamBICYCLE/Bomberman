@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Fri May 18 17:55:56 2012 Jonathan Machado
+// Last update Sat May 19 13:34:25 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -24,12 +24,18 @@ namespace Bomberman
     DangerMap(DangerMap const &);
     DangerMap& operator=(DangerMap const &);
 
+    void resetDanger(void);
+    int updateDanger(const std::list<AObject *>::const_iterator it);
+
     std::vector<std::vector<std::pair<int, int> > > danger_;
     int x_, y_;
+    std::list<AObject*> objs_;
 
   public:
     DangerMap(int, int);
     ~DangerMap(void);
+
+    void updateGameVision(const std::list<AObject*>&objs);
   };
 }
 

@@ -9,7 +9,7 @@
 #ifndef     SAVEHANDLER_HPP
 # define    SAVEHANDLER_HPP
 
-# define    SAVE_FILE   "saves/save.bbm"
+# define    SAVE_FILE   "Ressources/Saves/save.bbm"
 # include   <list>
 # include   <QSettings>
 # include   "AObject.hh"

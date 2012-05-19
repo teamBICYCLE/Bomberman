@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri May 18 17:39:22 2012 Jonathan Machado
+// Last update Fri May 18 18:21:55 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -18,9 +18,9 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b)
 {
-  brainScript_->compileFile (MONSTER_SCRIPT);
+  brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
@@ -34,7 +34,7 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage()), brainScript_(other.brainScript_)
 {
-    brainScript_->compileFile (MONSTER_SCRIPT);
+    brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
@@ -43,16 +43,17 @@ Monster::Monster(const Monster &other)
 Monster::Monster()
   : Character("Monster"), moved_(false), brainScript_()
 {
-  brainScript_->compileFile (MONSTER_SCRIPT);
-  bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
-  actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
-  actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
-  actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
-  actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
+    //brainScript_ = new Thinking::Brain();
+    brainScript_->compileFile(MONSTER_SCRIPT);
+    bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
+    model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
+    model_.cut_animation(model_, "Take 001", 0, 35, "start");
+    model_.cut_animation(model_, "Take 001", 36, 54, "run");
+    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
+    actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
+    actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
+    actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
+    actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
 Monster::~Monster()
@@ -60,6 +61,7 @@ Monster::~Monster()
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
+  brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinking");
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
