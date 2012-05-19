@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 19 15:08:06 2012 lois burg
+// Last update Sat May 19 16:52:50 2012 lois burg
 //
 
 #include <iostream>
@@ -41,6 +41,7 @@ bool	AdventureState::init()
 	ss << mapName << i;
 	map = new Map(ss.str());
 	adventureMaps_.push_back(map);
+	Character::CharacterId = 0;
       }
     adventureLevel_ = adventureMaps_.begin();
     mapH_ = (*adventureLevel_)->getHeight();
