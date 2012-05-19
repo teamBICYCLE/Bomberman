@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Fri May 18 18:24:24 2012 lois burg
+// Last update Sat May 19 12:01:12 2012 lois burg
 //
 
 #include <algorithm>
@@ -63,7 +63,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
 	pos_ = save + sz_ / 2;
 	adjustPos();
 	speed_ = nullSpeed;
-	if (dynamic_cast<Explosion*>(*objIt))
+	if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Mine*>(*objIt))
 	  destroy(objs);
       }
 }

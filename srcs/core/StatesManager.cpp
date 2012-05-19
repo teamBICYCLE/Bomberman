@@ -28,7 +28,7 @@ StatesManager::StatesManager(const std::string & winTitle)
   this->window_.setTitle(winTitle);
 }
 
-StatesManager::~StatesManager()
+ StatesManager::~StatesManager()
 {
   this->clearStates();
 }
