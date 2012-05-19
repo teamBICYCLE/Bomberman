@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Sat May 19 14:13:19 2012 thibault carpentier
+// Last update Sat May 19 15:45:24 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
@@ -15,6 +15,21 @@ using namespace Bomberman;
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
+  dangerMeth_["VelocityPowerup"] = &DangerMap::powerupDanger;
+  dangerMeth_["MinePowerup"] = &DangerMap::powerupDanger;
+  dangerMeth_["KickPowerup"] = &DangerMap::powerupDanger;
+  dangerMeth_["AmmoPowerup"] = &DangerMap::powerupDanger;
+  dangerMeth_["Mine"] = &DangerMap::mineDanger;
+  dangerMeth_["Player"] = &DangerMap::playerDanger;
+  //  dangerMeth_["Monster"] = &DangerMap::
+
+// "Monster"
+// "Explosion"
+// "Brick"
+// "Bomb"
+// "Block"
+
+
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -30,12 +45,30 @@ void DangerMap::resetDanger(void)
       danger_[y][x] = std::pair<int, int>(0, 0);
 }
 
-int DangerMap::updateDanger(const std::list<AObject*>::const_iterator it)
+int DangerMap::playerDanger(const std::list<AObject*>::const_iterator &it)
 {
-  if ((*it)->getType() == "Bomb" || (*it)->getType() == "Mine" ||
-      (*it)->getType() == "Explosion")
-    return (10);
-  return (1);
+  (void)it;
+  return (-100);
+}
+
+int DangerMap::powerupDanger(const std::list<AObject*>::const_iterator &it)
+{
+  (void)it;
+  return (-10);
+}
+
+int DangerMap::mineDanger(const std::list<AObject*>::const_iterator &it)
+{
+  (void)it;
+  return (100);
+}
+
+
+int DangerMap::updateDanger(const std::list<AObject*>::const_iterator &it)
+{
+  if (dangerMeth_.find((*it)->getType()) != dangerMeth_.end())
+    return ((this->*dangerMeth_[(*it)->getType()])(it));
+  return (0);
 }
 
 void DangerMap::updateGameVision(const std::list<AObject*>& objs)
@@ -50,20 +83,20 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 	if (static_cast<int>((*it)->getPos().x) == x && static_cast<int>((*it)->getPos().y) == y)
 	  danger_[y][x].first += updateDanger(it);
 
-  // temporaire
-  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  // for (test = danger_.begin(); test != danger_.end(); ++test)
-  //   {
-  //     std::vector<std::pair<int, int> >::iterator toto;
-  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  // 	std::cout <<  (*toto).first << (*toto).second << " ";
-  //     std::cout << std::endl;
-  //   }
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
+  //  temporaire
+  std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  for (test = danger_.begin(); test != danger_.end(); ++test)
+    {
+      std::vector<std::pair<int, int> >::iterator toto;
+      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  	std::cout <<  (*toto).first << (*toto).second << " ";
+      std::cout << std::endl;
+    }
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
 }

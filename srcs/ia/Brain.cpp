@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Fri May 18 18:26:33 2012 thibault carpentier
+// Last update Sat May 19 15:05:21 2012 thibault carpentier
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
@@ -40,7 +40,7 @@ int Brain::scriptCalling(VirtualMachine &vm, int fctNb)
 {
   (void)vm;
   if (meth_.find(fctNb) != meth_.end())
-    return (this->*meth_[fctNb])(vm);
+    return ((this->*meth_[fctNb])(vm));
   return (-1);
 }
 
