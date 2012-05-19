@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Fri May 18 18:08:00 2012 thibault carpentier
+// Last update Fri May 18 18:26:33 2012 thibault carpentier
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
@@ -67,4 +67,9 @@ void Brain::getReturn(VirtualMachine &vm, const std::string &strFunc)
 eDirection Brain::getDecision(void) const
 {
   return (decision_);
+}
+
+void Brain::updateDangerMap(std::list<AObject*> &objs)
+{
+  danger_.updateGameVision(objs);
 }
