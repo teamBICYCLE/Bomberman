@@ -160,27 +160,27 @@ void				Map::generateMonsters(uint width, uint height, uint nbMonsters)
   Thinking::Brain		*b;
 
   b = new Thinking::Brain(width, height);
-  do {
-    x = rand() % width;
-    y = rand() % height;
-    x = (x < 2) ? x + 2 : x;
-    x = (x > width - 2) ? x - 2 : x;
-    y = (y < 2) ? y + 2 : y;
-    y = (y > height - 2) ? y - 2 : y;
-    if ((x % 2) == 0 || (y % 2) == 0)
+  while (nbMonsters > 0)
+  {
+      x = rand() % width;
+      y = rand() % height;
+      x = (x < 2) ? x + 2 : x;
+      x = (x > width - 2) ? x - 2 : x;
+      y = (y < 2) ? y + 2 : y;
+      y = (y > height - 2) ? y - 2 : y;
+      if ((x % 2) == 0 || (y % 2) == 0)
       {
-	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	  if ((*it)->getPos().x == x && (*it)->getPos().y == y)
-	    find = true;
-	if (!find)
-	  {
-	    placeMonster(x, y, b);
-	    --nbMonsters;
-	  }
-	find = false;
+          for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+            if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+              find = true;
+          if (!find)
+          {
+              placeMonster(x, y, b);
+              --nbMonsters;
+          }
+          find = false;
       }
   }
-  while (nbMonsters > 0);
 }
 
 void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
@@ -208,7 +208,8 @@ void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
   Thinking::Brain		*b;
 
   b = new Thinking::Brain(width, height);
-  do {
+  while (nbGhosts > 0)
+  {
     x = rand() % width;
     y = rand() % height;
     x = (x < 3) ? x + 3 : x;
@@ -216,34 +217,32 @@ void				Map::generateGhosts(uint width, uint height, uint nbGhosts)
     y = (y < 3) ? y + 3 : y;
     y = (y > height - 3) ? y - 3 : y;
     if ((x % 2) == 0 || (y % 2) == 0)
-      {
-	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	  if ((*it)->getPos().x == x && (*it)->getPos().y == y)
-	    find = true;
-	if (!find)
-	  {
-	    placeGhost(x, y, b);
-	    --nbGhosts;
-	  }
-	find = false;
-      }
+    {
+        for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+          if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+            find = true;
+        if (!find)
+        {
+            placeGhost(x, y, b);
+            --nbGhosts;
+        }
+        find = false;
+    }
   }
-  while (nbGhosts > 0);
 }
 
 void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)
 {
   std::list<AObject*>::iterator	it;
 
-  for (it = terrain_.begin(); it != terrain_.end();)
-    {
+  for (it = terrain_.begin(); it != terrain_.end(); ++it)
+  {
       if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
-	{
-	  it = terrain_.erase(it);
-	  break;
-	}
-      ++it;
-    }
+      {
+          it = terrain_.erase(it);
+          break;
+      }
+  }
   terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 

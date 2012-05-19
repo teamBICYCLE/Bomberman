@@ -22,7 +22,7 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Think
   std::cout << "Ghost created." << std::endl;
   brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
@@ -46,7 +46,7 @@ Ghost::Ghost()
 {
   brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");

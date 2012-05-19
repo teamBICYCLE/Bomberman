@@ -15,7 +15,7 @@ using namespace	Bomberman;
 Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage)
   : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), timeOfCreation_(-1)
 {
-  model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Explosion::Explosion(const Explosion& other)

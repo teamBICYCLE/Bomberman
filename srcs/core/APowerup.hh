@@ -15,7 +15,7 @@
 
 namespace	Bomberman
 {
-  enum	ePowerupType { VELOCITY = 0, RANGE, AMMO, NONE };
+  enum	ePowerupType { VELOCITY = 0, RANGE, AMMO, MINE, KICK, NONE };
 
   class	APowerup : public AObject
   {
