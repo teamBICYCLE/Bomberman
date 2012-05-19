@@ -81,7 +81,7 @@ namespace	Bomberman
     void	generateMonsters(uint);
     void	generateGhosts(uint);
     void	generateBricks(uint);
-    void	generateBorder(void);
+    void	generateBorder(uint width, uint height);
     void	placePlayer(uint, uint);
     void	placeMonster(uint, uint, Thinking::Brain *);
     void	placeGhost(uint, uint, Thinking::Brain *);
