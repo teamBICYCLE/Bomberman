@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 19 16:09:58 2012 lois burg
+// Last update Sat May 19 17:51:26 2012 lois burg
 //
 
 #include <iostream>
@@ -58,6 +58,7 @@ bool  PlayState::init()
 void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
+  objs_.clear();
 }
 
 void  PlayState::update(StatesManager * sMg)

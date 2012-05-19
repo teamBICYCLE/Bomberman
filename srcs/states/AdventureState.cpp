@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 19 16:52:50 2012 lois burg
+// Last update Sat May 19 17:53:35 2012 lois burg
 //
 
 #include <iostream>
@@ -57,15 +57,21 @@ bool	AdventureState::init()
 void	AdventureState::cleanUp()
 {
   std::cout << "clean up Adventure" << std::endl;
+  adventureMaps_.clear();
+  objs_.clear();
 }
 
 void	AdventureState::win(StatesManager *mngr)
 {
   (void)mngr;
   std::cout << "YOU WIN" << std::endl;
-  ++adventureLevel_;
+  if (adventureLevel_ != adventureMaps_.end())
+    ++adventureLevel_;
   if (adventureLevel_ == adventureMaps_.end())
-    std::cout << "CONGRATS!" << std::endl;
+    {
+      std::cout << "CONGRATS!" << std::endl;
+      mngr->popState();
+    }
   else
     {
       mapH_ = (*adventureLevel_)->getHeight();
