@@ -26,6 +26,7 @@ SOURCES += \
     srcs/game/Brick.cpp \
     srcs/game/Bomb.cpp \
     srcs/game/Block.cpp \
+    srcs/game/FireBlock.cpp \
     srcs/game/AmmoPowerup.cpp \
     srcs/game/KickPowerup.cpp \
     srcs/graphics/ModelHandler.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     srcs/game/Brick.hh \
     srcs/game/Bomb.hh \
     srcs/game/Block.hh \
+    srcs/game/FireBlock.hh \
     srcs/game/AmmoPowerup.hh \
     srcs/game/KickPowerup.hh \
     srcs/graphics/ModelHandler.hh \
