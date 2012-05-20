@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Sat May 19 15:55:07 2012 thibault carpentier
+// Last update Sun May 20 10:18:10 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
@@ -91,19 +91,19 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 	  danger_[y][x].first += updateDanger(it);
 
   //  temporaire
-  std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  for (test = danger_.begin(); test != danger_.end(); ++test)
-    {
-      std::vector<std::pair<int, int> >::iterator toto;
-      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  	std::cout <<  (*toto).first << (*toto).second << " ";
-      std::cout << std::endl;
-    }
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
+  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  // for (test = danger_.begin(); test != danger_.end(); ++test)
+  //   {
+  //     std::vector<std::pair<int, int> >::iterator toto;
+  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	std::cout <<  (*toto).first << (*toto).second << " ";
+  //     std::cout << std::endl;
+  //   }
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
 }

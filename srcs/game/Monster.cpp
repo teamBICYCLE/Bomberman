@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sat May 19 20:00:05 2012 thibault carpentier
+// Last update Sun May 20 10:17:55 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -18,7 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b)
 {
-  isInvincible_ = true;
+  //  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
