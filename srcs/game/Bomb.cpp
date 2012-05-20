@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 20 16:10:56 2012 lois burg
+// Last update Sun May 20 17:50:36 2012 lois burg
 //
 
 #include <algorithm>
@@ -70,7 +70,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
 
 void	Bomb::explode(std::list<AObject*>& objs)
 {
-  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1);
+  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, owner_);
   bool		upInvalid = false;
   bool		downInvalid = false;
   bool		leftInvalid = false;
@@ -118,20 +118,21 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
-	    if (dynamic_cast<Character*>(obj))
-	      {
-		if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
-		  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
-		static_cast<Character*>(obj)->takeDamage(e->getDamage());
-	      }
-	    else if (dynamic_cast<APowerup*>(obj))
-	      obj->destroy();
-	    else if (dynamic_cast<Mine*>(obj))
-	      static_cast<Mine*>(obj)->setChainReaction(true);
-	    else if (dynamic_cast<Bomb*>(obj))
-	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-	    else if (dynamic_cast<Brick*>(obj))
-	      static_cast<Brick*>(obj)->destroy(objs);
+	    obj->interact(e, objs);
+	    // if (dynamic_cast<Character*>(obj))
+	    //   {
+	    // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
+	    // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
+	    // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
+	    //   }
+	    // else if (dynamic_cast<APowerup*>(obj))
+	    //   obj->destroy();
+	    // else if (dynamic_cast<Mine*>(obj))
+	    //   static_cast<Mine*>(obj)->setChainReaction(true);
+	    // else if (dynamic_cast<Bomb*>(obj))
+	    //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
+	    // else if (dynamic_cast<Brick*>(obj))
+	    //   static_cast<Brick*>(obj)->destroy(objs);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
 		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
 	      isInvalid = true;
@@ -165,13 +166,23 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
     }
 }
 
+void	Bomb::interact(Explosion *e, std::list<AObject*>& objs)
+{
+  (void)e;
+  (void)objs;
+  setTimeOut(0.0f);
+}
+
 void	Bomb::destroy(std::list<AObject*>& objs)
 {
-  explode(objs);
-  owner_.setNbBombs(owner_.getNbBombs() + 1);
-  if (!ownerCollide_)
-    owner_.setBombCollide(true);
-  AObject::destroy();
+  if (!toRemove())
+    {
+      explode(objs);
+      owner_.setNbBombs(owner_.getNbBombs() + 1);
+      if (!ownerCollide_)
+	owner_.setBombCollide(true);
+      AObject::destroy();
+    }
 }
 
 void	Bomb::setTimeOut(const float timeOut)

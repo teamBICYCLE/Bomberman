@@ -5,13 +5,14 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Thu May 17 17:36:36 2012 lois burg
+// Last update Sun May 20 17:45:41 2012 lois burg
 //
 
 #ifndef		__APOWERUP_HH__
 # define	__APOWERUP_HH__
 
 # include "Player.hh"
+# include "Explosion.hh"
 
 namespace	Bomberman
 {
@@ -28,6 +29,7 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs) = 0;
     virtual void		draw(void) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
+    virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual APowerup    *clone(void) = 0;
     virtual void        serialize(QDataStream &out) const {(void)out;}
     virtual void        unserialize(QDataStream &in) {(void)in;}

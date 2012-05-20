@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 20 15:08:09 2012 lois burg
+// Last update Sun May 20 17:08:01 2012 lois burg
 //
 
 #include <algorithm>
@@ -117,7 +117,7 @@ void	FireBlock::randDir(void)
 
 void	FireBlock::spitFire(std::list<AObject*>& objs)
 {
-  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1);
+  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, *(new Player()));
   bool		isInvalid = false;
 
   for (int i = 1; !isInvalid && i <= range_; ++i)
