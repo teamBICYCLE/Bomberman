@@ -2,6 +2,8 @@ TEMPLATE = app
 CONFIG += console
 QT -= gui
 
+OBJECTS_DIR = ./objs/
+
 SOURCES += \
     srcs/core/Vector3d.cpp \
     srcs/core/StatesManager.cpp \
