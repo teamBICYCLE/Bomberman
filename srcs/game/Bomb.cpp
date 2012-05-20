@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat May 19 12:01:12 2012 lois burg
+// Last update Sun May 20 16:10:56 2012 lois burg
 //
 
 #include <algorithm>
@@ -92,6 +92,7 @@ void	Bomb::explode(std::list<AObject*>& objs)
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
       // std::cout << "--------------------" << std::endl;
     }
+  delete e;
 }
 
 void	Bomb::draw(void)
@@ -132,7 +133,7 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	    else if (dynamic_cast<Brick*>(obj))
 	      static_cast<Brick*>(obj)->destroy(objs);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		!dynamic_cast<Mine*>(obj))
+		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
 	      isInvalid = true;
 	  }
       });

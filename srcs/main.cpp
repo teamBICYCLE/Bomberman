@@ -5,11 +5,9 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Sat May 19 18:54:26 2012 lois burg
+// Last update Sun May 20 14:26:01 2012 lois burg
 //
 
-#include <ctime>
-#include <cstdlib>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
@@ -23,7 +21,6 @@ using namespace std;
 
 int main(void)
 {
-  srand(time(NULL));
   try {
     StatesManager   mg("Bomberman v0.01");
 
