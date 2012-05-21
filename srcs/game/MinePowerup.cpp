@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 18:22:54 2012 lois burg
-// Last update Fri May 18 11:32:06 2012 lois burg
+// Last update Sun May 20 16:16:05 2012 lois burg
 //
 
 #include "MinePowerup.hh"
@@ -28,9 +28,12 @@ MinePowerup::~MinePowerup(void)
 
 void MinePowerup::activate(Player& p)
 {
-  std::cout << "Mine up" << std::endl;
-  p.setNbMines(p.getNbMines() + 1);
-  APowerup::activate(p);
+  if (!toRemove())
+    {
+      std::cout << "Mine up" << std::endl;
+      p.setNbMines(p.getNbMines() + 1);
+      APowerup::activate(p);
+    }
 }
 
 void	MinePowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)

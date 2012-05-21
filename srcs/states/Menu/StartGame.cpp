@@ -10,6 +10,7 @@
 #include "StartGame.hh"
 
 #include "PlayState.hh"
+#include "AdventureState.hh"
 
 namespace Menu {
 StartGame::StartGame(const std::string & normalImagePath,
@@ -21,6 +22,8 @@ StartGame::StartGame(const std::string & normalImagePath,
 
 void    StartGame::activate(StatesManager *sMg)
 {
+  //  sMg->pushState(new Bomberman::AdventureState());
+  // sMg->pushState(new Bomberman::AdventureState());
   sMg->pushState(new Bomberman::PlayState());
 }
 

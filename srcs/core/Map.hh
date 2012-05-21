@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Fri May 18 17:58:27 2012 Jonathan Machado
+// Last update Mon May 21 12:02:15 2012 lois burg
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -27,7 +27,11 @@
 # define	MAP_FILE_PLAYER		'P'
 # define    MAP_FILE_MONSTER    'M'
 # define    MAP_FILE_GHOST      'G'
-# define	MAP_FILE_ALLOWED	".WBPMG"
+# define	MAP_FILE_FIREBLOCK_UP	'U'
+# define	MAP_FILE_FIREBLOCK_DOWN	'D'
+# define	MAP_FILE_FIREBLOCK_LEFT	'L'
+# define	MAP_FILE_FIREBLOCK_RIGT	'R'
+# define	MAP_FILE_ALLOWED	".WBPMGUDLR"
 
 namespace	Bomberman
 {
@@ -67,26 +71,34 @@ namespace	Bomberman
     static const int		BlockSize;
 
   protected:
+    void    setFromFile(std::list<std::string> &map);
+    void    mapFileIsValid(std::list<std::string> &map) const;
     void	getFromFile(const std::string&);
     void    addBlocks(const std::string &, int, std::list<AObject*> *);
     void    addBricks(const std::string &, int, std::list<AObject*> *);
     void    addGhosts(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
     void    addMonsters(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
-    void    addPlayers(const std::string &, int, bool *);
+    void    addPlayers(std::list<std::string> &map);
 
   protected:
-    void	generatePlayers(uint, uint, uint);
-    void	generateMonsters(uint, uint, uint);
-    void	generateGhosts(uint, uint, uint);
-    void	generateBricks(uint, uint, uint);
-    void	generateBorder(uint, uint);
+    void	generatePlayers(uint nbPlayers);
+    void	generateMonsters(uint);
+    void	generateGhosts(uint);
+    void	generateBricks(uint);
+    void	generateBorder(uint width, uint height);
     void	placePlayer(uint, uint);
     void	placeMonster(uint, uint, Thinking::Brain *);
     void	placeGhost(uint, uint, Thinking::Brain *);
     void	clearPlace(uint, uint);
 
+  public:
+    uint    getWidth(void) const;
+    uint    getHeight(void) const;
+
   private:
     std::list<AObject*>	terrain_;
+    uint                width_;
+    uint                height_;
   };
 }
 

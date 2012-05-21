@@ -14,6 +14,7 @@
 #include "Monster.hh"
 #include "Ghost.hh"
 #include "Explosion.hh"
+#include "FireBlock.hh"
 #include "SaveHandler.hh"
 
 using namespace Bomberman;
@@ -46,16 +47,32 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Ghost *>(obj))));
         else if (obj->getType() == "Explosion")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Explosion *>(obj))));
+        else if (obj->getType() == "FireBlock")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<FireBlock *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }
 }
 
+const std::string   SaveHandler::newFileName(void) const
+{
+    time_t t;
+    std::stringstream strm;
+
+    t = time(NULL);
+    strm << t;
+    return strm.str();
+}
+
 void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
+    std::string name_file(SAVE_PATH);
 
-    QFile::remove(SAVE_FILE);
+    name_file.append(SaveHandler::newFileName());
+    name_file.append(SAVE_EXT);
+
+    QFile::remove(name_file.c_str());
     Block::sInit();
     Brick::sInit();
     Player::sInit();
@@ -63,9 +80,9 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     Monster::sInit();
     Ghost::sInit();
     Explosion::sInit();
+    FireBlock::sInit();
 
-    QSettings w(SAVE_FILE, QSettings::IniFormat);
-
+    QSettings w(name_file.c_str(), QSettings::IniFormat);
     Character::CharacterId = 0;
 
     w.beginWriteArray("vector");
@@ -82,16 +99,47 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     std::cout << "---> Serialization done ! <---" << std::endl;
 }
 
-bool SaveHandler::saveFileExist(void) const
+const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFiles(void) const
 {
-    return QFile::exists(SAVE_FILE);
+    unsigned char isFile = 0x8;
+    DIR *pdir;
+    struct dirent *entry;
+    std::list<std::pair<std::string, std::string>> save_list;
+    std::list<int> intlist;
+    char buff[20];
+    time_t time;
+    std::stringstream strm;
+    std::string realPath;
+
+    pdir = opendir(SAVE_PATH);
+    while((entry = readdir(pdir)))
+    {
+        std::string name(entry->d_name);
+        if (entry->d_type == isFile &&
+                name.substr(name.find_last_of('.'), name.length()) == SAVE_EXT)
+            intlist.push_back(atoi(name.substr(0, name.find_last_of('.')).c_str()));
+    }
+
+    intlist.sort();
+    intlist.reverse();
+
+    for (std::list<int>::iterator it = intlist.begin(); it != intlist.end(); it++)
+    {
+        realPath = SAVE_PATH;
+        strm.str("");
+        time = (*it);
+        strftime(buff, 20, "%d/%m %H:%M", localtime(&time));
+        strm << (*it);
+        save_list.push_back(std::make_pair(buff, realPath.append(strm.str()).append(SAVE_EXT)));
+    }
+    return save_list;
 }
 
-void SaveHandler::load(std::list<AObject*> &res) const
+void SaveHandler::load(std::list<AObject*> &res, const std::string &file) const
 {
-    if (!QFile::exists(SAVE_FILE))
+    if (!QFile::exists(file.c_str()))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
-    QSettings s(SAVE_FILE, QSettings::IniFormat);
+    QSettings s(file.c_str(), QSettings::IniFormat);
     int lastId = Character::CharacterId;
 
     Character::CharacterId = 0;
@@ -115,6 +163,8 @@ void SaveHandler::load(std::list<AObject*> &res) const
             res.push_back(new Monster(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+        else if (s.contains("FireBlock"))
+            res.push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
     }
     Character::CharacterId = lastId;
 }

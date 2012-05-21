@@ -5,10 +5,11 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Fri May 18 15:31:06 2012 lois burg
+// Last update Sun May 20 17:54:52 2012 lois burg
 //
 
 #include "Character.hh"
+#include "Explosion.hh"
 
 using namespace	Bomberman;
 
@@ -124,4 +125,12 @@ void	Character::destroy(void)
 {
   if (!isInvincible_)
     AObject::destroy();
+}
+
+void	Character::interact(Explosion *e, std::list<AObject*>& objs)
+{
+  (void)objs;
+  if (this != &e->getOwner() && !isInvincible())
+    e->getOwner().addScore(getScoreValue());
+  takeDamage(e->getDamage());
 }

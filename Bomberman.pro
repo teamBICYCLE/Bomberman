@@ -2,6 +2,8 @@ TEMPLATE = app
 CONFIG += console
 QT -= gui
 
+OBJECTS_DIR = ./objs/
+
 SOURCES += \
     srcs/core/Vector3d.cpp \
     srcs/core/StatesManager.cpp \
@@ -26,6 +28,7 @@ SOURCES += \
     srcs/game/Brick.cpp \
     srcs/game/Bomb.cpp \
     srcs/game/Block.cpp \
+    srcs/game/FireBlock.cpp \
     srcs/game/AmmoPowerup.cpp \
     srcs/game/KickPowerup.cpp \
     srcs/graphics/ModelHandler.cpp \
@@ -41,6 +44,7 @@ SOURCES += \
     srcs/ia/Debugger.cpp \
     srcs/ia/Brain.cpp \
     srcs/states/PlayState.cpp \
+    srcs/states/AdventureState.cpp \
     srcs/states/Menu/MenuState.cpp \
     srcs/states/Menu/MenuLine.cpp \
     srcs/states/Menu/MenuEntry.cpp \
@@ -78,6 +82,7 @@ HEADERS += \
     srcs/game/Brick.hh \
     srcs/game/Bomb.hh \
     srcs/game/Block.hh \
+    srcs/game/FireBlock.hh \
     srcs/game/AmmoPowerup.hh \
     srcs/game/KickPowerup.hh \
     srcs/graphics/ModelHandler.hh \
@@ -93,6 +98,7 @@ HEADERS += \
     srcs/ia/Failure.hh \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \
+    srcs/states/AdventureState.hh \
     srcs/states/Menu/MenuState.hh \
     srcs/states/Menu/MenuLine.hh \
     srcs/states/Menu/MenuEntry.hh \

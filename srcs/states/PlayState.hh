@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Thu May 17 14:02:46 2012 lois burg
+// Last update Sat May 19 13:58:50 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -28,10 +28,13 @@ namespace	Bomberman
     virtual void pause();
     virtual void resume();
 
-  private:
-    void	saveScore(int score) const;
+    virtual void win(StatesManager *mngr);
+    virtual void gameOver(StatesManager *mngr);
 
-  private:
+  protected:
+    void	saveScore(void) const;
+
+  protected:
     size_t		mapW_;
     size_t		mapH_;
     std::list<AObject*>	objs_;

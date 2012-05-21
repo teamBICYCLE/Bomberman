@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:25 2012 lois burg
-// Last update Fri May 18 11:32:49 2012 lois burg
+// Last update Sun May 20 17:47:01 2012 lois burg
 //
 
 #ifndef		__MINE_HH__
 # define	__MINE_HH__
 
 # include	"Bomb.hh"
+# include	"Explosion.hh"
 
 namespace	Bomberman
 {
@@ -26,6 +27,7 @@ namespace	Bomberman
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
+    virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void		destroy(std::list<AObject*>& objs);
 
     /* Serialization */
