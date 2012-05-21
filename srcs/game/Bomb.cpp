@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 20 17:50:36 2012 lois burg
+// Last update Mon May 21 10:34:52 2012 lois burg
 //
 
 #include <algorithm>
@@ -17,7 +17,7 @@
 using namespace	Bomberman;
 
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
+  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
 {
   model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
@@ -26,7 +26,7 @@ Bomb::Bomb(const Bomb &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
-      timeCreation_(other.timeCreation_),
+      lastTime_(other.lastTime_),
       ownerCollide_(other.getOwnerCollide()),
       bBox_(other.bBox_)
 {
@@ -36,9 +36,9 @@ Bomb::Bomb(const Bomb &other)
 Bomb::Bomb()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
     range_(0), timeOut_(0), owner_(*(new Player())),
-    speed_(Vector3d()), timeCreation_(0), bBox_(pos_, sz_, this)
+    speed_(Vector3d()), lastTime_(0), bBox_(pos_, sz_, this)
 {
-    model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+    model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Bomb::~Bomb()
@@ -50,12 +50,18 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   std::list<AObject*>::iterator	objIt = objs.begin();
   Vector3d	save(pos_);
   Vector3d	nullSpeed;
+  float		now = clock.getTotalGameTime();
 
   (void)keys;
-  if (timeCreation_ == -1)
-    timeCreation_ = clock.getTotalGameTime();
-  if (clock.getTotalGameTime() - timeCreation_ >= timeOut_)
+  if (lastTime_ == -1)
+    lastTime_ = clock.getTotalGameTime();
+  if (timeOut_ <= 0)
     destroy(objs);
+  else
+    {
+      timeOut_ -= now - lastTime_;
+      lastTime_ = now;
+    }
   pos_ += speed_;
   for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
     if (*objIt != &owner_ && bBox_.collideWith(*objIt))
@@ -268,7 +274,7 @@ void Bomb::aff(void) const
     std::cout << "Range : " << range_ << std::endl;
     std::cout << "timeout : " << timeOut_ << std::endl;
     std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "timeCreation : " << timeCreation_ << std::endl;
+    std::cout << "timeCreation : " << lastTime_ << std::endl;
     owner_.aff();
     std::cout << "=== END BOMB ===" << std::endl;
 }

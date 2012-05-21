@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Sun May 20 17:47:56 2012 lois burg
+// Last update Mon May 21 10:04:36 2012 lois burg
 //
 
 #ifndef		__BOMB_HH__
@@ -62,7 +62,7 @@ namespace	Bomberman
     float       timeOut_;
     Player&     owner_;
     Vector3d	speed_;
-    float       timeCreation_;
+    float       lastTime_;
     bool	ownerCollide_;
     BoundingBox	bBox_;
   };
