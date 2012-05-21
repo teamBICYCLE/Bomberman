@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Sat May 19 15:54:43 2012 thibault carpentier
+// Last update Mon May 21 11:37:27 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -29,11 +29,18 @@ namespace Bomberman
 
     void resetDanger(void);
     int updateDanger(const std::list<AObject *>::const_iterator &it);
+    void updateCaseVison(const std::list<AObject *>::const_iterator &it, int x, int y);
 
     int powerupDanger(const std::list<AObject *>::const_iterator &it);
     int mineDanger(const std::list<AObject*>::const_iterator &it);
     int explosionDanger(const std::list<AObject*>::const_iterator &it);
     int playerDanger(const std::list<AObject*>::const_iterator &it);
+    int monsterDanger(const std::list<AObject*>::const_iterator &it);
+    int blockDanger(const std::list<AObject*>::const_iterator &it);
+    int bomberDanger(const std::list<AObject*>::const_iterator &it);
+
+    void setRangeDanger(int range, int x, int y, int danger);
+    void isPosValid(bool &valid, int x, int y);
 
     std::vector<std::vector<std::pair<int, int> > > danger_;
     int x_, y_;

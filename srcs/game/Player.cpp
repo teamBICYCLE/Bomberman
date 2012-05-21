@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 20 17:24:34 2012 lois burg
+// Last update Mon May 21 11:22:48 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -19,7 +19,7 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(100), nbMines_(0), bombRange_(2), mineRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
   isInvincible_ = true;
@@ -54,7 +54,7 @@ Player::Player()
     score_(0), kickAbility_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");
