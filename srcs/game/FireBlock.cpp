@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 10:35:40 2012 lois burg
+// Last update Mon May 21 12:14:40 2012 lois burg
 //
 
 #include <algorithm>
@@ -21,24 +21,21 @@
 
 using namespace	Bomberman;
 
-FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Block(pos, rot, sz), range_(2), lastTime_(-1), timer_(3.0f)
+FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const Vector3d& dir)
+  : Block(pos, rot, sz), dir_(dir), range_(2), lastTime_(-1), timer_(3.0f)
 {
-  randDir();
   type_ = "FireBlock";
 }
 
 FireBlock::FireBlock(const FireBlock &other)
   : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_)
 {
-  randDir();
   type_ = "FireBlock";
 }
 
 FireBlock::FireBlock()
   : Block(Vector3d(), Vector3d(), Vector3d()), dir_(Vector3d()), range_(2)
 {
-  randDir();
   type_ = "FireBlock";
 }
 
@@ -102,19 +99,6 @@ void	FireBlock::destroy(void)
   //indestructible block
 }
 
-void	FireBlock::randDir(void)
-{
-  int	r = rand() % 2;
-
-  if (r)
-    dir_ = Vector3d(1, 0, 0);
-  else
-    dir_ = Vector3d(0, 1, 0);
-  r = rand() % 2;
-  if (r)
-    dir_ *= -1;
-}
-
 void	FireBlock::spitFire(std::list<AObject*>& objs)
 {
   Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, *(new Player()));
@@ -124,27 +108,17 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
     {
       e->setPos(pos_ + (dir_ * i));
       if (!isInvalid)
-	std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-	    if (!isInvalid && e->getBBox().collideWith(obj))
-	      {
-		if (dynamic_cast<Character*>(obj))
-		  static_cast<Character*>(obj)->takeDamage(e->getDamage());
-		else if (dynamic_cast<APowerup*>(obj))
-		  obj->destroy();
-		else if (dynamic_cast<Mine*>(obj))
-		  static_cast<Mine*>(obj)->setChainReaction(true);
-		else if (dynamic_cast<Bomb*>(obj))
-		  static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-		else if (dynamic_cast<Brick*>(obj))
-		  static_cast<Brick*>(obj)->destroy(objs);
-		if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		    !dynamic_cast<Mine*>(obj))
-		  isInvalid = true;
-	      }
-	  });
+      	std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
+      	    if (!isInvalid && e->getBBox().collideWith(obj))
+      	      {
+		obj->interact(e, objs);
+      		if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+      		    !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
+      		  isInvalid = true;
+      	      }
+      	  });
       if (!isInvalid)
-	objs.push_back(new Explosion(*e));
-
+      	objs.push_back(new Explosion(*e));
     }
   delete e;
 }

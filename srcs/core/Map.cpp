@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sun May 20 13:49:30 2012 lois burg
+// Last update Mon May 21 12:26:07 2012 lois burg
 //
 
 #include <algorithm>
@@ -280,13 +280,19 @@ void				Map::clearPlace(uint x, uint y)
 
 void Map::addBlocks(const std::string &l, int y, std::list<AObject*> *tmp)
 {
-    for (uint i = 0; i != l.length(); i++)
-      {
-        if (l[i] == MAP_FILE_BLOCK)
-	  tmp->push_back(new Block(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0)));
-	else if (l[i] == MAP_FILE_FIREBLOCK)
-	  tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0)));
-      }
+  for (uint i = 0; i != l.length(); i++)
+    {
+      if (l[i] == MAP_FILE_BLOCK)
+	tmp->push_back(new Block(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0)));
+      else if (l[i] == MAP_FILE_FIREBLOCK_UP)
+	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(0, -1, 0)));
+      else if (l[i] == MAP_FILE_FIREBLOCK_DOWN)
+	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(0, 1, 0)));
+      else if (l[i] == MAP_FILE_FIREBLOCK_LEFT)
+	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(-1, 0, 0)));
+      else if (l[i] == MAP_FILE_FIREBLOCK_RIGT)
+	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(1, 0, 0)));
+    }
 }
 
 void Map::addBricks(const std::string &l, int y, std::list<AObject*> *tmp)

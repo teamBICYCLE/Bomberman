@@ -14,6 +14,7 @@
 #include "Monster.hh"
 #include "Ghost.hh"
 #include "Explosion.hh"
+#include "FireBlock.hh"
 #include "SaveHandler.hh"
 
 using namespace Bomberman;
@@ -46,6 +47,8 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Ghost *>(obj))));
         else if (obj->getType() == "Explosion")
             w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<Explosion *>(obj))));
+        else if (obj->getType() == "FireBlock")
+            w.setValue(QString(obj->getType().c_str()), qVariantFromValue(*(static_cast<FireBlock *>(obj))));
         else
             std::cout << "This object is not serializable !" << std::endl;
     }
@@ -77,6 +80,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     Monster::sInit();
     Ghost::sInit();
     Explosion::sInit();
+    FireBlock::sInit();
 
     QSettings w(name_file.c_str(), QSettings::IniFormat);
     Character::CharacterId = 0;
@@ -142,6 +146,8 @@ void SaveHandler::load(std::list<AObject*> &res, const std::string &file) const
             res.push_back(new Monster(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
         else if (s.contains("Explosion"))
             res.push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+        else if (s.contains("FireBlock"))
+            res.push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
     }
     Character::CharacterId = lastId;
 }
