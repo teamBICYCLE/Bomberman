@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 12:14:49 2012 lois burg
+// Last update Mon May 21 14:57:43 2012 lois burg
 //
 
 #include <algorithm>
@@ -143,11 +143,11 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
   if ((&owner_ == ch && ownerCollide_) ||
       &owner_ != ch)
     {
+      b = ch->getBBox();
       ch->bump(pos_);
       if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
 	{
 	  p = static_cast<Player*>(ch);
-	  b = p->getBBox();
 	  if (b->isAbove() || b->isBelow())
 	    speed_ = Vector3d(0, p->getSpeed(), 0);
 	  else if (b->isLeft() || b->isRight())
