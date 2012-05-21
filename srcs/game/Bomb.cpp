@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 14:57:43 2012 lois burg
+// Last update Mon May 21 18:35:54 2012 lois burg
 //
 
 #include <algorithm>
@@ -81,9 +81,11 @@ void	Bomb::explode(std::list<AObject*>& objs)
   bool		downInvalid = false;
   bool		leftInvalid = false;
   bool		rightInvalid = false;
+  bool		useless = false;
 
   //explosion qui tue et ajout des loots de tier 7
   objs.push_back(new Explosion(*e));
+  checkPosition(e, useless, objs);
   for (int i = 1; i <= range_; ++i)
     {
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
@@ -138,23 +140,26 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
 {
   Player	*p;
   const BoundingBox	*b;
+  Vector3d	save;
+  bool		collide;
 
   (void)objs;
-  if ((&owner_ == ch && ownerCollide_) ||
-      &owner_ != ch)
+  save = ch->getPos();
+  ch->setPos(ch->getSavedPos());
+  collide = bBox_.collideWith(ch);
+  ch->setPos(save);
+  if (!collide)
+    ch->bump(pos_);
+  if (!collide && dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
     {
+      p = static_cast<Player*>(ch);
       b = ch->getBBox();
-      ch->bump(pos_);
-      if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
-	{
-	  p = static_cast<Player*>(ch);
-	  if (b->isAbove() || b->isBelow())
-	    speed_ = Vector3d(0, p->getSpeed(), 0);
-	  else if (b->isLeft() || b->isRight())
-	    speed_ = Vector3d(p->getSpeed(), 0, 0);
-	  if (b->isAbove() || b->isLeft())
-	    speed_ *= (-1);
-	}
+      if (b->isAbove() || b->isBelow())
+	speed_ = Vector3d(0, p->getSpeed(), 0);
+      else if (b->isLeft() || b->isRight())
+	speed_ = Vector3d(p->getSpeed(), 0, 0);
+      if (b->isAbove() || b->isLeft())
+	speed_ *= (-1);
     }
 }
 
