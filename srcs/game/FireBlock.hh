@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 18:34:59 2012 lois burg
-// Last update Sun May 20 13:44:40 2012 lois burg
+// Last update Mon May 21 11:54:56 2012 lois burg
 //
 
 #ifndef		__FIREBLOCK_HH__
@@ -18,7 +18,7 @@ namespace	Bomberman
   class	FireBlock : public Block
   {
   public:
-      FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
+      FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const Vector3d& dir);
       FireBlock(const FireBlock &other);
       FireBlock();
       virtual ~FireBlock();
@@ -34,7 +34,6 @@ namespace	Bomberman
     static void		sInit(void);
 
   private:
-    void	randDir(void);
     void	spitFire(std::list<AObject*>& objs);
 
   private:

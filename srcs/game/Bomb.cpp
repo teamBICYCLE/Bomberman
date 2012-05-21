@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 10:39:21 2012 lois burg
+// Last update Mon May 21 14:57:43 2012 lois burg
 //
 
 #include <algorithm>
@@ -125,20 +125,6 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
 	    obj->interact(e, objs);
-	    // if (dynamic_cast<Character*>(obj))
-	    //   {
-	    // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
-	    // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
-	    // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
-	    //   }
-	    // else if (dynamic_cast<APowerup*>(obj))
-	    //   obj->destroy();
-	    // else if (dynamic_cast<Mine*>(obj))
-	    //   static_cast<Mine*>(obj)->setChainReaction(true);
-	    // else if (dynamic_cast<Bomb*>(obj))
-	    //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-	    // else if (dynamic_cast<Brick*>(obj))
-	    //   static_cast<Brick*>(obj)->destroy(objs);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
 		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
 	      isInvalid = true;
@@ -157,11 +143,11 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
   if ((&owner_ == ch && ownerCollide_) ||
       &owner_ != ch)
     {
+      b = ch->getBBox();
       ch->bump(pos_);
       if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
 	{
 	  p = static_cast<Player*>(ch);
-	  b = p->getBBox();
 	  if (b->isAbove() || b->isBelow())
 	    speed_ = Vector3d(0, p->getSpeed(), 0);
 	  else if (b->isLeft() || b->isRight())
