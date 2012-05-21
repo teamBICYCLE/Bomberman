@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Mon May 21 09:43:29 2012 thibault carpentier
+// Last update Mon May 21 11:37:27 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -38,6 +38,9 @@ namespace Bomberman
     int monsterDanger(const std::list<AObject*>::const_iterator &it);
     int blockDanger(const std::list<AObject*>::const_iterator &it);
     int bomberDanger(const std::list<AObject*>::const_iterator &it);
+
+    void setRangeDanger(int range, int x, int y, int danger);
+    void isPosValid(bool &valid, int x, int y);
 
     std::vector<std::vector<std::pair<int, int> > > danger_;
     int x_, y_;
