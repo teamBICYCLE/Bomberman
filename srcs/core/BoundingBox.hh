@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:02:09 2012 lois burg
-// Last update Fri May 18 16:33:11 2012 lois burg
+// Last update Mon May 21 16:45:49 2012 Jonathan Machado
 //
 
 #ifndef		__BOUNDING_BOX_HH__
@@ -26,16 +26,17 @@ namespace	Bomberman
 
   public:
     virtual bool collideWith(const AObject *obj);
+    virtual bool collideWith(const Vector3d &pos, const Vector3d &sz);
     bool	isAbove(void) const;
     bool	isBelow(void) const;
     bool	isLeft(void) const;
     bool	isRight(void) const;
 
   public:
-    bool	collideLeft(const AObject *obj);
-    bool	collideRight(const AObject *obj);
-    bool	collideUp(const AObject *obj);
-    bool	collideDown(const AObject *obj);
+    bool	collideLeft(const Vector3d &pos, const Vector3d &sz);
+    bool	collideRight(const Vector3d &pos, const Vector3d &sz);
+    bool	collideUp(const Vector3d &pos, const Vector3d &sz);
+    bool	collideDown(const Vector3d &pos, const Vector3d &sz);
     void	resetColliding(void);
 
   protected:
