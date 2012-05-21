@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Mon May 21 15:21:18 2012 thibault carpentier
+// Last update Mon May 21 18:34:51 2012 thibault carpentier
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
@@ -110,7 +110,6 @@ int Brain::isCrossable(VirtualMachine &vm)
   	    });
   	}
     }
-  std::cout << "Rturning " << valid  << std::endl;
   lua_pushnumber(vm.getLua(), valid);
   return (1);
 }

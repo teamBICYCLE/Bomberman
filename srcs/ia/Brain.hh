@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Mon May 21 14:46:04 2012 thibault carpentier
+// Last update Mon May 21 16:52:26 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -101,12 +101,13 @@ namespace Bomberman
        *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
        *
        */
-      Brain(int, int);
+      Brain(int x, int y);
       /*!
        *  \brief Destructor.
        *
        *  Destructor of Brain Class.
-       *
+       *  \param x : x size of the map.
+       *  \param y : y size of the map.
        */
       ~Brain(void);
 
