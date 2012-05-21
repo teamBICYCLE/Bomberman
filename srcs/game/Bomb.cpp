@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 10:34:52 2012 lois burg
+// Last update Mon May 21 10:39:21 2012 lois burg
 //
 
 #include <algorithm>
@@ -201,6 +201,11 @@ float	Bomb::getTimeOut(void) const
   return (timeOut_);
 }
 
+float	Bomb::getLastTime(void) const
+{
+  return (lastTime_);
+}
+
 void    Bomb::setSpeed(const Vector3d &v)
 {
     speed_ = v;
@@ -219,6 +224,11 @@ bool	Bomb::getOwnerCollide(void) const
 void	Bomb::setOwnerCollide(bool b)
 {
   ownerCollide_ = b;
+}
+
+int     Bomb::getRange(void) const
+{
+    return range_;
 }
 
 /* Serialization */

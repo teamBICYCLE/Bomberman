@@ -51,11 +51,25 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
     }
 }
 
+const std::string   SaveHandler::newFileName(void) const
+{
+    time_t seconds;
+
+    seconds = time(NULL);
+    return QString((int)seconds).toStdString();
+}
+
 void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
+    std::string name_file;
 
-    QFile::remove(SAVE_FILE);
+    name_file = SaveHandler::newFileName();
+    name_file.append(".").append(SAVE_EXT);
+
+    std::cout << name_file << std::endl;
+
+    QFile::remove(name_file.c_str());
     Block::sInit();
     Brick::sInit();
     Player::sInit();
@@ -64,8 +78,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     Ghost::sInit();
     Explosion::sInit();
 
-    QSettings w(SAVE_FILE, QSettings::IniFormat);
-
+    QSettings w(name_file.c_str(), QSettings::IniFormat);
     Character::CharacterId = 0;
 
     w.beginWriteArray("vector");
@@ -82,16 +95,30 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     std::cout << "---> Serialization done ! <---" << std::endl;
 }
 
-bool SaveHandler::saveFileExist(void) const
+const std::list<std::string> SaveHandler::getSavedFiles(void) const
 {
-    return QFile::exists(SAVE_FILE);
+    unsigned char isFile = 0x8;
+    DIR *pdir;
+    struct dirent *entry;
+    std::list<std::string> save_list;
+
+    pdir = opendir(SAVE_PATH);
+    while((entry = readdir(pdir)))
+    {
+        std::string name(entry->d_name);
+        std::string realPath(SAVE_PATH);
+        if (entry->d_type == isFile
+                && name.substr(name.find_last_of('.'), name.length()) == SAVE_EXT)
+            save_list.push_back(realPath.append(name));
+    }
+    return save_list;
 }
 
-void SaveHandler::load(std::list<AObject*> &res) const
+void SaveHandler::load(std::list<AObject*> &res, const std::string &file) const
 {
-    if (!QFile::exists(SAVE_FILE))
+    if (!QFile::exists(file.c_str()))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
-    QSettings s(SAVE_FILE, QSettings::IniFormat);
+    QSettings s(file.c_str(), QSettings::IniFormat);
     int lastId = Character::CharacterId;
 
     Character::CharacterId = 0;
