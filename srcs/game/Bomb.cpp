@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat May 19 12:01:12 2012 lois burg
+// Last update Mon May 21 10:39:21 2012 lois burg
 //
 
 #include <algorithm>
@@ -17,7 +17,7 @@
 using namespace	Bomberman;
 
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), timeCreation_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
+  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
 {
   model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
@@ -26,7 +26,7 @@ Bomb::Bomb(const Bomb &other)
     : AObject(other.pos_, other.rot_, other.sz_, "Bomb"),
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
-      timeCreation_(other.timeCreation_),
+      lastTime_(other.lastTime_),
       ownerCollide_(other.getOwnerCollide()),
       bBox_(other.bBox_)
 {
@@ -36,9 +36,9 @@ Bomb::Bomb(const Bomb &other)
 Bomb::Bomb()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
     range_(0), timeOut_(0), owner_(*(new Player())),
-    speed_(Vector3d()), timeCreation_(0), bBox_(pos_, sz_, this)
+    speed_(Vector3d()), lastTime_(0), bBox_(pos_, sz_, this)
 {
-    model_ = gdl::Model::load("Ressources/assets/bomb.fbx");
+    model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Bomb::~Bomb()
@@ -50,12 +50,18 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   std::list<AObject*>::iterator	objIt = objs.begin();
   Vector3d	save(pos_);
   Vector3d	nullSpeed;
+  float		now = clock.getTotalGameTime();
 
   (void)keys;
-  if (timeCreation_ == -1)
-    timeCreation_ = clock.getTotalGameTime();
-  if (clock.getTotalGameTime() - timeCreation_ >= timeOut_)
+  if (lastTime_ == -1)
+    lastTime_ = clock.getTotalGameTime();
+  if (timeOut_ <= 0)
     destroy(objs);
+  else
+    {
+      timeOut_ -= now - lastTime_;
+      lastTime_ = now;
+    }
   pos_ += speed_;
   for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
     if (*objIt != &owner_ && bBox_.collideWith(*objIt))
@@ -70,7 +76,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
 
 void	Bomb::explode(std::list<AObject*>& objs)
 {
-  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1);
+  Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, owner_);
   bool		upInvalid = false;
   bool		downInvalid = false;
   bool		leftInvalid = false;
@@ -92,6 +98,7 @@ void	Bomb::explode(std::list<AObject*>& objs)
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
       // std::cout << "--------------------" << std::endl;
     }
+  delete e;
 }
 
 void	Bomb::draw(void)
@@ -117,22 +124,23 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
-	    if (dynamic_cast<Character*>(obj))
-	      {
-		if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
-		  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
-		static_cast<Character*>(obj)->takeDamage(e->getDamage());
-	      }
-	    else if (dynamic_cast<APowerup*>(obj))
-	      obj->destroy();
-	    else if (dynamic_cast<Mine*>(obj))
-	      static_cast<Mine*>(obj)->setChainReaction(true);
-	    else if (dynamic_cast<Bomb*>(obj))
-	      static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-	    else if (dynamic_cast<Brick*>(obj))
-	      static_cast<Brick*>(obj)->destroy(objs);
+	    obj->interact(e, objs);
+	    // if (dynamic_cast<Character*>(obj))
+	    //   {
+	    // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
+	    // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
+	    // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
+	    //   }
+	    // else if (dynamic_cast<APowerup*>(obj))
+	    //   obj->destroy();
+	    // else if (dynamic_cast<Mine*>(obj))
+	    //   static_cast<Mine*>(obj)->setChainReaction(true);
+	    // else if (dynamic_cast<Bomb*>(obj))
+	    //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
+	    // else if (dynamic_cast<Brick*>(obj))
+	    //   static_cast<Brick*>(obj)->destroy(objs);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		!dynamic_cast<Mine*>(obj))
+		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
 	      isInvalid = true;
 	  }
       });
@@ -164,13 +172,23 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
     }
 }
 
+void	Bomb::interact(Explosion *e, std::list<AObject*>& objs)
+{
+  (void)e;
+  (void)objs;
+  setTimeOut(0.0f);
+}
+
 void	Bomb::destroy(std::list<AObject*>& objs)
 {
-  explode(objs);
-  owner_.setNbBombs(owner_.getNbBombs() + 1);
-  if (!ownerCollide_)
-    owner_.setBombCollide(true);
-  AObject::destroy();
+  if (!toRemove())
+    {
+      explode(objs);
+      owner_.setNbBombs(owner_.getNbBombs() + 1);
+      if (!ownerCollide_)
+	owner_.setBombCollide(true);
+      AObject::destroy();
+    }
 }
 
 void	Bomb::setTimeOut(const float timeOut)
@@ -181,6 +199,11 @@ void	Bomb::setTimeOut(const float timeOut)
 float	Bomb::getTimeOut(void) const
 {
   return (timeOut_);
+}
+
+float	Bomb::getLastTime(void) const
+{
+  return (lastTime_);
 }
 
 void    Bomb::setSpeed(const Vector3d &v)
@@ -201,6 +224,11 @@ bool	Bomb::getOwnerCollide(void) const
 void	Bomb::setOwnerCollide(bool b)
 {
   ownerCollide_ = b;
+}
+
+int     Bomb::getRange(void) const
+{
+    return range_;
 }
 
 /* Serialization */
@@ -256,7 +284,7 @@ void Bomb::aff(void) const
     std::cout << "Range : " << range_ << std::endl;
     std::cout << "timeout : " << timeOut_ << std::endl;
     std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "timeCreation : " << timeCreation_ << std::endl;
+    std::cout << "timeCreation : " << lastTime_ << std::endl;
     owner_.aff();
     std::cout << "=== END BOMB ===" << std::endl;
 }

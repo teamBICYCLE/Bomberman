@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat May 19 20:00:46 2012 thibault carpentier
+// Last update Mon May 21 10:35:04 2012 lois burg
 //
 
 #include <algorithm>
@@ -54,7 +54,7 @@ Player::Player()
     score_(0), kickAbility_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/assets/marvin.fbx");
+  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
   model_.cut_animation(model_, "Take 001", 36, 54, "run");
   model_.cut_animation(model_, "Take 001", 55, 120, "stop");

@@ -5,11 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Thu May 17 17:24:33 2012 lois burg
+// Last update Sun May 20 17:51:04 2012 lois burg
 //
 
 #include "AObject.hh"
 #include "Character.hh"
+#include "Explosion.hh"
 
 using namespace Bomberman;
 
@@ -77,4 +78,10 @@ void	AObject::interact(Character *ch, std::list<AObject*>& objs)
 {
   (void)objs;
   ch->bump(pos_);
+}
+
+void	AObject::interact(Explosion *e, std::list<AObject*>& objs)
+{
+  (void)e;
+  (void)objs;
 }

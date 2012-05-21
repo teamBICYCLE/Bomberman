@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:47 2012 lois burg
-// Last update Thu May 17 17:38:49 2012 lois burg
+// Last update Mon May 21 10:31:36 2012 lois burg
 //
 
 #ifndef		__EXPLOSION_HH__
@@ -14,13 +14,14 @@
 # include	"AObject.hh"
 # include	"Character.hh"
 # include	"BoundingBox.hh"
+# include	"Player.hh"
 
 namespace	Bomberman
 {
   class	Explosion : public AObject
   {
-  public:  public:
-    Explosion(const Vector3d& pos, const Vector3d& sz, uint damage);
+  public:
+    Explosion(const Vector3d& pos, const Vector3d& sz, uint damage, Player& owner);
     Explosion(const Explosion& other);
     Explosion();
     virtual ~Explosion();
@@ -41,12 +42,14 @@ namespace	Bomberman
   public:
     uint		getDamage(void) const;
     BoundingBox&	getBBox(void);
+    Player&		getOwner(void);
 
   private:
     uint	damage_;
     BoundingBox	bBox_;
     float	timeOnScreen_;
-    float	timeOfCreation_;
+    float	lastTime_;
+    Player&	owner_;
   };
 }
 

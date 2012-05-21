@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:08:02 2012 lois burg
-// Last update Fri May 18 15:30:18 2012 lois burg
+// Last update Sun May 20 17:53:49 2012 lois burg
 //
 
 #ifndef		__CHARACTER_HH__
@@ -16,6 +16,7 @@
 
 namespace	Bomberman
 {
+  class	Explosion;
   enum eDirection { UP, RIGHT, DOWN, LEFT, NODIR};
 
   class	Character : public AObject
@@ -50,6 +51,7 @@ namespace	Bomberman
 
   public:
     virtual void	destroy(void);
+    virtual void	interact(Explosion *b, std::list<AObject*>& objs);
 
   public:
     /* Serialization */

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Fri May 18 10:59:51 2012 Thomas Duplomb
+// Last update Sun May 20 17:52:01 2012 lois burg
 //
 
 #ifndef		__AOBJECT_HH__
@@ -20,6 +20,7 @@
 
 namespace	Bomberman
 {
+  class	Explosion;
   class	Character;
 
   class	AObject
@@ -35,6 +36,7 @@ namespace	Bomberman
     //virtual void                serialize(QDataStream &out) const = 0;
     //virtual void                unserialize(QDataStream &in) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
+    virtual void		interact(Explosion *e, std::list<AObject*>& objs);
 
   public:
     virtual void		setPos(const Vector3d &);
