@@ -10,10 +10,11 @@
 # define    SAVEHANDLER_HPP
 
 # define    SAVE_PATH   "Ressources/Saves/"
-# define    SAVE_EXT    "bbm"
+# define    SAVE_EXT    ".bbm"
 # include   <list>
 # include   <QSettings>
 # include   <string>
+# include   <sstream>
 # include   <list>
 # include   <dirent.h>
 # include   <sys/types.h>
@@ -34,7 +35,7 @@ public:
     void save(std::list<AObject *> &) const;
     void load(std::list<AObject *> &, const std::string &file) const;
     const std::string newFileName(void) const;
-    const std::list<std::string> getSavedFiles(void) const;
+    const std::list< std::pair<std::string, std::string> > getSavedFiles(void) const;
 
 private:
     void writeObject(AObject *obj, QSettings &w) const;
