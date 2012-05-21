@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 18 14:57:26 2012 lois burg
-// Last update Fri May 18 15:33:11 2012 lois burg
+// Last update Sun May 20 16:15:32 2012 lois burg
 //
 
 #include "KickPowerup.hh"
@@ -28,9 +28,12 @@ KickPowerup::~KickPowerup(void)
 
 void KickPowerup::activate(Player& p)
 {
-  std::cout << "Kick up" << std::endl;
-  p.setKickAbility(true);
-  APowerup::activate(p);
+  if (!toRemove())
+    {
+      std::cout << "Kick up" << std::endl;
+      p.setKickAbility(true);
+      APowerup::activate(p);
+    }
 }
 
 void	KickPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)

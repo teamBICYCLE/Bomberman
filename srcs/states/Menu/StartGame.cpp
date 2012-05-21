@@ -23,6 +23,7 @@ StartGame::StartGame(const std::string & normalImagePath,
 void    StartGame::activate(StatesManager *sMg)
 {
   //  sMg->pushState(new Bomberman::AdventureState());
+  // sMg->pushState(new Bomberman::AdventureState());
   sMg->pushState(new Bomberman::PlayState());
 }
 

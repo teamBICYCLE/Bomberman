@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Fri May 18 17:58:27 2012 Jonathan Machado
+// Last update Sun May 20 13:48:01 2012 lois burg
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -27,7 +27,8 @@
 # define	MAP_FILE_PLAYER		'P'
 # define    MAP_FILE_MONSTER    'M'
 # define    MAP_FILE_GHOST      'G'
-# define	MAP_FILE_ALLOWED	".WBPMG"
+# define	MAP_FILE_FIREBLOCK	'F'
+# define	MAP_FILE_ALLOWED	".WBPMGF"
 
 namespace	Bomberman
 {

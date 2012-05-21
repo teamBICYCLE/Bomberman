@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 18:34:59 2012 lois burg
-// Last update Sat May 19 19:08:46 2012 lois burg
+// Last update Sun May 20 13:44:40 2012 lois burg
 //
 
 #ifndef		__FIREBLOCK_HH__
@@ -35,7 +35,7 @@ namespace	Bomberman
 
   private:
     void	randDir(void);
-    void	spitFire(void);
+    void	spitFire(std::list<AObject*>& objs);
 
   private:
     Vector3d	dir_;

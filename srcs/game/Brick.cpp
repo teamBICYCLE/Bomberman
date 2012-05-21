@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Thu May 17 11:50:11 2012 lois burg
+// Last update Sun May 20 17:49:45 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -152,6 +152,12 @@ void	Brick::destroy(std::list<AObject*>& objs)
 {
   loot(objs);
   AObject::destroy();
+}
+
+void	Brick::interact(Explosion *e, std::list<AObject*>& objs)
+{
+  (void)e;
+  destroy(objs);
 }
 
 /* Serialization */

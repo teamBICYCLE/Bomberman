@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:35:37 2012 geoffroy lafontaine
-// Last update Thu May 17 17:53:46 2012 lois burg
+// Last update Sun May 20 16:15:42 2012 lois burg
 //
 
 #include "VelocityPowerup.hh"
@@ -28,9 +28,12 @@ VelocityPowerup::~VelocityPowerup(void)
 
 void VelocityPowerup::activate(Player& p)
 {
-  std::cout << "Speed up" << std::endl;
-  p.setSpeed(p.getSpeed() + 0.01);
-  APowerup::activate(p);
+  if (!toRemove())
+    {
+      std::cout << "Speed up" << std::endl;
+      p.setSpeed(p.getSpeed() + 0.01);
+      APowerup::activate(p);
+    }
 }
 
 void	VelocityPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)

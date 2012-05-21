@@ -5,10 +5,11 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Sun May 20 14:52:16 2012 thibault carpentier
+// Last update Mon May 21 09:50:37 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
+#include "Bomb.hh"
 
 using namespace Bomberman;
 
@@ -25,12 +26,7 @@ DangerMap::DangerMap(int x, int y)
   dangerMeth_["Monster"] = &DangerMap::monsterDanger;
   dangerMeth_["Brick"] = &DangerMap::blockDanger;
   dangerMeth_["Block"] = &DangerMap::blockDanger;
-
-// "Brick"
-// "Bomb"
-// "Block"
-
-
+  dangerMeth_["Bomb"] = &DangerMap::bomberDanger;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -44,6 +40,14 @@ void DangerMap::resetDanger(void)
   for (int x = 0; x < x_; ++x)
     for (int y = 0; y < y_; ++y)
       danger_[y][x] = std::pair<int, int>(0, 0);
+}
+
+int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it)
+{
+  Bomb *bomb = static_cast<Bomb*>(*it);
+
+
+  return (10 - (bomb->getRange() * 3));
 }
 
 int DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it)
