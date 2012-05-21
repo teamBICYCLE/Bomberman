@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun May 20 17:50:36 2012 lois burg
+// Last update Mon May 21 09:59:41 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -193,6 +193,11 @@ void	Bomb::setTimeOut(const float timeOut)
 float	Bomb::getTimeOut(void) const
 {
   return (timeOut_);
+}
+
+float	Bomb::getTimeCreation(void) const
+{
+  return (timeCreation_);
 }
 
 void    Bomb::setSpeed(const Vector3d &v)

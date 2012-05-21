@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Mon May 21 09:50:37 2012 thibault carpentier
+// Last update Mon May 21 10:00:11 2012 thibault carpentier
 //
 
 #include "DangerMap.hh"
@@ -46,8 +46,8 @@ int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it)
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
-
-  return (10 - (bomb->getRange() * 3));
+  std::cout << (bomb->getTimeCreation() - bomb->getTimeOut()) * 3 << std::endl;
+  return (10 - (bomb->getTimeOut() * 3));
 }
 
 int DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it)
