@@ -215,6 +215,11 @@ void	Bomb::setOwnerCollide(bool b)
   ownerCollide_ = b;
 }
 
+int     Bomb::getRange(void) const
+{
+    return range_;
+}
+
 /* Serialization */
 
 void Bomb::serialize(QDataStream &out) const

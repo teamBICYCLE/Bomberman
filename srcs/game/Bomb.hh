@@ -48,6 +48,7 @@ namespace	Bomberman
     float	getTimeOut(void) const;
     const Player&	getOwner(void) const;
     bool	getOwnerCollide(void) const;
+    int     getRange(void) const;
 
   public:
     void	setTimeOut(const float timeOut);
@@ -63,7 +64,7 @@ namespace	Bomberman
     Player&     owner_;
     Vector3d	speed_;
     float       timeCreation_;
-    bool	ownerCollide_;
+    bool        ownerCollide_;
     BoundingBox	bBox_;
   };
 }
