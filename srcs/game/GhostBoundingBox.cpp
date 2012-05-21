@@ -1,11 +1,11 @@
 //
 // GhostBoundingBox.cpp for bomberman in /home/lafont_g//tek2/bomberman/Bomberman
-// 
+//
 // Made by geoffroy lafontaine
 // Login   <lafont_g@epitech.net>
-// 
+//
 // Started on  Thu May 17 16:09:31 2012 geoffroy lafontaine
-// Last update Thu May 17 16:45:25 2012 geoffroy lafontaine
+// Last update Mon May 21 16:52:37 2012 Jonathan Machado
 //
 
 #include "Brick.hh"
@@ -34,9 +34,20 @@ bool	GhostBoundingBox::collideWith(const AObject *obj)
     return (false);
   if (owner_ == obj || pos_.distance(obj->getPos()) > 2)
     return (false);
-  above_ = collideUp(obj);
-  below_ = collideDown(obj);
-  left_ = collideLeft(obj);
-  right_ = collideRight(obj);
+  above_ = collideUp(obj->getPos(), obj->getSize());
+  below_ = collideDown(obj->getPos(), obj->getSize());
+  left_ = collideLeft(obj->getPos(), obj->getSize());
+  right_ = collideRight(obj->getPos(), obj->getSize());
+  return (above_ || below_ || left_ || right_);
+}
+
+bool	GhostBoundingBox::collideWith(const Vector3d &pos, const Vector3d &size)
+{
+  if (pos_.distance(pos) > 2)
+    return (false);
+  above_ = collideUp(pos, size);
+  below_ = collideDown(pos, size);
+  left_ = collideLeft(pos, size);
+  right_ = collideRight(pos, size);
   return (above_ || below_ || left_ || right_);
 }

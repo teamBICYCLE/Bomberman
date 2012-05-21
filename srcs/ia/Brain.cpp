@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Mon May 21 15:21:18 2012 thibault carpentier
+// Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
@@ -90,18 +90,20 @@ int Brain::isCrossable(VirtualMachine &vm)
 {
   std::list<AObject*> objs = danger_.getObjs();
   int valid = -1;
-  int x, y;
+  float x, y;
 
   if (isParamsPosition(vm) && lua_gettop(vm.getLua()) == 3)
     {
       x = lua_tonumber(vm.getLua(), 1);
       y = lua_tonumber(vm.getLua(), 2);
+
+      BoundingBox bb(Vector3d(x, y, 0), Vector3d(0.5,0.5,0), NULL);
       valid = 0;
       if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
   	{
 	  valid = 1;
  	  std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-  	      if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+  	      if (valid && bb.collideWith(obj))
   		{
   		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
 		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj))
