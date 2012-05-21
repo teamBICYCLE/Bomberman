@@ -51,7 +51,8 @@ SOURCES += \
     srcs/states/IntroState.cpp \
     srcs/main.cpp \
     srcs/states/Menu/StartGame.cpp \
-    srcs/states/Menu/Quit.cpp
+    srcs/states/Menu/Quit.cpp \
+    srcs/states/Menu/QuickStart.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
 
@@ -105,4 +106,5 @@ HEADERS += \
     srcs/states/Menu/MenuEntry.hh \
     srcs/states/IntroState.hh \
     srcs/states/Menu/StartGame.hh \
-    srcs/states/Menu/Quit.hh
+    srcs/states/Menu/Quit.hh \
+    srcs/states/Menu/QuickStart.hh
