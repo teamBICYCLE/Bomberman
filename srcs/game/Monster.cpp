@@ -5,7 +5,11 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
+<<<<<<< HEAD
 // Last update Mon May 21 16:57:40 2012 thibault carpentier
+=======
+// Last update Mon May 21 17:23:41 2012 Jonathan Machado
+>>>>>>> 9ed8244dc71c989f553ce306fc5faec91ec4c074
 // Last update Mon May 21 12:10:15 2012 lois burg
 //
 
@@ -65,8 +69,8 @@ void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject
 {
   brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinking");
-  brainScript_->addParam(static_cast<int>(getPos().x));
-  brainScript_->addParam(static_cast<int>(getPos().y));
+  brainScript_->addParam(static_cast<float>(getPos().x));
+  brainScript_->addParam(static_cast<float>(getPos().y));
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
   (void)keys;
