@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Mon May 21 11:37:27 2012 thibault carpentier
+// Last update Mon May 21 14:06:12 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -43,7 +43,6 @@ namespace Bomberman
     void isPosValid(bool &valid, int x, int y);
 
     std::vector<std::vector<std::pair<int, int> > > danger_;
-    int x_, y_;
     std::list<AObject*> objs_;
     std::map<std::string, fctMeth> dangerMeth_;
 
@@ -51,6 +50,8 @@ namespace Bomberman
     DangerMap(int, int);
     ~DangerMap(void);
 
+    int x_, y_;
+    std::list<AObject*> getObjs(void) const;
     void updateGameVision(const std::list<AObject*>&objs);
   };
 }

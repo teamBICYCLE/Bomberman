@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Fri May 18 18:26:28 2012 thibault carpentier
+// Last update Mon May 21 14:46:04 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -85,6 +85,12 @@ namespace Bomberman
      */
     class Brain : public Script
     {
+
+      enum eEnnemyType
+	{
+	  MONSTER,
+	  GHOST
+	};
     typedef int (Bomberman::Thinking::Brain::*fctMeth)(VirtualMachine &);
 
    public:
@@ -141,26 +147,36 @@ namespace Bomberman
        *  \brief Method used to update the game vision for the IA.
        *
        *  Method called by before the lua is thinking to create a danger map.
-       *
-       *
        *  \param objs : list of objects actually on the map.
-       *  \param
        *  \return (void)
        *
        */
       void updateDangerMap(std::list<AObject*>&objs);
 
       /*!
-       *  \brief The test Method.
+       *  \brief Method checking if Parameters from Lua are a position.
        *
-       *  This is the TESSSST !
-       *  A BIG TEST !
+       *  Method checking if Parameters from Lua are well formated to designate a position (number x, number y).
+       *
+       *
+       *  \param vm : The Virtual Machine where the script is emulated.
+       *  \return (bool) true if success, false otherwise.
+       *
+       */
+      bool isParamsPosition(VirtualMachine &vm) const;
+
+      /*!
+       *  \brief Method checking if a monster can walk to the given position
+       *
+       *  The Method check if the Monster or The Ghost can walk into a position
+       * given (number x, number y, type (MONSTER | GHOST))
        *
        *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
        *  \return (int) The number of value pushed on the lua-stack.
        *
        */
-      int test(VirtualMachine &vm);
+      int isCrossable(VirtualMachine &vm);
+
 
     private:
       /*!
