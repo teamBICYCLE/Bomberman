@@ -56,21 +56,21 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 
 const std::string   SaveHandler::newFileName(void) const
 {
-    time_t seconds;
+    time_t t;
+    std::stringstream strm;
 
-    seconds = time(NULL);
-    return QString((int)seconds).toStdString();
+    t = time(NULL);
+    strm << t;
+    return strm.str();
 }
 
 void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
-    std::string name_file;
+    std::string name_file(SAVE_PATH);
 
-    name_file = SaveHandler::newFileName();
-    name_file.append(".").append(SAVE_EXT);
-
-    std::cout << name_file << std::endl;
+    name_file.append(SaveHandler::newFileName());
+    name_file.append(SAVE_EXT);
 
     QFile::remove(name_file.c_str());
     Block::sInit();
@@ -99,21 +99,38 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     std::cout << "---> Serialization done ! <---" << std::endl;
 }
 
-const std::list<std::string> SaveHandler::getSavedFiles(void) const
+const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFiles(void) const
 {
     unsigned char isFile = 0x8;
     DIR *pdir;
     struct dirent *entry;
-    std::list<std::string> save_list;
+    std::list<std::pair<std::string, std::string>> save_list;
+    std::list<int> intlist;
+    char buff[20];
+    time_t time;
+    std::stringstream strm;
+    std::string realPath;
 
     pdir = opendir(SAVE_PATH);
     while((entry = readdir(pdir)))
     {
         std::string name(entry->d_name);
-        std::string realPath(SAVE_PATH);
-        if (entry->d_type == isFile
-                && name.substr(name.find_last_of('.'), name.length()) == SAVE_EXT)
-            save_list.push_back(realPath.append(name));
+        if (entry->d_type == isFile &&
+                name.substr(name.find_last_of('.'), name.length()) == SAVE_EXT)
+            intlist.push_back(atoi(name.substr(0, name.find_last_of('.')).c_str()));
+    }
+
+    intlist.sort();
+    intlist.reverse();
+
+    for (std::list<int>::iterator it = intlist.begin(); it != intlist.end(); it++)
+    {
+        realPath = SAVE_PATH;
+        strm.str("");
+        time = (*it);
+        strftime(buff, 20, "%d/%m %H:%M", localtime(&time));
+        strm << (*it);
+        save_list.push_back(std::make_pair(buff, realPath.append(strm.str()).append(SAVE_EXT)));
     }
     return save_list;
 }
