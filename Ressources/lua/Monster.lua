@@ -9,24 +9,48 @@ function this.thinking(this, x, y)
   --printDebug("Thinking Ia !")
   -- print (x, y)
   -- print (this:isCrossable(x, y - 1, MONSTER))
-  math.randomseed(os.time())
-  a = math.random(1, 5)
-  if a == 1 and this:isCrossable(x, y - 1, MONSTER) == 1
-  then
-     -- printDebug("UP")
-     return UP
-  elseif a == 2 and this:isCrossable(x + 1, y, MONSTER) == 1
-  then
-     -- printDebug("RIGHT")
-     return RIGHT
-  elseif a == 3 and this:isCrossable(x, y + 1, MONSTER) == 1
-  then
-     -- printDebug("DOWN")
-     return DOWN
-  elseif a == 4 and this:isCrossable(x - 1, y, MONSTER) == 1
-  then
-     -- printDebug("LEFT")
-     return LEFT
-  end
-return NODIR
+
+   -- right, left, up, down  = 0, 0, 0, 0;
+   -- while (right ~= 1 and left ~= 1 and up ~= 1 and down ~= 1) do
+      -- math.randomseed(os.time())
+      -- a = math.random(1, 5)
+      -- if a == 1
+      -- then
+      -- 	 up = 1
+      -- 	    printDebug("testing UP")
+   if this:isCrossable(x, y - 0.05, MONSTER) == 1
+   then
+--      printDebug("UP")
+      return UP
+   end
+-- elseif a == 2
+--       then
+--       	 right = 1
+--       	    printDebug("testing RIGHT")
+   if this:isCrossable(x + 0.05, y, MONSTER) == 1
+   then
+  --    printDebug("RIGHT")
+      return RIGHT
+   end
+      -- elseif a == 3
+      -- then
+      	 -- down = 1
+	 -- printDebug("testing DOWN")
+   if this:isCrossable(x, y + 0.05, MONSTER) == 1
+   then
+    --  printDebug("DOWN")
+      return DOWN
+   end
+-- elseif a == 4
+-- then
+--       	 left = 1
+-- 	 printDebug("LEFT")
+   if this:isCrossable(x - 0.05, y, MONSTER) == 1
+   then
+      --printDebug("LEFT")
+      return LEFT
+   end
+-- end
+-- end
+   return NODIR
 end

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May  5 11:46:41 2012 thibault carpentier
-// Last update Mon May 14 16:00:29 2012 thibault carpentier
+// Last update Tue May 22 14:47:24 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -97,6 +97,16 @@ void Script::addParam(int param)
       ++nbArgs_;
     }
 }
+
+void Script::addParam(double param)
+{
+  if (VM_.isFonctionnal())
+    {
+      lua_pushnumber(VM_.getLua(), param);
+      ++nbArgs_;
+    }
+}
+
 
 void Script::addParam(const std::string &param)
 {

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Mon May 21 15:25:05 2012 thibault carpentier
+// Last update Tue May 22 15:10:35 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -146,6 +146,11 @@ void DangerMap::updateCaseVison(const std::list<AObject*>::const_iterator &it, i
   danger_[y][x].second = 0;
 }
 
+int  DangerMap::getDanger(int x, int y) const
+{
+  return (danger_[y][x].first);
+}
+
 void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 {
   int x, y;
@@ -161,7 +166,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 	updateCaseVison(it, x, y);
     }
 
-  // // //  temporaire
+  // //  temporaire
   // std::vector<std::vector<std::pair<int, int> > >::iterator test;
   // for (test = danger_.begin(); test != danger_.end(); ++test)
   //   {

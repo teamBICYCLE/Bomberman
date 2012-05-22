@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Mon May 21 16:47:33 2012 Jonathan Machado
+// Last update Tue May 22 15:09:07 2012 thibault carpentier
 //
 
 #include "Player.hh"
@@ -81,7 +81,6 @@ bool	BoundingBox::collideWith(const AObject *obj)
   collideDown(pos, sz);
   collideLeft(pos, sz);
   collideRight(pos, sz);
-
   // if (above_)
   //   std::cout << "Above!" << std::endl;
   // if (below_)
@@ -90,9 +89,9 @@ bool	BoundingBox::collideWith(const AObject *obj)
   //   std::cout << "Right!" << std::endl;
   // if (left_)
   //   std::cout << "Left!" << std::endl;
+  // std::cout << "testing " << obj->getType() << " at " << obj->getPos() << "size "<< obj->getSize() << "and" << pos_ << " size " << sz_ << std::endl;
   // if (above_ || below_ || left_ || right_)
-  //   std::cout << "Collingind with " << obj->getType() << std::endl;
-
+  //   std::cout << "Collinding ||||" << std::endl;
   return (above_ || below_ || left_ || right_);
 }
 

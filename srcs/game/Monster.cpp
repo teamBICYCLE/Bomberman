@@ -5,12 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-<<<<<<< HEAD
-// Last update Mon May 21 16:57:40 2012 thibault carpentier
-=======
-// Last update Mon May 21 17:23:41 2012 Jonathan Machado
->>>>>>> 9ed8244dc71c989f553ce306fc5faec91ec4c074
-// Last update Mon May 21 12:10:15 2012 lois burg
+// Last update Tue May 22 15:12:49 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -23,7 +18,7 @@ using namespace Bomberman;
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b)
 {
-  isInvincible_ = true;
+  // isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
@@ -69,8 +64,8 @@ void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject
 {
   brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinking");
-  brainScript_->addParam(static_cast<float>(getPos().x));
-  brainScript_->addParam(static_cast<float>(getPos().y));
+  brainScript_->addParam(pos_.x);
+  brainScript_->addParam(pos_.y);
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
   (void)keys;

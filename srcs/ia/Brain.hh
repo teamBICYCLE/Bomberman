@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Mon May 21 16:52:26 2012 thibault carpentier
+// Last update Mon May 21 18:55:59 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -173,11 +173,21 @@ namespace Bomberman
        * given (number x, number y, type (MONSTER | GHOST))
        *
        *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
-       *  \return (int) The number of value pushed on the lua-stack.
+       *  \return (int) The number of value pushed on the lua-stack (push -1 on error, 0 on false and 1 on true).
        *
        */
       int isCrossable(VirtualMachine &vm);
-
+      /*!
+       *  \brief Method returning danger
+       *
+       *  The method returnthe danger of the following position (number x, number y)
+       *
+       *
+       *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
+       *  \return (int) The number of value pushed on the lua-stack ((number) -1 on error and danger value on success).
+       *
+       */
+      int getDanger(VirtualMachine &vm);
 
     private:
       /*!
