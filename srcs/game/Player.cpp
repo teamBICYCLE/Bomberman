@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 16:41:46 2012 Jonathan Machado
+// Last update Mon May 21 18:38:59 2012 lois burg
 //
 
 #include <algorithm>
@@ -19,10 +19,10 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(100), nbMines_(0), bombRange_(2), mineRange_(2),
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
-  isInvincible_ = true;
+  // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 2;
 
@@ -113,12 +113,12 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
 	      (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
 	      if (!dynamic_cast<Player*>(*objIt) && collide)
 		(*objIt)->interact(this, objs);
-	      else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
-		       !dynamic_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
-		{
-		  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
-		  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
-		}
+	      else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
+	      	       !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
+	      	{
+	      	  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
+	      	  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
+	      	}
 	      bBox_->resetColliding();
 	    }
       }
