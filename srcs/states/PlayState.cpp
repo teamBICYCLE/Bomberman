@@ -86,12 +86,12 @@ void  PlayState::update(StatesManager * sMg)
           it = objs_.erase(it);
     }
   if (bestScore_ != -1)
-    {
+  {
       if (!nbPlayers)
-    gameOver(sMg);
+          gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-    win(sMg);
-    }
+          win(sMg);
+  }
 }
 
 void	PlayState::win(StatesManager *mngr)

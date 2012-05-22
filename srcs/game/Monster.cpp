@@ -39,6 +39,7 @@ Monster::Monster(const Monster &other)
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     model_ = other.model_;
     actionsMap_ = other.actionsMap_;
+    damage_ = other.damage_;
 }
 
 Monster::Monster()
@@ -55,6 +56,7 @@ Monster::Monster()
     actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
     actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
     actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
+    damage_ = 0;
 }
 
 Monster::~Monster()
@@ -232,6 +234,8 @@ void Monster::serialize(QDataStream &out) const
     out << speedAdapter_;
     out << moved_;
     out << id_;
+    out << damage_;
+    brainScript_->serialize(out);
 }
 
 void Monster::unserialize(QDataStream &in)
@@ -245,6 +249,8 @@ void Monster::unserialize(QDataStream &in)
     in >> speedAdapter_;
     in >> moved_;
     in >> id_;
+    in >> damage_;
+    brainScript_.unserialize(in);
 }
 
 void Monster::sInit(void)
@@ -265,7 +271,7 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
     return in;
 }
 
-void    Monster::toQvariant(QSettings &w)
+void    Monster::toQvariant(QSettings &w) const
 {
     w.setValue("Monster", qVariantFromValue(*this));
 }

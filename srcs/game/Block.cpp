@@ -159,7 +159,7 @@ QDataStream &operator>>(QDataStream &in, Block &v)
     return in;
 }
 
-void    Block::toQvariant(QSettings &w)
+void    Block::toQvariant(QSettings &w) const
 {
     w.setValue("Block", qVariantFromValue(*this));
 }

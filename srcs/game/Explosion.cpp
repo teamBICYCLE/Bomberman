@@ -149,7 +149,7 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
     return in;
 }
 
-void    Explosion::toQvariant(QSettings &w)
+void    Explosion::toQvariant(QSettings &w) const
 {
     w.setValue("Explosion", qVariantFromValue(*this));
 }

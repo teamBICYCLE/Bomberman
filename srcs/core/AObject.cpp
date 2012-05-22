@@ -86,7 +86,7 @@ void	AObject::interact(Explosion *e, std::list<AObject*>& objs)
   (void)objs;
 }
 
-void    AObject::toQvariant(QSettings &w)
+void    AObject::toQvariant(QSettings &w) const
 {
     (void)w;
 }

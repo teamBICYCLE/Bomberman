@@ -471,7 +471,7 @@ QDataStream &operator>>(QDataStream &in, Player &v)
     return in;
 }
 
-void    Player::toQvariant(QSettings &w)
+void    Player::toQvariant(QSettings &w) const
 {
     w.setValue("Player", qVariantFromValue(*this));
 }

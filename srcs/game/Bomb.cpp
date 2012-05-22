@@ -264,7 +264,7 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
     return in;
 }
 
-void    Bomb::toQvariant(QSettings &w)
+void    Bomb::toQvariant(QSettings &w) const
 {
     w.setValue("Bomb", qVariantFromValue(*this));
 }

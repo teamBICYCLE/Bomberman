@@ -35,7 +35,7 @@ namespace	Bomberman
     virtual void		draw(void) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
-    virtual void        toQvariant(QSettings &);
+    virtual void        toQvariant(QSettings &) const;
 
     /* tmp */
     virtual void        aff(void);
@@ -65,7 +65,7 @@ namespace	Bomberman
     Vector3d            rot_;
     Vector3d            sz_;
     gdl::Model          model_;
-    std::string		type_;
+    std::string         type_;
 
   public:
     bool                removeLater_;
