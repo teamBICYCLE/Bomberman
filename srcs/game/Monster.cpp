@@ -263,6 +263,11 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
     return in;
 }
 
+void    Monster::toQvariant(QSettings &w)
+{
+    w.setValue("Monster", qVariantFromValue(*this));
+}
+
 /* TMP */
 
 void Monster::aff(void) const

@@ -259,6 +259,11 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
     return in;
 }
 
+void    Bomb::toQvariant(QSettings &w)
+{
+    w.setValue("Bomb", qVariantFromValue(*this));
+}
+
 /* TMP */
 void Bomb::aff(void) const
 {

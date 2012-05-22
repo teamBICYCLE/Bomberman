@@ -66,10 +66,10 @@ namespace	Bomberman
     double      speed_;
     double      speedAdapter_;
     BoundingBox	*bBox_;
-    bool	moved_;
-    bool	isInvincible_;
+    bool        moved_;
+    bool        isInvincible_;
     Vector3d	save_;
-    int		id_;
+    int         id_;
   };
 }
 

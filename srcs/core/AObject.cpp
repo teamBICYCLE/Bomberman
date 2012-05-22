@@ -85,3 +85,15 @@ void	AObject::interact(Explosion *e, std::list<AObject*>& objs)
   (void)e;
   (void)objs;
 }
+
+void    AObject::toQvariant(QSettings &w)
+{
+    (void)w;
+}
+
+/* tmp */
+
+void    AObject::aff(void)
+{
+    std::cout << "?" << std::endl;
+}
