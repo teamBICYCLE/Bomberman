@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Tue May 22 17:45:01 2012 thibault carpentier
+// Last update Tue May 22 17:51:24 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -102,44 +102,44 @@ void DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int 
   Bomb *bomb = static_cast<Bomb*>(*it);
 
   setRangeDanger(bomb->getRange(), static_cast<int>((*it)->getPos().x), static_cast<int>((*it)->getPos().y),
-		 10 - (bomb->getTimeOut() * 3));
-  setDanger(x, y, (10 - (bomb->getTimeOut() * 3)));
+		 DANGER_BOMB);
+  setDanger(x, y, DANGER_BOMB);
 }
 
 void DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, 0);
+  setDanger(x, y, DANGER_BLOCK);
 }
 
 void DangerMap::monsterDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, 0);
+  setDanger(x, y, DANGER_MONSTER);
 }
 
 void DangerMap::playerDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, -10);
+  setDanger(x, y, DANGER_PLAYER);
 }
 
 void DangerMap::powerupDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, -5);
+  setDanger(x, y, DANGER_POWERUP);
 }
 
 void DangerMap::mineDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, 10);
+  setDanger(x, y, DANGER_MINE);
 }
 
 void DangerMap::explosionDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
-  setDanger(x, y, 10);
+  setDanger(x, y, DANGER_EXPLOSION);
 }
 
 void DangerMap::updateDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
@@ -174,22 +174,22 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 	updateCaseVison(it, x, y);
     }
 
-  //  temporaire
-  std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  for (test = danger_.begin(); test != danger_.end(); ++test)
-    {
-      std::vector<std::pair<int, int> >::iterator toto;
-      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  	std::cout <<  (*toto).first << (*toto).second << " ";
-      std::cout << std::endl;
-    }
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
+  // //  temporaire
+  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  // for (test = danger_.begin(); test != danger_.end(); ++test)
+  //   {
+  //     std::vector<std::pair<int, int> >::iterator toto;
+  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	std::cout <<  (*toto).first << (*toto).second << " ";
+  //     std::cout << std::endl;
+  //   }
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const

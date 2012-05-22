@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Tue May 22 17:42:41 2012 thibault carpentier
+// Last update Tue May 22 17:51:05 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -24,6 +24,14 @@ namespace Bomberman
     typedef void (Bomberman::DangerMap::*fctMeth)(const std::list<AObject*>::const_iterator &, int, int);
     # define DANGER_MAX 10
     # define DANGER_MIN -10
+
+    # define DANGER_BOMB (DANGER_MAX - (bomb->getTimeOut() * 3))
+    # define DANGER_BLOCK 0
+    # define DANGER_MONSTER 0
+    # define DANGER_PLAYER DANGER_MIN
+    # define DANGER_POWERUP (DANGER_MIN / 2)
+    # define DANGER_MINE DANGER_MAX
+    # define DANGER_EXPLOSION DANGER_MAX
 
   private:
     DangerMap(DangerMap const &);
