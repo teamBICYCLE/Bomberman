@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Tue May 22 15:09:55 2012 thibault carpentier
+// Last update Tue May 22 16:14:38 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -99,7 +99,7 @@ int Brain::getDanger(VirtualMachine &vm)
       x = lua_tonumber(vm.getLua(), 1);
       y = lua_tonumber(vm.getLua(), 2);
       if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
-	return (danger_.getDanger(x, y));
+	danger = danger_.getDanger(x, y);
     }
   lua_pushnumber(vm.getLua(), danger);
   return (1);

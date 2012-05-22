@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Tue May 22 15:10:35 2012 thibault carpentier
+// Last update Tue May 22 17:35:10 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -88,7 +88,7 @@ void DangerMap::setRangeDanger(int range, int x, int y, int danger)
     }
 }
 
-int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
@@ -97,52 +97,52 @@ int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it)
   return (10 - (bomb->getTimeOut() * 3));
 }
 
-int DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (0);
 }
 
-int DangerMap::monsterDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::monsterDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (0);
 }
 
-int DangerMap::playerDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::playerDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (-10);
 }
 
-int DangerMap::powerupDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::powerupDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (-5);
 }
 
-int DangerMap::mineDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::mineDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (10);
 }
 
-int DangerMap::explosionDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::explosionDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   (void)it;
   return (10);
 }
 
-int DangerMap::updateDanger(const std::list<AObject*>::const_iterator &it)
+int DangerMap::updateDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   if (dangerMeth_.find((*it)->getType()) != dangerMeth_.end())
-    return ((this->*dangerMeth_[(*it)->getType()])(it));
+    return ((this->*dangerMeth_[(*it)->getType()])(it, x, y));
   return (0);
 }
 
 void DangerMap::updateCaseVison(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
-  danger_[y][x].first += updateDanger(it);
+  danger_[y][x].first += updateDanger(it, x, y);
   danger_[y][x].second = 0;
 }
 
