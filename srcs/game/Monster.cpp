@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun May 20 10:18:50 2012 thibault carpentier
+// Last update Tue May 22 15:38:08 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -58,6 +58,8 @@ void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject
 {
   brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinking");
+  brainScript_->addParam(pos_.x);
+  brainScript_->addParam(pos_.y);
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
   model_.update(clock);
@@ -183,6 +185,11 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
 {
     m.unserialize(in);
     return in;
+}
+
+void    Monster::toQvariant(QSettings &w)
+{
+    w.setValue("Monster", qVariantFromValue(*this));
 }
 
 /* TMP */

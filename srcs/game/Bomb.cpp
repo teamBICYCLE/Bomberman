@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 10:39:21 2012 lois burg
+// Last update Tue May 22 15:44:17 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -86,9 +86,11 @@ void	Bomb::explode(std::list<AObject*>& objs)
   bool		downInvalid = false;
   bool		leftInvalid = false;
   bool		rightInvalid = false;
+  bool		useless = false;
 
   //explosion qui tue et ajout des loots de tier 7
   objs.push_back(new Explosion(*e));
+  checkPosition(e, useless, objs);
   for (int i = 1; i <= range_; ++i)
     {
       // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
@@ -110,7 +112,7 @@ void	Bomb::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z);
+  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z + 0.5);
   glScaled(0.0035, 0.0035,0.0035);
   glRotated(90, 1, 0, 0);
   model_.draw();
@@ -127,27 +129,14 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 {
   if (!isInvalid)
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-        if (!isInvalid && e->getBBox().collideWith(obj))
-          {
-            obj->interact(e, objs);
-            // if (dynamic_cast<Character*>(obj))
-            //   {
-            // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
-            // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
-            // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
-            //   }
-            // else if (dynamic_cast<APowerup*>(obj))
-            //   obj->destroy();
-            // else if (dynamic_cast<Mine*>(obj))
-            //   static_cast<Mine*>(obj)->setChainReaction(true);
-            // else if (dynamic_cast<Bomb*>(obj))
-            //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-            // else if (dynamic_cast<Brick*>(obj))
-            //   static_cast<Brick*>(obj)->destroy(objs);
-            if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-                !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
-              isInvalid = true;
-          }
+
+	if (!isInvalid && e->getBBox().collideWith(obj))
+	  {
+	    obj->interact(e, objs);
+	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
+	      isInvalid = true;
+	  }
       });
   if (!isInvalid)
     objs.push_back(new Explosion(*e));
@@ -157,23 +146,26 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
 {
   Player	*p;
   const BoundingBox	*b;
+  Vector3d	save;
+  bool		collide;
 
   (void)objs;
-  if ((&owner_ == ch && ownerCollide_) ||
-      &owner_ != ch)
+  save = ch->getPos();
+  ch->setPos(ch->getSavedPos());
+  collide = bBox_.collideWith(ch);
+  ch->setPos(save);
+  if (!collide)
+    ch->bump(pos_);
+  if (!collide && dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
     {
-      ch->bump(pos_);
-      if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
-        {
-          p = static_cast<Player*>(ch);
-          b = p->getBBox();
-          if (b->isAbove() || b->isBelow())
-            speed_ = Vector3d(0, p->getSpeed(), 0);
-          else if (b->isLeft() || b->isRight())
-            speed_ = Vector3d(p->getSpeed(), 0, 0);
-          if (b->isAbove() || b->isLeft())
-            speed_ *= (-1);
-        }
+      p = static_cast<Player*>(ch);
+      b = ch->getBBox();
+      if (b->isAbove() || b->isBelow())
+        speed_ = Vector3d(0, p->getSpeed(), 0);
+      else if (b->isLeft() || b->isRight())
+        speed_ = Vector3d(p->getSpeed(), 0, 0);
+      if (b->isAbove() || b->isLeft())
+        speed_ *= (-1);
     }
 }
 
@@ -276,6 +268,11 @@ QDataStream &operator>>(QDataStream &in, Bomb &v)
 {
     v.unserialize(in);
     return in;
+}
+
+void    Bomb::toQvariant(QSettings &w)
+{
+    w.setValue("Bomb", qVariantFromValue(*this));
 }
 
 /* TMP */

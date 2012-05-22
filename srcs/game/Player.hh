@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Fri May 18 16:54:11 2012 lois burg
+// Last update Mon May 21 16:39:36 2012 Jonathan Machado
 //
 
 #ifndef		__PLAYER_HH__
@@ -23,7 +23,7 @@ namespace	Bomberman
   {
   public:
     typedef void (Player::*t_playerActionFun)(std::list<AObject*>&);
-    typedef bool (BoundingBox::*t_collideFun)(const AObject*);
+    typedef bool (BoundingBox::*t_collideFun)(const Vector3d&, const Vector3d&);
 
   public:
     Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz);
@@ -59,6 +59,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    virtual void toQvariant(QSettings &w);
 
     /* tmp */
     void aff(void) const;
@@ -70,8 +71,10 @@ namespace	Bomberman
     void	turnDown(std::list<AObject*>& objs);
     void	putBomb(std::list<AObject*>& objs);
     void	putMine(std::list<AObject*>& objs);
+    void	saveGame(std::list<AObject*>& objs);
+    void	loadGame(std::list<AObject*>& objs);
 
-  private:
+  public:
     void        moveAnimation(void);
 
   private:
@@ -82,7 +85,7 @@ namespace	Bomberman
     float	bombTime_;
     std::map<gdl::Keys::Key, t_collideFun>	collideMap_;
     std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
-    bool        moved_;
+    bool    moved_;
     bool	bombCollide_;
     bool	wasRunning_;
     int		score_;

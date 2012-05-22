@@ -200,6 +200,11 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
     return in;
 }
 
+void    Brick::toQvariant(QSettings &w)
+{
+    w.setValue("Brick", qVariantFromValue(*this));
+}
+
 /* TMP */
 void Brick::aff(void) const
 {

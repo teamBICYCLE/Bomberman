@@ -128,6 +128,11 @@ QDataStream &operator>>(QDataStream &in, Explosion &v)
     return in;
 }
 
+void    Explosion::toQvariant(QSettings &w)
+{
+    w.setValue("Explosion", qVariantFromValue(*this));
+}
+
 /* TMP */
 
 void Explosion::aff(void) const

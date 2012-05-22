@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 10:35:40 2012 lois burg
+// Last update Mon May 21 12:14:40 2012 lois burg
 //
 
 #include <algorithm>
@@ -22,11 +22,11 @@
 
 using namespace	Bomberman;
 
-FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Block(pos, rot, sz), range_(2), lastTime_(-1), timer_(3.0f),
+
+FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const Vector3d& dir)
+  : Block(pos, rot, sz), dir_(dir), range_(2), lastTime_(-1), timer_(3.0f),
     model_(ModelHandler::get().getModel("cube"))
 {
-  randDir();
   type_ = "FireBlock";
 }
 
@@ -34,7 +34,6 @@ FireBlock::FireBlock(const FireBlock &other)
   : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_),
     model_(other.model_)
 {
-  randDir();
   type_ = "FireBlock";
 }
 
@@ -42,7 +41,6 @@ FireBlock::FireBlock()
   : Block(Vector3d(), Vector3d(), Vector3d()), dir_(Vector3d()), range_(2),
     model_(ModelHandler::get().getModel("cube"))
 {
-  randDir();
   type_ = "FireBlock";
 }
 
@@ -82,19 +80,6 @@ void	FireBlock::destroy(void)
   //indestructible block
 }
 
-void	FireBlock::randDir(void)
-{
-  int	r = rand() % 2;
-
-  if (r)
-    dir_ = Vector3d(1, 0, 0);
-  else
-    dir_ = Vector3d(0, 1, 0);
-  r = rand() % 2;
-  if (r)
-    dir_ *= -1;
-}
-
 void	FireBlock::spitFire(std::list<AObject*>& objs)
 {
   Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, *(new Player()));
@@ -124,7 +109,6 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
           });
       if (!isInvalid)
         objs.push_back(new Explosion(*e));
-
     }
   delete e;
 }
@@ -165,4 +149,9 @@ QDataStream &operator>>(QDataStream &in, FireBlock &v)
 {
     v.unserialize(in);
     return in;
+}
+
+void    FireBlock::toQvariant(QSettings &w)
+{
+    w.setValue("FireBlock", qVariantFromValue(*this));
 }

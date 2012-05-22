@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May  5 11:46:39 2012 thibault carpentier
-// Last update Sat May 19 14:15:40 2012 thibault carpentier
+// Last update Tue May 22 14:47:40 2012 thibault carpentier
 //
 
 #ifndef _SCRIPT_H_
@@ -38,6 +38,7 @@ namespace Bomberman
       void	addParam(int param);		       // add a param to the selected fct
       void	addParam(const std::string &param);    // add a param to the selected fct
       void	addParam(float param);		       // add a param to the selected fct
+      void	addParam(double param);		       // add a param to the selected fct
       bool	callFct(int nbRet = 0);		       // Call the selected fct
 
     private:			// unused constructors

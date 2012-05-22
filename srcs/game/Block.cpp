@@ -94,6 +94,11 @@ QDataStream &operator>>(QDataStream &in, Block &v)
     return in;
 }
 
+void    Block::toQvariant(QSettings &w)
+{
+    w.setValue("Block", qVariantFromValue(*this));
+}
+
 /* TMP */
 void Block::aff(void) const
 {

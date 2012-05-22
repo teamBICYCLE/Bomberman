@@ -97,3 +97,8 @@ QDataStream &operator>>(QDataStream &in, Ghost &m)
     m.unserialize(in);
     return in;
 }
+
+void    Ghost::toQvariant(QSettings &w)
+{
+    w.setValue("Ghost", qVariantFromValue(*this));
+}

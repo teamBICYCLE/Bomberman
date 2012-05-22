@@ -9,17 +9,19 @@
 #ifndef     SAVEHANDLER_HPP
 # define    SAVEHANDLER_HPP
 
-# define    SAVE_PATH   "Ressources/Saves/"
-# define    SAVE_EXT    "bbm"
 # include   <list>
 # include   <QSettings>
 # include   <string>
+# include   <sstream>
 # include   <list>
 # include   <dirent.h>
 # include   <sys/types.h>
 # include   <time.h>
 # include   <ctime>
 # include   "AObject.hh"
+
+# define    SAVE_PATH   "Ressources/Saves/"
+# define    SAVE_EXT    ".bbm"
 
 using namespace Bomberman;
 
@@ -32,11 +34,11 @@ public:
 
 public:
     void save(std::list<AObject *> &) const;
-    void load(std::list<AObject *> &, const std::string &file) const;
-    const std::string newFileName(void) const;
-    const std::list<std::string> getSavedFiles(void) const;
+    std::list<AObject *> *load(const std::string &file) const;
+    const std::list< std::pair<std::string, std::string> > getSavedFiles(void) const;
 
 private:
+    const std::string newFileName(void) const;
     void writeObject(AObject *obj, QSettings &w) const;
 
 };

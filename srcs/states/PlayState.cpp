@@ -5,8 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun May 20 09:36:10 2012 thibault carpentier
-// Last update Sat May 19 17:51:26 2012 lois burg
+// Last update Tue May 22 15:14:58 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -30,11 +29,9 @@ bool  PlayState::init()
 
   success = true;
   try {
-    SaveHandler s;
-    //Map	map("Ressources/Map/map2");
-    Map	map(13, 13, 1);
+    //    Map	map("Ressources/Map/map5");
+    Map	map(13, 13, 2, 5, 1);
     //    Map	map("Ressources/Map/map2");
-    //Map	map(2, 7, 1);
     // int	viewport[4];
 
     bestScore_ = 0;
@@ -48,8 +45,6 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-    //s.save(objs_);
-    //s.load(objs_);
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -73,27 +68,29 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
-        {
+      {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-            bestScore_ = static_cast<Player*>(*it)->getScore();
-        }
+              bestScore_ = static_cast<Player*>(*it)->getScore();
+      }
       else if (dynamic_cast<Monster*>(*it))
-        ++nbMonsters;
+          ++nbMonsters;
+
       if (!(*it)->toRemove())
-        {
+      {
           (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
-        }
+      }
       else
-        it = objs_.erase(it);
+          it = objs_.erase(it);
     }
   if (bestScore_ != -1)
     {
       if (!nbPlayers)
-        gameOver(sMg);
+
+    gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-        win(sMg);
+    win(sMg);
     }
 }
 

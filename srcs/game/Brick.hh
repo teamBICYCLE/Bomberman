@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Sun May 20 17:49:19 2012 lois burg
+// Last update Mon May 21 11:49:15 2012 thibault carpentier
 //
 //
 
@@ -13,7 +13,7 @@
 # define	__BRICK_HH__
 
 # include   <vector>
-# include	"AObject.hh"
+# include   "AObject.hh"
 # include   "APowerup.hh"
 # include   "PowerupFactory.hh"
 # include	"Explosion.hh"
@@ -40,6 +40,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    virtual void toQvariant(QSettings &w);
 
     /* TMP */
     void aff(void) const;
