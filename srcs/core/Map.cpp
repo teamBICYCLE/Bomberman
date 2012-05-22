@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Mon May 21 12:26:07 2012 lois burg
+// Last update Tue May 22 13:29:36 2012 geoffroy lafontaine
 //
 
 #include <algorithm>
@@ -57,20 +57,21 @@ const char	*Map::Failure::what(void) const throw()
   return (("Map failure: " + mFunc + " failed - " + mMsg).c_str());
 }
 
-Map::Map(uint width, uint height, uint nbPlayers)
-    : width_(width), height_(height)
+Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts)
+  : width_(width), height_(height),
+    nbPlayers_(nbPlayers), nbMonsters_(nbMonsters), nbGhosts_(nbGhosts)
 {
-  if ((width * height) < (nbPlayers * 4))
+  if ((width_ * height_) < (nbPlayers_ * 4))
     throw Map::Failure("Map", "too many players for this map.");
 
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  generateBricks(nbPlayers);
-  generateBorder(width_, height_);
-  generatePlayers(nbPlayers);
-  generateMonsters(1);
-  generateGhosts(0);
+  generateBricks();
+  generateBorder();
+  generatePlayers();
+  generateMonsters(nbMonsters_);
+  generateGhosts(nbGhosts_);
 }
 
 Map::Map(const std::string& fileName)
@@ -89,21 +90,21 @@ const std::list<AObject*>&	Map::getTerrain(void) const
   return (terrain_);
 }
 
-void				Map::generateBorder(uint width, uint height)
+void				Map::generateBorder(void)
 {
-  for (int x = -1; x < static_cast<int>(width) + 1; ++x)
+  for (int x = -1; x < static_cast<int>(width_) + 1; ++x)
     {
       terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(x, height, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(x, height_, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
-  for (int y = 0; y < static_cast<int>(height); ++y)
+  for (int y = 0; y < static_cast<int>(height_); ++y)
     {
       terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(width, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      terrain_.push_back(new Block(Vector3d(width_, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
     }
 }
 
-void				Map::generateBricks(uint nbPlayers)
+void				Map::generateBricks(void)
 {
   uint				nbBricks;
   std::list<AObject*>::iterator	it;
@@ -111,7 +112,7 @@ void				Map::generateBricks(uint nbPlayers)
   uint				y;
   bool				find = false;
 
-  nbBricks = (width_ * height_) - terrain_.size() - (3 * nbPlayers) - (width_ + height_)/*(width > height ? width : height)*/;
+  nbBricks = (width_ * height_) - terrain_.size() - (3 * nbPlayers_) - (width_ + height_);
   do {
     x = rand() % width_;
     y = rand() % height_;
@@ -131,7 +132,7 @@ void				Map::generateBricks(uint nbPlayers)
   while (nbBricks > 0);
 }
 
-void				Map::generatePlayers(uint nbPlayers)
+void				Map::generatePlayers(void)
 {
   std::vector< std::pair<int, int> >		postab;
 
@@ -139,9 +140,9 @@ void				Map::generatePlayers(uint nbPlayers)
   postab.push_back(std::make_pair(0, height_ - 1));
   postab.push_back(std::make_pair(width_ - 1, 0));
   postab.push_back(std::make_pair(width_ - 1, height_ - 1));
-  if (nbPlayers <= 4)
+  if (nbPlayers_ <= 4)
   {
-      for (uint i = 0; i < nbPlayers; ++i)
+      for (uint i = 0; i < nbPlayers_; ++i)
           placePlayer(postab[i].first, postab[i].second);
   }
 }
@@ -377,7 +378,7 @@ void Map::setFromFile(std::list<std::string> &map)
     }
     for (it = tmp.begin(); it != tmp.end(); it++)
         terrain_.push_back((*it));
-    Map::generateBorder(width_, height_);
+    Map::generateBorder();
 }
 
 void                            Map::getFromFile(const std::string& fileName)
@@ -408,4 +409,19 @@ uint    Map::getWidth(void) const
 uint    Map::getHeight(void) const
 {
     return height_;
+}
+
+uint	Map::getNbPlayers(void) const
+{
+  return nbPlayers_;
+}
+
+uint	Map::getNbMonsters(void) const
+{
+  return nbMonsters_;
+}
+
+uint	Map::getNbGhosts(void) const
+{
+  return nbGhosts_;
 }

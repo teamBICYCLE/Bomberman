@@ -5,8 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Mon May 21 15:48:15 2012 lois burg
-// Last update Sat May 19 17:51:26 2012 lois burg
+// Last update Tue May 22 13:31:42 2012 geoffroy lafontaine
 //
 
 #include <iostream>
@@ -33,7 +32,7 @@ bool  PlayState::init()
   try {
     SaveHandler s;
     //Map	map("Ressources/Map/map2");
-    Map	map(13, 13, 2);
+    Map	map(13, 13, 2, 5, 1);
     //    Map	map("Ressources/Map/map2");
     //Map	map(2, 7, 1);
     // int	viewport[4];
