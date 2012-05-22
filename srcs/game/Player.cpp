@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 18:38:59 2012 lois burg
+// Last update Tue May 22 16:11:32 2012 lois burg
 //
 
 #include <algorithm>
@@ -19,10 +19,11 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
-    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), bombTime_(2.0f),
+    moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
-  // isInvincible_ = true;
+  isInvincible_ = true;
+  nbMines_ = 50;
   // kickAbility_ = true;
   // nbBombs_ = 2;
 
@@ -49,7 +50,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Player::Player()
-  : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
+  : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
     score_(0), kickAbility_(false)
 {
@@ -77,7 +78,7 @@ Player::Player()
 Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
-      mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
+      bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
       kickAbility_(other.kickAbility_)
 {
@@ -270,7 +271,7 @@ void	Player::putMine(std::list<AObject*>& objs)
 
   if (nbMines_ > 0 && bombCollide_)
     {
-      if ((m = new Mine(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), mineRange_, bombTime_, *this)))
+      if ((m = new Mine(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), *this)))
 	{
 	  bombCollide_ = m->getOwnerCollide();
 	  m->adjustPos();
@@ -394,7 +395,6 @@ void Player::serialize(QDataStream &out) const
     out << nbBombs_;
     out << nbMines_;
     out << bombRange_;
-    out << mineRange_;
     out << bombTime_;
     out << bombCollide_;
     out << isInvincible_;
@@ -417,7 +417,6 @@ void Player::unserialize(QDataStream &in)
     in >> nbBombs_;
     in >> nbMines_;
     in >> bombRange_;
-    in >> mineRange_;
     in >> bombTime_;
     in >> bombCollide_;
     in >> isInvincible_;

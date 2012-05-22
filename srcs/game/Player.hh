@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Mon May 21 16:39:36 2012 Jonathan Machado
+// Last update Tue May 22 16:11:12 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -77,7 +77,6 @@ namespace	Bomberman
     uint	nbBombs_;
     int		nbMines_;
     uint	bombRange_;
-    uint	mineRange_;
     float	bombTime_;
     std::map<gdl::Keys::Key, t_collideFun>	collideMap_;
     std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;

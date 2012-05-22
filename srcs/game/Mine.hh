@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:25 2012 lois burg
-// Last update Sun May 20 17:47:01 2012 lois burg
+// Last update Tue May 22 16:10:19 2012 lois burg
 //
 
 #ifndef		__MINE_HH__
@@ -19,7 +19,7 @@ namespace	Bomberman
   class	Mine : public Bomb
   {
   public:
-    Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner);
+    Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player& owner);
     Mine(const Mine&);
     Mine();
     virtual ~Mine();
