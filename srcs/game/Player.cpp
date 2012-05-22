@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 11:22:48 2012 thibault carpentier
+// Last update Tue May 22 14:17:16 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -20,12 +20,13 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(100), nbMines_(0), bombRange_(2), mineRange_(2),
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
   isInvincible_ = true;
   // kickAbility_ = true;
-  // nbBombs_ = 2;
+  nbBombs_ = 100;
+  nbMines_ = 10000;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -107,25 +108,25 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
       {
-    save_ = pos_;
-    (this->*(it->second))(objs);
-    if (save_ != pos_)
-      for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
-        {
-          //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
-          collide = bBox_->collideWith(*objIt);
-          bBox_->resetColliding();
-          (bBox_->*collideMap_[it->first])(*objIt);
-          if (!dynamic_cast<Player*>(*objIt) && collide)
-        (*objIt)->interact(this, objs);
-          else if (dynamic_cast<Bomb*>(*objIt) && &dynamic_cast<Bomb*>(*objIt)->getOwner() == this &&
-               !dynamic_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
-        {
-          static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
-          bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
-        }
-          bBox_->resetColliding();
-        }
+	save_ = pos_;
+	(this->*(it->second))(objs);
+	if (save_ != pos_)
+	  for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
+	    {
+	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
+	      collide = bBox_->collideWith(*objIt);
+	      bBox_->resetColliding();
+	      (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
+	      if (!dynamic_cast<Player*>(*objIt) && collide)
+		(*objIt)->interact(this, objs);
+	      else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
+	      	       !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
+	      	{
+	      	  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
+	      	  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
+	      	}
+	      bBox_->resetColliding();
+	    }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
   this->moveAnimation();

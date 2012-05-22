@@ -5,11 +5,17 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sat May 19 15:05:21 2012 thibault carpentier
+// Last update Tue May 22 15:09:55 2012 thibault carpentier
+// Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
 
+#include <algorithm>
 #include "Brain.hh"
+#include "Block.hh"
+#include "Brick.hh"
+#include "Bomb.hh"
+#include "Mine.hh"
 
 using namespace Bomberman;
 using namespace Thinking;
@@ -30,7 +36,15 @@ Brain::Brain(int x, int y)
   lua_setglobal(state, "LEFT");
   lua_pushinteger(state, eDirection::NODIR);
   lua_setglobal(state, "NODIR");
-  meth_[registerFct("test")] = &Brain::test;
+  lua_pushinteger(state, eDirection::NODIR);
+  lua_setglobal(state, "NODIR");
+  lua_pushinteger(state, eEnnemyType::MONSTER);
+  lua_setglobal(state, "MONSTER");
+  lua_pushinteger(state, eEnnemyType::GHOST);
+  lua_setglobal(state, "GHOST");
+
+  meth_[registerFct("isCrossable")] = &Brain::isCrossable;
+  meth_[registerFct("getDanger")] = &Brain::getDanger;
 }
 
 Brain::~Brain(void)
@@ -38,17 +52,9 @@ Brain::~Brain(void)
 
 int Brain::scriptCalling(VirtualMachine &vm, int fctNb)
 {
-  (void)vm;
   if (meth_.find(fctNb) != meth_.end())
     return ((this->*meth_[fctNb])(vm));
   return (-1);
-}
-
-int Brain::test(VirtualMachine&vm)
-{
-  (void)vm;
-  std::cout << "test fct" << std::endl;
-  return (0);
 }
 
 void Brain::getReturn(VirtualMachine &vm, const std::string &strFunc)
@@ -72,4 +78,58 @@ eDirection Brain::getDecision(void) const
 void Brain::updateDangerMap(std::list<AObject*> &objs)
 {
   danger_.updateGameVision(objs);
+}
+
+bool Brain::isParamsPosition(VirtualMachine &vm) const
+{
+  lua_State *state = vm.getLua();
+
+  if (lua_gettop(state) >= 2 && lua_isnumber(state, 1) && lua_isnumber(state, 2))
+    return (true);
+  return (false);
+}
+
+int Brain::getDanger(VirtualMachine &vm)
+{
+  int danger = -1;
+  int x, y;
+
+  if (isParamsPosition(vm))
+    {
+      x = lua_tonumber(vm.getLua(), 1);
+      y = lua_tonumber(vm.getLua(), 2);
+      if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
+	return (danger_.getDanger(x, y));
+    }
+  lua_pushnumber(vm.getLua(), danger);
+  return (1);
+}
+
+int Brain::isCrossable(VirtualMachine &vm)
+{
+  std::list<AObject*> objs = danger_.getObjs();
+  int valid = -1;
+  double x, y;
+
+  if (isParamsPosition(vm) && lua_gettop(vm.getLua()) == 3)
+    {
+      x = lua_tonumber(vm.getLua(), 1);
+      y = lua_tonumber(vm.getLua(), 2);
+      BoundingBox bb(Vector3d(x, y, 0), Vector3d(0.6, 0.6, 0), NULL);
+      valid = 0;
+      if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
+  	{
+	  valid = 1;
+ 	  std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
+  	      if (valid && bb.collideWith(obj))
+  		{
+  		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
+		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj) || dynamic_cast<Mine*>(obj))
+		    valid = 0;
+  		}
+  	    });
+  	}
+    }
+  lua_pushnumber(vm.getLua(), valid);
+  return (1);
 }

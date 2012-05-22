@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Fri May 18 16:33:53 2012 lois burg
+// Last update Tue May 22 15:09:07 2012 thibault carpentier
 //
 
 #include "Player.hh"
@@ -57,15 +57,30 @@ bool	BoundingBox::isRight(void) const
   return (right_);
 }
 
+bool	 BoundingBox::collideWith(const Vector3d &pos, const Vector3d &sz)
+{
+  if (pos_.distance(pos) > 2)
+    return (false);
+  collideUp(pos, sz);
+  collideDown(pos, sz);
+  collideLeft(pos, sz);
+  collideRight(pos, sz);
+  return (above_ || below_ || left_ || right_);
+}
+
 bool	BoundingBox::collideWith(const AObject *obj)
 {
+  Vector3d sz;
+  Vector3d pos;
+
+  pos = obj->getPos();
+  sz = obj->getSize();
   if (owner_ == obj || pos_.distance(obj->getPos()) > 2)
     return (false);
-  collideUp(obj);
-  collideDown(obj);
-  collideLeft(obj);
-  collideRight(obj);
-
+  collideUp(pos, sz);
+  collideDown(pos, sz);
+  collideLeft(pos, sz);
+  collideRight(pos, sz);
   // if (above_)
   //   std::cout << "Above!" << std::endl;
   // if (below_)
@@ -74,56 +89,56 @@ bool	BoundingBox::collideWith(const AObject *obj)
   //   std::cout << "Right!" << std::endl;
   // if (left_)
   //   std::cout << "Left!" << std::endl;
+  // std::cout << "testing " << obj->getType() << " at " << obj->getPos() << "size "<< obj->getSize() << "and" << pos_ << " size " << sz_ << std::endl;
   // if (above_ || below_ || left_ || right_)
-  //   std::cout << "Collingind with " << obj->getType() << std::endl;
-
+  //   std::cout << "Collinding ||||" << std::endl;
   return (above_ || below_ || left_ || right_);
 }
 
-bool	BoundingBox::collideLeft(const AObject *obj)
+bool	BoundingBox::collideLeft(const Vector3d &pos, const Vector3d &sz)
 {
   left_ = false;
-  if (obj->getPos() == pos_)
+  if (pos == pos_)
     left_ = true;
-  if (!left_ && obj->getPos().x < pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x)
-    if ((obj->getPos().y <= pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
-	 (obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y)))
+  if (!left_ && pos.x < pos_.x && (pos.x +sz.x) > pos_.x)
+    if ((pos.y <= pos_.y && (pos.y +sz.y) > pos_.y) ||
+	 (pos.y > pos_.y && pos.y < (pos_.y + sz_.y)))
       left_ = true;
   return (left_);
 }
 
-bool	BoundingBox::collideRight(const AObject *obj)
+bool	BoundingBox::collideRight(const Vector3d &pos, const Vector3d &sz)
 {
   right_ = false;
-  if (obj->getPos() == pos_)
+  if (pos == pos_)
     right_ = true;
-  if (!right_ && obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x))
-    if ((obj->getPos().y <= pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y) ||
-	 (obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y)))
+  if (!right_ && pos.x > pos_.x && pos.x < (pos_.x + sz_.x))
+    if ((pos.y <= pos_.y && (pos.y +sz.y) > pos_.y) ||
+	 (pos.y > pos_.y && pos.y < (pos_.y + sz_.y)))
       right_ = true;
   return (right_);
 }
 
-bool	BoundingBox::collideUp(const AObject *obj)
+bool	BoundingBox::collideUp(const Vector3d &pos, const Vector3d &sz)
 {
   above_ = false;
-  if (obj->getPos() == pos_)
+  if (pos == pos_)
     above_ = true;
-  if (!above_ && obj->getPos().y < pos_.y && (obj->getPos().y + obj->getSize().y) > pos_.y)
-  if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x) ||
-       (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x)))
+  if (!above_ && pos.y < pos_.y && (pos.y +sz.y) > pos_.y)
+  if ((pos.x <= pos_.x && (pos.x +sz.x) > pos_.x) ||
+       (pos.x > pos_.x && pos.x < (pos_.x + sz_.x)))
     above_ = true;
   return (above_);
 }
 
-bool	BoundingBox::collideDown(const AObject *obj)
+bool	BoundingBox::collideDown(const Vector3d &pos, const Vector3d &sz)
 {
   below_ = false;
-  if (obj->getPos() == pos_)
+  if (pos == pos_)
     below_ = true;
-  if (!below_ && obj->getPos().y > pos_.y && obj->getPos().y < (pos_.y + sz_.y))
-    if ((obj->getPos().x <= pos_.x && (obj->getPos().x + obj->getSize().x) > pos_.x) ||
-	 (obj->getPos().x > pos_.x && obj->getPos().x < (pos_.x + sz_.x)))
+  if (!below_ && pos.y > pos_.y && pos.y < (pos_.y + sz_.y))
+    if ((pos.x <= pos_.x && (pos.x +sz .x) > pos_.x) ||
+	 (pos.x > pos_.x && pos.x < (pos_.x + sz_.x)))
       below_ = true;
   return (below_);
 }

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 18:42:11 2012 thibault carpentier
-// Last update Mon May 14 11:20:42 2012 Jonathan Machado
+// Last update Mon May 21 14:58:41 2012 thibault carpentier
 //
 
 #include <cstring>
@@ -76,7 +76,7 @@ static void HookCount(lua_State *lua)
 
 static void HookEvents(lua_State *lua, lua_Debug *debug)
 {
-  if (g_hookers.find(debug->event) != g_hookers.end())
+  if (debug && g_hookers.find(debug->event) != g_hookers.end() && lua)
     g_hookers[debug->event](lua);
 }
 
