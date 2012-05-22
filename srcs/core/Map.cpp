@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 22 13:29:36 2012 geoffroy lafontaine
+// Last update Tue May 22 15:15:39 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -364,8 +364,8 @@ void Map::setFromFile(std::list<std::string> &map)
     uint y = 0;
     Thinking::Brain		*b;
 
-    width_ = map.front().length();
-    height_ = map.size();
+    height_ = map.front().length();
+    width_ = map.size();
     b = new Thinking::Brain(map.front().length(), map.size());
     Map::addPlayers(map);
     for (itm = map.begin(); itm != map.end(); itm++)

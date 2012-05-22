@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 22 16:11:32 2012 lois burg
+// Last update Tue May 22 16:15:20 2012 lois burg
 //
 
 #include <algorithm>
@@ -15,6 +15,7 @@
 #include "Player.hh"
 #include "Monster.hh"
 #include "KeysConfig.hh"
+#include "SaveHandler.hh"
 
 using namespace	Bomberman;
 
@@ -23,11 +24,11 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
 {
   isInvincible_ = true;
-  nbMines_ = 50;
   // kickAbility_ = true;
-  // nbBombs_ = 2;
+  nbBombs_ = 100;
+  nbMines_ = 10000;
 
-      std::cout << "id : " << id_ << std::endl;
+  std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
   model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
   model_.cut_animation(model_, "Take 001", 0, 35, "start");
@@ -47,6 +48,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
+  actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
+  actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
 }
 
 Player::Player()
@@ -73,6 +76,8 @@ Player::Player()
   actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
+  actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
+  actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
 }
 
 Player::Player(const Player &other)
@@ -256,12 +261,12 @@ void	Player::putBomb(std::list<AObject*>& objs)
   if (nbBombs_ > 0 && bombCollide_)
     {
       if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
-	{
-	  bombCollide_ = b->getOwnerCollide();
-	  b->adjustPos();
-	  objs.push_back(b);
-	  --nbBombs_;
-	}
+      {
+          bombCollide_ = b->getOwnerCollide();
+          b->adjustPos();
+          objs.push_back(b);
+          --nbBombs_;
+      }
     }
 }
 
@@ -279,6 +284,20 @@ void	Player::putMine(std::list<AObject*>& objs)
 	  --nbMines_;
 	}
     }
+}
+
+void	Player::saveGame(std::list<AObject*>& objs)
+{
+    SaveHandler s;
+
+    s.save(objs);
+}
+
+void	Player::loadGame(std::list<AObject*>& objs)
+{
+    SaveHandler s;
+
+    objs = *(s.load(s.getSavedFiles().front().second));
 }
 
 uint	Player::getNbBombs(void) const
@@ -388,17 +407,20 @@ void Player::serialize(QDataStream &out) const
     rot_.serialize(out);
     sz_.serialize(out);
     out << removeLater_;
+
     out << life_;
     out << speed_;
     out << speedAdapter_;
     out << moved_;
+    out << isInvincible_;
+    out << id_;
+
     out << nbBombs_;
     out << nbMines_;
     out << bombRange_;
     out << bombTime_;
     out << bombCollide_;
-    out << isInvincible_;
-    out << id_;
+
     out << wasRunning_;
     out << score_;
     out << kickAbility_;
@@ -410,17 +432,20 @@ void Player::unserialize(QDataStream &in)
     rot_.unserialize(in);
     sz_.unserialize(in);
     in >> removeLater_;
+
     in >> life_;
     in >> speed_;
     in >> speedAdapter_;
     in >> moved_;
+    in >> isInvincible_;
+    in >> id_;
+
     in >> nbBombs_;
     in >> nbMines_;
     in >> bombRange_;
     in >> bombTime_;
     in >> bombCollide_;
-    in >> isInvincible_;
-    in >> id_;
+
     in >> wasRunning_;
     in >> score_;
     in >> kickAbility_;
@@ -442,6 +467,11 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 {
     v.unserialize(in);
     return in;
+}
+
+void    Player::toQvariant(QSettings &w)
+{
+    w.setValue("Player", qVariantFromValue(*this));
 }
 
 /* TMP */

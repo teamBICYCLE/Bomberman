@@ -58,6 +58,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
+    virtual void toQvariant(QSettings &w);
 
     /* tmp */
     void aff(void) const;
@@ -69,8 +70,10 @@ namespace	Bomberman
     void	turnDown(std::list<AObject*>& objs);
     void	putBomb(std::list<AObject*>& objs);
     void	putMine(std::list<AObject*>& objs);
+    void	saveGame(std::list<AObject*>& objs);
+    void	loadGame(std::list<AObject*>& objs);
 
-  private:
+  public:
     void        moveAnimation(void);
 
   private:
@@ -80,7 +83,7 @@ namespace	Bomberman
     float	bombTime_;
     std::map<gdl::Keys::Key, t_collideFun>	collideMap_;
     std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
-    bool        moved_;
+    bool    moved_;
     bool	bombCollide_;
     bool	wasRunning_;
     int		score_;

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Mon May 21 14:06:12 2012 thibault carpentier
+// Last update Tue May 22 13:36:09 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -53,6 +53,7 @@ namespace Bomberman
     int x_, y_;
     std::list<AObject*> getObjs(void) const;
     void updateGameVision(const std::list<AObject*>&objs);
+    int getDanger(int x, int y) const;
   };
 }
 
