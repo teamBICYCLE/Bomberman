@@ -22,7 +22,7 @@ using namespace Thinking;
 using namespace LuaVirtualMachine;
 
 Brain::Brain(int x, int y)
-  : danger_(x, y)
+    : Script(), danger_(x, y), x_(x), y_(y)
 {
   lua_State *state = getVM().getLua();
 
@@ -45,6 +45,20 @@ Brain::Brain(int x, int y)
 
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
+}
+
+Brain::Brain(const Brain &other)
+    : Script(), danger_(other.x_, other.y_)
+{
+    decision_ = other.decision_;
+    meth_ = other.meth_;
+    x_ = other.x_;
+    y_ = other.y_;
+}
+
+Brain::Brain()
+    : Script(), danger_(0, 0), x_(0), y_(0)
+{
 }
 
 Brain::~Brain(void)
@@ -132,4 +146,30 @@ int Brain::isCrossable(VirtualMachine &vm)
     }
   lua_pushnumber(vm.getLua(), valid);
   return (1);
+}
+
+/* Serialization */
+
+void Brain::serialize(QDataStream &out) const
+{
+  out << x_;
+  out << y_;
+}
+
+void Brain::unserialize(QDataStream &in)
+{
+    in >> x_;
+    in >> y_;
+}
+
+QDataStream &operator<<(QDataStream &out, const Brain &b)
+{
+  b.serialize(out);
+  return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Brain &b)
+{
+  b.unserialize(in);
+  return in;
 }

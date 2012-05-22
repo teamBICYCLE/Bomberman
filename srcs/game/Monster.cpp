@@ -250,7 +250,7 @@ void Monster::unserialize(QDataStream &in)
     in >> moved_;
     in >> id_;
     in >> damage_;
-    brainScript_.unserialize(in);
+    brainScript_->unserialize(in);
 }
 
 void Monster::sInit(void)
