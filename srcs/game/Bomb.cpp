@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Mon May 21 18:35:54 2012 lois burg
+// Last update Tue May 22 15:44:17 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -107,7 +107,7 @@ void	Bomb::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z);
+  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z + 0.5);
   glScaled(0.0035, 0.0035,0.0035);
   glRotated(90, 1, 0, 0);
   model_.draw();
