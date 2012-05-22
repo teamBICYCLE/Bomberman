@@ -30,7 +30,7 @@ bool  PlayState::init()
   success = true;
   try {
     //    Map	map("Ressources/Map/map5");
-    Map	map(13, 13, 2, 5, 1);
+    Map	map(13, 13, 1, 1, 0);
     //    Map	map("Ressources/Map/map2");
     // int	viewport[4];
 

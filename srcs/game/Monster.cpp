@@ -41,7 +41,7 @@ Monster::Monster(const Monster &other)
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_(), model_(ModelHandler::get().getModel("bombman"))
+  : Character("Monster"), moved_(false), brainScript_(new Thinking::Brain()), model_(ModelHandler::get().getModel("bombman"))
 {
     //brainScript_ = new Thinking::Brain();
     brainScript_->compileFile(MONSTER_SCRIPT);

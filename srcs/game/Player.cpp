@@ -20,6 +20,8 @@
 
 using namespace	Bomberman;
 
+bool allowLoading_ = true;
+
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
@@ -211,13 +213,26 @@ void	Player::saveGame(std::list<AObject*>& objs)
     SaveHandler s;
 
     s.save(objs);
+    allowLoading_ = true;
 }
 
 void	Player::loadGame(std::list<AObject*>& objs)
 {
-    SaveHandler s;
+    if (allowLoading_ == true)
+    {
+        SaveHandler s;
+        std::list<AObject*>::iterator it;
+        std::list<AObject*> newList;
 
-    objs = *(s.load(s.getSavedFiles().front().second));
+        for (it = objs.begin(); it != objs.end(); it++)
+            (*it)->removeLater_ = true;
+
+        newList = *(s.load(s.getSavedFiles().front().second));
+
+        objs.insert(objs.end(), newList.begin(), newList.end());
+        std::cout << "end" << std::endl;
+        allowLoading_ = false;
+    }
 }
 
 uint	Player::getNbBombs(void) const
