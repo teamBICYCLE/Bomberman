@@ -14,6 +14,7 @@
 # include	"AObject.hh"
 # include	"AGameState.hh"
 # include       "Camera.hh"
+# include       "ModelHandler.hh"
 
 namespace	Bomberman
 {

@@ -10,6 +10,9 @@
 #include <unistd.h>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
+#include "ModelHandler.hh"
+#include "TexturedCube.hh"
+#include "gdlModel.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -36,6 +39,20 @@ StatesManager::StatesManager(const std::string & winTitle)
 void      StatesManager::initialize()
 {
   this->window_.create();
+  gdlModel*   marvin = new gdlModel("Ressources/Assets/marvin.fbx");
+
+  gdl::Model::cut_animation(marvin->getModel(), "Take 001", 0, 35, "start");
+  gdl::Model::cut_animation(marvin->getModel(), "Take 001", 36, 54, "run");
+  gdl::Model::cut_animation(marvin->getModel(), "Take 001", 55, 120, "stop");
+  Bomberman::ModelHandler::get().storeModel(
+        new TexturedCube("Ressources/Images/Play/cube.png"),
+        "block");
+  Bomberman::ModelHandler::get().storeModel(
+        new TexturedCube(""), "cube");
+  Bomberman::ModelHandler::get().storeModel(
+        marvin, "bombman");
+  Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/bomb.fbx"), "bomb");
 }
 
 void      StatesManager::unload()

@@ -55,7 +55,7 @@ void    Camera::draw()
   glFogf(GL_FOG_DENSITY, 0.10) ;
   glFogf(GL_FOG_START, 100.0) ;
   glFogf(GL_FOG_END, 500.0) ;
-  
+
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

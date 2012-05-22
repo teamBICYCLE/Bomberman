@@ -17,6 +17,7 @@
 # include	<string>
 # include	<QDataStream>
 # include	"Vector3d.hh"
+# include       "AModel.hh"
 
 namespace	Bomberman
 {
@@ -47,7 +48,7 @@ namespace	Bomberman
     virtual const Vector3d&	getPos(void) const;
     virtual const Vector3d&	getRot(void) const;
     virtual const Vector3d&	getSize(void) const;
-    virtual const gdl::Model&   getModel(void) const;
+    //virtual const AModel&       getModel(void) const;
     virtual const std::string&	getType(void) const;
 
   public:
@@ -62,7 +63,7 @@ namespace	Bomberman
     Vector3d            pos_;
     Vector3d            rot_;
     Vector3d            sz_;
-    gdl::Model          model_;
+    //AModel &            model_;
     std::string		type_;
 
   public:

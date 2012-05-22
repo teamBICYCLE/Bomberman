@@ -16,7 +16,6 @@
 #include "Player.hh"
 #include "PlayState.hh"
 #include "Map.hh"
-
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>

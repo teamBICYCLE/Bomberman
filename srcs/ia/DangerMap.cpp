@@ -46,8 +46,7 @@ int DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it)
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
-  std::cout << (bomb->getTimeCreation() - bomb->getTimeOut()) * 3 << std::endl;
-  return (10 - (bomb->getTimeOut() * 3));
+ return (10 - (bomb->getTimeOut() * 3));
 }
 
 int DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it)
@@ -111,7 +110,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
       x = static_cast<int>((*it)->getPos().x);
       y = static_cast<int>((*it)->getPos().y);
       if (y >= 0 && y < y_ && x >= 0 && x < x_)
-	updateCaseVison(it, x, y);
+        updateCaseVison(it, x, y);
     }
 
   // //  temporaire
@@ -120,7 +119,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
     {
       std::vector<std::pair<int, int> >::iterator toto;
       for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  	std::cout <<  (*toto).first << (*toto).second << " ";
+        std::cout <<  (*toto).first << (*toto).second << " ";
       std::cout << std::endl;
     }
   std::cout << std::endl;

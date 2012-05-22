@@ -17,6 +17,7 @@
 # include   "APowerup.hh"
 # include   "PowerupFactory.hh"
 # include	"Explosion.hh"
+# include   "TexturedCube.hh"
 
 namespace	Bomberman
 {
@@ -45,6 +46,7 @@ namespace	Bomberman
 
   private:
     APowerup	*loot_;
+    TexturedCube  model_;
   };
 }
 

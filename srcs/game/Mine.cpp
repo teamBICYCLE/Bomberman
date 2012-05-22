@@ -9,6 +9,7 @@
 //
 
 #include "Mine.hh"
+#include "ModelHandler.hh"
 
 using namespace	Bomberman;
 
@@ -41,6 +42,7 @@ void	Mine::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   (void)clock;
   if (chainReaction_)
     destroy(objs);
+  model_.update(clock);
 }
 
 void	Mine::interact(Character *ch, std::list<AObject*>& objs)

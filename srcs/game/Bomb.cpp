@@ -13,13 +13,17 @@
 #include "Bomb.hh"
 #include "Mine.hh"
 #include "Brick.hh"
+#include "ModelHandler.hh"
 
 using namespace	Bomberman;
 
-Bomb::Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : AObject(pos, rot, sz, "Bomb"), range_(range), timeOut_(timeOut), owner_(owner), speed_(Vector3d()), lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this)
+Bomb::Bomb(const Vector3d& pos, const Vector3d& rot,
+           const Vector3d& sz, int range, int timeOut, Player& owner)
+  : AObject(pos, rot, sz, "Bomb"), range_(range),
+    timeOut_(timeOut), owner_(owner), speed_(Vector3d()),
+    lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this),
+    model_(ModelHandler::get().getModel("bomb"))
 {
-  model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Bomb::Bomb(const Bomb &other)
@@ -28,17 +32,17 @@ Bomb::Bomb(const Bomb &other)
       owner_(other.owner_), speed_(other.speed_),
       lastTime_(other.lastTime_),
       ownerCollide_(other.getOwnerCollide()),
-      bBox_(other.bBox_)
+      bBox_(other.bBox_),
+      model_(other.model_)
 {
-    model_ = other.getModel();
 }
 
 Bomb::Bomb()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "Bomb"),
     range_(0), timeOut_(0), owner_(*(new Player())),
-    speed_(Vector3d()), lastTime_(0), bBox_(pos_, sz_, this)
+    speed_(Vector3d()), lastTime_(0), bBox_(pos_, sz_, this),
+    model_(ModelHandler::get().getModel("bomb"))
 {
-    model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Bomb::~Bomb()
@@ -66,12 +70,13 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
     if (*objIt != &owner_ && bBox_.collideWith(*objIt))
       {
-	pos_ = save + sz_ / 2;
-	adjustPos();
-	speed_ = nullSpeed;
-	if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Mine*>(*objIt))
-	  destroy(objs);
+        pos_ = save + sz_ / 2;
+        adjustPos();
+        speed_ = nullSpeed;
+        if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Mine*>(*objIt))
+          destroy(objs);
       }
+  model_.update(clock);
 }
 
 void	Bomb::explode(std::list<AObject*>& objs)
@@ -122,27 +127,27 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 {
   if (!isInvalid)
     std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-	if (!isInvalid && e->getBBox().collideWith(obj))
-	  {
-	    obj->interact(e, objs);
-	    // if (dynamic_cast<Character*>(obj))
-	    //   {
-	    // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
-	    // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
-	    // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
-	    //   }
-	    // else if (dynamic_cast<APowerup*>(obj))
-	    //   obj->destroy();
-	    // else if (dynamic_cast<Mine*>(obj))
-	    //   static_cast<Mine*>(obj)->setChainReaction(true);
-	    // else if (dynamic_cast<Bomb*>(obj))
-	    //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-	    // else if (dynamic_cast<Brick*>(obj))
-	    //   static_cast<Brick*>(obj)->destroy(objs);
-	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
-	      isInvalid = true;
-	  }
+        if (!isInvalid && e->getBBox().collideWith(obj))
+          {
+            obj->interact(e, objs);
+            // if (dynamic_cast<Character*>(obj))
+            //   {
+            // 	if (obj != &owner_ && !static_cast<Character*>(obj)->isInvincible())
+            // 	  owner_.addScore(static_cast<Character*>(obj)->getScoreValue());
+            // 	static_cast<Character*>(obj)->takeDamage(e->getDamage());
+            //   }
+            // else if (dynamic_cast<APowerup*>(obj))
+            //   obj->destroy();
+            // else if (dynamic_cast<Mine*>(obj))
+            //   static_cast<Mine*>(obj)->setChainReaction(true);
+            // else if (dynamic_cast<Bomb*>(obj))
+            //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
+            // else if (dynamic_cast<Brick*>(obj))
+            //   static_cast<Brick*>(obj)->destroy(objs);
+            if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+                !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
+              isInvalid = true;
+          }
       });
   if (!isInvalid)
     objs.push_back(new Explosion(*e));
@@ -159,16 +164,16 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
     {
       ch->bump(pos_);
       if (dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
-	{
-	  p = static_cast<Player*>(ch);
-	  b = p->getBBox();
-	  if (b->isAbove() || b->isBelow())
-	    speed_ = Vector3d(0, p->getSpeed(), 0);
-	  else if (b->isLeft() || b->isRight())
-	    speed_ = Vector3d(p->getSpeed(), 0, 0);
-	  if (b->isAbove() || b->isLeft())
-	    speed_ *= (-1);
-	}
+        {
+          p = static_cast<Player*>(ch);
+          b = p->getBBox();
+          if (b->isAbove() || b->isBelow())
+            speed_ = Vector3d(0, p->getSpeed(), 0);
+          else if (b->isLeft() || b->isRight())
+            speed_ = Vector3d(p->getSpeed(), 0, 0);
+          if (b->isAbove() || b->isLeft())
+            speed_ *= (-1);
+        }
     }
 }
 
@@ -186,7 +191,7 @@ void	Bomb::destroy(std::list<AObject*>& objs)
       explode(objs);
       owner_.setNbBombs(owner_.getNbBombs() + 1);
       if (!ownerCollide_)
-	owner_.setBombCollide(true);
+        owner_.setBombCollide(true);
       AObject::destroy();
     }
 }

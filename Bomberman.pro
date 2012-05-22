@@ -52,9 +52,12 @@ SOURCES += \
     srcs/main.cpp \
     srcs/states/Menu/StartGame.cpp \
     srcs/states/Menu/Quit.cpp \
-    srcs/states/Menu/QuickStart.cpp
+    srcs/states/Menu/QuickStart.cpp \
+    srcs/graphics/AModel.cpp \
+    srcs/graphics/TexturedCube.cpp \
+    srcs/graphics/gdlModel.cpp
 
-QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra
+QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/
 
@@ -107,4 +110,7 @@ HEADERS += \
     srcs/states/IntroState.hh \
     srcs/states/Menu/StartGame.hh \
     srcs/states/Menu/Quit.hh \
-    srcs/states/Menu/QuickStart.hh
+    srcs/states/Menu/QuickStart.hh \
+    srcs/graphics/AModel.hh \
+    srcs/graphics/TexturedCube.hh \
+    srcs/graphics/gdlModel.hh

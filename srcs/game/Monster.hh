@@ -15,6 +15,7 @@
 # include	"Character.hh"
 # include	"BoundingBox.hh"
 # include	"Brain.hh"
+# include       "gdlModel.hh"
 
 namespace	Bomberman
 {
@@ -67,6 +68,7 @@ namespace	Bomberman
     bool	moved_;
     uint	damage_;
     Bomberman::Thinking::Brain *brainScript_;
+    gdlModel    model_;
   };
 }
 
