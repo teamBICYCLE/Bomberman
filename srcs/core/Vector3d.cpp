@@ -5,7 +5,7 @@
 // Login   <jonathan.machado@epitech.net>
 //
 // Started on  Thu Apr 26 20:21:29 2012 Jonathan Machado
-// Last update Fri May 11 11:10:22 2012 lois burg
+// Last update Tue May 22 15:48:31 2012 Jonathan Machado
 //
 
 #include <cmath>
@@ -43,40 +43,24 @@ void		Vector3d::set(double x, double y, double z)
 
 double&		Vector3d::operator[](int i)
 {
-  switch (i)
-    {
-    case 0:
-      return x;
-      break;
-    case 1:
-      return y;
-      break;
-    case 2:
-      return z;
-      break;
-    default:
-      return x;
-    }
+  if (i == 0)
+    return x;
+  if (i == 1)
+    return y;
+  if (i == 2)
+    return z;
   return x;
 }
 
 double		Vector3d::operator[](int i) const
 {
-  switch (i)
-    {
-    case 0:
-      return x;
-      break;
-    case 1:
-      return y;
-      break;
-    case 2:
-      return z;
-      break;
-    default:
-      return 0.0d;
-    }
-  return 0.0d;
+  if (i == 0)
+    return x;
+  if (i == 1)
+    return y;
+  if (i == 2)
+    return z;
+  return x;
 }
 
 Vector3d&	Vector3d::operator+=(const Vector3d& v)

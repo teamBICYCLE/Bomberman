@@ -160,3 +160,8 @@ QDataStream &operator>>(QDataStream &in, FireBlock &v)
     v.unserialize(in);
     return in;
 }
+
+void    FireBlock::toQvariant(QSettings &w)
+{
+    w.setValue("FireBlock", qVariantFromValue(*this));
+}

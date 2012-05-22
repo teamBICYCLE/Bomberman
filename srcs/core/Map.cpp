@@ -366,8 +366,8 @@ void Map::setFromFile(std::list<std::string> &map)
     uint y = 0;
     Thinking::Brain		*b;
 
-    width_ = map.front().length();
-    height_ = map.size();
+    height_ = map.front().length();
+    width_ = map.size();
     b = new Thinking::Brain(map.front().length(), map.size());
     Map::addPlayers(map);
     for (itm = map.begin(); itm != map.end(); itm++)
