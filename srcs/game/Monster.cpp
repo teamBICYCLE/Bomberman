@@ -12,19 +12,17 @@
 #include "Brick.hh"
 #include "Bomb.hh"
 #include "Monster.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b)
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
+    model_(ModelHandler::get().getModel("bombman"))
 {
   isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
   actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
   actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
@@ -33,24 +31,20 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_), damage_(other.getDamage()), brainScript_(other.brainScript_)
+      moved_(other.moved_), damage_(other.getDamage()), brainScript_(other.brainScript_),
+      model_(other.model_)
 {
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
-    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_()
+  : Character("Monster"), moved_(false), brainScript_(), model_(ModelHandler::get().getModel("bombman"))
 {
     //brainScript_ = new Thinking::Brain();
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
-    model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-    model_.cut_animation(model_, "Take 001", 0, 35, "start");
-    model_.cut_animation(model_, "Take 001", 36, 54, "run");
-    model_.cut_animation(model_, "Take 001", 55, 120, "stop");
     actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
     actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
     actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
@@ -68,6 +62,7 @@ void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject
   brainScript_->addParam(pos_.y);
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
+  model_.update(clock);
   (void)keys;
 }
 
@@ -85,84 +80,11 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   this->model_.update(clock);
 }
 
-#define ZIZIDEPOULE 0.5f
-
 void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
-  // glScaled(0.002, 0.002, 0.002);
-  // glRotated(90, 1, 0, 0);
-  glColor3d(0.1f, 0.50f, 0.38f);
-
-
-  glBegin(GL_LINE_LOOP);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Configuration de la couleur des vertices
-  ///////////////////////////////////////////////////////////////////////////////
-  glColor3f(0.23f, 0.50f, 0.62f);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Dessin des vertices
-  ////////////////////////////////////////////////////////////////////////////////
-  glNormal3d(0, 1, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-
-  glColor3f(0.32f, 0.05f, 0.26f);
-  glNormal3d(1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glColor3f(0.33f, 0.21f, 0.12f);
-  glNormal3d(0, -1, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glColor3f(0.88f, 0.57f, 0.10f);
-  glNormal3d(-1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glColor3f(0.32f, 0.53f, 0.21f);
-  glNormal3d(0, 0, -1);
-  glVertex3f(0, 0, 0);
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  glColor3f(0.91f, 0.18f, 0.42f);
-  glNormal3d(0, 0, 1);
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
- ////////////////////////////////////////////////////////////////////////////////
-  /// Fermeture du contexte de rendu
-  ////////////////////////////////////////////////////////////////////////////////
-  glEnd();
-  glPopMatrix();
-  glPushMatrix();
-  glTranslated(pos_.x + (ZIZIDEPOULE / 2.0f) , pos_.y + (ZIZIDEPOULE / 2.0f), pos_.z);
+  glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
   glColor3d(1.0f, 0.0f, 0.0f);
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
@@ -184,17 +106,17 @@ void			Monster::moveAnimation(void)
 
   if (moved_)
   {
-    if (!wasRunning && model_.anim_is_ended("stop"))
+    if (!wasRunning && model_.getModel().anim_is_ended("stop"))
     {
       speedAdapter_ = 5;
-      model_.stop_animation("stop");
-      model_.play("start");
+      model_.getModel().stop_animation("stop");
+      model_.getModel().play("start");
     }
-    else if (model_.anim_is_ended("start"))
+    else if (model_.getModel().anim_is_ended("start"))
     {
-      model_.stop_animation("stop");
+      model_.getModel().stop_animation("stop");
       speedAdapter_ = 100;
-      model_.play("run");
+      model_.getModel().play("run");
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning = true;
@@ -202,7 +124,7 @@ void			Monster::moveAnimation(void)
   }
   else if (wasRunning == true)
   {
-    model_.play("stop");
+    model_.getModel().play("stop");
     wasRunning = false;
   }
   // reset de la propriete moved.

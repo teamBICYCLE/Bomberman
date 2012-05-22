@@ -9,23 +9,26 @@
 //
 
 #include "Explosion.hh"
+#include "ModelHandler.hh"
 
 using namespace	Bomberman;
 
 Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage, Player& owner)
-  : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(owner)
+  : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(owner),
+    model_(ModelHandler::get().getModel("cube"))
 {
-  model_ = gdl::Model::load("Ressources/Assets/bomb.fbx");
 }
 
 Explosion::Explosion(const Explosion& other)
-  : AObject(other.getPos(), other.getRot(), other.getSize(), other.getType()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(other.owner_)
+  : AObject(other.getPos(), other.getRot(), other.getSize(), other.getType()), damage_(other.getDamage()), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(other.owner_),
+    model_(other.model_)
 {
 }
 
 Explosion::Explosion()
     : AObject(Vector3d(), Vector3d(), Vector3d(), "Explosion"), damage_(0),
-      bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), lastTime_(-1), owner_(*(new Player()))
+      bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), lastTime_(-1), owner_(*(new Player())),
+      model_(ModelHandler::get().getModel("cube"))
 {
 }
 
@@ -48,6 +51,7 @@ void		Explosion::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
       timeOnScreen_ -= now - lastTime_;
       lastTime_ = now;
     }
+  model_.update(clock);
 }
 
 void		Explosion::draw(void)
@@ -55,33 +59,8 @@ void		Explosion::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
   glColor3ub(198, 12, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 uint	Explosion::getDamage(void) const

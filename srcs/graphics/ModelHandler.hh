@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ModelHandler.hh
  * Author: duplom_t
  *
@@ -10,23 +10,26 @@
 
 # include <map>
 # include <string>
-# include "AObject.hh"
+# include "AModel.hh"
 
 namespace Bomberman
 {
 class ModelHandler {
 public:
-  ModelHandler();
   ~ModelHandler();
-  
-  bool          loadModel(const std::string & path, const std::string & name);
-  
+
+  void          storeModel(AModel * model, const std::string & name);
+  AModel &      getModel(const std::string & name);
+  static ModelHandler& get();
+
 private:
-  std::map<std::string, AObject*>        objects_;
-  
+  std::map<std::string, AModel*>        objects_;
+
 private:
+  ModelHandler();
   ModelHandler(const ModelHandler& orig);
-  ModelHandler &        operator=(const ModelHandler &);
+  ModelHandler &              operator=(const ModelHandler &);
+  static ModelHandler         self_;
 };
 }
 #endif	/* MODELHANDLER_HH */

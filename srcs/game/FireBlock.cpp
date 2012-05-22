@@ -18,23 +18,28 @@
 
 #include <GL/gl.h>
 #include <GDL/Image.hpp>
+#include "ModelHandler.hh"
 
 using namespace	Bomberman;
 
+
 FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const Vector3d& dir)
-  : Block(pos, rot, sz), dir_(dir), range_(2), lastTime_(-1), timer_(3.0f)
+  : Block(pos, rot, sz), dir_(dir), range_(2), lastTime_(-1), timer_(3.0f),
+    model_(ModelHandler::get().getModel("cube"))
 {
   type_ = "FireBlock";
 }
 
 FireBlock::FireBlock(const FireBlock &other)
-  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_)
+  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_),
+    model_(other.model_)
 {
   type_ = "FireBlock";
 }
 
 FireBlock::FireBlock()
-  : Block(Vector3d(), Vector3d(), Vector3d()), dir_(Vector3d()), range_(2)
+  : Block(Vector3d(), Vector3d(), Vector3d()), dir_(Vector3d()), range_(2),
+    model_(ModelHandler::get().getModel("cube"))
 {
   type_ = "FireBlock";
 }
@@ -56,6 +61,7 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
       spitFire(objs);
       lastTime_ = now;
     }
+  model_.update(clock);
 }
 
 #define ZIZIDEPOULE 1.0f
@@ -65,33 +71,8 @@ void		FireBlock::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
   glColor3ub(175, 175, 175);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 void	FireBlock::destroy(void)
@@ -108,17 +89,26 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
     {
       e->setPos(pos_ + (dir_ * i));
       if (!isInvalid)
-      	std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
-      	    if (!isInvalid && e->getBBox().collideWith(obj))
-      	      {
-		obj->interact(e, objs);
-      		if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-      		    !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
-      		  isInvalid = true;
-      	      }
-      	  });
+        std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
+            if (!isInvalid && e->getBBox().collideWith(obj))
+              {
+                if (dynamic_cast<Character*>(obj))
+                  static_cast<Character*>(obj)->takeDamage(e->getDamage());
+                else if (dynamic_cast<APowerup*>(obj))
+                  obj->destroy();
+                else if (dynamic_cast<Mine*>(obj))
+                  static_cast<Mine*>(obj)->setChainReaction(true);
+                else if (dynamic_cast<Bomb*>(obj))
+                  static_cast<Bomb*>(obj)->setTimeOut(0.0f);
+                else if (dynamic_cast<Brick*>(obj))
+                  static_cast<Brick*>(obj)->destroy(objs);
+                if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+                    !dynamic_cast<Mine*>(obj))
+                  isInvalid = true;
+              }
+          });
       if (!isInvalid)
-      	objs.push_back(new Explosion(*e));
+        objs.push_back(new Explosion(*e));
     }
   delete e;
 }

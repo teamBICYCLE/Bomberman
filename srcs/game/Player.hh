@@ -15,6 +15,7 @@
 # include	<sys/types.h>
 # include	"Character.hh"
 # include	"BoundingBox.hh"
+# include       "gdlModel.hh"
 
 namespace	Bomberman
 {
@@ -89,6 +90,8 @@ namespace	Bomberman
     bool	wasRunning_;
     int		score_;
     bool	kickAbility_;
+    gdlModel    model_;
+
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Tue May 22 17:52:37 2012 thibault carpentier
+// Last update Tue May 22 18:28:18 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -64,12 +64,12 @@ void DangerMap::isPosValid(bool &valid, int y, int x)
   if (valid == true)
     {
       std::for_each(objs_.begin(), objs_.end(), [&](AObject *obj) -> void {
-	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
-	  {
-	    if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
-	      valid = false;
-	  }
-	    });
+          if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+          {
+            if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+              valid = false;
+          }
+            });
     }
 }
 
@@ -84,16 +84,16 @@ void DangerMap::setRangeDanger(int range, int x, int y, int danger)
     {
       isPosValid(rightInvalid, y, x + i);
       if (x + i < x_  && rightInvalid)
-	setDanger(x + i, y, danger);
+        setDanger(x + i, y, danger);
       isPosValid(leftInvalid, y, x - i);
       if (x - i >= 0 && leftInvalid)
-      	setDanger(x - i, y, danger);
+        setDanger(x - i, y, danger);
       isPosValid(downInvalid, y + i, x);
       if (y + i < y_ && downInvalid)
-      	setDanger(x, y + i, danger);
+        setDanger(x, y + i, danger);
       isPosValid(upInvalid, y - i, x);
       if (y - i >= 0 && upInvalid)
-      	setDanger(x, y - i, danger);
+        setDanger(x, y - i, danger);
     }
 }
 
@@ -101,8 +101,9 @@ void DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int 
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
+
   setRangeDanger(bomb->getRange(), static_cast<int>((*it)->getPos().x), static_cast<int>((*it)->getPos().y),
-		 DANGER_BOMB);
+                 DANGER_BOMB);
   setDanger(x, y, DANGER_BOMB);
 }
 
@@ -171,9 +172,8 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
       x = static_cast<int>((*it)->getPos().x);
       y = static_cast<int>((*it)->getPos().y);
       if (y >= 0 && y < y_ && x >= 0 && x < x_)
-	updateCaseVison(it, x, y);
+        updateCaseVison(it, x, y);
     }
-
   //  temporaire
   std::vector<std::vector<std::pair<int, int> > >::iterator test;
   for (test = danger_.begin(); test != danger_.end(); ++test)

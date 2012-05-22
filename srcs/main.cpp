@@ -19,6 +19,11 @@
 
 using namespace std;
 
+void  loadModels()
+{
+
+}
+
 int main(void)
 {
   try {

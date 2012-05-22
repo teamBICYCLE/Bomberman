@@ -15,13 +15,15 @@
 #include "Player.hh"
 #include "Monster.hh"
 #include "KeysConfig.hh"
+#include "ModelHandler.hh"
 #include "SaveHandler.hh"
 
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
-    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false)
+    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
+    model_(ModelHandler::get().getModel("bombman"))
 {
   isInvincible_ = true;
   // kickAbility_ = true;
@@ -30,10 +32,6 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
 
   KeysConfig conf;
 
@@ -55,13 +53,9 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 Player::Player()
   : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
-    score_(0), kickAbility_(false)
+    score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman"))
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
 
   KeysConfig conf;
 
@@ -85,11 +79,10 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
-      kickAbility_(other.kickAbility_)
+      kickAbility_(other.kickAbility_), model_(other.model_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
-  model_ = other.model_;
   actionsMap_ = other.actionsMap_;
   collideMap_ = other.collideMap_;
   id_ = other.id_;
@@ -108,109 +101,36 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first))
       {
-	save_ = pos_;
-	(this->*(it->second))(objs);
-	if (save_ != pos_)
-	  for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
-	    {
-	      //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
-	      collide = bBox_->collideWith(*objIt);
-	      bBox_->resetColliding();
-	      (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
-	      if (!dynamic_cast<Player*>(*objIt) && collide)
-		(*objIt)->interact(this, objs);
-	      else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
-	      	       !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
-	      	{
-	      	  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
-	      	  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
-	      	}
-	      bBox_->resetColliding();
-	    }
+        save_ = pos_;
+        (this->*(it->second))(objs);
+        if (save_ != pos_)
+          for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
+            {
+              //au lieu de restaurer a save_, set a la valeur de l'objet que l'on collisione
+              collide = bBox_->collideWith(*objIt);
+              bBox_->resetColliding();
+              (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
+              if (!dynamic_cast<Player*>(*objIt) && collide)
+                (*objIt)->interact(this, objs);
+              else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
+                       !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
+                {
+                  static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
+                  bombCollide_ = static_cast<Bomb*>(*objIt)->getOwnerCollide();;
+                }
+              bBox_->resetColliding();
+            }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
   this->moveAnimation();
   this->model_.update(clock);
 }
 
-#define ZIZIDEPOULE 0.5f
-
 void		Player::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x, pos_.y, pos_.z);
-  // glScaled(0.002, 0.002, 0.002);
-  // glRotated(90, 1, 0, 0);
-  glColor3d(0.1f, 0.50f, 0.38f);
-
-
-  glBegin(GL_LINE_LOOP);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Configuration de la couleur des vertices
-  ///////////////////////////////////////////////////////////////////////////////
-  glColor3f(0.23f, 0.50f, 0.62f);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Dessin des vertices
-  ////////////////////////////////////////////////////////////////////////////////
-  glNormal3d(0, 1, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-
-  glColor3f(0.32f, 0.05f, 0.26f);
-  glNormal3d(1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glColor3f(0.33f, 0.21f, 0.12f);
-  glNormal3d(0, -1, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glColor3f(0.88f, 0.57f, 0.10f);
-  glNormal3d(-1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glColor3f(0.32f, 0.53f, 0.21f);
-  glNormal3d(0, 0, -1);
-  glVertex3f(0, 0, 0);
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  glColor3f(0.91f, 0.18f, 0.42f);
-  glNormal3d(0, 0, 1);
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
- ////////////////////////////////////////////////////////////////////////////////
-  /// Fermeture du contexte de rendu
-  ////////////////////////////////////////////////////////////////////////////////
-  glEnd();
-  glPopMatrix();
-  glPushMatrix();
-  glTranslated(pos_.x + (ZIZIDEPOULE / 2.0f) , pos_.y + (ZIZIDEPOULE / 2.0f), pos_.z);
+  glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
   glColor3d(1.0f, 0.0f, 0.0f);
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
@@ -266,7 +186,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
           b->adjustPos();
           objs.push_back(b);
           --nbBombs_;
-      }
+        }
     }
 }
 
@@ -277,12 +197,12 @@ void	Player::putMine(std::list<AObject*>& objs)
   if (nbMines_ > 0 && bombCollide_)
     {
       if ((m = new Mine(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), mineRange_, bombTime_, *this)))
-	{
-	  bombCollide_ = m->getOwnerCollide();
-	  m->adjustPos();
-	  objs.push_back(m);
-	  --nbMines_;
-	}
+        {
+          bombCollide_ = m->getOwnerCollide();
+          m->adjustPos();
+          objs.push_back(m);
+          --nbMines_;
+        }
     }
 }
 
@@ -375,24 +295,24 @@ void    Player::moveAnimation(void)
 {
   if (moved_)
   {
-    if (!wasRunning_ && model_.anim_is_ended("stop"))
+    if (!wasRunning_ && model_.getModel().anim_is_ended("stop"))
     {
       speedAdapter_ = 5;
-      model_.stop_animation("stop");
-      model_.play("start");
+      model_.getModel().stop_animation("stop");
+      model_.getModel().play("start");
     }
-    else if (model_.anim_is_ended("start"))
+    else if (model_.getModel().anim_is_ended("start"))
     {
-      model_.stop_animation("stop");
+      model_.getModel().stop_animation("stop");
       speedAdapter_ = 100;
-      model_.play("run");
+      model_.getModel().play("run");
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning_ = true;
   }
   else if (wasRunning_ == true)
   {
-    model_.play("stop");
+    model_.getModel().play("stop");
     wasRunning_ = false;
   }
   // reset de la propriete moved.

@@ -9,16 +9,17 @@
 //
 
 #include "MinePowerup.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 MinePowerup::MinePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "MinePowerup")
+  : APowerup(pos, rot, sz, "MinePowerup"), model_(ModelHandler::get().getModel("cube"))
 {
 }
 
 MinePowerup::MinePowerup(const MinePowerup &other)
-    : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup")
+  : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup"), model_(other.model_)
 {
 }
 
@@ -41,6 +42,7 @@ void	MinePowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObj
   (void)clock;
   (void)keys;
   (void)objs;
+  model_.update(clock);
 }
 
 void	MinePowerup::draw(void)
@@ -48,33 +50,8 @@ void	MinePowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
   glColor3ub(209, 182, 6);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 MinePowerup *MinePowerup::clone(void)
