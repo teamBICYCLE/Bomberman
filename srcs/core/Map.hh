@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:29:27 2012 geoffroy lafontaine
-// Last update Mon May 21 12:02:15 2012 lois burg
+// Last update Tue May 22 13:27:58 2012 geoffroy lafontaine
 //
 
 #ifndef		__MAPMANAGER_HH__
@@ -25,8 +25,8 @@
 # define	MAP_FILE_BLOCK		'W'
 # define	MAP_FILE_BRICK		'B'
 # define	MAP_FILE_PLAYER		'P'
-# define    MAP_FILE_MONSTER    'M'
-# define    MAP_FILE_GHOST      'G'
+# define	MAP_FILE_MONSTER	'M'
+# define	MAP_FILE_GHOST		'G'
 # define	MAP_FILE_FIREBLOCK_UP	'U'
 # define	MAP_FILE_FIREBLOCK_DOWN	'D'
 # define	MAP_FILE_FIREBLOCK_LEFT	'L'
@@ -60,7 +60,7 @@ namespace	Bomberman
 
   public:
     Map(uint width = 13, uint height = 13,
-	uint nbPlayers = 1);
+	uint nbPlayers = 1, uint nbMonsters = 5, uint nbGhosts = 0);
     Map(const std::string& fileName);
     ~Map(void);
 
@@ -73,7 +73,7 @@ namespace	Bomberman
   protected:
     void    setFromFile(std::list<std::string> &map);
     void    mapFileIsValid(std::list<std::string> &map) const;
-    void	getFromFile(const std::string&);
+    void    getFromFile(const std::string&);
     void    addBlocks(const std::string &, int, std::list<AObject*> *);
     void    addBricks(const std::string &, int, std::list<AObject*> *);
     void    addGhosts(const std::string &, int, std::list<AObject*> *, Thinking::Brain *);
@@ -81,11 +81,11 @@ namespace	Bomberman
     void    addPlayers(std::list<std::string> &map);
 
   protected:
-    void	generatePlayers(uint nbPlayers);
+    void	generatePlayers(void);
+    void	generateBricks(void);
+    void	generateBorder(void);
     void	generateMonsters(uint);
     void	generateGhosts(uint);
-    void	generateBricks(uint);
-    void	generateBorder(uint width, uint height);
     void	placePlayer(uint, uint);
     void	placeMonster(uint, uint, Thinking::Brain *);
     void	placeGhost(uint, uint, Thinking::Brain *);
@@ -94,11 +94,17 @@ namespace	Bomberman
   public:
     uint    getWidth(void) const;
     uint    getHeight(void) const;
+    uint    getNbPlayers(void) const;
+    uint    getNbMonsters(void) const;
+    uint    getNbGhosts(void) const;
 
   private:
     std::list<AObject*>	terrain_;
     uint                width_;
     uint                height_;
+    uint		nbPlayers_;
+    uint		nbMonsters_;
+    uint		nbGhosts_;
   };
 }
 
