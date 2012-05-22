@@ -14,6 +14,7 @@
 # include	"AObject.hh"
 # include	"Explosion.hh"
 # include	"Player.hh" //a remplacer par la classe qui emglobera joueurs et monstres
+# include       "gdlModel.hh"
 
 namespace	Bomberman
 {
@@ -68,6 +69,7 @@ namespace	Bomberman
     float       lastTime_;
     bool	ownerCollide_;
     BoundingBox	bBox_;
+    gdlModel    model_;
   };
 }
 

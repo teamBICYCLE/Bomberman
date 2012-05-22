@@ -12,15 +12,19 @@
 #include <algorithm>
 #include "AGameState.hh"
 #include "StartGame.hh"
+#include "QuickStart.hh"
 #include "Quit.hh"
 
 namespace Menu {
 MenuEntry::MenuEntry() : selected_(0) {
   items_.push_back(new StartGame("Ressources/Images/Menu/start.png",
                                  "Ressources/Images/Menu/start_h.png"));
+  items_.push_back(new QuickStart("Ressources/Images/Menu/bomb.png",
+                                 "Ressources/Images/Menu/bomb_h.png",
+                                 Vector3d(0.0f, 250.0f, 0.0f)));
   items_.push_back(new Quit("Ressources/Images/Menu/stop.png",
                             "Ressources/Images/Menu/stop_h.png",
-                            Vector3d(0.0f, 300.0f, 0)));
+                            Vector3d(0.0f, 500.0f, 0)));
 }
 
 MenuEntry::~MenuEntry() {

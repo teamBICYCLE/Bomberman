@@ -9,16 +9,18 @@
 //
 
 #include "KickPowerup.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 KickPowerup::KickPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "KickPowerup")
+  : APowerup(pos, rot, sz, "KickPowerup"), model_(ModelHandler::get().getModel("cube"))
 {
 }
 
 KickPowerup::KickPowerup(const KickPowerup &other)
-    : APowerup(other.getPos(), other.getRot(), other.getSize(), "KickPowerup")
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), "KickPowerup"),
+      model_(other.model_)
 {
 }
 
@@ -41,6 +43,7 @@ void	KickPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObj
   (void)clock;
   (void)keys;
   (void)objs;
+  model_.update(clock);
 }
 
 void	KickPowerup::draw(void)
@@ -48,33 +51,8 @@ void	KickPowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
   glColor3ub(255, 73, 1);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 KickPowerup *KickPowerup::clone(void)

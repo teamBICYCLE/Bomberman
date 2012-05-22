@@ -15,7 +15,6 @@
 #include "Player.hh"
 #include "PlayState.hh"
 #include "Map.hh"
-
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
@@ -143,9 +142,9 @@ void  PlayState::draw(StatesManager * sMg)
   glBegin(GL_QUADS);
   glColor3f(0, 0, 1.0f);
   glVertex3f(0, 0, 0);
-  glVertex3f((this->mapH_ * MULTZ), 0, 0);
-  glVertex3f((this->mapH_ * MULTZ), (this->mapW_ * MULTZ), 0);
-  glVertex3f(0, (this->mapW_ * MULTZ), 0);
+  glVertex3f(this->mapH_, 0, 0);
+  glVertex3f(this->mapH_, this->mapW_, 0);
+  glVertex3f(0, this->mapW_, 0);
   glEnd();
   glPopMatrix();
   glPushMatrix();

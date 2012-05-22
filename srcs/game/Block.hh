@@ -12,6 +12,7 @@
 # define	__BLOCK_HH__
 
 # include	"AObject.hh"
+# include       "TexturedCube.hh"
 
 namespace	Bomberman
 {
@@ -36,6 +37,9 @@ namespace	Bomberman
 
     /* TMP */
     void aff(void) const;
+
+  private:
+    TexturedCube  model_;
   };
 }
 

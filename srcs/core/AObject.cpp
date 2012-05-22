@@ -11,12 +11,12 @@
 #include "AObject.hh"
 #include "Character.hh"
 #include "Explosion.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
-  : pos_(pos), rot_(rot), sz_(sz), // model_(getModelByName(modelName)),
-    type_(modelName), removeLater_(false)
+  : pos_(pos), rot_(rot), sz_(sz), type_(modelName), removeLater_(false)
 {
 }
 
@@ -59,10 +59,10 @@ const std::string &AObject::getType(void) const
     return type_;
 }
 
-const gdl::Model &AObject::getModel(void) const
-{
-    return model_;
-}
+//const AModel &AObject::getModel(void) const
+//{
+//    return model_;
+//}
 
 bool	AObject::toRemove(void) const
 {

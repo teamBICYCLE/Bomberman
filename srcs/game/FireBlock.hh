@@ -42,6 +42,7 @@ namespace	Bomberman
     int		range_;
     float	lastTime_;
     float	timer_;
+    TexturedCube  model_;
   };
 }
 
