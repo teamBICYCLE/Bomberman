@@ -13,6 +13,7 @@
 
 # include	"AObject.hh"
 # include       "TexturedCube.hh"
+# include       "RotatingImg.hh"
 
 namespace	Bomberman
 {

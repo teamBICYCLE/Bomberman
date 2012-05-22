@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 KickPowerup::KickPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "KickPowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "KickPowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 

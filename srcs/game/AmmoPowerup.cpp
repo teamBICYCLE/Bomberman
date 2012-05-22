@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 AmmoPowerup::AmmoPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "AmmoPowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "AmmoPowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 

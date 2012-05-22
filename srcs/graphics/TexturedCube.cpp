@@ -25,8 +25,6 @@ TexturedCube::TexturedCube(const AModel &orig)
 
 void TexturedCube::draw()
 {
-  //if (img_.isValid())
-   // img_.bind();
   if (img_.isValid())
       glEnable(GL_TEXTURE_2D);
 

@@ -55,7 +55,8 @@ SOURCES += \
     srcs/states/Menu/QuickStart.cpp \
     srcs/graphics/AModel.cpp \
     srcs/graphics/TexturedCube.cpp \
-    srcs/graphics/gdlModel.cpp
+    srcs/graphics/gdlModel.cpp \
+    srcs/graphics/RotatingImg.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -112,4 +113,5 @@ HEADERS += \
     srcs/states/Menu/QuickStart.hh \
     srcs/graphics/AModel.hh \
     srcs/graphics/TexturedCube.hh \
-    srcs/graphics/gdlModel.hh
+    srcs/graphics/gdlModel.hh \
+    srcs/graphics/RotatingImg.hh

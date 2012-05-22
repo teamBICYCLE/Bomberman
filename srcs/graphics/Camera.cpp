@@ -46,17 +46,8 @@ void    Camera::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-  //glClearColor(0.76f, 0.12f, 0.37f, 1.0f);GlEnable(GL_FOG) ;
-  //glEnable(GL_FOG) ;
-  GLfloat fogcolor[4] = {0.5, 0.5, 0.5, 1} ;
-  GLint fogmode = GL_EXP ;
-  glFogi (GL_FOG_MODE, fogmode) ;
-  glFogfv(GL_FOG_COLOR, fogcolor) ;
-  glFogf(GL_FOG_DENSITY, 0.10) ;
-  glFogf(GL_FOG_START, 100.0) ;
-  glFogf(GL_FOG_END, 500.0) ;
-
-
+  glEnable(GL_BLEND) ;
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   //glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);

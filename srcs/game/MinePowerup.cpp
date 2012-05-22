@@ -14,12 +14,13 @@
 using namespace Bomberman;
 
 MinePowerup::MinePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "MinePowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "MinePowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
 MinePowerup::MinePowerup(const MinePowerup &other)
-  : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup"), model_(other.model_)
+  : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup"),
+    model_(other.model_)
 {
 }
 
