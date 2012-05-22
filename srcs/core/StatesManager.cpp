@@ -47,7 +47,7 @@ void      StatesManager::initialize()
   gdl::Model::cut_animation(marvin->getModel(), "Take 001", 55, 120, "stop");
 
   Bomberman::ModelHandler::get().storeModel(
-        new TexturedCube("Ressources/Images/Play/cube.png"),
+        new TexturedCube("Ressources/Images/Play/block.png"),
         "block");
   Bomberman::ModelHandler::get().storeModel(
         new RotatingImg("Ressources/Images/Play/powerup.png"),

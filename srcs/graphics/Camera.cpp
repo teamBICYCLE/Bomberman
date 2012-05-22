@@ -13,7 +13,7 @@
 #include <SFML/Window.hpp>
 
 Camera::Camera()
-  :position_(6.5f, 6.5f, 15.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(6.5f, 6.5f, 11.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
