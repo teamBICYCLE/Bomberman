@@ -16,6 +16,7 @@
 #include "Explosion.hh"
 #include "FireBlock.hh"
 #include "SaveHandler.hh"
+#include "Mine.hh"
 
 using namespace Bomberman;
 
@@ -44,6 +45,19 @@ const std::string   SaveHandler::newFileName(void) const
     return strm.str();
 }
 
+void SaveHandler::initAllObjects(void) const
+{
+    Block::sInit();
+    Brick::sInit();
+    Player::sInit();
+    Bomb::sInit();
+    Mine::sInit();
+    Monster::sInit();
+    Ghost::sInit();
+    Explosion::sInit();
+    FireBlock::sInit();
+}
+
 void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
@@ -54,14 +68,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
 
     if (!QFile::exists(name_file.c_str()))
     {
-        Block::sInit();
-        Brick::sInit();
-        Player::sInit();
-        Bomb::sInit();
-        Monster::sInit();
-        Ghost::sInit();
-        Explosion::sInit();
-        FireBlock::sInit();
+        SaveHandler::initAllObjects();
 
         QSettings w(name_file.c_str(), QSettings::IniFormat);
         Character::CharacterId = 0;
@@ -119,18 +126,11 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
 
 std::list<AObject*> *SaveHandler::load(const std::string &file) const
 {
-    Block::sInit();
-    Brick::sInit();
-    Player::sInit();
-    Bomb::sInit();
-    Monster::sInit();
-    Ghost::sInit();
-    Explosion::sInit();
-    FireBlock::sInit();
-
     if (!QFile::exists(file.c_str()))
         std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
+
     QSettings s(file.c_str(), QSettings::IniFormat);
+    SaveHandler::initAllObjects();
     int lastId = Character::CharacterId;
     std::list<AObject*> *res = new std::list<AObject *>;
 
@@ -149,6 +149,8 @@ std::list<AObject*> *SaveHandler::load(const std::string &file) const
             res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
         else if (s.contains("Bomb"))
             res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+        else if (s.contains("Mine"))
+            res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
         else if (s.contains("Monster"))
             res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
         else if (s.contains("Ghost"))

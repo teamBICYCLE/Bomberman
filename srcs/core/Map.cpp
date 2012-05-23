@@ -13,6 +13,7 @@
 #include <utility>
 #include <iostream>
 #include <fstream>
+#include <map>
 #include "FireBlock.hh"
 #include "Map.hh"
 
@@ -283,18 +284,22 @@ void				Map::clearPlace(uint x, uint y)
 
 void Map::addBlocks(const std::string &l, int y, std::list<AObject*> *tmp)
 {
+    std::map<char, std::pair<int, int> > ref;
+
+    ref[MAP_FILE_FIREBLOCK_UP] = std::make_pair(0, -1);
+    ref[MAP_FILE_FIREBLOCK_DOWN] = std::make_pair(0, 1);
+    ref[MAP_FILE_FIREBLOCK_LEFT] = std::make_pair(-1, 0);
+    ref[MAP_FILE_FIREBLOCK_RIGT] = std::make_pair(1, 0);
+
   for (uint i = 0; i != l.length(); i++)
     {
       if (l[i] == MAP_FILE_BLOCK)
-	tmp->push_back(new Block(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0)));
-      else if (l[i] == MAP_FILE_FIREBLOCK_UP)
-	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(0, -1, 0)));
-      else if (l[i] == MAP_FILE_FIREBLOCK_DOWN)
-	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(0, 1, 0)));
-      else if (l[i] == MAP_FILE_FIREBLOCK_LEFT)
-	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(-1, 0, 0)));
-      else if (l[i] == MAP_FILE_FIREBLOCK_RIGT)
-	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(1, 0, 0)));
+          tmp->push_back(new Block(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0)));
+      else if (l[i] == MAP_FILE_FIREBLOCK_UP ||
+               l[i] == MAP_FILE_FIREBLOCK_DOWN ||
+               l[i] == MAP_FILE_FIREBLOCK_LEFT ||
+               l[i] == MAP_FILE_FIREBLOCK_RIGT)
+          tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(ref[l[i]].first, ref[l[i]].second, 0)));
     }
 }
 

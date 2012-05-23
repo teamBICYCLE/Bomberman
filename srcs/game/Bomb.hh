@@ -67,7 +67,7 @@ namespace	Bomberman
     Player&     owner_;
     Vector3d	speed_;
     float       lastTime_;
-    bool	ownerCollide_;
+    bool        ownerCollide_;
     BoundingBox	bBox_;
     gdlModel    model_;
   };
