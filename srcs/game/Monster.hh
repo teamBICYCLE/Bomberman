@@ -35,7 +35,7 @@ namespace	Bomberman
 
   public:
     virtual void	update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs);
-    virtual void        update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void    update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
 
@@ -44,7 +44,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    virtual void toQvariant(QSettings &w);
+    virtual void toQvariant(QSettings &w) const;
 
     /* tmp */
     void aff(void) const;

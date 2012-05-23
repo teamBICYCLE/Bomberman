@@ -70,8 +70,8 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   generateBricks();
   generateBorder();
   generatePlayers();
-  generateMonsters(1);
-  generateGhosts(0);
+  generateMonsters(nbMonsters);
+  generateGhosts(nbGhosts);
   //  generateMonsters(nbMonsters_);
   //  generateGhosts(nbGhosts_);
 }
