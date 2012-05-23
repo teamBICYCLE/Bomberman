@@ -9,16 +9,18 @@
 //
 
 #include "VelocityPowerup.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 VelocityPowerup::VelocityPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "VelocityPowerup")
+  : APowerup(pos, rot, sz, "VelocityPowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
 VelocityPowerup::VelocityPowerup(const VelocityPowerup &other)
-    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType())
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType()),
+      model_(other.model_)
 {
 }
 
@@ -41,6 +43,7 @@ void	VelocityPowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<
   (void)clock;
   (void)keys;
   (void)objs;
+  model_.update(clock);
 }
 
 void	VelocityPowerup::draw(void)
@@ -48,33 +51,7 @@ void	VelocityPowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
-  glColor3ub(86, 130, 3);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 VelocityPowerup *VelocityPowerup::clone(void)

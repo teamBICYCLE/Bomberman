@@ -71,7 +71,6 @@ void		FireBlock::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(175, 175, 175);
   model_.draw();
 }
 

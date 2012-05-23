@@ -11,6 +11,7 @@
 #ifndef		__PLAYSTATE_HH__
 # define	__PLAYSTATE_HH__
 
+# include       <GDL/Image.hpp>
 # include	"AObject.hh"
 # include	"AGameState.hh"
 # include       "Camera.hh"
@@ -41,6 +42,7 @@ namespace	Bomberman
     std::list<AObject*>	objs_;
     Camera              camera_;
     int			bestScore_;
+    gdl::Image          img_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

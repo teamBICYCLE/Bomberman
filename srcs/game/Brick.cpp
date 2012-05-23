@@ -67,80 +67,9 @@ void		Brick::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3d(1.0f, 0.5f, 0.0f);
+  glColor3f(0.35f, 0.23f, 0.54f);
   model_.draw();
-//  glBegin(GL_QUADS);
-//  ////////////////////////////////////////////////////////////////////////////////
-//  /// Configuration de la couleur des vertices
-//  ///////////////////////////////////////////////////////////////////////////////
-//  glColor3f(0.23f, 0.50f, 0.62f);
-//  ////////////////////////////////////////////////////////////////////////////////
-//  /// Dessin des vertices
-//  ////////////////////////////////////////////////////////////////////////////////
-//  glNormal3d(0, 1, 0);
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-//  /// Vertex inferieur gauche
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-//  /// Vertex inferieur droit
-//  glVertex3f(0, ZIZIDEPOULE, 0);
-//  /// Vertex superieur droit
-//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-
-//  glColor3f(0.32f, 0.05f, 0.26f);
-//  glNormal3d(1, 0, 0);
-//  /// Vertex superieur gauche
-//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-//  /// Vertex inferieur gauche
-//  glVertex3f(ZIZIDEPOULE, 0, 0);
-//  /// Vertex inferieur droit
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-//  /// Vertex superieur droit
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-//  glColor3f(0.33f, 0.21f, 0.12f);
-//  glNormal3d(0, -1, 0);
-//  /// Vertex superieur gauche
-//  glVertex3f(0, 0, ZIZIDEPOULE);
-//  /// Vertex inferieur gauche
-//  glVertex3f(0, 0, 0);
-//  /// Vertex inferieur droit
-//  glVertex3f(ZIZIDEPOULE, 0, 0);
-//  /// Vertex superieur droit
-//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-//  glColor3f(0.88f, 0.57f, 0.10f);
-//  glNormal3d(-1, 0, 0);
-//  /// Vertex superieur gauche
-//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-//  /// Vertex inferieur gauche
-//  glVertex3f(0, ZIZIDEPOULE, 0);
-//  /// Vertex inferieur droit
-//  glVertex3f(0, 0, 0);
-//  /// Vertex superieur droit
-//  glVertex3f(0, 0, ZIZIDEPOULE);
-//  glColor3f(0.32f, 0.53f, 0.21f);
-//  glNormal3d(0, 0, -1);
-//  glVertex3f(0, 0, 0);
-//  glVertex3f(ZIZIDEPOULE, 0, 0);
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-//  glVertex3f(0, ZIZIDEPOULE, 0);
-//  glColor3f(0.91f, 0.18f, 0.42f);
-//    glNormal3d(0, 0, 1);
-//  glVertex3f(0, 0, ZIZIDEPOULE);
-//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-//  ////////////////////////////////////////////////////////////////////////////////
-//  /// Fermeture du contexte de rendu
-//  ////////////////////////////////////////////////////////////////////////////////
-//  glEnd();
-
-
-//  glBegin(GL_QUADS);
-//  glColor3ub(255, 0, 0);
-//  glVertex3d(0.0d, 0.0d, 0.0d);
-//  glVertex3d(0.0d, sz_.y, 0.0d);
-//  glVertex3d(sz_.x, sz_.y, 0.0d);
-//  glVertex3d(sz_.x, 0.0d, 0.0d);
-//  glEnd();
+  glColor3f(1, 1, 1);
 }
 
 void Brick::loot(std::list<AObject *> &objs)
