@@ -1,6 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 QT -= gui
+QT += network
 
 OBJECTS_DIR = ./objs/
 
@@ -45,6 +46,7 @@ SOURCES += \
     srcs/ia/Brain.cpp \
     srcs/states/PlayState.cpp \
     srcs/states/AdventureState.cpp \
+    srcs/states/OnlineState.cpp \
     srcs/states/Menu/MenuState.cpp \
     srcs/states/Menu/MenuLine.cpp \
     srcs/states/Menu/MenuEntry.cpp \
@@ -99,6 +101,7 @@ HEADERS += \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \
     srcs/states/AdventureState.hh \
+    srcs/states/OnlineState.hh \
     srcs/states/Menu/MenuState.hh \
     srcs/states/Menu/MenuLine.hh \
     srcs/states/Menu/MenuEntry.hh \
