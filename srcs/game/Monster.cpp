@@ -31,9 +31,12 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_), damage_(other.getDamage()), brainScript_(other.brainScript_),
+      moved_(other.moved_), damage_(other.getDamage()),
+      brainScript_(new Thinking::Brain(other.brainScript_->getX(), other.brainScript_->getY())),
       model_(other.model_)
 {
+    std::cout << "monster copy" << std::endl;
+    isInvincible_ = other.isInvincible_;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     actionsMap_ = other.actionsMap_;
@@ -43,7 +46,8 @@ Monster::Monster(const Monster &other)
 Monster::Monster()
   : Character("Monster"), moved_(false), brainScript_(new Thinking::Brain()), model_(ModelHandler::get().getModel("bombman"))
 {
-    //brainScript_ = new Thinking::Brain();
+    std::cout << "monster empty" << std::endl;
+    isInvincible_ = false;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
     actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
