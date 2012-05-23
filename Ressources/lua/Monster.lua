@@ -21,7 +21,7 @@ function this.thinking(this, x, y)
    if this:isCrossable(x, y - 0.05, MONSTER) == 1
    then
 --      printDebug("UP")
-      print(this:getDanger(x, y -0.5))
+      --print(this:getDanger(x, y -0.5))
       return UP
    end
 elseif a == 2
@@ -31,7 +31,7 @@ elseif a == 2
    if this:isCrossable(x + 0.05, y, MONSTER) == 1
    then
   --    printDebug("RIGHT")
-      print(this:getDanger(x + 0.05, y))
+      --print(this:getDanger(x + 0.05, y))
       return RIGHT
    end
       elseif a == 3
@@ -41,7 +41,7 @@ elseif a == 2
    if this:isCrossable(x, y + 0.05, MONSTER) == 1
    then
     --  printDebug("DOWN")
-      print(this:getDanger(x + 0.05, y))
+      --print(this:getDanger(x + 0.05, y))
       return DOWN
    end
 elseif a == 4
@@ -51,7 +51,7 @@ then
    if this:isCrossable(x - 0.05, y, MONSTER) == 1
    then
       --printDebug("LEFT")
-      print(this:getDanger(x - 0.05, y))
+      --print(this:getDanger(x - 0.05, y))
       return LEFT
    end
 end
