@@ -39,6 +39,7 @@ void RotatingImg::draw()
       img_.bind();
     }
   glBegin(GL_QUADS);
+  glNormal3d(-1, 0, 0);
   glTexCoord2d(0.0f, 0.0f); glVertex3d(1.0f, 0.5f, 1.0f);
   glTexCoord2d(0.0f, 1.0f); glVertex3d(1.0f, 0.5f, 0.0f);
   glTexCoord2d(1.0f, 1.0f); glVertex3d(0.0f, 0.5f, 0.0f);

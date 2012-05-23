@@ -14,6 +14,7 @@
 #include "TexturedCube.hh"
 #include "gdlModel.hh"
 #include "RotatingImg.hh"
+#include  "ExplosionBlock.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -58,6 +59,8 @@ void      StatesManager::initialize()
         marvin, "bombman");
   Bomberman::ModelHandler::get().storeModel(
         new gdlModel("Ressources/Assets/bomb.fbx"), "bomb");
+  Bomberman::ModelHandler::get().storeModel(
+        new ExplosionBlock("Ressources/Images/Play/explosion.png"), "explosion");
 }
 
 void      StatesManager::unload()

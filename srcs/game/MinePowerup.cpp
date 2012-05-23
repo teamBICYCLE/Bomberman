@@ -51,7 +51,6 @@ void	MinePowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(209, 182, 6);
   model_.draw();
 }
 

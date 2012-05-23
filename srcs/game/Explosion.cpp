@@ -15,7 +15,7 @@ using namespace	Bomberman;
 
 Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage, Player& owner)
   : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(owner),
-    model_(ModelHandler::get().getModel("cube"))
+    model_(ModelHandler::get().getModel("explosion"))
 {
 }
 
@@ -28,7 +28,7 @@ Explosion::Explosion(const Explosion& other)
 Explosion::Explosion()
     : AObject(Vector3d(), Vector3d(), Vector3d(), "Explosion"), damage_(0),
       bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), lastTime_(-1), owner_(*(new Player())),
-      model_(ModelHandler::get().getModel("cube"))
+      model_(ModelHandler::get().getModel("explosion"))
 {
 }
 
@@ -59,7 +59,6 @@ void		Explosion::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(198, 12, 0);
   model_.draw();
 }
 

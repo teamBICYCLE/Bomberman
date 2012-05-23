@@ -15,7 +15,7 @@
 # include	"Character.hh"
 # include	"BoundingBox.hh"
 # include	"Player.hh"
-# include       "TexturedCube.hh"
+# include       "ExplosionBlock.hh"
 
 namespace	Bomberman
 {
@@ -52,7 +52,7 @@ namespace	Bomberman
     float	timeOnScreen_;
     float	lastTime_;
     Player&	owner_;
-    TexturedCube  model_;
+    ExplosionBlock  model_;
   };
 }
 
