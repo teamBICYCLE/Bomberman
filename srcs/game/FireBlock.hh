@@ -32,16 +32,17 @@ namespace	Bomberman
     virtual void	serialize(QDataStream &out) const;
     virtual void	unserialize(QDataStream &in);
     static void		sInit(void);
-    virtual void    toQvariant(QSettings &w);
+    virtual void    toQvariant(QSettings &w) const;
 
   private:
-    void	spitFire(std::list<AObject*>& objs);
+    void            spitFire(std::list<AObject*>& objs);
 
   private:
     Vector3d	dir_;
     int		range_;
     float	lastTime_;
     float	timer_;
+    TexturedCube  model_;
   };
 }
 

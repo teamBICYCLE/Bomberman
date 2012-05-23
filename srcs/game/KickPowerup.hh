@@ -13,6 +13,7 @@
 
 # include "APowerup.hh"
 # include "Player.hh"
+# include "TexturedCube.hh"
 
 namespace	Bomberman
 {
@@ -31,6 +32,7 @@ namespace	Bomberman
   private:
     KickPowerup(const KickPowerup& other);
     KickPowerup& operator=(const KickPowerup& other);
+    TexturedCube  model_;
   };
 }
 

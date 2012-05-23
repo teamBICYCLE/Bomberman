@@ -10,11 +10,12 @@
 
 #include <GL/gl.h>
 #include "Brick.hh"
+#include "ModelHandler.hh"
 
 using namespace	Bomberman;
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Brick")
+  : AObject(pos, rot, sz, "Brick"), model_(ModelHandler::get().getModel("cube"))
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
@@ -28,7 +29,7 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Brick::Brick(const Brick &other)
-    : AObject(other.pos_, other.rot_, other.sz_, "Brick")
+  : AObject(other.pos_, other.rot_, other.sz_, "Brick"), model_(other.model_)
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
@@ -42,7 +43,7 @@ Brick::Brick(const Brick &other)
 }
 
 Brick::Brick()
-    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick")
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick"), model_(ModelHandler::get().getModel("cube"))
 {
 }
 
@@ -56,6 +57,7 @@ void		Brick::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>
   (void)clock;
   (void)keys;
   (void)objs;
+  model_.update(clock);
 }
 
 #define ZIZIDEPOULE 1.0f
@@ -65,69 +67,71 @@ void		Brick::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Configuration de la couleur des vertices
-  ///////////////////////////////////////////////////////////////////////////////
-  glColor3f(0.23f, 0.50f, 0.62f);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Dessin des vertices
-  ////////////////////////////////////////////////////////////////////////////////
-  glNormal3d(0, 1, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
+  glColor3d(1.0f, 0.5f, 0.0f);
+  model_.draw();
+//  glBegin(GL_QUADS);
+//  ////////////////////////////////////////////////////////////////////////////////
+//  /// Configuration de la couleur des vertices
+//  ///////////////////////////////////////////////////////////////////////////////
+//  glColor3f(0.23f, 0.50f, 0.62f);
+//  ////////////////////////////////////////////////////////////////////////////////
+//  /// Dessin des vertices
+//  ////////////////////////////////////////////////////////////////////////////////
+//  glNormal3d(0, 1, 0);
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+//  /// Vertex inferieur gauche
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
+//  /// Vertex inferieur droit
+//  glVertex3f(0, ZIZIDEPOULE, 0);
+//  /// Vertex superieur droit
+//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
 
-  glColor3f(0.32f, 0.05f, 0.26f);
-  glNormal3d(1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glColor3f(0.33f, 0.21f, 0.12f);
-  glNormal3d(0, -1, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, 0, 0);
-  /// Vertex inferieur droit
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glColor3f(0.88f, 0.57f, 0.10f);
-  glNormal3d(-1, 0, 0);
-  /// Vertex superieur gauche
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-  /// Vertex inferieur gauche
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  /// Vertex inferieur droit
-  glVertex3f(0, 0, 0);
-  /// Vertex superieur droit
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glColor3f(0.32f, 0.53f, 0.21f);
-  glNormal3d(0, 0, -1);
-  glVertex3f(0, 0, 0);
-  glVertex3f(ZIZIDEPOULE, 0, 0);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
-  glVertex3f(0, ZIZIDEPOULE, 0);
-  glColor3f(0.91f, 0.18f, 0.42f);
-    glNormal3d(0, 0, 1);
-  glVertex3f(0, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
-  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
-  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
-  ////////////////////////////////////////////////////////////////////////////////
-  /// Fermeture du contexte de rendu
-  ////////////////////////////////////////////////////////////////////////////////
-  glEnd();
+//  glColor3f(0.32f, 0.05f, 0.26f);
+//  glNormal3d(1, 0, 0);
+//  /// Vertex superieur gauche
+//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
+//  /// Vertex inferieur gauche
+//  glVertex3f(ZIZIDEPOULE, 0, 0);
+//  /// Vertex inferieur droit
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
+//  /// Vertex superieur droit
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+//  glColor3f(0.33f, 0.21f, 0.12f);
+//  glNormal3d(0, -1, 0);
+//  /// Vertex superieur gauche
+//  glVertex3f(0, 0, ZIZIDEPOULE);
+//  /// Vertex inferieur gauche
+//  glVertex3f(0, 0, 0);
+//  /// Vertex inferieur droit
+//  glVertex3f(ZIZIDEPOULE, 0, 0);
+//  /// Vertex superieur droit
+//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
+//  glColor3f(0.88f, 0.57f, 0.10f);
+//  glNormal3d(-1, 0, 0);
+//  /// Vertex superieur gauche
+//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
+//  /// Vertex inferieur gauche
+//  glVertex3f(0, ZIZIDEPOULE, 0);
+//  /// Vertex inferieur droit
+//  glVertex3f(0, 0, 0);
+//  /// Vertex superieur droit
+//  glVertex3f(0, 0, ZIZIDEPOULE);
+//  glColor3f(0.32f, 0.53f, 0.21f);
+//  glNormal3d(0, 0, -1);
+//  glVertex3f(0, 0, 0);
+//  glVertex3f(ZIZIDEPOULE, 0, 0);
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, 0);
+//  glVertex3f(0, ZIZIDEPOULE, 0);
+//  glColor3f(0.91f, 0.18f, 0.42f);
+//    glNormal3d(0, 0, 1);
+//  glVertex3f(0, 0, ZIZIDEPOULE);
+//  glVertex3f(ZIZIDEPOULE, 0, ZIZIDEPOULE);
+//  glVertex3f(ZIZIDEPOULE, ZIZIDEPOULE, ZIZIDEPOULE);
+//  glVertex3f(0, ZIZIDEPOULE, ZIZIDEPOULE);
+//  ////////////////////////////////////////////////////////////////////////////////
+//  /// Fermeture du contexte de rendu
+//  ////////////////////////////////////////////////////////////////////////////////
+//  glEnd();
 
 
 //  glBegin(GL_QUADS);
@@ -196,7 +200,7 @@ QDataStream &operator>>(QDataStream &in, Brick &v)
     return in;
 }
 
-void    Brick::toQvariant(QSettings &w)
+void    Brick::toQvariant(QSettings &w) const
 {
     w.setValue("Brick", qVariantFromValue(*this));
 }

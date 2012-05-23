@@ -13,7 +13,7 @@
 #include <SFML/Window.hpp>
 
 Camera::Camera()
-  :position_(6.5f, 6.5f, 15.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(6.5f, 6.5f, 11.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
@@ -55,7 +55,7 @@ void    Camera::draw()
   glFogf(GL_FOG_DENSITY, 0.10) ;
   glFogf(GL_FOG_START, 100.0) ;
   glFogf(GL_FOG_END, 500.0) ;
-  
+
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

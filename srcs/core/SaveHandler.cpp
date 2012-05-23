@@ -31,8 +31,7 @@ SaveHandler::~SaveHandler()
 
 void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 {
-    if (!obj->removeLater_)
-        obj->toQvariant(w);
+    obj->toQvariant(w);
 }
 
 const std::string   SaveHandler::newFileName(void) const
@@ -73,8 +72,6 @@ void SaveHandler::save(std::list<AObject*> &objs) const
         {
             w.setArrayIndex(i);
             SaveHandler::writeObject((*it), w);
-//            if ((dynamic_cast<Player *>(*it)))
-//                (*it)->toQvariant(w);
             i++;
         }
 

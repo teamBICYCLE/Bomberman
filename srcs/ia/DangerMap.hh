@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Tue May 22 13:36:09 2012 thibault carpentier
+// Last update Tue May 22 17:51:05 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -21,23 +21,34 @@ namespace Bomberman
 {
   class DangerMap
   {
-    typedef int (Bomberman::DangerMap::*fctMeth)(const std::list<AObject*>::const_iterator &);
+    typedef void (Bomberman::DangerMap::*fctMeth)(const std::list<AObject*>::const_iterator &, int, int);
+    # define DANGER_MAX 10
+    # define DANGER_MIN -10
+
+    # define DANGER_BOMB (DANGER_MAX - (bomb->getTimeOut() * 3))
+    # define DANGER_BLOCK 0
+    # define DANGER_MONSTER 0
+    # define DANGER_PLAYER DANGER_MIN
+    # define DANGER_POWERUP (DANGER_MIN / 2)
+    # define DANGER_MINE DANGER_MAX
+    # define DANGER_EXPLOSION DANGER_MAX
 
   private:
     DangerMap(DangerMap const &);
     DangerMap& operator=(DangerMap const &);
 
     void resetDanger(void);
-    int updateDanger(const std::list<AObject *>::const_iterator &it);
+    void setDanger(int x, int y, int danger);
+    void updateDanger(const std::list<AObject *>::const_iterator &it, int x, int y);
     void updateCaseVison(const std::list<AObject *>::const_iterator &it, int x, int y);
 
-    int powerupDanger(const std::list<AObject *>::const_iterator &it);
-    int mineDanger(const std::list<AObject*>::const_iterator &it);
-    int explosionDanger(const std::list<AObject*>::const_iterator &it);
-    int playerDanger(const std::list<AObject*>::const_iterator &it);
-    int monsterDanger(const std::list<AObject*>::const_iterator &it);
-    int blockDanger(const std::list<AObject*>::const_iterator &it);
-    int bomberDanger(const std::list<AObject*>::const_iterator &it);
+    void powerupDanger(const std::list<AObject *>::const_iterator &it, int x, int y);
+    void mineDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void explosionDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void playerDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void monsterDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
 
     void setRangeDanger(int range, int x, int y, int danger);
     void isPosValid(bool &valid, int x, int y);

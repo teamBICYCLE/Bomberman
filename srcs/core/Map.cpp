@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 22 15:15:39 2012 thibault carpentier
+// Last update Tue May 22 16:15:29 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -70,8 +70,10 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   generateBricks();
   generateBorder();
   generatePlayers();
-  generateMonsters(nbMonsters_);
-  generateGhosts(nbGhosts_);
+  generateMonsters(nbMonsters);
+  generateGhosts(nbGhosts);
+  //  generateMonsters(nbMonsters_);
+  //  generateGhosts(nbGhosts_);
 }
 
 Map::Map(const std::string& fileName)

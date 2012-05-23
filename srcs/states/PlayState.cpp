@@ -15,7 +15,6 @@
 #include "Player.hh"
 #include "PlayState.hh"
 #include "Map.hh"
-
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
@@ -31,7 +30,7 @@ bool  PlayState::init()
   success = true;
   try {
     //    Map	map("Ressources/Map/map5");
-    Map	map(13, 13, 2, 5, 1);
+    Map	map(13, 13, 1, 1, 0);
     //    Map	map("Ressources/Map/map2");
     // int	viewport[4];
 
@@ -86,12 +85,12 @@ void  PlayState::update(StatesManager * sMg)
           it = objs_.erase(it);
     }
   if (bestScore_ != -1)
-    {
+  {
       if (!nbPlayers)
-    gameOver(sMg);
+          gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-    win(sMg);
-    }
+          win(sMg);
+  }
 }
 
 void	PlayState::win(StatesManager *mngr)
@@ -143,9 +142,9 @@ void  PlayState::draw(StatesManager * sMg)
   glBegin(GL_QUADS);
   glColor3f(0, 0, 1.0f);
   glVertex3f(0, 0, 0);
-  glVertex3f((this->mapH_ * MULTZ), 0, 0);
-  glVertex3f((this->mapH_ * MULTZ), (this->mapW_ * MULTZ), 0);
-  glVertex3f(0, (this->mapW_ * MULTZ), 0);
+  glVertex3f(this->mapH_, 0, 0);
+  glVertex3f(this->mapH_, this->mapW_, 0);
+  glVertex3f(0, this->mapW_, 0);
   glEnd();
   glPopMatrix();
   glPushMatrix();

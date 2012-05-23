@@ -15,6 +15,7 @@
 # include	<sys/types.h>
 # include	"Character.hh"
 # include	"BoundingBox.hh"
+# include       "gdlModel.hh"
 
 namespace	Bomberman
 {
@@ -58,7 +59,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    virtual void toQvariant(QSettings &w);
+    virtual void toQvariant(QSettings &w) const;
 
     /* tmp */
     void aff(void) const;
@@ -88,6 +89,8 @@ namespace	Bomberman
     bool	wasRunning_;
     int		score_;
     bool	kickAbility_;
+    gdlModel    model_;
+
   };
 }
 

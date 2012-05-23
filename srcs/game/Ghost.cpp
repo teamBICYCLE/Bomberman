@@ -13,6 +13,7 @@
 #include "Bomb.hh"
 #include "Ghost.hh"
 #include "GhostBoundingBox.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
@@ -22,10 +23,6 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Think
   std::cout << "Ghost created." << std::endl;
   brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
-  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
   actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
   actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
@@ -37,7 +34,6 @@ Ghost::Ghost(const Ghost &other)
 {
     brainScript_->compileFile(GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(other.pos_, other.sz_, this);
-    model_ = other.model_;
     actionsMap_ = other.actionsMap_;
 }
 
@@ -46,10 +42,6 @@ Ghost::Ghost()
 {
   brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
-  model_ = gdl::Model::load("Ressources/Assets/marvin.fbx");
-  model_.cut_animation(model_, "Take 001", 0, 35, "start");
-  model_.cut_animation(model_, "Take 001", 36, 54, "run");
-  model_.cut_animation(model_, "Take 001", 55, 120, "stop");
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
   actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
   actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
@@ -106,7 +98,7 @@ QDataStream &operator>>(QDataStream &in, Ghost &m)
     return in;
 }
 
-void    Ghost::toQvariant(QSettings &w)
+void    Ghost::toQvariant(QSettings &w) const
 {
     w.setValue("Ghost", qVariantFromValue(*this));
 }
