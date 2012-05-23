@@ -22,7 +22,7 @@ using namespace Thinking;
 using namespace LuaVirtualMachine;
 
 Brain::Brain(int x, int y)
-  : danger_(x, y)
+    : Script(), danger_(x, y), x_(x), y_(y)
 {
   lua_State *state = getVM().getLua();
 
@@ -45,6 +45,65 @@ Brain::Brain(int x, int y)
 
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
+}
+
+Brain::Brain(const Brain &other)
+    : Script(), danger_(other.x_, other.y_)
+{
+    std::cout << "brain copy" << std::endl;
+    decision_ = other.decision_;
+
+    lua_State *state = getVM().getLua();
+
+    lua_pushinteger(state, eDirection::UP);
+    lua_setglobal(state, "UP");
+    lua_pushinteger(state, eDirection::RIGHT);
+    lua_setglobal(state, "RIGHT");
+    lua_pushinteger(state, eDirection::DOWN);
+    lua_setglobal(state, "DOWN");
+    lua_pushinteger(state, eDirection::LEFT);
+    lua_setglobal(state, "LEFT");
+    lua_pushinteger(state, eDirection::NODIR);
+    lua_setglobal(state, "NODIR");
+    lua_pushinteger(state, eDirection::NODIR);
+    lua_setglobal(state, "NODIR");
+    lua_pushinteger(state, eEnnemyType::MONSTER);
+    lua_setglobal(state, "MONSTER");
+    lua_pushinteger(state, eEnnemyType::GHOST);
+    lua_setglobal(state, "GHOST");
+
+    meth_[registerFct("isCrossable")] = &Brain::isCrossable;
+    meth_[registerFct("getDanger")] = &Brain::getDanger;
+
+    x_ = other.x_;
+    y_ = other.y_;
+}
+
+Brain::Brain()
+    : Script(), danger_(0, 0), x_(0), y_(0)
+{
+    lua_State *state = getVM().getLua();
+
+    std::cout << "brain empty" << std::endl;
+    lua_pushinteger(state, eDirection::UP);
+    lua_setglobal(state, "UP");
+    lua_pushinteger(state, eDirection::RIGHT);
+    lua_setglobal(state, "RIGHT");
+    lua_pushinteger(state, eDirection::DOWN);
+    lua_setglobal(state, "DOWN");
+    lua_pushinteger(state, eDirection::LEFT);
+    lua_setglobal(state, "LEFT");
+    lua_pushinteger(state, eDirection::NODIR);
+    lua_setglobal(state, "NODIR");
+    lua_pushinteger(state, eDirection::NODIR);
+    lua_setglobal(state, "NODIR");
+    lua_pushinteger(state, eEnnemyType::MONSTER);
+    lua_setglobal(state, "MONSTER");
+    lua_pushinteger(state, eEnnemyType::GHOST);
+    lua_setglobal(state, "GHOST");
+
+    meth_[registerFct("isCrossable")] = &Brain::isCrossable;
+    meth_[registerFct("getDanger")] = &Brain::getDanger;
 }
 
 Brain::~Brain(void)
@@ -105,6 +164,16 @@ int Brain::getDanger(VirtualMachine &vm)
   return (1);
 }
 
+int Brain::getX(void) const
+{
+    return x_;
+}
+
+int Brain::getY(void) const
+{
+    return y_;
+}
+
 int Brain::isCrossable(VirtualMachine &vm)
 {
   std::list<AObject*> objs = danger_.getObjs();
@@ -132,4 +201,30 @@ int Brain::isCrossable(VirtualMachine &vm)
     }
   lua_pushnumber(vm.getLua(), valid);
   return (1);
+}
+
+/* Serialization */
+
+void Brain::serialize(QDataStream &out) const
+{
+  out << x_;
+  out << y_;
+}
+
+void Brain::unserialize(QDataStream &in)
+{
+    in >> x_;
+    in >> y_;
+}
+
+QDataStream &operator<<(QDataStream &out, const Brain &b)
+{
+  b.serialize(out);
+  return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Brain &b)
+{
+  b.unserialize(in);
+  return in;
 }

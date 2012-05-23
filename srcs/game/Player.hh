@@ -59,7 +59,7 @@ namespace	Bomberman
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
-    virtual void toQvariant(QSettings &w);
+    virtual void toQvariant(QSettings &w) const;
 
     /* tmp */
     void aff(void) const;

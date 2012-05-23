@@ -150,7 +150,7 @@ QDataStream &operator>>(QDataStream &in, FireBlock &v)
     return in;
 }
 
-void    FireBlock::toQvariant(QSettings &w)
+void    FireBlock::toQvariant(QSettings &w) const
 {
     w.setValue("FireBlock", qVariantFromValue(*this));
 }

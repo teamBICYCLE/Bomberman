@@ -31,7 +31,7 @@ bool  PlayState::init()
   success = true;
   try {
     //    Map	map("Ressources/Map/map5");
-    Map	map(13, 13, 2, 5, 1);
+    Map	map(13, 13, 1, 1, 0);
     //    Map	map("Ressources/Map/map2");
     // int	viewport[4];
 
@@ -86,13 +86,12 @@ void  PlayState::update(StatesManager * sMg)
           it = objs_.erase(it);
     }
   if (bestScore_ != -1)
-    {
+  {
       if (!nbPlayers)
-
-    gameOver(sMg);
+          gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-    win(sMg);
-    }
+          win(sMg);
+  }
 }
 
 void	PlayState::win(StatesManager *mngr)

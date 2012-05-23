@@ -56,6 +56,7 @@
 # include <string>
 # include <iostream>
 # include <list>
+# include <QDataStream>
 # include "VirtualMachine.hh"
 # include "Script.hh"
 # include "Character.hh"
@@ -102,6 +103,8 @@ namespace Bomberman
        *
        */
       Brain(int x, int y);
+      Brain(const Brain &);
+      Brain();
       /*!
        *  \brief Destructor.
        *
@@ -189,6 +192,14 @@ namespace Bomberman
        */
       int getDanger(VirtualMachine &vm);
 
+      int getX(void) const;
+      int getY(void) const;
+    /* Serialization */
+    public:
+        virtual void serialize(QDataStream &out) const;
+        virtual void unserialize(QDataStream &in);
+        static void sInit(void);
+
     private:
       /*!
        *  \brief Unused Constructor.
@@ -197,7 +208,7 @@ namespace Bomberman
        *
        *  \param Unused.
        */
-      Brain(Brain const &);
+      //Brain(Brain const &);
       /*!
        *  \brief Unused Constructor.
        *
@@ -211,8 +222,16 @@ namespace Bomberman
 
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
       DangerMap danger_;  /*!< Class used to create a map showing danger to the IA*/
+      int x_;
+      int y_;
     };
   }
 }
+
+/* Serialization */
+Q_DECLARE_METATYPE(Bomberman::Thinking::Brain);
+QDataStream &operator << (QDataStream &out, const Bomberman::Thinking::Brain &b);
+QDataStream &operator >> (QDataStream &in, Bomberman::Thinking::Brain &b);
+QDataStream &operator >> (QDataStream &in, const Bomberman::Thinking::Brain &b);
 
 #endif /*!_BRAIN_H_*/

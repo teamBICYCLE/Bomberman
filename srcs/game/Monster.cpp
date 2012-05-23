@@ -31,24 +31,30 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
 
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
-      moved_(other.moved_), damage_(other.getDamage()), brainScript_(other.brainScript_),
+      moved_(other.moved_), damage_(other.getDamage()),
+      brainScript_(new Thinking::Brain(other.brainScript_->getX(), other.brainScript_->getY())),
       model_(other.model_)
 {
+    std::cout << "monster copy" << std::endl;
+    isInvincible_ = other.isInvincible_;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     actionsMap_ = other.actionsMap_;
+    damage_ = other.damage_;
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_(), model_(ModelHandler::get().getModel("bombman"))
+  : Character("Monster"), moved_(false), brainScript_(new Thinking::Brain()), model_(ModelHandler::get().getModel("bombman"))
 {
-    //brainScript_ = new Thinking::Brain();
+    std::cout << "monster empty" << std::endl;
+    isInvincible_ = false;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
     actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
     actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
     actionsMap_.insert(std::make_pair(Bomberman::UP, &Character::turnUp));
     actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
+    damage_ = 0;
 }
 
 Monster::~Monster()
@@ -153,6 +159,8 @@ void Monster::serialize(QDataStream &out) const
     out << speedAdapter_;
     out << moved_;
     out << id_;
+    out << damage_;
+    brainScript_->serialize(out);
 }
 
 void Monster::unserialize(QDataStream &in)
@@ -166,6 +174,8 @@ void Monster::unserialize(QDataStream &in)
     in >> speedAdapter_;
     in >> moved_;
     in >> id_;
+    in >> damage_;
+    brainScript_->unserialize(in);
 }
 
 void Monster::sInit(void)
@@ -186,7 +196,7 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
     return in;
 }
 
-void    Monster::toQvariant(QSettings &w)
+void    Monster::toQvariant(QSettings &w) const
 {
     w.setValue("Monster", qVariantFromValue(*this));
 }

@@ -36,7 +36,7 @@ namespace	Bomberman
     virtual void		draw(void) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
-    virtual void        toQvariant(QSettings &);
+    virtual void        toQvariant(QSettings &) const;
 
     /* tmp */
     virtual void        aff(void);
