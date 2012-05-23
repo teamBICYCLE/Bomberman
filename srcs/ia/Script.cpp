@@ -174,7 +174,10 @@ bool Script::callFct(int nbRet)
       if (lua_isfunction(VM_.getLua(), (-1 * (nbArgs_ + 1) - 1)))
 	{
 	  if (lua_pcall(VM_.getLua(), nbArgs_ + 1, nbRet, 0))
+      {
+std::cout << lua_tostring(VM_.getLua(), -1) << std::endl;
 	    throw Failure("callFct", "Error, on lua_pcall");
+      }
 	  getReturn(VM_, fctName_);
 	  lua_pop(VM_.getLua(), nbRet);
 	  return (true);

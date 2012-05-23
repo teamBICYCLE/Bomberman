@@ -192,6 +192,8 @@ namespace Bomberman
        */
       int getDanger(VirtualMachine &vm);
 
+      int getX(void) const;
+      int getY(void) const;
     /* Serialization */
     public:
         virtual void serialize(QDataStream &out) const;
