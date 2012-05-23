@@ -32,6 +32,8 @@ SaveHandler::~SaveHandler()
 
 void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 {
+    if (obj->getType() == "FireBlock")
+        obj->aff();
     obj->toQvariant(w);
 }
 
@@ -158,7 +160,10 @@ std::list<AObject*> *SaveHandler::load(const std::string &file) const
         else if (s.contains("Explosion"))
             res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
         else if (s.contains("FireBlock"))
+        {
             res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
+            (static_cast<FireBlock *>(res->back()))->aff();
+        }
     }
     s.endArray();
     Character::CharacterId = lastId;

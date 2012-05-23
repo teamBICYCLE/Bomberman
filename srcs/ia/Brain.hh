@@ -103,7 +103,23 @@ namespace Bomberman
        *
        */
       Brain(int x, int y);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Copy Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
       Brain(const Brain &);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Empty Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
       Brain();
       /*!
        *  \brief Destructor.
