@@ -410,25 +410,3 @@ void    Player::toQvariant(QSettings &w) const
 {
     w.setValue("Player", qVariantFromValue(*this));
 }
-
-/* TMP */
-
-void Player::aff(void) const
-{
-    std::cout << "=== START PLAYER ===" << std::endl;
-    std::cout << "nbBombs : " << nbBombs_ << std::endl;
-    std::cout << "bombRange : " << bombRange_ << std::endl;
-    std::cout << "bombTime : " << bombTime_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "bombCollide : " << bombCollide_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "score : " << score_ << std::endl;
-    std::cout << "=== END PLAYER ===" << std::endl;
-}

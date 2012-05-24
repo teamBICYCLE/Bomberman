@@ -42,9 +42,6 @@ namespace	Bomberman
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
 
-    /* TMP */
-    void aff(void) const;
-
   private:
     APowerup	*loot_;
     TexturedCube  model_;

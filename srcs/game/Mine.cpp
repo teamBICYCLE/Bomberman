@@ -139,7 +139,7 @@ void Mine::aff2(void) const
     std::cout << "timeout : " << timeOut_ << std::endl;
     std::cout << "speed : " << speed_ << std::endl;
     std::cout << "timeCreation : " << lastTime_ << std::endl;
-    owner_.aff();
+    //owner_.aff();
     std::cout << "chainReaction : " << chainReaction_ << std::endl;
     std::cout << "=== END MINE ===" << std::endl;
 }

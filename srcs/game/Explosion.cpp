@@ -131,17 +131,3 @@ void    Explosion::toQvariant(QSettings &w) const
 {
     w.setValue("Explosion", qVariantFromValue(*this));
 }
-
-/* TMP */
-
-void Explosion::aff(void) const
-{
-    std::cout << "=== START Explosion ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "Damage : " << damage_ << std::endl;
-    std::cout << "timeonscreen : " << timeOnScreen_ << std::endl;
-    std::cout << "timeofcreation : " << lastTime_ << std::endl;
-    std::cout << "=== END Explosion ===" << std::endl;
-}

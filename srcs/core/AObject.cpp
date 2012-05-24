@@ -92,12 +92,3 @@ void    AObject::toQvariant(QSettings &w) const
 {
     (void)w;
 }
-
-/* tmp */
-
-void    AObject::aff(void)
-{
-    if (this->getType() == "Mine")
-        (static_cast<Mine *>(this))->aff2();
-    std::cout << "?" << std::endl;
-}
