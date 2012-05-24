@@ -26,7 +26,6 @@ public:
   void    drawRepere(void);
 
 private:
-<<<<<<< HEAD
  static const float fov = 70.0f;
  static const float winxSize = 800.0f;
  static const float winySize = 600.0f;

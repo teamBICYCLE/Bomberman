@@ -4,6 +4,8 @@
 -- debug hooker is the function setHook(HOOKTYPE, count)
 -- HOOKTYPE are : MASKCOUT, MASKRET MASKCALL MASKLINE
 
+dofile("INCLUDE_usefullFct.lua")
+
 function this.thinking(this, x, y)
    --setHook(MASKCOUNT, 4)
   --printDebug("Thinking Ia !")
