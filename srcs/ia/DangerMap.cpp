@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Tue May 22 17:51:24 2012 thibault carpentier
+// Last update Thu May 24 17:13:42 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -42,7 +42,7 @@ DangerMap::~DangerMap(void)
 
 void DangerMap::setDanger(int x, int y, int danger)
 {
-  danger_[y][x].first += danger;
+  danger_[y][x].first = (danger > danger_[y][x].first ? danger : danger_[y][x].first);
   if (danger_[y][x].first > DANGER_MAX)
     danger_[y][x].first = DANGER_MAX;
   if (danger_[y][x].first < DANGER_MIN)
@@ -69,7 +69,7 @@ void DangerMap::isPosValid(bool &valid, int y, int x)
             if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
               valid = false;
           }
-            });
+	});
     }
 }
 
