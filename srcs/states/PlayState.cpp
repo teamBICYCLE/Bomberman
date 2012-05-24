@@ -30,9 +30,8 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    //    Map	map("Ressources/Map/map5");
-    Map	map(13, 13, 1, 1, 0);
-    //    Map	map("Ressources/Map/map2");
+   // Map	map(13, 13, 1, 1, 1);
+        Map	map("Ressources/Map/map2");
     // int	viewport[4];
 
     bestScore_ = 0;

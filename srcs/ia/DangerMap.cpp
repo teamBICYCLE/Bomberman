@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Thu May 24 17:13:42 2012 Jonathan Machado
+// Last update Thu May 24 17:17:49 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -174,6 +174,23 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
       if (y >= 0 && y < y_ && x >= 0 && x < x_)
         updateCaseVison(it, x, y);
     }
+
+  // //  temporaire
+  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  // for (test = danger_.begin(); test != danger_.end(); ++test)
+  //   {
+  //     std::vector<std::pair<int, int> >::iterator toto;
+  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	std::cout <<  (*toto).first << (*toto).second << " ";
+  //     std::cout << std::endl;
+  //   }
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
+  // std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const

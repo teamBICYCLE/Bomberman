@@ -50,7 +50,6 @@ Brain::Brain(int x, int y)
 Brain::Brain(const Brain &other)
     : Script(), danger_(other.x_, other.y_)
 {
-    std::cout << "brain copy" << std::endl;
     decision_ = other.decision_;
 
     lua_State *state = getVM().getLua();
@@ -84,7 +83,6 @@ Brain::Brain()
 {
     lua_State *state = getVM().getLua();
 
-    std::cout << "brain empty" << std::endl;
     lua_pushinteger(state, eDirection::UP);
     lua_setglobal(state, "UP");
     lua_pushinteger(state, eDirection::RIGHT);

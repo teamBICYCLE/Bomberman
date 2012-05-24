@@ -13,6 +13,8 @@
 #include "Explosion.hh"
 #include "ModelHandler.hh"
 
+#include "FireBlock.hh"
+
 using namespace Bomberman;
 
 AObject::AObject(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const std::string& modelName)
@@ -95,5 +97,9 @@ void    AObject::toQvariant(QSettings &w) const
 
 void    AObject::aff(void)
 {
+    if (this->getType() == "FireBlock")
+    {
+        (static_cast<FireBlock *>(this))->aff();
+    }
     std::cout << "?" << std::endl;
 }

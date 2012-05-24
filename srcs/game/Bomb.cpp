@@ -250,6 +250,8 @@ void Bomb::unserialize(QDataStream &in)
     in >> range_;
     in >> timeOut_;
     owner_.unserialize(in);
+
+    lastTime_ = -1;
 }
 
 void Bomb::sInit(void)
