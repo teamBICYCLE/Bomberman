@@ -10,10 +10,11 @@
 #include "Camera.hh"
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glut.h>
 #include <SFML/Window.hpp>
 
 Camera::Camera()
-  :position_(6.5f, 6.5f, 11.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(6.5f, 6.5f, 13.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
@@ -29,6 +30,7 @@ void    Camera::initialize()
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
+  glEnable(GL_LIGHTING);
 
 }
 
@@ -36,8 +38,8 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)
 {
   (void)gameClock;
   (void)input;
-  //  if (input.isKeyDown(gdl::Keys::Up))
-  //    position_.x -= 1;
+  if (input.isKeyDown(gdl::Keys::Up))
+    glDisable(GL_LIGHTING);
   //  if (input.isKeyDown(gdl::Keys::Down))
   //    position_.x += 1;
 }
@@ -46,21 +48,12 @@ void    Camera::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-  //glClearColor(0.76f, 0.12f, 0.37f, 1.0f);GlEnable(GL_FOG) ;
-  //glEnable(GL_FOG) ;
-  GLfloat fogcolor[4] = {0.5, 0.5, 0.5, 1} ;
-  GLint fogmode = GL_EXP ;
-  glFogi (GL_FOG_MODE, fogmode) ;
-  glFogfv(GL_FOG_COLOR, fogcolor) ;
-  glFogf(GL_FOG_DENSITY, 0.10) ;
-  glFogf(GL_FOG_START, 100.0) ;
-  glFogf(GL_FOG_END, 500.0) ;
-
-
+  glEnable(GL_BLEND) ;
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   //glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);
- gluPerspective(this->fov, this->winxSize / this->winySize,
+  gluPerspective(this->fov, this->winxSize / this->winySize,
                 this->zNear, this->zFar);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -71,15 +64,26 @@ void    Camera::draw()
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
 
- // glEnable(GL_LIGHTING);
- // glEnable(GL_LIGHT0);
-
+  glEnable(GL_LIGHT0);
+  GLfloat ambient[] = { 0.13,0.13,0.13,1.0 };
+  GLfloat diffuse[] = { 0.8,0.8,0.8,1.0 };
+  GLfloat specular[] = { 0.5,0.5,0.5,1.0 };
+  GLfloat shinines[] = { 5.0 };
+  glEnable(GL_COLOR_MATERIAL);
+//              glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+//  glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+//  glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse);
+  //glMaterialfv(GL_FRONT,GL_SPECULAR, specular);
+//  glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
+//  glLightfv(GL_LIGHT0,GL_DIFFUSE,diffuse);
+  //glMaterialfv(GL_FRONT,GL_SHININESS, shinines);
   GLfloat  pos[4];
-  pos[0] = 0;
-  pos[1] = 0;
-  pos[2] = 100;
+  pos[0] = -20;
+  pos[1] = -20;
+  pos[2] = 60;
   pos[3] = 1;
   glLightfv(GL_LIGHT0, GL_POSITION, pos);
+  //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 //  glMatrixMode(GL_MODELVIEW);
 //  glLoadIdentity();
 //  glEnable(GL_DEPTH_TEST);
@@ -105,5 +109,5 @@ void   Camera::drawRepere()
     glVertex3f(0, 0, 0);
     glVertex3f(1, 0, 0);
     glEnd();
-
+    glColor3f(1, 1, 1);
 }

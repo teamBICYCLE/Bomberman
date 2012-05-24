@@ -13,6 +13,7 @@
 
 # include "APowerup.hh"
 # include "Player.hh"
+# include "RotatingImg.hh"
 
 namespace	Bomberman
 {
@@ -31,6 +32,7 @@ namespace	Bomberman
   private:
     RangePowerup(const RangePowerup& other);
     RangePowerup& operator=(const RangePowerup& other);
+    RotatingImg     model_;
   };
 }
 

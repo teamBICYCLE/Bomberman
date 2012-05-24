@@ -133,12 +133,11 @@ void		Player::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
-  glColor3d(1.0f, 0.0f, 0.0f);
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-
   this->model_.draw();
+  glColor3d(1.0f, 1.0f, 1.0f);
 }
 
 void	Player::interact(Character *ch, std::list<AObject*>& objs)

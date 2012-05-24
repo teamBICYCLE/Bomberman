@@ -35,7 +35,6 @@ Monster::Monster(const Monster &other)
       brainScript_(new Thinking::Brain(other.brainScript_->getX(), other.brainScript_->getY())),
       model_(other.model_)
 {
-    std::cout << "monster copy" << std::endl;
     isInvincible_ = other.isInvincible_;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
@@ -46,7 +45,6 @@ Monster::Monster(const Monster &other)
 Monster::Monster()
   : Character("Monster"), moved_(false), brainScript_(new Thinking::Brain()), model_(ModelHandler::get().getModel("bombman"))
 {
-    std::cout << "monster empty" << std::endl;
     isInvincible_ = false;
     brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
@@ -91,7 +89,6 @@ void		Monster::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
-  glColor3d(1.0f, 0.0f, 0.0f);
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);

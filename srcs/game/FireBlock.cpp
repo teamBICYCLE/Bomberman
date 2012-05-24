@@ -31,7 +31,8 @@ FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& s
 }
 
 FireBlock::FireBlock(const FireBlock &other)
-  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_),
+  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_),
+    range_(other.range_), lastTime_(other.lastTime_), timer_(other.timer_),
     model_(other.model_)
 {
   type_ = "FireBlock";
@@ -71,7 +72,6 @@ void		FireBlock::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(175, 175, 175);
   model_.draw();
 }
 
@@ -117,20 +117,24 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
 
 void FireBlock::serialize(QDataStream &out) const
 {
-  Block::serialize(out);
-  dir_.serialize(out);
-  out << range_;
-  out << lastTime_;
-  out << timer_;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    dir_.serialize(out);
+    out << lastTime_;
+    out << range_;
+    out << timer_;
 }
 
 void FireBlock::unserialize(QDataStream &in)
 {
-  Block::unserialize(in);
-  dir_.unserialize(in);
-  in >> range_;
-  in >> lastTime_;
-  in >> timer_;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    dir_.unserialize(in);
+    in >> lastTime_;
+    in >> range_;
+    in >> timer_;
 }
 
 void FireBlock::sInit(void)
@@ -154,4 +158,18 @@ QDataStream &operator>>(QDataStream &in, FireBlock &v)
 void    FireBlock::toQvariant(QSettings &w) const
 {
     w.setValue("FireBlock", qVariantFromValue(*this));
+}
+
+/* tmp */
+
+void    FireBlock::aff(void) const
+{
+    std::cout << "=== START FIREBLOCK ===" << std::endl;
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "Dir : " << dir_.x << " " << dir_.y << " " << dir_.z << std::endl;
+    std::cout << "Range : " << range_ << std::endl;
+    std::cout << "Timer : " << timer_ << std::endl;
+    std::cout << "=== END FIREBLOCK ===" << std::endl;
 }

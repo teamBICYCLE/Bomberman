@@ -122,3 +122,8 @@ QDataStream &operator>>(QDataStream &in, Mine &v)
     v.unserialize(in);
     return in;
 }
+
+void    Mine::toQvariant(QSettings &w) const
+{
+    w.setValue("Mine", qVariantFromValue(*this));
+}

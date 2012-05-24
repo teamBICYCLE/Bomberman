@@ -25,64 +25,42 @@ TexturedCube::TexturedCube(const AModel &orig)
 
 void TexturedCube::draw()
 {
-  //if (img_.isValid())
-   // img_.bind();
   if (img_.isValid())
+    {
       glEnable(GL_TEXTURE_2D);
-
-  if (img_.isValid())
-  img_.bind();
+      img_.bind();
+    }
   glBegin(GL_QUADS);
-  glNormal3d(0, 1, 0);
+  glNormal3d(0, 0, 1);
   glTexCoord2d(0.0f, 0.0f); glVertex3f(1, 1, 1);
   glTexCoord2d(0.0f, 0.5f); glVertex3f(1, 1, 0);
   glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 1, 0);
   glTexCoord2d(0.34f, 0.0f); glVertex3f(0, 1, 1);
-  glEnd();
 
-  if (img_.isValid())
-  img_.bind();
-  glBegin(GL_QUADS);
   glNormal3d(1, 0, 0);
   glTexCoord2d(0.34f, 0.0f); glVertex3f(1, 0, 1);
   glTexCoord2d(0.34f, 0.5f); glVertex3f(1, 0, 0);
   glTexCoord2d(0.67f, 0.5f);  glVertex3f(1, 1, 0);
   glTexCoord2d(0.67f, 0.0f); glVertex3f(1, 1, 1);
-  glEnd();
 
-  if (img_.isValid())
-  img_.bind();
-  glBegin(GL_QUADS);
   glNormal3d(0, -1, 0);
   glTexCoord2d(0.67f, 0.0f); glVertex3f(0, 0, 1);
   glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 0, 0);
   glTexCoord2d(1.0f, 0.5f);  glVertex3f(1, 0, 0);
   glTexCoord2d(1.0f, 0.0f);  glVertex3f(1, 0, 1);
-  glEnd();
 
-  if (img_.isValid())
-  img_.bind();
-  glBegin(GL_QUADS);
   glNormal3d(-1, 0, 0);
   glTexCoord2d(0.0f, 0.5f);  glVertex3f(0, 1, 1);
   glTexCoord2d(0.0f, 1.0f); glVertex3f(0, 1, 0);
   glTexCoord2d(0.34f, 1.0f);  glVertex3f(0, 0, 0);
   glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 0, 1);
-  glEnd();
 
-  if (img_.isValid())
-  img_.bind();
-  glBegin(GL_QUADS);
   glNormal3d(0, 0, -1);
   glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 0, 0);
   glTexCoord2d(0.34f, 1.0f);  glVertex3f(1, 0, 0);
   glTexCoord2d(0.67f, 1.0f);  glVertex3f(1, 1, 0);
   glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 1, 0);
-  glEnd();
 
-  if (img_.isValid())
-  img_.bind();
-  glBegin(GL_QUADS);
   glNormal3d(0, 0, 1);
   glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 0, 1);
   glTexCoord2d(0.67f, 1.0f); glVertex3f(1, 0, 1);

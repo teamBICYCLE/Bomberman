@@ -21,17 +21,17 @@
 # include	"Monster.hh"
 # include	"Ghost.hh"
 
-# define	MAP_FILE_EMPTY		'.'
-# define	MAP_FILE_BLOCK		'W'
-# define	MAP_FILE_BRICK		'B'
-# define	MAP_FILE_PLAYER		'P'
-# define	MAP_FILE_MONSTER	'M'
-# define	MAP_FILE_GHOST		'G'
+# define	MAP_FILE_EMPTY          '.'
+# define	MAP_FILE_BLOCK          'W'
+# define	MAP_FILE_BRICK          'B'
+# define	MAP_FILE_PLAYER         'P'
+# define	MAP_FILE_MONSTER        'M'
+# define	MAP_FILE_GHOST          'G'
 # define	MAP_FILE_FIREBLOCK_UP	'U'
 # define	MAP_FILE_FIREBLOCK_DOWN	'D'
 # define	MAP_FILE_FIREBLOCK_LEFT	'L'
 # define	MAP_FILE_FIREBLOCK_RIGT	'R'
-# define	MAP_FILE_ALLOWED	".WBPMGUDLR"
+# define	MAP_FILE_ALLOWED        ".WBPMGUDLR"
 
 namespace	Bomberman
 {
