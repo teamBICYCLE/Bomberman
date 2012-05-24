@@ -13,7 +13,7 @@
 #include "Explosion.hh"
 #include "ModelHandler.hh"
 
-#include "FireBlock.hh"
+#include "Mine.hh"
 
 using namespace Bomberman;
 
@@ -97,9 +97,7 @@ void    AObject::toQvariant(QSettings &w) const
 
 void    AObject::aff(void)
 {
-    if (this->getType() == "FireBlock")
-    {
-        (static_cast<FireBlock *>(this))->aff();
-    }
+    if (this->getType() == "Mine")
+        (static_cast<Mine *>(this))->aff2();
     std::cout << "?" << std::endl;
 }
