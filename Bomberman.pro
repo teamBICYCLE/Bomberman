@@ -57,7 +57,8 @@ SOURCES += \
     srcs/graphics/TexturedCube.cpp \
     srcs/graphics/gdlModel.cpp \
     srcs/graphics/RotatingImg.cpp \
-    srcs/graphics/ExplosionBlock.cpp
+    srcs/graphics/ExplosionBlock.cpp \
+    srcs/states/Options/OptionsState.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -116,4 +117,5 @@ HEADERS += \
     srcs/graphics/TexturedCube.hh \
     srcs/graphics/gdlModel.hh \
     srcs/graphics/RotatingImg.hh \
-    srcs/graphics/ExplosionBlock.hh
+    srcs/graphics/ExplosionBlock.hh \
+    srcs/states/Options/OptionsState.hh
