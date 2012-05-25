@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Mon May 21 15:23:08 2012 lois burg
+// Last update Thu May 24 19:13:48 2012 thibault carpentier
 //
 
 #include "Character.hh"

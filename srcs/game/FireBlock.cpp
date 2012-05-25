@@ -159,17 +159,3 @@ void    FireBlock::toQvariant(QSettings &w) const
 {
     w.setValue("FireBlock", qVariantFromValue(*this));
 }
-
-/* tmp */
-
-void    FireBlock::aff(void) const
-{
-    std::cout << "=== START FIREBLOCK ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "Dir : " << dir_.x << " " << dir_.y << " " << dir_.z << std::endl;
-    std::cout << "Range : " << range_ << std::endl;
-    std::cout << "Timer : " << timer_ << std::endl;
-    std::cout << "=== END FIREBLOCK ===" << std::endl;
-}

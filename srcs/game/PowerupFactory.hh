@@ -18,6 +18,8 @@
 # include "RangePowerup.hh"
 # include "Vector3d.hh"
 
+# define PERCENT_FACTORY    3
+
 namespace Bomberman
 {
     class PowerupFactory
@@ -26,6 +28,7 @@ namespace Bomberman
     public:
         static PowerupFactory *getInstance(void);
         static void deleteInstance(void);
+        APowerup *percentDrop(void) const;
 
     public:
         APowerup *create(void) const;
@@ -35,7 +38,7 @@ namespace Bomberman
         ~PowerupFactory();
 
     private:
-        std::vector<APowerup *> ref_;
+        std::vector< std::pair<uint, APowerup *> > ref_;
         static PowerupFactory *instance_;
     };
 }

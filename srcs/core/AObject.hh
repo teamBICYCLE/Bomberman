@@ -38,9 +38,6 @@ namespace	Bomberman
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void        toQvariant(QSettings &) const;
 
-    /* tmp */
-    virtual void        aff(void);
-
   public:
     virtual void		setPos(const Vector3d &);
     virtual void		setRot(const Vector3d &);

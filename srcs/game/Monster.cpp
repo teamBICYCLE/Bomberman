@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 22 15:38:08 2012 thibault carpentier
+// Last update Fri May 25 11:18:06 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -17,10 +17,10 @@
 using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
+  : Character(pos, rot, sz, "Monster", 1, 1.00), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("bombman"))
 {
-  isInvincible_ = true;
+  //isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -197,22 +197,5 @@ QDataStream &operator>>(QDataStream &in, Monster &m)
 void    Monster::toQvariant(QSettings &w) const
 {
     w.setValue("Monster", qVariantFromValue(*this));
-}
-
-/* TMP */
-
-void Monster::aff(void) const
-{
-    std::cout << "=== START MONSTER ===" << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "=== END MONSTER ===" << std::endl;
 }
 

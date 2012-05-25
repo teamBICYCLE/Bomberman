@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 22 14:17:16 2012 thibault carpentier
+// Last update Fri May 25 10:24:47 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -28,7 +28,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     model_(ModelHandler::get().getModel("bombman"))
 {
   isInvincible_ = true;
-  // kickAbility_ = true;
+  kickAbility_ = true;
   nbBombs_ = 100;
   nbMines_ = 10000;
 
@@ -80,7 +80,7 @@ Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
-      bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
+      bombCollide_(true), wasRunning_(other.wasRunning_), score_(other.score_),
       kickAbility_(other.kickAbility_), model_(other.model_)
 {
   isInvincible_ = other.isInvincible_;
@@ -408,26 +408,4 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 void    Player::toQvariant(QSettings &w) const
 {
     w.setValue("Player", qVariantFromValue(*this));
-}
-
-/* TMP */
-
-void Player::aff(void) const
-{
-    std::cout << "=== START PLAYER ===" << std::endl;
-    std::cout << "nbBombs : " << nbBombs_ << std::endl;
-    std::cout << "bombRange : " << bombRange_ << std::endl;
-    std::cout << "bombTime : " << bombTime_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "bombCollide : " << bombCollide_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "score : " << score_ << std::endl;
-    std::cout << "=== END PLAYER ===" << std::endl;
 }

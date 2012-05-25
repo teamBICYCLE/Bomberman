@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Tue May 22 16:14:38 2012 thibault carpentier
+// Last update Fri May 25 11:54:41 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -16,6 +16,8 @@
 #include "Brick.hh"
 #include "Bomb.hh"
 #include "Mine.hh"
+#include "Monster.hh"
+#include "Ghost.hh"
 
 using namespace Bomberman;
 using namespace Thinking;
@@ -148,7 +150,7 @@ bool Brain::isParamsPosition(VirtualMachine &vm) const
 
 int Brain::getDanger(VirtualMachine &vm)
 {
-  int danger = -1;
+  int danger = DANGER_MAX + 1;
   int x, y;
 
   if (isParamsPosition(vm))
@@ -191,7 +193,8 @@ int Brain::isCrossable(VirtualMachine &vm)
   	      if (valid && bb.collideWith(obj))
   		{
   		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
-		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj) || dynamic_cast<Mine*>(obj))
+		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj)
+		    || dynamic_cast<Monster*>(obj) || dynamic_cast<Ghost*>(obj))
 		    valid = 0;
   		}
   	    });

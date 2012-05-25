@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Tue May 22 17:51:05 2012 thibault carpentier
+// Last update Thu May 24 17:42:44 2012 Jonathan Machado
 //
 
 #ifndef _DANGERMAP_H_
@@ -16,6 +16,7 @@
 # include <utility>
 # include <vector>
 # include "AObject.hh"
+# include "Bomb.hh"
 
 namespace Bomberman
 {
@@ -51,7 +52,7 @@ namespace Bomberman
     void bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
 
     void setRangeDanger(int range, int x, int y, int danger);
-    void isPosValid(bool &valid, int x, int y);
+    Bomb *isPosValid(bool &valid, int x, int y);
 
     std::vector<std::vector<std::pair<int, int> > > danger_;
     std::list<AObject*> objs_;

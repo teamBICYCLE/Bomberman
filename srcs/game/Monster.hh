@@ -46,9 +46,6 @@ namespace	Bomberman
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
 
-    /* tmp */
-    void aff(void) const;
-
   public:
     uint	getDamage(void) const;
 

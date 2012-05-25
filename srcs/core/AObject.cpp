@@ -13,7 +13,7 @@
 #include "Explosion.hh"
 #include "ModelHandler.hh"
 
-#include "FireBlock.hh"
+#include "Mine.hh"
 
 using namespace Bomberman;
 
@@ -91,15 +91,4 @@ void	AObject::interact(Explosion *e, std::list<AObject*>& objs)
 void    AObject::toQvariant(QSettings &w) const
 {
     (void)w;
-}
-
-/* tmp */
-
-void    AObject::aff(void)
-{
-    if (this->getType() == "FireBlock")
-    {
-        (static_cast<FireBlock *>(this))->aff();
-    }
-    std::cout << "?" << std::endl;
 }

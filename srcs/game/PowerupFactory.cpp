@@ -15,28 +15,45 @@ PowerupFactory *PowerupFactory::instance_ = NULL;
 
 PowerupFactory::PowerupFactory()
 {
-    ref_.push_back(new VelocityPowerup(Vector3d(), Vector3d(), Vector3d()));
-    ref_.push_back(new RangePowerup(Vector3d(), Vector3d(), Vector3d()));
-    ref_.push_back(new AmmoPowerup(Vector3d(), Vector3d(), Vector3d()));
-    ref_.push_back(new MinePowerup(Vector3d(), Vector3d(), Vector3d()));
-    ref_.push_back(new KickPowerup(Vector3d(), Vector3d(), Vector3d()));
+    ref_.push_back(std::make_pair(25, new VelocityPowerup(Vector3d(), Vector3d(), Vector3d())));
+    ref_.push_back(std::make_pair(50, new RangePowerup(Vector3d(), Vector3d(), Vector3d())));
+    ref_.push_back(std::make_pair(80, new AmmoPowerup(Vector3d(), Vector3d(), Vector3d())));
+    ref_.push_back(std::make_pair(90, new MinePowerup(Vector3d(), Vector3d(), Vector3d())));
+    ref_.push_back(std::make_pair(100, new KickPowerup(Vector3d(), Vector3d(), Vector3d())));
 }
 
 PowerupFactory::~PowerupFactory()
 {
-  std::vector<APowerup*>::iterator it;
+  std::vector< std::pair<uint, APowerup *> >::iterator it;
 
   for (it = ref_.begin(); it != ref_.end(); it++)
-    delete (*it);
+    delete (it->second);
+}
+
+APowerup *PowerupFactory::percentDrop(void) const
+{
+   uint nb = (random() % 100) + 1;
+   std::vector< std::pair<uint, APowerup *> >::const_iterator it;
+   uint borne = 0;
+
+   for (it = ref_.begin(); it != ref_.end(); it++)
+   {
+       if (nb <= it->first && nb >= borne)
+           return it->second->clone();
+       borne = it->first;
+   }
+   return NULL;
 }
 
 APowerup *PowerupFactory::create(void) const
 {
-    uint nb = (rand() % (Bomberman::NONE * 3));
+    uint nb = (random() % PERCENT_FACTORY) + 1;
 
-    if (nb >= ref_.size())
-        return NULL;
-    return (ref_.at(nb)->clone());
+    if (nb == 1)
+        return PowerupFactory::percentDrop();
+    return NULL;
+//        return NULL;
+//    return (ref_.at(nb)->clone());
 }
 
 PowerupFactory *PowerupFactory::getInstance(void)
