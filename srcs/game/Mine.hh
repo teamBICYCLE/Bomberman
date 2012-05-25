@@ -13,7 +13,7 @@
 
 # include	"Bomb.hh"
 # include	"Explosion.hh"
-# include       "gdlModel.hh"
+# include   "gdlModel.hh"
 
 namespace	Bomberman
 {
