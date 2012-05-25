@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Fri May 25 14:12:18 2012 thibault carpentier
+// Last update Fri May 25 17:49:00 2012 thibault carpentier
 //
 
 
@@ -79,7 +79,7 @@ Bomb	*DangerMap::isPosValid(bool &valid, int y, int x)
 		  valid = false;
 		  return NULL;
 		}
-	      else if (dynamic_cast<Bomb*>(obj))
+	      else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
 		return static_cast<Bomb*>(obj);
 	      return NULL;
 	    }
