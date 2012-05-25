@@ -48,7 +48,7 @@ function getLessDangerousDirection(this, x, y, type)
    danger_res = this:getDanger(posX[1], posY[1], type)
    i = 1
    for i = 1, table.getn(dir)do
-      print (posX[i], posY[i], this:getDanger(posX[i], posY[i]), this:isCrossable(posX[i], posY[i], type), showdir(dir[i]))
+--      print (posX[i], posY[i], this:getDanger(posX[i], posY[i]), this:isCrossable(posX[i], posY[i], type), showdir(dir[i]))
       if (this:getDanger(posX[i], posY[i]) <= danger_res
        and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
@@ -56,10 +56,10 @@ function getLessDangerousDirection(this, x, y, type)
 	 res = dir[i]
       end
    end
-   print(showdir(dir[i]))
-   print()
-   print()
-   print()
+   -- print(showdir(dir[i]))
+   -- print()
+   -- print()
+   -- print()
    -- nodir = this:getDanger(x, y)
    -- up =  this:getDanger(x, y -0.5)
    -- right = this:getDanger(x + 0.05, y)
