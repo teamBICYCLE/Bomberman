@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May 25 09:52:00 2012 thibault carpentier
+// Last update Fri May 25 10:25:13 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -32,12 +32,11 @@ bool  PlayState::init()
   try {
    // Map	map(13, 13, 1, 1, 1);
         Map	map("Ressources/Map/map5");
-    // int	viewport[4];
+	// int	viewport[4];
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
-    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();

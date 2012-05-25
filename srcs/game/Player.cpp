@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 25 10:14:50 2012 thibault carpentier
+// Last update Fri May 25 10:24:47 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -179,7 +179,6 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
-  // std::cout << nbBombs_ << " " << bombCollide_ << std::endl;
   if (nbBombs_ > 0 && bombCollide_)
     {
       if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
