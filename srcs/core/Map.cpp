@@ -73,8 +73,6 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   generatePlayers();
   generateMonsters(nbMonsters);
   generateGhosts(nbGhosts);
-  //  generateMonsters(nbMonsters_);
-  //  generateGhosts(nbGhosts_);
 }
 
 Map::Map(const std::string& fileName)
@@ -162,7 +160,7 @@ void				Map::generateMonsters(uint nbMonsters)
   uint				x = 0;
   uint				y = 0;
   bool				find = false;
-  Thinking::Brain		*b;
+  Thinking::Brain   *b;
 
   b = new Thinking::Brain(width_, height_);
   while (nbMonsters > 0)
@@ -373,7 +371,7 @@ void Map::setFromFile(std::list<std::string> &map)
 
     height_ = map.front().length();
     width_ = map.size();
-    b = new Thinking::Brain(map.front().length(), map.size());
+    b = new Thinking::Brain(width_, height_);
     Map::addPlayers(map);
     for (itm = map.begin(); itm != map.end(); itm++)
     {

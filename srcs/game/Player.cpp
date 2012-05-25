@@ -179,7 +179,6 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
-  std::cout << nbBombs_ << " " << bombCollide_ << std::endl;
   if (nbBombs_ > 0 && bombCollide_)
     {
       if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
