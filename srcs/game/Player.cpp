@@ -80,7 +80,7 @@ Player::Player(const Player &other)
     : Character(other.pos_, other.rot_, other.sz_, "Player", other.life_, other.speed_),
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       mineRange_(other.mineRange_), bombTime_(other.bombTime_), moved_(other.moved_),
-      bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
+      bombCollide_(true), wasRunning_(other.wasRunning_), score_(other.score_),
       kickAbility_(other.kickAbility_), model_(other.model_)
 {
   isInvincible_ = other.isInvincible_;
@@ -179,6 +179,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
+  std::cout << nbBombs_ << " " << bombCollide_ << std::endl;
   if (nbBombs_ > 0 && bombCollide_)
     {
       if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
@@ -408,26 +409,4 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 void    Player::toQvariant(QSettings &w) const
 {
     w.setValue("Player", qVariantFromValue(*this));
-}
-
-/* TMP */
-
-void Player::aff(void) const
-{
-    std::cout << "=== START PLAYER ===" << std::endl;
-    std::cout << "nbBombs : " << nbBombs_ << std::endl;
-    std::cout << "bombRange : " << bombRange_ << std::endl;
-    std::cout << "bombTime : " << bombTime_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "bombCollide : " << bombCollide_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "score : " << score_ << std::endl;
-    std::cout << "=== END PLAYER ===" << std::endl;
 }

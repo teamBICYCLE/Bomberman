@@ -199,20 +199,3 @@ void    Monster::toQvariant(QSettings &w) const
     w.setValue("Monster", qVariantFromValue(*this));
 }
 
-/* TMP */
-
-void Monster::aff(void) const
-{
-    std::cout << "=== START MONSTER ===" << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "=== END MONSTER ===" << std::endl;
-}
-
