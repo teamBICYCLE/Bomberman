@@ -23,19 +23,33 @@ function showdir(res)
    end
 end
 
+function round(num)
+   under = math.floor(num)
+   upper = math.floor(num) + 1
+   underV = -(under - num)
+    upperV = upper - num
+   if (upperV > underV) then
+        return under
+   else
+        return upper
+   end
+end
+
 function getLessDangerousDirection(this, x, y, type)
+   -- x = round(x, 0)
+   -- y = round(y, 0)
    dir = {NODIR, RIGHT, LEFT, UP, DOWN}
    posX = {x , x + 1, x - 1, x, x}
    posY = {y, y, y, y - 1, y + 1}
-   dirX = {x, x + 0.05, x - 0.05, x, x}
-   dirY = {y, y, y, y - 0.05, y + 0.05}
+   dirX = {x, x + 1, x - 1, x, x}
+   dirY = {y, y, y, y - 1, y + 1}
 
    res = dir[1]
    danger_res = this:getDanger(posX[1], posY[1], type)
    i = 1
    for i = 1, table.getn(dir)do
       print (posX[i], posY[i], this:getDanger(posX[i], posY[i]), this:isCrossable(posX[i], posY[i], type), showdir(dir[i]))
-      if (this:getDanger(posX[i], posY[i]) < danger_res
+      if (this:getDanger(posX[i], posY[i]) <= danger_res
        and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
 	 danger_res = this:getDanger(posX[i], posY[i])

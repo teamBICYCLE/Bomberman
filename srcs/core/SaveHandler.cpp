@@ -20,15 +20,11 @@
 
 using namespace Bomberman;
 
-SaveHandler::SaveHandler()
-{
+SaveHandler::SaveHandler(void)
+{}
 
-}
-
-SaveHandler::~SaveHandler()
-{
-
-}
+SaveHandler::~SaveHandler(void)
+{}
 
 void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 {
@@ -150,7 +146,7 @@ std::list<AObject*> *SaveHandler::load(const std::string &file) const
             else if (s.contains("Player"))
                 res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
             else if (s.contains("Bomb"))
-                res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+	      res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
             else if (s.contains("Mine"))
                 res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
             else if (s.contains("Monster"))

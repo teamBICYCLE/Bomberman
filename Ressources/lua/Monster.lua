@@ -7,22 +7,21 @@
 dofile("Ressources/lua/INCLUDE_usefullFct.lua")
 
 function this.thinking(this, x, y)
-   return (NODIR)
+   -- setHook(MASKCOUNT, 4)
+   -- return (NODIR)
+   getLessDangerousDirection(this, x, y, MONSTER)
+   if (this:getDanger(x, y) > 0) then
+      if (getLessDangerousDirection(this, x, y, MONSTER) == NODIR) then
+	 return (getLessDangerousDirection(this, x + 1, y))		--trouver la direction la plus safe
+      else
+	 return (getLessDangerousDirection(this, x, y, MONSTER))
+      end
+   else
+      return (NODIR)		--chercher le joueur ?
+   end
 
-   -- getLessDangerousDirection(this, x, y, MONSTER)
-   -- if (this:getDanger(x, y) > 0) then
-   --    if (getLessDangerousDirection(this, x, y, MONSTER) == NODIR) then
-   -- 	 return (getLessDangerousDirextion(this, x + 1, y))		--trouver la direction la plus safe
-   --    else
-   -- 	 return (getLessDangerousDirection(this, x, y, MONSTER))
-   --    end
-   -- else
-   --    return (NODIR)		--chercher le joueur ?
-   -- end
 
-
-   --setHook(MASKCOUNT, 4)
-   --printDebug("Thinking Ia !")
+   --printdebug("Thinking Ia !")
    -- print (x, y)
    -- print (this:isCrossable(x, y - 1, MONSTER))
 
