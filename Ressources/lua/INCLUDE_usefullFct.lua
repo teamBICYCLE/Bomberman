@@ -36,8 +36,6 @@ function round(num)
 end
 
 function getLessDangerousDirection(this, x, y, type)
-   -- x = round(x, 0)
-   -- y = round(y, 0)
    dir = {NODIR, RIGHT, LEFT, UP, DOWN}
    posX = {x , x + 1, x - 1, x, x}
    posY = {y, y, y, y - 1, y + 1}
@@ -46,9 +44,7 @@ function getLessDangerousDirection(this, x, y, type)
 
    res = dir[1]
    danger_res = this:getDanger(posX[1], posY[1], type)
-   i = 1
    for i = 1, table.getn(dir)do
---      print (posX[i], posY[i], this:getDanger(posX[i], posY[i]), this:isCrossable(posX[i], posY[i], type), showdir(dir[i]))
       if (this:getDanger(posX[i], posY[i]) <= danger_res
        and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
@@ -56,19 +52,5 @@ function getLessDangerousDirection(this, x, y, type)
 	 res = dir[i]
       end
    end
-   -- print(showdir(dir[i]))
-   -- print()
-   -- print()
-   -- print()
-   -- nodir = this:getDanger(x, y)
-   -- up =  this:getDanger(x, y -0.5)
-   -- right = this:getDanger(x + 0.05, y)
-   -- left = this:getDanger(x - 0.05, y)
-   -- down = this:getDanger(x, y + 0.5)
-
-   -- up_isgood = this:isCrossable(x, y - 0.05, type)
-   -- right_isgood = this:isCrossable(x + 0.05, y, type)
-   -- left_isgood =  this:isCrossable(x - 0.05, y, type)
-   -- down_isgood = this:isCrossable(x, y + 0,5)
    return (res)
 end
