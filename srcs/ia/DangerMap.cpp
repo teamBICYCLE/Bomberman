@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Thu May 24 17:48:30 2012 thibault carpentier
+// Last update Fri May 25 10:19:28 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -15,12 +15,14 @@
 #include "Mine.hh"
 #include "Block.hh"
 #include "Brick.hh"
+#include "FireBlock.hh"
 
 using namespace Bomberman;
 
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
+  std::cout << x << " " << y  << std::endl;
   dangerMeth_["VelocityPowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["MinePowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["KickPowerup"] = &DangerMap::powerupDanger;
@@ -33,6 +35,7 @@ DangerMap::DangerMap(int x, int y)
   dangerMeth_["Brick"] = &DangerMap::blockDanger;
   dangerMeth_["Block"] = &DangerMap::blockDanger;
   dangerMeth_["Bomb"] = &DangerMap::bomberDanger;
+  // dangerMeth_["Fireblock"] = &DangerMap::fireBlockDanger;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -96,6 +99,13 @@ void DangerMap::setRangeDanger(int range, int x, int y, int danger)
         setDanger(x, y - i, danger);
     }
 }
+
+// void DangerMap::fireBlockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
+// {
+//   Fireblock *block = static_cast<Fireblock*>(*it);
+
+//   setRangeDangerBlock(block
+// }
 
 void DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {

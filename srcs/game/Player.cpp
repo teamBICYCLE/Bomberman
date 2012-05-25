@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 22 14:17:16 2012 thibault carpentier
+// Last update Fri May 25 10:14:50 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -28,7 +28,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     model_(ModelHandler::get().getModel("bombman"))
 {
   isInvincible_ = true;
-  // kickAbility_ = true;
+  kickAbility_ = true;
   nbBombs_ = 100;
   nbMines_ = 10000;
 
@@ -179,7 +179,7 @@ void	Player::putBomb(std::list<AObject*>& objs)
 {
   Bomb	*b;
 
-  std::cout << nbBombs_ << " " << bombCollide_ << std::endl;
+  // std::cout << nbBombs_ << " " << bombCollide_ << std::endl;
   if (nbBombs_ > 0 && bombCollide_)
     {
       if ((b = new Bomb(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), bombRange_, bombTime_, *this)))
