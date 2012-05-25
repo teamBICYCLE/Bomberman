@@ -30,9 +30,8 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    //    Map	map("Ressources/Map/map5");
-    Map	map(13, 13, 1, 1, 0);
-    //    Map	map("Ressources/Map/map2");
+   // Map	map(13, 13, 1, 1, 1);
+        Map	map("Ressources/Map/map2");
     // int	viewport[4];
 
     bestScore_ = 0;
@@ -150,12 +149,12 @@ void  PlayState::draw(StatesManager * sMg)
   glBegin(GL_QUADS);
   glNormal3d(0, 0, 1);
   glTexCoord2d(0.0f, 0.0f); glVertex3f(0, 0, 0);
-  glTexCoord2d(static_cast<double>(this->mapH_) / 2.0f, 0.0f);
-  glVertex3f(this->mapH_, 0, 0);
-  glTexCoord2d(static_cast<double>(this->mapH_) / 2.0f, static_cast<double>(this->mapW_) /2.0f);
-  glVertex3f(this->mapH_, this->mapW_, 0);
-  glTexCoord2d(0.0f, static_cast<double>(this->mapW_) /2.0f);
-  glVertex3f(0, this->mapW_, 0);
+  glTexCoord2d(static_cast<double>(this->mapW_) / 2.0f, 0.0f);
+  glVertex3f(this->mapW_, 0, 0);
+  glTexCoord2d(static_cast<double>(this->mapW_) / 2.0f, static_cast<double>(this->mapH_) /2.0f);
+  glVertex3f(this->mapW_, this->mapH_, 0);
+  glTexCoord2d(0.0f, static_cast<double>(this->mapH_) /2.0f);
+  glVertex3f(0, this->mapH_, 0);
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glPopMatrix();

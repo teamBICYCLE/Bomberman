@@ -58,7 +58,7 @@ SOURCES += \
     srcs/graphics/gdlModel.cpp \
     srcs/graphics/RotatingImg.cpp \
     srcs/graphics/ExplosionBlock.cpp \
-    srcs/states/Options/OptionsState.cpp
+    srcs/states/Carrousel/CarrouselHandler.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -118,4 +118,4 @@ HEADERS += \
     srcs/graphics/gdlModel.hh \
     srcs/graphics/RotatingImg.hh \
     srcs/graphics/ExplosionBlock.hh \
-    srcs/states/Options/OptionsState.hh
+    srcs/states/Carrousel/CarrouselHandler.hh

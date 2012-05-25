@@ -37,6 +37,7 @@ private:
   const float zNear = 0.1f;
   const float zFar = 1000.0f;
 
+
 protected:
   Vector3d    position_;
   Vector3d    rotation_;

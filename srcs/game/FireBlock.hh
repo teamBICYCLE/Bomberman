@@ -34,15 +34,18 @@ namespace	Bomberman
     static void		sInit(void);
     virtual void    toQvariant(QSettings &w) const;
 
+    /* tmp */
+    void            aff(void) const;
+
   private:
     void            spitFire(std::list<AObject*>& objs);
 
   private:
-    Vector3d	dir_;
-    int		range_;
-    float	lastTime_;
-    float	timer_;
-    TexturedCube  model_;
+    Vector3d        dir_;
+    int             range_;
+    float           lastTime_;
+    float           timer_;
+    TexturedCube    model_;
   };
 }
 

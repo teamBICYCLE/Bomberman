@@ -40,6 +40,7 @@ public:
 private:
     const std::string newFileName(void) const;
     void writeObject(AObject *obj, QSettings &w) const;
+    void initAllObjects(void) const;
 
 };
 

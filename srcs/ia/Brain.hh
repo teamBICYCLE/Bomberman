@@ -103,7 +103,23 @@ namespace Bomberman
        *
        */
       Brain(int x, int y);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Copy Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
       Brain(const Brain &);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Empty Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
       Brain();
       /*!
        *  \brief Destructor.
@@ -183,7 +199,7 @@ namespace Bomberman
       /*!
        *  \brief Method returning danger
        *
-       *  The method returnthe danger of the following position (number x, number y)
+       *  The method return the danger of the following position (number x, number y)
        *
        *
        *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
@@ -192,12 +208,59 @@ namespace Bomberman
        */
       int getDanger(VirtualMachine &vm);
 
+      /*!
+       *  \brief Method returning X
+       *
+       *  The method return X (represent width)
+       *
+       *  \return (int) The x value
+       *
+       */
       int getX(void) const;
+
+      /*!
+       *  \brief Method returning X
+       *
+       *  The method return Y (represent height)
+       *
+       *  \return (int) The y value
+       *
+       */
       int getY(void) const;
     /* Serialization */
     public:
+
+      /*!
+       *  \brief Method serialize a brain
+       *
+       *  The method serialize the brain
+       *
+       *  \param (QDataStream &) the stream to serialize
+       *  \return void
+       *
+       */
         virtual void serialize(QDataStream &out) const;
+
+      /*!
+       *  \brief Method unserialize a brain
+       *
+       *  The method unserialize the brain
+       *
+       *  \param (QDataStream &) the stream to unserialize
+       *  \return void
+       *
+       */
         virtual void unserialize(QDataStream &in);
+
+      /*!
+       *  \brief Init Qt for serialization
+       *
+       *  The method initialise Qt for serialization
+       *
+       *  \param void
+       *  \return void
+       *
+       */
         static void sInit(void);
 
     private:
