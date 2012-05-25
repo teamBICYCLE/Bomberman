@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Thu May 24 17:17:49 2012 Jonathan Machado
+// Last update Thu May 24 19:20:27 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -57,43 +57,70 @@ void DangerMap::resetDanger(void)
       danger_[y][x] = std::pair<int, int>(0, 0);
 }
 
-void DangerMap::isPosValid(bool &valid, int y, int x)
+Bomb	*DangerMap::isPosValid(bool &valid, int y, int x)
 {
+  AObject *obj;
+  std::list<AObject*>::iterator i;
   std::string type;
 
   if (valid == true)
     {
-      std::for_each(objs_.begin(), objs_.end(), [&](AObject *obj) -> void {
-          if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
-          {
-            if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
-              valid = false;
-          }
-	});
+      for(i = objs_.begin(); i != objs_.end(); ++i)
+	{
+	  obj = (*i);
+	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+	    {
+	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+		{
+		  valid = false;
+		  return NULL;
+		}
+	      else if (dynamic_cast<Bomb*>(obj))
+		return static_cast<Bomb*>(obj);
+	      return NULL;
+	    }
+	}
     }
+  return NULL;
 }
 
 void DangerMap::setRangeDanger(int range, int x, int y, int danger)
 {
+  Bomb		*bomb;
   bool          upInvalid = true;
   bool          downInvalid = true;
   bool          leftInvalid = true;
   bool          rightInvalid = true;
 
-  for (int i = 0; i <= range; ++i)
+  setDanger(x, y, danger);
+  for (int i = 1; i <= range; ++i)
     {
-      isPosValid(rightInvalid, y, x + i);
+      bomb = isPosValid(rightInvalid, y, x + i);
+      if (bomb != NULL && danger_[y][x].first != danger_[y][x + i].first)
+	setRangeDanger(bomb->getRange(), x + i, y, danger);
       if (x + i < x_  && rightInvalid)
-        setDanger(x + i, y, danger);
-      isPosValid(leftInvalid, y, x - i);
+	setDanger(x + i, y, danger);
+
+
+      bomb = isPosValid(leftInvalid, y, x - i);
+      if (bomb != NULL && danger_[y][x].first != danger_[y][x - i].first)
+	setRangeDanger(bomb->getRange(), x - i, y, danger);
       if (x - i >= 0 && leftInvalid)
         setDanger(x - i, y, danger);
-      isPosValid(downInvalid, y + i, x);
+
+
+      bomb = isPosValid(downInvalid, y + i, x);
+      if (bomb != NULL && danger_[y][x].first != danger_[y + i][x].first)
+      	setRangeDanger(bomb->getRange(), x, y + i, danger);
       if (y + i < y_ && downInvalid)
         setDanger(x, y + i, danger);
-      isPosValid(upInvalid, y - i, x);
+
+      bomb = isPosValid(upInvalid, y - i, x);
+      if (bomb != NULL && danger_[y][x].first != danger_[y - i][x].first)
+       	setRangeDanger(bomb->getRange(), x, y - i, danger);
       if (y - i >= 0 && upInvalid)
         setDanger(x, y - i, danger);
+
     }
 }
 
@@ -101,10 +128,7 @@ void DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int 
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
-
-  setRangeDanger(bomb->getRange(), static_cast<int>((*it)->getPos().x), static_cast<int>((*it)->getPos().y),
-                 DANGER_BOMB);
-  setDanger(x, y, DANGER_BOMB);
+  setRangeDanger(bomb->getRange(), x, y, DANGER_BOMB);
 }
 
 void DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
@@ -176,21 +200,21 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
     }
 
   // //  temporaire
-  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  // for (test = danger_.begin(); test != danger_.end(); ++test)
-  //   {
-  //     std::vector<std::pair<int, int> >::iterator toto;
-  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  // 	std::cout <<  (*toto).first << (*toto).second << " ";
-  //     std::cout << std::endl;
-  //   }
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
-  // std::cout << std::endl;
+  std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  for (test = danger_.begin(); test != danger_.end(); ++test)
+    {
+      std::vector<std::pair<int, int> >::iterator toto;
+      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  	std::cout <<  (*toto).first << (*toto).second << " ";
+      std::cout << std::endl;
+    }
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const
