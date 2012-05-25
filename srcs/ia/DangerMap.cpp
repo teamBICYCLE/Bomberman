@@ -4,13 +4,10 @@
 // Made by thibault carpentier
 // Login   <carpen_t@epitech.net>
 //
-// Started on  Fri May 18 14:31:06 2012 thibault carpentier
-<<<<<<< HEAD
-// Last update Fri May 25 11:41:23 2012 thibault carpentier
-=======
-// Last update Thu May 24 19:20:27 2012 Jonathan Machado
->>>>>>> b73f96886848db1cdffea97788103dcddef96c6d
+// Started on  Fri May 25 13:57:28 2012 thibault carpentier
+// Last update Fri May 25 13:57:39 2012 thibault carpentier
 //
+
 
 #include <algorithm>
 #include "DangerMap.hh"
@@ -213,11 +210,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
         updateCaseVison(it, x, y);
     }
 
-<<<<<<< HEAD
-  //  temporaire
-=======
   // //  temporaire
->>>>>>> b73f96886848db1cdffea97788103dcddef96c6d
   std::vector<std::vector<std::pair<int, int> > >::iterator test;
   for (test = danger_.begin(); test != danger_.end(); ++test)
     {
