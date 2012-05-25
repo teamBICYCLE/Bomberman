@@ -4,9 +4,10 @@
 // Made by thibault carpentier
 // Login   <carpen_t@epitech.net>
 //
-// Started on  Fri May 18 14:31:06 2012 thibault carpentier
-// Last update Thu May 24 17:15:27 2012 thibault carpentier
+// Started on  Fri May 25 13:57:28 2012 thibault carpentier
+// Last update Fri May 25 17:49:00 2012 thibault carpentier
 //
+
 
 #include <algorithm>
 #include "DangerMap.hh"
@@ -15,12 +16,14 @@
 #include "Mine.hh"
 #include "Block.hh"
 #include "Brick.hh"
+#include "FireBlock.hh"
 
 using namespace Bomberman;
 
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
+  std::cout << x << " " << y  << std::endl;
   dangerMeth_["VelocityPowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["MinePowerup"] = &DangerMap::powerupDanger;
   dangerMeth_["KickPowerup"] = &DangerMap::powerupDanger;
@@ -33,6 +36,7 @@ DangerMap::DangerMap(int x, int y)
   dangerMeth_["Brick"] = &DangerMap::blockDanger;
   dangerMeth_["Block"] = &DangerMap::blockDanger;
   dangerMeth_["Bomb"] = &DangerMap::bomberDanger;
+  // dangerMeth_["Fireblock"] = &DangerMap::fireBlockDanger;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -42,7 +46,7 @@ DangerMap::~DangerMap(void)
 
 void DangerMap::setDanger(int x, int y, int danger)
 {
-  danger_[y][x].first += danger;
+  danger_[y][x].first = (danger > danger_[y][x].first ? danger : danger_[y][x].first);
   if (danger_[y][x].first > DANGER_MAX)
     danger_[y][x].first = DANGER_MAX;
   if (danger_[y][x].first < DANGER_MIN)
@@ -57,54 +61,85 @@ void DangerMap::resetDanger(void)
       danger_[y][x] = std::pair<int, int>(0, 0);
 }
 
-void DangerMap::isPosValid(bool &valid, int y, int x)
+Bomb	*DangerMap::isPosValid(bool &valid, int y, int x)
 {
+  AObject *obj;
+  std::list<AObject*>::iterator i;
   std::string type;
 
   if (valid == true)
     {
-      std::for_each(objs_.begin(), objs_.end(), [&](AObject *obj) -> void {
-          if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
-          {
-            if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
-              valid = false;
-          }
-            });
+      for(i = objs_.begin(); i != objs_.end(); ++i)
+	{
+	  obj = (*i);
+	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+	    {
+	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+		{
+		  valid = false;
+		  return NULL;
+		}
+	      else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
+		return static_cast<Bomb*>(obj);
+	      return NULL;
+	    }
+	}
     }
+  return NULL;
 }
 
 void DangerMap::setRangeDanger(int range, int x, int y, int danger)
 {
+  Bomb		*bomb;
   bool          upInvalid = true;
   bool          downInvalid = true;
   bool          leftInvalid = true;
   bool          rightInvalid = true;
 
-  for (int i = 0; i <= range; ++i)
+  setDanger(x, y, danger);
+  for (int i = 1; i <= range; ++i)
     {
-      isPosValid(rightInvalid, y, x + i);
+      bomb = isPosValid(rightInvalid, y, x + i);
+      if (bomb != NULL && danger_[y][x].first != danger_[y][x + i].first)
+	setRangeDanger(bomb->getRange(), x + i, y, danger);
       if (x + i < x_  && rightInvalid)
-        setDanger(x + i, y, danger);
-      isPosValid(leftInvalid, y, x - i);
+	setDanger(x + i, y, danger);
+
+
+      bomb = isPosValid(leftInvalid, y, x - i);
+      if (bomb != NULL && danger_[y][x].first != danger_[y][x - i].first)
+	setRangeDanger(bomb->getRange(), x - i, y, danger);
       if (x - i >= 0 && leftInvalid)
         setDanger(x - i, y, danger);
-      isPosValid(downInvalid, y + i, x);
+
+
+      bomb = isPosValid(downInvalid, y + i, x);
+      if (bomb != NULL && danger_[y][x].first != danger_[y + i][x].first)
+      	setRangeDanger(bomb->getRange(), x, y + i, danger);
       if (y + i < y_ && downInvalid)
         setDanger(x, y + i, danger);
-      isPosValid(upInvalid, y - i, x);
+
+      bomb = isPosValid(upInvalid, y - i, x);
+      if (bomb != NULL && danger_[y][x].first != danger_[y - i][x].first)
+       	setRangeDanger(bomb->getRange(), x, y - i, danger);
       if (y - i >= 0 && upInvalid)
         setDanger(x, y - i, danger);
+
     }
 }
+
+// void DangerMap::fireBlockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
+// {
+//   Fireblock *block = static_cast<Fireblock*>(*it);
+
+//   setRangeDangerBlock(block
+// }
 
 void DangerMap::bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
 {
   Bomb *bomb = static_cast<Bomb*>(*it);
 
-
-  setRangeDanger(bomb->getRange(), static_cast<int>((*it)->getPos().x), static_cast<int>((*it)->getPos().y),
-                 DANGER_BOMB);
-  setDanger(x, y, DANGER_BOMB);
+  setRangeDanger(bomb->getRange(), x, y, DANGER_BOMB);
 }
 
 void DangerMap::blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y)
@@ -175,7 +210,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
         updateCaseVison(it, x, y);
     }
 
-  // //  temporaire
+  // // //  temporaire
   // std::vector<std::vector<std::pair<int, int> > >::iterator test;
   // for (test = danger_.begin(); test != danger_.end(); ++test)
   //   {

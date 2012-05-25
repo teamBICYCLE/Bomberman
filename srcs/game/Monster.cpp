@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 22 15:38:08 2012 thibault carpentier
+// Last update Fri May 25 15:12:08 2012 Jonathan Machado
 //
 
 #include <algorithm>
