@@ -61,9 +61,6 @@ namespace	Bomberman
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
 
-    /* tmp */
-    void aff(void) const;
-
   private:
     void	turnLeft(std::list<AObject*>& objs);
     void	turnRight(std::list<AObject*>& objs);

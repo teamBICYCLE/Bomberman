@@ -30,14 +30,13 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-   // Map	map(13, 13, 1, 1, 1);
-        Map	map("Ressources/Map/map2");
+   //Map	map(13, 13, 1, 1, 1);
+   Map	map("Ressources/Map/map2");
     // int	viewport[4];
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
-    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();

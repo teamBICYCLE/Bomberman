@@ -133,14 +133,3 @@ void    Brick::toQvariant(QSettings &w) const
 {
     w.setValue("Brick", qVariantFromValue(*this));
 }
-
-/* TMP */
-void Brick::aff(void) const
-{
-    std::cout << "=== START BRICK ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "=== END BLOCK ===" << std::endl;
-}
-

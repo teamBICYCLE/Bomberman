@@ -37,11 +37,11 @@ namespace	Bomberman
     void	saveScore(void) const;
 
   protected:
-    size_t		mapW_;
-    size_t		mapH_;
+    size_t              mapW_;
+    size_t              mapH_;
     std::list<AObject*>	objs_;
     Camera              camera_;
-    int			bestScore_;
+    int                 bestScore_;
     gdl::Image          img_;
   };
 }

@@ -32,8 +32,6 @@ SaveHandler::~SaveHandler()
 
 void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 {
-    if (obj->getType() == "FireBlock")
-        obj->aff();
     obj->toQvariant(w);
 }
 
@@ -128,44 +126,44 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
 
 std::list<AObject*> *SaveHandler::load(const std::string &file) const
 {
-    if (!QFile::exists(file.c_str()))
-        std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
-
-    QSettings s(file.c_str(), QSettings::IniFormat);
-    SaveHandler::initAllObjects();
-    int lastId = Character::CharacterId;
     std::list<AObject*> *res = new std::list<AObject *>;
 
-    Character::CharacterId = 0;
-
-    int size = s.beginReadArray("vector");
-
-    for (int i = 0; i < size; ++i)
+    if (!QFile::exists(file.c_str()))
+        std::cerr << "Unable to load save file : file doesn't exist" << std::endl;
+    else
     {
-        s.setArrayIndex(i);
-        if (s.contains("Block"))
-            res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
-        else if (s.contains("Brick"))
-            res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
-        else if (s.contains("Player"))
-            res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
-        else if (s.contains("Bomb"))
-            res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-        else if (s.contains("Mine"))
-            res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
-        else if (s.contains("Monster"))
-            res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
-        else if (s.contains("Ghost"))
-            res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
-        else if (s.contains("Explosion"))
-            res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
-        else if (s.contains("FireBlock"))
+        QSettings s(file.c_str(), QSettings::IniFormat);
+        SaveHandler::initAllObjects();
+        int lastId = Character::CharacterId;
+
+        Character::CharacterId = 0;
+
+        int size = s.beginReadArray("vector");
+
+        for (int i = 0; i < size; ++i)
         {
-            res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
-            (static_cast<FireBlock *>(res->back()))->aff();
+            s.setArrayIndex(i);
+            if (s.contains("Block"))
+                res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
+            else if (s.contains("Brick"))
+                res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
+            else if (s.contains("Player"))
+                res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
+            else if (s.contains("Bomb"))
+                res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+            else if (s.contains("Mine"))
+                res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
+            else if (s.contains("Monster"))
+                res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+            else if (s.contains("Ghost"))
+                res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
+            else if (s.contains("Explosion"))
+                res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+            else if (s.contains("FireBlock"))
+                res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
         }
+        s.endArray();
+        Character::CharacterId = lastId;
     }
-    s.endArray();
-    Character::CharacterId = lastId;
     return res;
 }

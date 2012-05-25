@@ -37,6 +37,9 @@ namespace	Bomberman
     static void		sInit(void);
     void            toQvariant(QSettings &w) const;
 
+    /* tmp */
+    void aff2(void) const;
+
   public:
     void	setChainReaction(bool b);
 

@@ -39,9 +39,6 @@ namespace	Bomberman
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
 
-    /* Tmp */
-    void aff(void) const;
-
   public:
     void	adjustPos(void);
     void	explode(std::list<AObject*>& objs);
