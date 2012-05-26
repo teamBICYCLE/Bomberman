@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 18:34:59 2012 lois burg
-// Last update Mon May 21 11:54:56 2012 lois burg
+// Last update Sat May 26 17:39:22 2012 Jonathan Machado
 //
 
 #ifndef		__FIREBLOCK_HH__
@@ -28,6 +28,7 @@ namespace	Bomberman
     virtual void	draw(void);
     virtual void	destroy(void);
 
+    float    getTimeout() const;
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;
     virtual void	unserialize(QDataStream &in);
@@ -43,6 +44,7 @@ namespace	Bomberman
     float           lastTime_;
     float           timer_;
     TexturedCube    model_;
+    float           last_;
   };
 }
 
