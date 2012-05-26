@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 18:34:59 2012 lois burg
-// Last update Mon May 21 11:54:56 2012 lois burg
+// Last update Sat May 26 16:47:23 2012 thibault carpentier
 //
 
 #ifndef		__FIREBLOCK_HH__
@@ -27,12 +27,13 @@ namespace	Bomberman
     virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
     virtual void	destroy(void);
+    //    virtual void	setDanger(std::vector<std::vector<std::pair<int, int> > > &map) const;
 
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;
     virtual void	unserialize(QDataStream &in);
     static void		sInit(void);
-    virtual void    toQvariant(QSettings &w) const;
+    virtual void	toQvariant(QSettings &w) const;
 
   private:
     void            spitFire(std::list<AObject*>& objs);

@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:35:37 2012 geoffroy lafontaine
-// Last update Sun May 20 16:15:42 2012 lois burg
+// Last update Sat May 26 15:52:55 2012 thibault carpentier
 //
 
 #include "VelocityPowerup.hh"

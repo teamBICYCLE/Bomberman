@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Sun May 20 17:51:04 2012 lois burg
+// Last update Sat May 26 17:48:01 2012 thibault carpentier
 //
 
 #include "AObject.hh"
@@ -91,4 +91,30 @@ void	AObject::interact(Explosion *e, std::list<AObject*>& objs)
 void    AObject::toQvariant(QSettings &w) const
 {
     (void)w;
+}
+
+void	AObject::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			   int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)map;
+  (void)objs;
+}
+
+void	AObject::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+				      std::list<AObject*>objs) const
+{
+  (void)map;
+  (void)objs;
+}
+
+void	AObject::setDangerMap(int x, int y, int danger,
+			      std::vector<std::vector<std::pair<int, int> > > &map) const
+{
+  map[y][x].first = (danger > map[y][x].first ? danger : map[y][x].first);
+  if (map[y][x].first > DANGER_MAX)
+    map[y][x].first = DANGER_MAX;
+  if (map[y][x].first < DANGER_MIN)
+    map[y][x].first = DANGER_MIN;
 }

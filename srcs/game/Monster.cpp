@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sat May 26 12:20:49 2012 thibault carpentier
+// Last update Sat May 26 17:50:40 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -199,3 +199,13 @@ void    Monster::toQvariant(QSettings &w) const
     w.setValue("Monster", qVariantFromValue(*this));
 }
 
+
+void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+			   std::list<AObject*>objs,
+			   int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_MONSTER, map);
+}

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri May 25 10:24:47 2012 thibault carpentier
+// Last update Sat May 26 17:52:46 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -408,4 +408,14 @@ QDataStream &operator>>(QDataStream &in, Player &v)
 void    Player::toQvariant(QSettings &w) const
 {
     w.setValue("Player", qVariantFromValue(*this));
+}
+
+void	Player::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+			  std::list<AObject*>objs,
+			  int x, int y) const
+{
+  (void)objs;
+  (void)x;
+  (void)y;
+  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
 }

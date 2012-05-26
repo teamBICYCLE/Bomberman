@@ -1,6 +1,5 @@
 TEMPLATE = app
 CONFIG += console
-QT -= gui
 
 OBJECTS_DIR = ./objs/
 
@@ -61,7 +60,7 @@ SOURCES += \
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
-INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs
+INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs 
 
 LIBS	+= -L libs -lgdl_gl -lGL -lGLU  -llua -ldl -Wl,--rpath=./libs
 HEADERS += \
