@@ -1,6 +1,5 @@
 TEMPLATE = app
 CONFIG += console
-QT -= gui
 
 OBJECTS_DIR = ./objs/
 
