@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:37:08 2012 geoffroy lafontaine
-// Last update Sat May 26 17:48:37 2012 thibault carpentier
+// Last update Sat May 26 18:34:15 2012 thibault carpentier
 //
 
 #include "APowerup.hh"

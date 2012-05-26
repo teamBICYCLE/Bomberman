@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat May 26 17:57:51 2012 thibault carpentier
+// Last update Sat May 26 18:46:54 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -321,28 +321,28 @@ void		Bomb::setRangeDanger(int range, double x, double y, int danger, std::list<
   for (int i = 1; i <= range; ++i)
     {
       bomb = isPosValid(rightInvalid, y, x + i, objs);
-      if (bomb != NULL && map[y][x].first != map[y][x + i].first)
+      if (bomb != NULL && map[y][x].first > map[y][x + i].first)
 	setRangeDanger(bomb->getRange(), x + i, y, danger, objs, map, x_, y_);
       if (x + i < x_  && rightInvalid)
 	setDangerMap(x + i, y, danger, map);
 
 
       bomb = isPosValid(leftInvalid, y, x - i, objs);
-      if (bomb != NULL && map[y][x].first != map[y][x - i].first)
-	setRangeDanger(bomb->getRange(), x - i, y, danger, objs, map, x_, y_);
+      if (bomb != NULL && map[y][x].first > map[y][x - i].first)
+      	setRangeDanger(bomb->getRange(), x - i, y, danger, objs, map, x_, y_);
       if (x - i >= 0 && leftInvalid)
         setDangerMap(x - i, y, danger, map);
 
 
       bomb = isPosValid(downInvalid, y + i, x, objs);
-      if (bomb != NULL && map[y][x].first != map[y + i][x].first)
+      if (bomb != NULL && map[y][x].first > map[y + i][x].first)
       	setRangeDanger(bomb->getRange(), x, y + i, danger, objs, map, x_, y_);
       if (y + i < y_ && downInvalid)
         setDangerMap(x, y + i, danger, map);
 
       bomb = isPosValid(upInvalid, y - i, x, objs);
-      if (bomb != NULL && map[y][x].first != map[y - i][x].first)
-       	setRangeDanger(bomb->getRange(), x, y - i, danger, objs, map, x, y_);
+      if (bomb != NULL && map[y][x].first > map[y - i][x].first)
+       	setRangeDanger(bomb->getRange(), x, y - i, danger, objs, map, x_, y_);
       if (y - i >= 0 && upInvalid)
         setDangerMap(x, y - i, danger, map);
     }
@@ -351,6 +351,5 @@ void		Bomb::setRangeDanger(int range, double x, double y, int danger, std::list<
 void    Bomb::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
 			int x, int y) const
 {
-  // setDangerMap(getPos().x, getPos().y, DANGER_BOMB, map);
   setRangeDanger(range_, pos_.x, pos_.y, DANGER_BOMB, objs, map, x, y);
 }
