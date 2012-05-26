@@ -31,7 +31,7 @@ Bomb::Bomb(const Bomb &other)
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
       lastTime_(other.lastTime_),
-      ownerCollide_(other.getOwnerCollide()),
+      ownerCollide_(true),
       bBox_(other.bBox_),
       model_(other.model_)
 {

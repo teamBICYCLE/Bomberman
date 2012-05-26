@@ -61,6 +61,7 @@ void	Mine::interact(Explosion *e, std::list<AObject*>& objs)
 
 void	Mine::destroy(std::list<AObject*>& objs)
 {
+    std::cout << "* POUF *" << std::endl;
   explode(objs);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
