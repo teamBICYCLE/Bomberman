@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri May 25 15:12:08 2012 Jonathan Machado
+// Last update Sat May 26 17:50:40 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -20,7 +20,7 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("bombman"))
 {
-  //isInvincible_ = true;
+  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -199,3 +199,13 @@ void    Monster::toQvariant(QSettings &w) const
     w.setValue("Monster", qVariantFromValue(*this));
 }
 
+
+void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+			   std::list<AObject*>objs,
+			   int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_MONSTER, map);
+}

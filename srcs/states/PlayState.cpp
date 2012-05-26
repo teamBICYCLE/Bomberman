@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May 25 11:55:25 2012 thibault carpentier
+// Last update Sat May 26 16:48:10 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -30,19 +30,19 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(13, 13, 1, 10, 0);
-    //        Map	map("Ressources/Map/map2");
-	// int	viewport[4];
+      Map	map(13, 13, 1, 10, 0);
+    //       Map	map("Ressources/Map/map5");
+    // int	viewport[4];
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
-//    glGetIntegerv(GL_VIEWPORT, viewport);
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluOrtho2D(0, viewport[2], viewport[3], 0);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
+    //    glGetIntegerv(GL_VIEWPORT, viewport);
+    //    glMatrixMode(GL_PROJECTION);
+    //    glLoadIdentity();
+    //    gluOrtho2D(0, viewport[2], viewport[3], 0);
+    //    glMatrixMode(GL_MODELVIEW);
+    //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
   } catch (Map::Failure& e) {
     success = false;

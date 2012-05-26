@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 12:14:40 2012 lois burg
+// Last update Sat May 26 17:39:03 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -56,13 +56,24 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
   (void)keys;
   (void)objs;
   if (lastTime_ == -1)
-    lastTime_ = now;
+    {
+      last_ = timer_;
+      lastTime_ = now;
+    }
   if (now - lastTime_ >= timer_)
     {
       spitFire(objs);
       lastTime_ = now;
+      last_ = timer_;
     }
+  else
+    last_ -= now;
   model_.update(clock);
+}
+
+float	FireBlock::getTimeout() const
+{
+  return last_;
 }
 
 #define ZIZIDEPOULE 1.0f

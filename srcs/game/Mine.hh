@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:25 2012 lois burg
-// Last update Sun May 20 17:47:01 2012 lois burg
+// Last update Sat May 26 17:49:16 2012 thibault carpentier
 //
 
 #ifndef		__MINE_HH__
@@ -13,7 +13,8 @@
 
 # include	"Bomb.hh"
 # include	"Explosion.hh"
-# include   "gdlModel.hh"
+# include	"gdlModel.hh"
+# include	"Danger.hh"
 
 namespace	Bomberman
 {
@@ -30,6 +31,10 @@ namespace	Bomberman
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void		destroy(std::list<AObject*>& objs);
+
+    virtual void                setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
 
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;

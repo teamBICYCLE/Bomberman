@@ -35,6 +35,25 @@ function round(num)
    end
 end
 
+
+function getZoneDanger(this, x, y)
+   posX = {x , x + 1 , x - 1 , x     , x     , x + 1 , x - 1 , x + 1 , x - x}
+   posY = {y , y     , y     , y - 1 , y + 1 , y + 1 , y + 1 , y - 1 , y - 1}
+
+   res = 0
+   size = 0
+   for i = 1, table.getn(posX) do
+      tmp = this:getDanger(posX[i], posY[i])
+      if (tmp ~= (DANGER_MAX + 1))
+      then
+	 res = res + tmp
+	 size = size + 1
+      end
+   end
+   return (res / size)
+end
+
+
 function getLessDangerousDirection(this, x, y, type)
    dir = {NODIR, RIGHT, LEFT, UP, DOWN}
    posX = {x , x + 1, x - 1, x, x}
@@ -43,9 +62,9 @@ function getLessDangerousDirection(this, x, y, type)
    dirY = {y, y, y, y - 1, y + 1}
 
    res = dir[1]
-   danger_res = this:getDanger(posX[1], posY[1], type)
+   danger_res = this:getDanger(posX[1], posY[1])
    for i = 1, table.getn(dir)do
-      if (this:getDanger(posX[i], posY[i]) <= danger_res
+      if (this:getDanger(posX[i], posY[i]) < danger_res
        and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
 	 danger_res = this:getDanger(posX[i], posY[i])

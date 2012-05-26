@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Mon May 21 10:32:27 2012 lois burg
+// Last update Sat May 26 17:49:37 2012 thibault carpentier
 //
 
 #include "Explosion.hh"
@@ -131,3 +131,14 @@ void    Explosion::toQvariant(QSettings &w) const
 {
     w.setValue("Explosion", qVariantFromValue(*this));
 }
+
+void  Explosion::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			   int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
+}
+
+

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 17 11:49:59 2012 lois burg
+// Last update Sat May 26 17:51:42 2012 thibault carpentier
 //
 
 #include "Block.hh"
@@ -96,4 +96,14 @@ QDataStream &operator>>(QDataStream &in, Block &v)
 void    Block::toQvariant(QSettings &w) const
 {
     w.setValue("Block", qVariantFromValue(*this));
+}
+
+
+void	Block::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			 int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_BLOCK, map);
 }
