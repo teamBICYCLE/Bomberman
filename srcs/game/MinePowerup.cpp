@@ -14,12 +14,13 @@
 using namespace Bomberman;
 
 MinePowerup::MinePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "MinePowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "MinePowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
 MinePowerup::MinePowerup(const MinePowerup &other)
-  : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup"), model_(other.model_)
+  : APowerup(other.getPos(), other.getRot(), other.getSize(), "MinePowerup"),
+    model_(other.model_)
 {
 }
 
@@ -50,7 +51,6 @@ void	MinePowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(209, 182, 6);
   model_.draw();
 }
 

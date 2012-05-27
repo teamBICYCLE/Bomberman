@@ -13,9 +13,11 @@
 #include "AdventureState.hh"
 #include <GDL/ModelException.hpp>
 
-#include "Map.hh"
-
 #include "Player.hh"
+
+#include "TwitterConnection.hh"
+
+
 
 using namespace std;
 
@@ -24,17 +26,17 @@ void  loadModels()
 
 }
 
-int main(void)
+int main(int ac, char **av)
 {
   try {
-    StatesManager   mg("Bomberman v0.01");
+        //TwitterConnection *twitter = TwitterConnection::getInstance(ac, av);
+        StatesManager   mg("Bomberman v0.01");
 
-    mg.start(new Menu::MenuState());
-  }
-  catch (gdl::ModelException * e)
-  {
-    std::cout << e->what() << std::endl;
-  }
-
-  return 0;
+        //twitter->requestAccess();
+        mg.start(new Menu::MenuState());
+    }
+    catch (gdl::ModelException * e)
+    {
+        std::cout << e->what() << std::endl;
+    }
 }

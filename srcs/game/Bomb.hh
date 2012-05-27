@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:46 2012 lois burg
-// Last update Mon May 21 10:39:13 2012 lois burg
+// Last update Sat May 26 17:55:35 2012 thibault carpentier
 //
 
 #ifndef		__BOMB_HH__
@@ -33,14 +33,21 @@ namespace	Bomberman
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void		destroy(std::list<AObject*>& objs);
 
+
+    Bomb			*isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const;
+    void			setRangeDanger(int, double, double, int, std::list<AObject*>,
+					       std::vector<std::vector<std::pair<int, int> > > &,
+					       int, int) const;
+    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
+
+
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
-
-    /* Tmp */
-    void aff(void) const;
 
   public:
     void	adjustPos(void);
@@ -67,7 +74,7 @@ namespace	Bomberman
     Player&     owner_;
     Vector3d	speed_;
     float       lastTime_;
-    bool	ownerCollide_;
+    bool        ownerCollide_;
     BoundingBox	bBox_;
     gdlModel    model_;
   };

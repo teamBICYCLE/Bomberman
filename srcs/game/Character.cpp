@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Fri May 25 17:57:27 2012 lois burg
+// Last update Sun May 27 18:37:11 2012 lois burg
 //
 
 #include "Character.hh"
@@ -63,6 +63,7 @@ void	Character::turnDown(void)
 
 void	Character::takeDamage(uint damage)
 {
+  std::cout << "DESTROYED" << std::endl;
   if (!isInvincible_)
     {
       if (life_ > 0)

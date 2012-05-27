@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 27 18:31:20 2012 lois burg
+// Last update Sun May 27 18:38:14 2012 lois burg
 //
 
 #include <algorithm>
@@ -28,7 +28,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
   isInvincible_ = true;
-  // kickAbility_ = true;
+  kickAbility_ = true;
   nbBombs_ = 100;
   nbMines_ = 10000;
 
@@ -148,12 +148,11 @@ void		Player::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
-  glColor3d(1.0f, 0.0f, 0.0f);
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-
   this->model_.draw();
+  glColor3d(1.0f, 1.0f, 1.0f);
 }
 
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
@@ -455,24 +454,12 @@ void    Player::toQvariant(QSettings &w) const
     w.setValue("Player", qVariantFromValue(*this));
 }
 
-/* TMP */
-
-void Player::aff(void) const
+void	Player::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+			  std::list<AObject*>objs,
+			  int x, int y) const
 {
-    std::cout << "=== START PLAYER ===" << std::endl;
-    std::cout << "nbBombs : " << nbBombs_ << std::endl;
-    std::cout << "bombRange : " << bombRange_ << std::endl;
-    std::cout << "bombTime : " << bombTime_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "bombCollide : " << bombCollide_ << std::endl;
-    std::cout << "life : " << life_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "speed adapt : " << speedAdapter_ << std::endl;
-    std::cout << "moved : " << moved_ << std::endl;
-    std::cout << "pos : " << pos_ << std::endl;
-    std::cout << "rot : " << rot_ << std::endl;
-    std::cout << "size : " << sz_ << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "score : " << score_ << std::endl;
-    std::cout << "=== END PLAYER ===" << std::endl;
+  (void)objs;
+  (void)x;
+  (void)y;
+  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
 }

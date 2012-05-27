@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Sun May 27 18:27:14 2012 lois burg
+// Last update Sun May 27 18:38:23 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -36,7 +36,9 @@ namespace	Bomberman
     virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
-
+    virtual void        setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+				  std::list<AObject*>objs,
+				  int x, int y) const;
   public:
     uint	getNbBombs(void) const;
     int		getNbMines(void) const;
@@ -67,9 +69,6 @@ namespace	Bomberman
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
-
-    /* tmp */
-    void aff(void) const;
 
   private:
     void	turnLeft(std::list<AObject*>& objs);

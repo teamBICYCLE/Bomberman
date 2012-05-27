@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:49:39 2012 geoffroy lafontaine
-// Last update Thu May 17 11:49:11 2012 lois burg
+// Last update Sat May 26 15:53:12 2012 thibault carpentier
 //
 
 #ifndef		__VELOCITYPOWERUP_HH__
@@ -13,6 +13,7 @@
 
 # include "APowerup.hh"
 # include "Player.hh"
+# include "RotatingImg.hh"
 
 namespace	Bomberman
 {
@@ -31,6 +32,7 @@ namespace	Bomberman
   private:
     VelocityPowerup(const VelocityPowerup& other);
     VelocityPowerup& operator=(const VelocityPowerup& other);
+    RotatingImg   model_;
   };
 }
 

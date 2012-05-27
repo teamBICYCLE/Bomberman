@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Fri May 25 17:53:33 2012 lois burg
+// Last update Sun May 27 18:39:14 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
 # define	__PLAYSTATE_HH__
 
+# include       <GDL/Image.hpp>
 # include	"AObject.hh"
 # include	"AGameState.hh"
 # include       "Camera.hh"
@@ -40,12 +41,13 @@ namespace	Bomberman
     void	saveScore(void) const;
 
   protected:
-    size_t		mapW_;
-    size_t		mapH_;
+    size_t              mapW_;
+    size_t              mapH_;
     std::list<AObject*>	objs_;
     Camera              camera_;
     int			bestScore_;
     int			characterToUpdate_;
+    gdl::Image          img_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

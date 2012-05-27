@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Sun May 20 17:52:01 2012 lois burg
+// Last update Sun May 27 01:42:00 2012 romain sylvian
 //
 
 #ifndef		__AOBJECT_HH__
@@ -16,9 +16,10 @@
 # include	<GDL/Model.hpp>
 # include	<string>
 # include	<QDataStream>
-# include   <QSettings>
+# include	<QSettings>
 # include	"Vector3d.hh"
 # include       "AModel.hh"
+# include	"Danger.hh"
 
 namespace	Bomberman
 {
@@ -36,10 +37,7 @@ namespace	Bomberman
     virtual void		draw(void) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
-    virtual void        toQvariant(QSettings &) const;
-
-    /* tmp */
-    virtual void        aff(void);
+    virtual void		toQvariant(QSettings &) const;
 
   public:
     virtual void		setPos(const Vector3d &);
@@ -52,6 +50,14 @@ namespace	Bomberman
     virtual const Vector3d&	getSize(void) const;
     //virtual const AModel&       getModel(void) const;
     virtual const std::string&	getType(void) const;
+
+  public:
+    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs, int x, int y) const;
+    virtual void		setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+						     std::list<AObject*>objs) const;
+    virtual void		setDangerMap(int x, int y, int danger,
+					     std::vector<std::vector<std::pair<int, int> > > &map) const;
 
   public:
     virtual void		destroy(void);

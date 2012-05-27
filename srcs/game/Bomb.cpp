@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Tue May 22 15:44:17 2012 Jonathan Machado
+// Last update Sat May 26 18:46:54 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -13,6 +13,8 @@
 #include "Bomb.hh"
 #include "Mine.hh"
 #include "Brick.hh"
+#include "Block.hh"
+
 #include "ModelHandler.hh"
 
 using namespace	Bomberman;
@@ -31,7 +33,7 @@ Bomb::Bomb(const Bomb &other)
       range_(other.range_), timeOut_(other.timeOut_),
       owner_(other.owner_), speed_(other.speed_),
       lastTime_(other.lastTime_),
-      ownerCollide_(other.getOwnerCollide()),
+      ownerCollide_(true),
       bBox_(other.bBox_),
       model_(other.model_)
 {
@@ -250,6 +252,8 @@ void Bomb::unserialize(QDataStream &in)
     in >> range_;
     in >> timeOut_;
     owner_.unserialize(in);
+
+    lastTime_ = -1;
 }
 
 void Bomb::sInit(void)
@@ -275,18 +279,77 @@ void    Bomb::toQvariant(QSettings &w) const
     w.setValue("Bomb", qVariantFromValue(*this));
 }
 
-/* TMP */
-void Bomb::aff(void) const
+
+Bomb		*Bomb::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const
 {
-    std::cout << "=== START BOMB ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "Range : " << range_ << std::endl;
-    std::cout << "timeout : " << timeOut_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "timeCreation : " << lastTime_ << std::endl;
-    owner_.aff();
-    std::cout << "=== END BOMB ===" << std::endl;
+  AObject *obj;
+  std::list<AObject*>::iterator i;
+  std::string type;
+
+  if (valid == true)
+    {
+      for(i = objs_.begin(); i != objs_.end(); ++i)
+	{
+	  obj = (*i);
+	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+	    {
+	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+		{
+		  valid = false;
+		  return NULL;
+		}
+	      else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
+		return static_cast<Bomb*>(obj);
+	      return NULL;
+	    }
+	}
+    }
+  return NULL;
+}
+
+void		Bomb::setRangeDanger(int range, double x, double y, int danger, std::list<AObject*>objs,
+				     std::vector<std::vector<std::pair<int, int> > > &map,
+				     int x_, int y_) const
+{
+  Bomb		*bomb;
+  bool          upInvalid = true;
+  bool          downInvalid = true;
+  bool          leftInvalid = true;
+  bool          rightInvalid = true;
+
+  setDangerMap(x, y, danger, map);
+  for (int i = 1; i <= range; ++i)
+    {
+      bomb = isPosValid(rightInvalid, y, x + i, objs);
+      if (bomb != NULL && map[y][x].first > map[y][x + i].first)
+	setRangeDanger(bomb->getRange(), x + i, y, danger, objs, map, x_, y_);
+      if (x + i < x_  && rightInvalid)
+	setDangerMap(x + i, y, danger, map);
+
+
+      bomb = isPosValid(leftInvalid, y, x - i, objs);
+      if (bomb != NULL && map[y][x].first > map[y][x - i].first)
+      	setRangeDanger(bomb->getRange(), x - i, y, danger, objs, map, x_, y_);
+      if (x - i >= 0 && leftInvalid)
+        setDangerMap(x - i, y, danger, map);
+
+
+      bomb = isPosValid(downInvalid, y + i, x, objs);
+      if (bomb != NULL && map[y][x].first > map[y + i][x].first)
+      	setRangeDanger(bomb->getRange(), x, y + i, danger, objs, map, x_, y_);
+      if (y + i < y_ && downInvalid)
+        setDangerMap(x, y + i, danger, map);
+
+      bomb = isPosValid(upInvalid, y - i, x, objs);
+      if (bomb != NULL && map[y][x].first > map[y - i][x].first)
+       	setRangeDanger(bomb->getRange(), x, y - i, danger, objs, map, x_, y_);
+      if (y - i >= 0 && upInvalid)
+        setDangerMap(x, y - i, danger, map);
+    }
+}
+
+void    Bomb::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			int x, int y) const
+{
+  setRangeDanger(range_, pos_.x, pos_.y, DANGER_BOMB, objs, map, x, y);
 }

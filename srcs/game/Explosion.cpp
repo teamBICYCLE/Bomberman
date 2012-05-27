@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Mon May 21 10:32:27 2012 lois burg
+// Last update Sat May 26 17:49:37 2012 thibault carpentier
 //
 
 #include "Explosion.hh"
@@ -15,7 +15,7 @@ using namespace	Bomberman;
 
 Explosion::Explosion(const Vector3d& pos, const Vector3d& sz, uint damage, Player& owner)
   : AObject(pos, Vector3d(), sz, "Explosion"), damage_(damage), bBox_(pos_, sz_, this), timeOnScreen_(1.0f), lastTime_(-1), owner_(owner),
-    model_(ModelHandler::get().getModel("cube"))
+    model_(ModelHandler::get().getModel("explosion"))
 {
 }
 
@@ -28,7 +28,7 @@ Explosion::Explosion(const Explosion& other)
 Explosion::Explosion()
     : AObject(Vector3d(), Vector3d(), Vector3d(), "Explosion"), damage_(0),
       bBox_(Vector3d(), Vector3d(), this), timeOnScreen_(1.0f), lastTime_(-1), owner_(*(new Player())),
-      model_(ModelHandler::get().getModel("cube"))
+      model_(ModelHandler::get().getModel("explosion"))
 {
 }
 
@@ -59,7 +59,6 @@ void		Explosion::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(198, 12, 0);
   model_.draw();
 }
 
@@ -133,16 +132,13 @@ void    Explosion::toQvariant(QSettings &w) const
     w.setValue("Explosion", qVariantFromValue(*this));
 }
 
-/* TMP */
-
-void Explosion::aff(void) const
+void  Explosion::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			   int x, int y) const
 {
-    std::cout << "=== START Explosion ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "Damage : " << damage_ << std::endl;
-    std::cout << "timeonscreen : " << timeOnScreen_ << std::endl;
-    std::cout << "timeofcreation : " << lastTime_ << std::endl;
-    std::cout << "=== END Explosion ===" << std::endl;
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
 }
+
+

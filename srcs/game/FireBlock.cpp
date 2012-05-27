@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 23 15:41:28 2012 lois burg
+// Last update Sun May 27 18:37:19 2012 lois burg
 //
 
 #include <algorithm>
@@ -31,7 +31,8 @@ FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& s
 }
 
 FireBlock::FireBlock(const FireBlock &other)
-  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_), range_(other.range_),
+  : Block(other.pos_, other.rot_, other.sz_), dir_(other.dir_),
+    range_(other.range_), lastTime_(other.lastTime_), timer_(other.timer_),
     model_(other.model_)
 {
   type_ = "FireBlock";
@@ -55,13 +56,24 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
   (void)keys;
   (void)objs;
   if (lastTime_ == -1)
-    lastTime_ = now;
+    {
+      last_ = timer_;
+      lastTime_ = now;
+    }
   if (now - lastTime_ >= timer_)
     {
       spitFire(objs);
       lastTime_ = now;
+      last_ = timer_;
     }
+  else
+    last_ -= now;
   model_.update(clock);
+}
+
+float	FireBlock::getTimeout() const
+{
+  return last_;
 }
 
 #define ZIZIDEPOULE 1.0f
@@ -71,7 +83,6 @@ void		FireBlock::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(175, 175, 175);
   model_.draw();
 }
 
@@ -118,20 +129,24 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
 
 void FireBlock::serialize(QDataStream &out) const
 {
-  Block::serialize(out);
-  dir_.serialize(out);
-  out << range_;
-  out << lastTime_;
-  out << timer_;
+    pos_.serialize(out);
+    rot_.serialize(out);
+    sz_.serialize(out);
+    dir_.serialize(out);
+    out << lastTime_;
+    out << range_;
+    out << timer_;
 }
 
 void FireBlock::unserialize(QDataStream &in)
 {
-  Block::unserialize(in);
-  dir_.unserialize(in);
-  in >> range_;
-  in >> lastTime_;
-  in >> timer_;
+    pos_.unserialize(in);
+    rot_.unserialize(in);
+    sz_.unserialize(in);
+    dir_.unserialize(in);
+    in >> lastTime_;
+    in >> range_;
+    in >> timer_;
 }
 
 void FireBlock::sInit(void)

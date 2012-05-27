@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Tue May 22 16:15:02 2012 lois burg
+// Last update Sun May 27 18:37:29 2012 lois burg
 //
 
 #include "Mine.hh"
@@ -61,6 +61,7 @@ void	Mine::interact(Explosion *e, std::list<AObject*>& objs)
 
 void	Mine::destroy(std::list<AObject*>& objs)
 {
+    std::cout << "* POUF *" << std::endl;
   explode(objs);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
@@ -89,8 +90,8 @@ void Mine::serialize(QDataStream &out) const
   out << removeLater_;
   out << range_;
   out << timeOut_;
-  out << chainReaction_;
   owner_.serialize(out);
+  out << chainReaction_;
 }
 
 void Mine::unserialize(QDataStream &in)
@@ -101,8 +102,8 @@ void Mine::unserialize(QDataStream &in)
   in >> removeLater_;
   in >> range_;
   in >> timeOut_;
-  in >> chainReaction_;
   owner_.unserialize(in);
+  in >> chainReaction_;
 }
 
 void Mine::sInit(void)
@@ -122,3 +123,35 @@ QDataStream &operator>>(QDataStream &in, Mine &v)
     v.unserialize(in);
     return in;
 }
+
+void    Mine::toQvariant(QSettings &w) const
+{
+    w.setValue("Mine", qVariantFromValue(*this));
+}
+
+void Mine::aff2(void) const
+{
+    std::cout << "=== START MINE ===" << std::endl;
+    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
+    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
+    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
+    std::cout << "type : " << type_ << std::endl;
+    std::cout << "Range : " << range_ << std::endl;
+    std::cout << "timeout : " << timeOut_ << std::endl;
+    std::cout << "speed : " << speed_ << std::endl;
+    std::cout << "timeCreation : " << lastTime_ << std::endl;
+    //owner_.aff();
+    std::cout << "chainReaction : " << chainReaction_ << std::endl;
+    std::cout << "=== END MINE ===" << std::endl;
+}
+
+
+void  Mine::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+		      int x, int y) const
+{
+  (void)objs;
+  (void)x;
+  (void)y;
+  setDangerMap(getPos().x, getPos().y, DANGER_MINE, map);
+}
+

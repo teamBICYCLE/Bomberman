@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 AmmoPowerup::AmmoPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "AmmoPowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "AmmoPowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
@@ -52,33 +52,6 @@ void	AmmoPowerup::draw(void)
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
   model_.draw();
-//  glBegin(GL_QUADS);
-//  glColor3ub(0, 127, 255);
-//  glVertex3f(1.0F, 1.0F, 1.0F);
-//  glVertex3f(1.0F, 1.0F, 0);
-//  glVertex3f(0, 1.0F, 0);
-//  glVertex3f(0, 1.0F, 1.0F);
-//  glVertex3f(1.0F, 0, 1.0F);
-//  glVertex3f(1.0F, 0, 0);
-//  glVertex3f(1.0F, 1.0F, 0);
-//  glVertex3f(1.0F, 1.0F, 1.0F);
-//  glVertex3f(0, 0, 1.0F);
-//  glVertex3f(0, 0, 0);
-//  glVertex3f(1.0F, 0, 0);
-//  glVertex3f(1.0F, 0, 1.0F);
-//  glVertex3f(0, 1.0F, 1.0F);
-//  glVertex3f(0, 1.0F, 0);
-//  glVertex3f(0, 0, 0);
-//  glVertex3f(0, 0, 1.0F);
-//  glVertex3f(0, 0, 0);
-//  glVertex3f(1.0F, 0, 0);
-//  glVertex3f(1.0F, 1.0F, 0);
-//  glVertex3f(0, 1.0F, 0);
-//  glVertex3f(0, 0, 1.0F);
-//  glVertex3f(1.0F, 0, 1.0F);
-//  glVertex3f(1.0F, 1.0F, 1.0F);
-//  glVertex3f(0, 1.0F, 1.0F);
-//  glEnd();
 }
 
 AmmoPowerup *AmmoPowerup::clone(void)

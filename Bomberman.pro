@@ -1,5 +1,8 @@
 TEMPLATE = app
 CONFIG += console
+QT += network
+CONFIG += crypto
+CONFIG += kqoauth
 
 OBJECTS_DIR = ./objs/
 
@@ -60,13 +63,17 @@ SOURCES += \
     srcs/states/Menu/QuickStart.cpp \
     srcs/graphics/AModel.cpp \
     srcs/graphics/TexturedCube.cpp \
-    srcs/graphics/gdlModel.cpp
+    srcs/graphics/gdlModel.cpp \
+    srcs/graphics/RotatingImg.cpp \
+    srcs/graphics/ExplosionBlock.cpp \
+    srcs/core/TwitterConnection.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs
 
-LIBS	+= -L libs -lgdl_gl -lGL -lGLU  -llua -ldl -Wl,--rpath=./libs
+LIBS	+= -L libs -lkqoauth -lgdl_gl -lGL -lGLU  -llua -ldl -Wl,--rpath=./libs
+
 HEADERS += \
     srcs/core/Online.hh \
     srcs/core/Packet.hh \
@@ -123,4 +130,9 @@ HEADERS += \
     srcs/states/Menu/QuickStart.hh \
     srcs/graphics/AModel.hh \
     srcs/graphics/TexturedCube.hh \
-    srcs/graphics/gdlModel.hh
+    srcs/graphics/gdlModel.hh \
+    srcs/graphics/RotatingImg.hh \
+    srcs/graphics/ExplosionBlock.hh \
+    srcs/core/TwitterConnection.hh
+
+MOC_DIR = ./srcs/core/

@@ -9,11 +9,12 @@
 //
 
 #include "RangePowerup.hh"
+#include "ModelHandler.hh"
 
 using namespace Bomberman;
 
 RangePowerup::RangePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "RangePowerup")
+  : APowerup(pos, rot, sz, "RangePowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
@@ -22,7 +23,8 @@ RangePowerup::~RangePowerup(void)
 }
 
 RangePowerup::RangePowerup(const RangePowerup &other)
-    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType())
+    : APowerup(other.getPos(), other.getRot(), other.getSize(), other.getType()),
+      model_(other.model_)
 {
 }
 
@@ -41,6 +43,7 @@ void	RangePowerup::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AOb
   (void)clock;
   (void)keys;
   (void)objs;
+  model_.update(clock);
 }
 
 void	RangePowerup::draw(void)
@@ -48,33 +51,7 @@ void	RangePowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glBegin(GL_QUADS);
-  glColor3ub(136, 77, 167);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(0, 0, 0);
-  glVertex3f(1.0F, 0, 0);
-  glVertex3f(1.0F, 1.0F, 0);
-  glVertex3f(0, 1.0F, 0);
-  glVertex3f(0, 0, 1.0F);
-  glVertex3f(1.0F, 0, 1.0F);
-  glVertex3f(1.0F, 1.0F, 1.0F);
-  glVertex3f(0, 1.0F, 1.0F);
-  glEnd();
+  model_.draw();
 }
 
 RangePowerup    *RangePowerup::clone(void)

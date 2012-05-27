@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 KickPowerup::KickPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "KickPowerup"), model_(ModelHandler::get().getModel("cube"))
+  : APowerup(pos, rot, sz, "KickPowerup"), model_(ModelHandler::get().getModel("powerup"))
 {
 }
 
@@ -51,7 +51,6 @@ void	KickPowerup::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
-  glColor3ub(255, 73, 1);
   model_.draw();
 }
 

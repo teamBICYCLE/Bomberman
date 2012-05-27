@@ -16,22 +16,33 @@
 #include "Explosion.hh"
 #include "FireBlock.hh"
 #include "SaveHandler.hh"
+#include "Mine.hh"
 
 using namespace Bomberman;
 
-SaveHandler::SaveHandler()
-{
+SaveHandler::SaveHandler(void)
+{}
 
-}
-
-SaveHandler::~SaveHandler()
-{
-
-}
+SaveHandler::~SaveHandler(void)
+{}
 
 void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 {
     obj->toQvariant(w);
+}
+
+
+void    SaveHandler::createScreen(const std::string &name) const
+{
+    unsigned char* lTemp;
+    lTemp = (unsigned char *)(calloc(800 * 600 * 3, sizeof(unsigned char)));
+    QString screenName(SCREEN_PATH);
+
+    screenName.append(name.c_str());
+    screenName.append(SCREEN_EXT);
+    glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE,  lTemp);
+    QImage screen(lTemp, 800, 600, QImage::Format_RGB888);
+    screen.save(screenName);
 }
 
 const std::string   SaveHandler::newFileName(void) const
@@ -44,24 +55,32 @@ const std::string   SaveHandler::newFileName(void) const
     return strm.str();
 }
 
+void SaveHandler::initAllObjects(void) const
+{
+    Block::sInit();
+    Brick::sInit();
+    Player::sInit();
+    Bomb::sInit();
+    Mine::sInit();
+    Monster::sInit();
+    Ghost::sInit();
+    Explosion::sInit();
+    FireBlock::sInit();
+}
+
 void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
     std::string name_file(SAVE_PATH);
+    const std::string timeName = SaveHandler::newFileName();
 
-    name_file.append(SaveHandler::newFileName());
+    name_file.append(timeName);
     name_file.append(SAVE_EXT);
 
     if (!QFile::exists(name_file.c_str()))
     {
-        Block::sInit();
-        Brick::sInit();
-        Player::sInit();
-        Bomb::sInit();
-        Monster::sInit();
-        Ghost::sInit();
-        Explosion::sInit();
-        FireBlock::sInit();
+        SaveHandler::createScreen(timeName);
+        SaveHandler::initAllObjects();
 
         QSettings w(name_file.c_str(), QSettings::IniFormat);
         Character::CharacterId = 0;
@@ -119,46 +138,44 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
 
 std::list<AObject*> *SaveHandler::load(const std::string &file) const
 {
-    Block::sInit();
-    Brick::sInit();
-    Player::sInit();
-    Bomb::sInit();
-    Monster::sInit();
-    Ghost::sInit();
-    Explosion::sInit();
-    FireBlock::sInit();
-
-    if (!QFile::exists(file.c_str()))
-        std::cerr << "Unable to load save file : file doesn't exist" << std::endl; // Faire un throw
-    QSettings s(file.c_str(), QSettings::IniFormat);
-    int lastId = Character::CharacterId;
     std::list<AObject*> *res = new std::list<AObject *>;
 
-    Character::CharacterId = 0;
-
-    int size = s.beginReadArray("vector");
-
-    for (int i = 0; i < size; ++i)
+    if (!QFile::exists(file.c_str()))
+        std::cerr << "Unable to load save file : file doesn't exist" << std::endl;
+    else
     {
-        s.setArrayIndex(i);
-        if (s.contains("Block"))
-            res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
-        else if (s.contains("Brick"))
-            res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
-        else if (s.contains("Player"))
-            res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
-        else if (s.contains("Bomb"))
-            res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-        else if (s.contains("Monster"))
-            res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
-        else if (s.contains("Ghost"))
-            res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
-        else if (s.contains("Explosion"))
-            res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
-        else if (s.contains("FireBlock"))
-            res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
+        QSettings s(file.c_str(), QSettings::IniFormat);
+        SaveHandler::initAllObjects();
+        int lastId = Character::CharacterId;
+
+        Character::CharacterId = 0;
+
+        int size = s.beginReadArray("vector");
+
+        for (int i = 0; i < size; ++i)
+        {
+            s.setArrayIndex(i);
+            if (s.contains("Block"))
+                res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
+            else if (s.contains("Brick"))
+                res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
+            else if (s.contains("Player"))
+                res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
+            else if (s.contains("Bomb"))
+	      res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+            else if (s.contains("Mine"))
+                res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
+            else if (s.contains("Monster"))
+                res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+            else if (s.contains("Ghost"))
+                res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
+            else if (s.contains("Explosion"))
+                res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+            else if (s.contains("FireBlock"))
+                res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
+        }
+        s.endArray();
+        Character::CharacterId = lastId;
     }
-    s.endArray();
-    Character::CharacterId = lastId;
     return res;
 }

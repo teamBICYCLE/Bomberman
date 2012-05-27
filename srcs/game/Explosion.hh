@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:47 2012 lois burg
-// Last update Mon May 21 10:31:36 2012 lois burg
+// Last update Sat May 26 17:49:43 2012 thibault carpentier
 //
 
 #ifndef		__EXPLOSION_HH__
@@ -15,7 +15,8 @@
 # include	"Character.hh"
 # include	"BoundingBox.hh"
 # include	"Player.hh"
-# include       "TexturedCube.hh"
+# include       "ExplosionBlock.hh"
+# include	"Danger.hh"
 
 namespace	Bomberman
 {
@@ -32,14 +33,15 @@ namespace	Bomberman
     virtual void		draw(void);
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
 
+    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
+
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
-
-    /* tmp */
-    void aff(void) const;
 
   public:
     uint		getDamage(void) const;
@@ -52,7 +54,7 @@ namespace	Bomberman
     float	timeOnScreen_;
     float	lastTime_;
     Player&	owner_;
-    TexturedCube  model_;
+    ExplosionBlock  model_;
   };
 }
 

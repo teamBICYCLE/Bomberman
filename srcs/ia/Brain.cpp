@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Tue May 22 16:14:38 2012 thibault carpentier
+// Last update Fri May 25 17:11:33 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -16,6 +16,8 @@
 #include "Brick.hh"
 #include "Bomb.hh"
 #include "Mine.hh"
+#include "Monster.hh"
+#include "Ghost.hh"
 
 using namespace Bomberman;
 using namespace Thinking;
@@ -42,6 +44,10 @@ Brain::Brain(int x, int y)
   lua_setglobal(state, "MONSTER");
   lua_pushinteger(state, eEnnemyType::GHOST);
   lua_setglobal(state, "GHOST");
+  lua_pushinteger(state, DANGER_MAX);
+  lua_setglobal(state, "DANGER_MAX");
+  lua_pushinteger(state, DANGER_MIN);
+  lua_setglobal(state, "DANGER_MIN");
 
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
@@ -50,7 +56,6 @@ Brain::Brain(int x, int y)
 Brain::Brain(const Brain &other)
     : Script(), danger_(other.x_, other.y_)
 {
-    std::cout << "brain copy" << std::endl;
     decision_ = other.decision_;
 
     lua_State *state = getVM().getLua();
@@ -84,7 +89,6 @@ Brain::Brain()
 {
     lua_State *state = getVM().getLua();
 
-    std::cout << "brain empty" << std::endl;
     lua_pushinteger(state, eDirection::UP);
     lua_setglobal(state, "UP");
     lua_pushinteger(state, eDirection::RIGHT);
@@ -150,7 +154,7 @@ bool Brain::isParamsPosition(VirtualMachine &vm) const
 
 int Brain::getDanger(VirtualMachine &vm)
 {
-  int danger = -1;
+  int danger = DANGER_MAX + 1;
   int x, y;
 
   if (isParamsPosition(vm))
@@ -193,7 +197,8 @@ int Brain::isCrossable(VirtualMachine &vm)
   	      if (valid && bb.collideWith(obj))
   		{
   		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
-		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj) || dynamic_cast<Mine*>(obj))
+		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj)
+		    || dynamic_cast<Monster*>(obj) || dynamic_cast<Ghost*>(obj))
 		    valid = 0;
   		}
   	    });
