@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Mon May 21 15:23:08 2012 lois burg
+// Last update Fri May 25 17:57:27 2012 lois burg
 //
 
 #include "Character.hh"
@@ -99,6 +99,11 @@ double      Character::getSpeed(void) const
 uint		Character::getLife(void) const
 {
   return (life_);
+}
+
+int	Character::getId(void) const
+{
+  return (id_);
 }
 
 bool	Character::isInvincible(void) const

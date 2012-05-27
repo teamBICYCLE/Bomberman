@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 21 12:14:40 2012 lois burg
+// Last update Wed May 23 15:41:28 2012 lois burg
 //
 
 #include <algorithm>
@@ -92,18 +92,19 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
         std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
             if (!isInvalid && e->getBBox().collideWith(obj))
               {
-                if (dynamic_cast<Character*>(obj))
-                  static_cast<Character*>(obj)->takeDamage(e->getDamage());
-                else if (dynamic_cast<APowerup*>(obj))
-                  obj->destroy();
-                else if (dynamic_cast<Mine*>(obj))
-                  static_cast<Mine*>(obj)->setChainReaction(true);
-                else if (dynamic_cast<Bomb*>(obj))
-                  static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-                else if (dynamic_cast<Brick*>(obj))
-                  static_cast<Brick*>(obj)->destroy(objs);
+		obj->interact(e, objs);
+                // if (dynamic_cast<Character*>(obj))
+                //   static_cast<Character*>(obj)->takeDamage(e->getDamage());
+                // else if (dynamic_cast<APowerup*>(obj))
+                //   obj->destroy();
+                // else if (dynamic_cast<Mine*>(obj))
+                //   static_cast<Mine*>(obj)->setChainReaction(true);
+                // else if (dynamic_cast<Bomb*>(obj))
+                //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
+                // else if (dynamic_cast<Brick*>(obj))
+                //   static_cast<Brick*>(obj)->destroy(objs);
                 if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-                    !dynamic_cast<Mine*>(obj))
+                    !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
                   isInvalid = true;
               }
           });

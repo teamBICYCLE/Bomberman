@@ -32,6 +32,7 @@ public:
 
 protected:
   AGameState() {}
+  virtual ~AGameState() {}
 };
 
 #include "StatesManager.hh"

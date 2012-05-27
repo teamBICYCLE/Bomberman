@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Sat May 19 13:58:50 2012 lois burg
+// Last update Fri May 25 17:53:33 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -20,6 +20,10 @@ namespace	Bomberman
 {
   class	PlayState : public AGameState
   {
+  public:
+    PlayState();
+    virtual ~PlayState();
+
   public:
     virtual bool init();
     virtual void cleanUp();
@@ -41,6 +45,7 @@ namespace	Bomberman
     std::list<AObject*>	objs_;
     Camera              camera_;
     int			bestScore_;
+    int			characterToUpdate_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

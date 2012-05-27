@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 23 10:46:37 2012 lois burg
+// Last update Sun May 27 18:31:20 2012 lois burg
 //
 
 #include <algorithm>
@@ -23,9 +23,9 @@ using namespace	Bomberman;
 bool allowLoading_ = true;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2), mineRange_(2),
+  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
-    model_(ModelHandler::get().getModel("bombman"))
+    model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
   isInvincible_ = true;
   // kickAbility_ = true;
@@ -50,12 +50,19 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
   actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
   actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
+
+  networkMap_.insert(std::make_pair(conf.get(K_LEFT, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_UP, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_DOWN, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), false));
 }
 
 Player::Player()
   : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
-    score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman"))
+    score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
 
@@ -74,6 +81,13 @@ Player::Player()
   actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
   actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
   actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
+
+  networkMap_.insert(std::make_pair(conf.get(K_LEFT, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_UP, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_DOWN, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), false));
+  networkMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), false));
 }
 
 Player::Player(const Player &other)
@@ -81,12 +95,13 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
-      kickAbility_(other.kickAbility_), model_(other.model_)
+      kickAbility_(other.kickAbility_), model_(other.model_), isNetworkControlled_(other.isNetworkControlled_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_ = other.actionsMap_;
   collideMap_ = other.collideMap_;
+  networkMap_ = other.networkMap_;
   id_ = other.id_;
 }
 
@@ -96,12 +111,12 @@ Player::~Player()
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
+  bool		collide;
   std::list<AObject*>::iterator		objIt;
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
-  bool		collide;
 
   for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
-    if (keys.isKeyDown(it->first))
+    if (keys.isKeyDown(it->first) || (isNetworkControlled_ && networkMap_[it->first]))
       {
         save_ = pos_;
         (this->*(it->second))(objs);
@@ -270,6 +285,11 @@ bool	Player::getKickAbility(void) const
   return (kickAbility_);
 }
 
+bool	Player::isNetworkControlled(void) const
+{
+  return (isNetworkControlled_);
+}
+
 void	Player::setNbBombs(const uint nb)
 {
   nbBombs_ = nb;
@@ -306,6 +326,11 @@ void	Player::setKickAbility(bool b)
   kickAbility_ = b;
 }
 
+void	Player::setNetworkControlled(bool b)
+{
+  isNetworkControlled_ = b;
+}
+
 void    Player::moveAnimation(void)
 {
   if (moved_)
@@ -334,6 +359,25 @@ void    Player::moveAnimation(void)
   moved_ = false;
 }
 
+Online::Packet	Player::pack(void) const
+{
+  Online::Packet	p;
+
+  p.type = Online::PlayerPkt;
+  p.id = id_;
+  p.x = pos_.x;
+  p.y = pos_.y;
+  p.z = pos_.z;
+  return (p);
+}
+
+void	Player::applyPacket(const Online::Packet& p)
+{
+  pos_.x = p.x;
+  pos_.y = p.y;
+  pos_.z = p.z;
+}
+
 /* Serialization */
 
 void Player::serialize(QDataStream &out) const
@@ -359,6 +403,7 @@ void Player::serialize(QDataStream &out) const
     out << wasRunning_;
     out << score_;
     out << kickAbility_;
+    out << isNetworkControlled_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -384,6 +429,7 @@ void Player::unserialize(QDataStream &in)
     in >> wasRunning_;
     in >> score_;
     in >> kickAbility_;
+    in >> isNetworkControlled_;
 }
 
 void Player::sInit(void)

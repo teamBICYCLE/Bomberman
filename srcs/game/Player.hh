@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Tue May 22 16:11:12 2012 lois burg
+// Last update Sun May 27 18:27:14 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -16,6 +16,7 @@
 # include	"Character.hh"
 # include	"BoundingBox.hh"
 # include       "gdlModel.hh"
+# include	"Packet.hh"
 
 namespace	Bomberman
 {
@@ -44,6 +45,7 @@ namespace	Bomberman
     virtual int	getScoreValue(void) const;
     int		getScore(void) const;
     bool	getKickAbility(void) const;
+    bool	isNetworkControlled(void) const;
 
   public:
     void	setNbBombs(const uint nb);
@@ -53,6 +55,11 @@ namespace	Bomberman
     void	setBombCollide(bool b);
     void	addScore(int val);
     void	setKickAbility(bool b);
+    void	setNetworkControlled(bool b);
+
+  public:
+    Online::Packet	pack(void) const;
+    void		applyPacket(const Online::Packet& p);
 
   public:
     /* Serialization */
@@ -84,13 +91,14 @@ namespace	Bomberman
     float	bombTime_;
     std::map<gdl::Keys::Key, t_collideFun>	collideMap_;
     std::map<gdl::Keys::Key, t_playerActionFun> actionsMap_;
-    bool    moved_;
+    std::map<gdl::Keys::Key, bool>		networkMap_;
+    bool	moved_;
     bool	bombCollide_;
     bool	wasRunning_;
     int		score_;
     bool	kickAbility_;
     gdlModel    model_;
-
+    bool	isNetworkControlled_;
   };
 }
 
@@ -98,4 +106,5 @@ namespace	Bomberman
 Q_DECLARE_METATYPE(Bomberman::Player);
 QDataStream &operator << (QDataStream &out, const Bomberman::Player &v);
 QDataStream &operator >> (QDataStream &in, Bomberman::Player &v);
+
 #endif /* !__PLAYER_HH__*/

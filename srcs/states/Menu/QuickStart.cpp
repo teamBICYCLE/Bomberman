@@ -9,7 +9,7 @@
 
 #include "QuickStart.hh"
 
-#include "PlayState.hh"
+#include "ClientState.hh"
 
 namespace Menu {
 
@@ -22,7 +22,7 @@ QuickStart::QuickStart(const std::string & normalImagePath,
 
 void    QuickStart::activate(StatesManager *sMg)
 {
-  sMg->pushState(new Bomberman::PlayState());
+  sMg->pushState(new Bomberman::ClientState("localhost"));
 }
 
 }

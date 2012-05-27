@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 19 17:53:35 2012 lois burg
+// Last update Wed May 23 11:50:09 2012 lois burg
 //
 
 #include <iostream>
@@ -24,6 +24,14 @@
 #include "SaveHandler.hh"
 
 using namespace	Bomberman;
+
+AdventureState::AdventureState()
+{
+}
+
+AdventureState::~AdventureState()
+{
+}
 
 bool	AdventureState::init()
 {
