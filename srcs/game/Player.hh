@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Sat May 26 17:50:01 2012 thibault carpentier
+// Last update Sun May 27 11:18:47 2012 thibault carpentier
 //
 
 #ifndef		__PLAYER_HH__
@@ -36,6 +36,9 @@ namespace	Bomberman
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
     virtual void        setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+				  std::list<AObject*>objs,
+				  int x, int y) const;
+    virtual void        setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
 				  std::list<AObject*>objs,
 				  int x, int y) const;
   public:

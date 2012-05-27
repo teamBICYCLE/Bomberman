@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May 26 15:55:31 2012 thibault carpentier
-// Last update Sat May 26 16:42:20 2012 thibault carpentier
+// Last update Sun May 27 11:19:35 2012 thibault carpentier
 //
 
 #ifndef _DANGER_H_
@@ -22,5 +22,7 @@
 # define DANGER_MINE DANGER_MAX
 # define DANGER_EXPLOSION DANGER_MAX
 # define DANGER_FIREBLOCK (DANGER_MAX - (getTimeOut() *3))
+
+# define PHEROMONE_PLAYER 1000
 
 #endif /*!_DANGER_H_*/

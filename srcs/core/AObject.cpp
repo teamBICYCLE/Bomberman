@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Sun May 27 01:41:25 2012 romain sylvian
+// Last update Sun May 27 11:16:24 2012 thibault carpentier
 //
 
 #include "AObject.hh"
@@ -101,8 +101,10 @@ void	AObject::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, st
 }
 
 void	AObject::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
-				      std::list<AObject*>objs) const
+				      std::list<AObject*>objs, int x, int y) const
 {
+  (void)x;
+  (void)y;
   (void)map;
   (void)objs;
 }

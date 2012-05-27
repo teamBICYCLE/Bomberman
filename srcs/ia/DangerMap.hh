@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 18 14:30:13 2012 thibault carpentier
-// Last update Sat May 26 16:38:49 2012 thibault carpentier
+// Last update Sun May 27 10:57:29 2012 thibault carpentier
 //
 
 #ifndef _DANGERMAP_H_
@@ -29,17 +29,9 @@ namespace Bomberman
     DangerMap& operator=(DangerMap const &);
 
     void resetDanger(void);
+    void resetPheromones(void);
     void setDanger(int x, int y, int danger);
-    void updateDanger(const std::list<AObject *>::const_iterator &it, int x, int y);
-    void updateCaseVison(const std::list<AObject *>::const_iterator &it, int x, int y);
-
-    // void powerupDanger(const std::list<AObject *>::const_iterator &it, int x, int y);
-    // void mineDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
-    // void explosionDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
-    // void playerDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
-    // void monsterDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
-    // void blockDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
-    // void bomberDanger(const std::list<AObject*>::const_iterator &it, int x, int y);
+    void updateCaseVison(const std::list<AObject *>::const_iterator &it);
 
     void setRangeDanger(int range, int x, int y, int danger);
     Bomb *isPosValid(bool &valid, int x, int y);
