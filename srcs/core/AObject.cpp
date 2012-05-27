@@ -5,15 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Sat May 26 17:48:01 2012 thibault carpentier
+// Last update Sun May 27 01:41:25 2012 romain sylvian
 //
 
 #include "AObject.hh"
 #include "Character.hh"
 #include "Explosion.hh"
 #include "ModelHandler.hh"
-
-#include "Mine.hh"
 
 using namespace Bomberman;
 

@@ -41,8 +41,8 @@ void    SaveHandler::createScreen(const std::string &name) const
     screenName.append(name.c_str());
     screenName.append(SCREEN_EXT);
     glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE,  lTemp);
-    QImage myImage(lTemp, 800, 600, QImage::Format_RGB888);
-    myImage.save(screenName);
+    QImage screen(lTemp, 800, 600, QImage::Format_RGB888);
+    screen.save(screenName);
 }
 
 const std::string   SaveHandler::newFileName(void) const

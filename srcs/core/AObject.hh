@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Sat May 26 17:47:18 2012 thibault carpentier
+// Last update Sun May 27 01:42:00 2012 romain sylvian
 //
 
 #ifndef		__AOBJECT_HH__
@@ -37,7 +37,7 @@ namespace	Bomberman
     virtual void		draw(void) = 0;
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
-    virtual void        toQvariant(QSettings &) const;
+    virtual void		toQvariant(QSettings &) const;
 
   public:
     virtual void		setPos(const Vector3d &);
