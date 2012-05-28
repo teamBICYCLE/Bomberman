@@ -56,18 +56,18 @@ function getLessDangerousDirection(this, x, y, type)
    local dir = {NODIR, RIGHT   , LEFT    , UP      , DOWN     }
    local posX = {x   , x + 1   , x - 1   , x       , x        }
    local posY = {y   , y       , y       , y - 1   , y + 1    }
-   local dirX = {x   , x + 0.05, x - 0.05, x       , x        }
-   local dirY = {y   , y       , y       , y - 0.05, y + 0.05 }
+   local dirX = {x   , x + 1, x - 1, x       , x        }
+   local dirY = {y   , y       , y       , y - 1, y + 1 }
 
 --   print(posX[1], posX[2], posX[3])
    local res_dir = dir[1]
    local danger_res = getZoneDanger(this, posX[1], posY[1])
+   print("Danger local de ", danger_res )
    for  i = 1, table.getn(dir) do
---      print("================= Testing : ", showdir(dir[i]))
       local tmpDanger = getZoneDanger(this, posX[i], posY[i])
-      -- print("================= END   TEST", showdir(dir[i]))
-      -- print()
-      if (tmpDanger < danger_res
+    print("================= Testing : ", showdir(dir[i]) ," danger de :", tmpDanger, "et crossable == ", this:isCrossable(dirX[i], dirY[i], type))
+      if (danger_res > 0 and
+      tmpDanger < danger_res
 	  and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
    	 danger_res = tmpDanger
@@ -75,7 +75,7 @@ function getLessDangerousDirection(this, x, y, type)
 	 --print(showdir(res_dir))
       end
    end
---   print("======", showdir(res_dir), "=======")
+    print("======", showdir(res_dir), "=======")
   -- print()
   -- print()
    return (res_dir)
