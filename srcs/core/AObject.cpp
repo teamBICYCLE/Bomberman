@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:33:56 2012 lois burg
-// Last update Sun May 27 01:41:25 2012 romain sylvian
+// Last update Sun May 27 15:33:43 2012 thibault carpentier
 //
 
 #include "AObject.hh"
@@ -101,8 +101,10 @@ void	AObject::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, st
 }
 
 void	AObject::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
-				      std::list<AObject*>objs) const
+				      std::list<AObject*>objs, int x, int y) const
 {
+  (void)x;
+  (void)y;
   (void)map;
   (void)objs;
 }
@@ -110,7 +112,10 @@ void	AObject::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
 void	AObject::setDangerMap(int x, int y, int danger,
 			      std::vector<std::vector<std::pair<int, int> > > &map) const
 {
-  map[y][x].first = (danger > map[y][x].first ? danger : map[y][x].first);
+  if (danger < 0 && map[y][x].first == 0)
+    map[y][x].first = danger;
+  else
+    map[y][x].first = (danger > map[y][x].first ? danger : map[y][x].first);
   if (map[y][x].first > DANGER_MAX)
     map[y][x].first = DANGER_MAX;
   if (map[y][x].first < DANGER_MIN)
