@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 27 18:38:14 2012 lois burg
+// Last update Mon May 28 18:04:03 2012 lois burg
 //
 
 #include <algorithm>
@@ -14,7 +14,6 @@
 #include "Mine.hh"
 #include "Player.hh"
 #include "Monster.hh"
-#include "KeysConfig.hh"
 #include "ModelHandler.hh"
 #include "SaveHandler.hh"
 
@@ -35,28 +34,26 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
 
-  KeysConfig conf;
+  collideMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &BoundingBox::collideLeft));
+  collideMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &BoundingBox::collideRight));
+  collideMap_.insert(std::make_pair(conf_.get(K_UP, id_), &BoundingBox::collideUp));
+  collideMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &BoundingBox::collideDown));
 
-  collideMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &BoundingBox::collideLeft));
-  collideMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &BoundingBox::collideRight));
-  collideMap_.insert(std::make_pair(conf.get(K_UP, id_), &BoundingBox::collideUp));
-  collideMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &BoundingBox::collideDown));
+  actionsMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &Player::turnRight));
+  actionsMap_.insert(std::make_pair(conf_.get(K_UP, id_), &Player::turnUp));
+  actionsMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &Player::turnDown));
+  actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
+  actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
+  actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
+  actionsMap_.insert(std::make_pair(conf_.get(K_LOAD, id_), &Player::loadGame));
 
-  actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
-  actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
-  actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
-  actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
-  actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
-  actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
-  actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
-
-  networkMap_.insert(std::make_pair(conf.get(K_LEFT, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_UP, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_DOWN, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_UP, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), false));
 }
 
 Player::Player()
@@ -66,28 +63,26 @@ Player::Player()
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
 
-  KeysConfig conf;
+  collideMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &BoundingBox::collideLeft));
+  collideMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &BoundingBox::collideRight));
+  collideMap_.insert(std::make_pair(conf_.get(K_UP, id_), &BoundingBox::collideUp));
+  collideMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &BoundingBox::collideDown));
 
-  collideMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &BoundingBox::collideLeft));
-  collideMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &BoundingBox::collideRight));
-  collideMap_.insert(std::make_pair(conf.get(K_UP, id_), &BoundingBox::collideUp));
-  collideMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &BoundingBox::collideDown));
+  actionsMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &Player::turnLeft));
+  actionsMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &Player::turnRight));
+  actionsMap_.insert(std::make_pair(conf_.get(K_UP, id_), &Player::turnUp));
+  actionsMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &Player::turnDown));
+  actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
+  actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
+  actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
+  actionsMap_.insert(std::make_pair(conf_.get(K_LOAD, id_), &Player::loadGame));
 
-  actionsMap_.insert(std::make_pair(conf.get(K_LEFT, id_), &Player::turnLeft));
-  actionsMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), &Player::turnRight));
-  actionsMap_.insert(std::make_pair(conf.get(K_UP, id_), &Player::turnUp));
-  actionsMap_.insert(std::make_pair(conf.get(K_DOWN, id_), &Player::turnDown));
-  actionsMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), &Player::putBomb));
-  actionsMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), &Player::putMine));
-  actionsMap_.insert(std::make_pair(conf.get(K_SAVE, id_), &Player::saveGame));
-  actionsMap_.insert(std::make_pair(conf.get(K_LOAD, id_), &Player::loadGame));
-
-  networkMap_.insert(std::make_pair(conf.get(K_LEFT, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_RIGHT, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_UP, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_DOWN, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_PUT_BOMB, id_), false));
-  networkMap_.insert(std::make_pair(conf.get(K_PUT_MINE, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_UP, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), false));
+  networkMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), false));
 }
 
 Player::Player(const Player &other)
@@ -358,7 +353,7 @@ void    Player::moveAnimation(void)
   moved_ = false;
 }
 
-Online::Packet	Player::pack(void) const
+Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
@@ -367,14 +362,68 @@ Online::Packet	Player::pack(void) const
   p.x = pos_.x;
   p.y = pos_.y;
   p.z = pos_.z;
+  p.up = keys.isKeyDown(conf_.get(K_UP, id_));
+  p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));
+  p.left = keys.isKeyDown(conf_.get(K_LEFT, id_));
+  p.right = keys.isKeyDown(conf_.get(K_RIGHT, id_));
+  p.bomb = keys.isKeyDown(conf_.get(K_PUT_BOMB, id_));
+  p.mine = keys.isKeyDown(conf_.get(K_PUT_MINE, id_));
   return (p);
 }
 
-void	Player::applyPacket(const Online::Packet& p)
+void	Player::applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  pos_.x = p.x;
-  pos_.y = p.y;
-  pos_.z = p.z;
+  // pos_.x = p.x;
+  // pos_.y = p.y;
+  // pos_.z = p.z;
+  networkMap_[conf_.get(K_UP, id_)] = p.up;
+  networkMap_[conf_.get(K_DOWN, id_)] = p.down;
+  networkMap_[conf_.get(K_LEFT, id_)] = p.left;
+  networkMap_[conf_.get(K_RIGHT, id_)] = p.right;
+  networkMap_[conf_.get(K_PUT_BOMB, id_)] = p.bomb;
+  networkMap_[conf_.get(K_PUT_MINE, id_)] = p.mine;
+  update(clock, keys, objs);
+  resetNetKeys();
+}
+
+void	Player::setNetLeftPressed(bool b)
+{
+  networkMap_[conf_.get(K_LEFT, id_)] = b;
+}
+
+void	Player::setNetRightPressed(bool b)
+{
+  networkMap_[conf_.get(K_RIGHT, id_)] = b;
+}
+
+void	Player::setNetUpPressed(bool b)
+{
+  networkMap_[conf_.get(K_UP, id_)] = b;
+}
+
+void	Player::setNetDownPressed(bool b)
+{
+  networkMap_[conf_.get(K_DOWN, id_)] = b;
+}
+
+void	Player::setNetBombPressed(bool b)
+{
+  networkMap_[conf_.get(K_PUT_BOMB, id_)] = b;
+}
+
+void	Player::setNetMinePressed(bool b)
+{
+  networkMap_[conf_.get(K_PUT_MINE, id_)] = b;
+}
+
+void	Player::resetNetKeys(void)
+{
+  setNetLeftPressed(false);
+  setNetRightPressed(false);
+  setNetUpPressed(false);
+  setNetDownPressed(false);
+  setNetBombPressed(false);
+  setNetMinePressed(false);
 }
 
 /* Serialization */

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Sun May 27 15:29:02 2012 lois burg
+// Last update Mon May 28 17:51:56 2012 lois burg
 //
 
 #include <iostream>
@@ -28,6 +28,7 @@ using namespace	Online;
 ServerState::ServerState(uint nbPlayers)
   : PlayState(), nbPlayers_(nbPlayers), clients_(nbPlayers_ - 1)
 {
+  Online::init();
 }
 
 ServerState::~ServerState()
@@ -66,6 +67,13 @@ bool	ServerState::init()
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+    for (i = 1; i < nbPlayers_; ++i)
+      {
+	Player	*plyr = Online::getPlayerWithId(objs_, i);
+
+	if (plyr)
+	  plyr->setNetworkControlled(true);
+      }
     i = 1;
     std::for_each(clients_.begin(), clients_.end(), [this, seed, i] (TCPSocket *s) mutable -> void {
 	if (s)
@@ -96,8 +104,7 @@ void	ServerState::cleanUp()
 
 void	ServerState::update(StatesManager *mngr)
 {
-  Packet	prevPacket;
-  Packet	updatedPacket;
+  Packet	packet;
   Packet	netPacket;
   Player	*plyr;
   std::vector<TCPSocket*>::iterator it;
@@ -125,20 +132,18 @@ void	ServerState::update(StatesManager *mngr)
 	    }
 	  else
 	    {
-	      Online::updatePlayerWithId(objs_, p.id, p);
+	      Online::updatePlayerWithId(objs_, p.id, p, mngr->getGameClock(), mngr->getInput());
 	      forwardPacket(clients_, (*it)->getSockDesc(), p);
 	    }
 	}
     }
-  if (plyr)
-    prevPacket = plyr->pack();
   PlayState::update(mngr);
   if (plyr)
-    updatedPacket = plyr->pack();
-  if (prevPacket != updatedPacket)
+    packet = plyr->pack(mngr->getInput());
+  if (packet.isUseful())
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)
-	  sendPacket(s->getStream(), updatedPacket);
+	  sendPacket(s->getStream(), packet);
       });
 }
 

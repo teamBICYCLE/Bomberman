@@ -6,7 +6,10 @@
 ** this stuff is worth it, you can buy me a beer in return.
 */
 
+#include "Player.hh"
 #include "KeysConfig.hh"
+
+using namespace Bomberman;
 
 KeysConfig::KeysConfig()
 {

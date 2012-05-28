@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 26 11:59:16 2012 lois burg
-// Last update Sat May 26 18:42:24 2012 lois burg
+// Last update Mon May 28 16:45:56 2012 lois burg
 //
 
 #ifndef		__PACKET_HH__
@@ -35,8 +35,16 @@ namespace	Bomberman
       double	y;
       double	z;
 
+      bool	up;
+      bool	down;
+      bool	left;
+      bool	right;
+      bool	bomb;
+      bool	mine;
+
       static std::string	serialize(const Packet& p);
       static Packet		unserialize(const std::string& s);
+      bool			isUseful(void) const;
 
       bool	operator==(const Packet& other);
       bool	operator!=(const Packet& other);

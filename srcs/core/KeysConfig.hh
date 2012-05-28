@@ -24,50 +24,52 @@
 # include <fstream>
 # include <sstream>
 # include "AObject.hh"
-# include "Player.hh"
 
-using namespace Bomberman;
-
-enum eKeys
+namespace Bomberman
 {
-    K_UP = 0,
-    K_RIGHT,
-    K_DOWN,
-    K_LEFT,
-    K_PUT_BOMB,
-    K_PUT_MINE,
-    K_SAVE,
-    K_LOAD
-};
+  class	Player;
 
-typedef std::map<eKeys, gdl::Keys::Key> keysMap;
+  enum eKeys
+    {
+      K_UP = 0,
+      K_RIGHT,
+      K_DOWN,
+      K_LEFT,
+      K_PUT_BOMB,
+      K_PUT_MINE,
+      K_SAVE,
+      K_LOAD
+    };
 
-class KeysConfig
-{
+  typedef std::map<eKeys, gdl::Keys::Key> keysMap;
 
-public:
+  class KeysConfig
+  {
+
+  public:
     KeysConfig();
     ~KeysConfig();
 
-public:
+  public:
     gdl::Keys::Key &get(eKeys, int);
     gdl::Keys::Key &searchKey(eKeys k, int id);
 
-private:
+  private:
     void getFileData(int id);
 
-private:
+  private:
     bool fileIsValid(int) const;
     bool checkFormat(const std::string &, int) const;
     const std::string clean(const std::string &str) const;
     bool checkArg(const std::string &str) const;
 
-private:
+  private:
     keysMap defaultPlayer1_;
     keysMap defaultPlayer2_;
     std::map<const std::string, gdl::Keys::Key> ref_;
     std::map<eKeys, const std::string> config_;
     std::vector< std::list<std::string> > fileData_;
-};
+  };
+}
 
 #endif // KEYSCONFIG_HH
