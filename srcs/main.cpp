@@ -8,10 +8,12 @@
 // Last update Sun May 20 14:26:01 2012 lois burg
 //
 
+#include <GDL/ModelException.hpp>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
-#include <GDL/ModelException.hpp>
+#include "Carrousel/CarrouselHandler.hh"
+#include "Carrousel/ItemList.hh"
 
 #include "Map.hh"
 
@@ -28,8 +30,14 @@ int main(void)
 {
   try {
     StatesManager   mg("Bomberman v0.01");
+    CarrouselHandler *    carrouselHandler;
 
-    mg.start(new Menu::MenuState());
+    carrouselHandler = new CarrouselHandler();
+
+    ModelHandler::get().preload();
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+    mg.start(carrouselHandler);
   }
   catch (gdl::ModelException * e)
   {

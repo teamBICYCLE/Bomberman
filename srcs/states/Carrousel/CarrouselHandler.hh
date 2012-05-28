@@ -12,25 +12,36 @@
 
 # include <vector>
 # include "AGameState.hh"
+# include "APage.hh"
 
-//class CarrouselHandler : public AGameState
-//{
-//public:
-//  CarrouselHandler();
-//  ~CarrouselHandler();
+class CarrouselHandler : public AGameState
+{
+public:
+  CarrouselHandler();
+  virtual ~CarrouselHandler();
 
-//  void          pushPage(APage *);
+  void          pushPage(APage *);
 
-//  virtual bool init();
-//  virtual void cleanUp();
-//  virtual void update(StatesManager *);
-//  virtual void draw(StatesManager *);
-//  virtual void pause();
-//  virtual void resume();
+  virtual bool init();
+  virtual void cleanUp();
+  virtual void update(StatesManager *);
+  virtual void draw(StatesManager *);
+  virtual void pause();
+  virtual void resume();
 
-//private:
-//  std::vector<APage *>   pages_;
-//  int                     activ_;
-//};
+  void          drawPreviousPreview();
+  void          drawNextPreview();
+
+
+  CarrouselHandler &      operator++();
+  CarrouselHandler &      operator--();
+
+private:
+  std::vector<APage *>   pages_;
+  int                    activ_;
+  bool                   leftPressed_;
+  bool                   rightPressed_;
+  bool                   escPressed_;
+};
 
 #endif // CARROUSELHANDLER_HH

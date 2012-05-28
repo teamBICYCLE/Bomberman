@@ -15,11 +15,15 @@
 
 flatTexture::flatTexture(const std::string & path) {
   this->tex_ = gdl::Image::load(path);
-  std::cout << "texture created" << std::endl;
 }
 
-flatTexture::flatTexture(const flatTexture& orig)
-: tex_(orig.tex_) {
+flatTexture::flatTexture(const AModel& orig)
+  : tex_(dynamic_cast<const flatTexture *>(&orig)->tex_) {
+}
+
+flatTexture::flatTexture(const flatTexture &orig)
+  : tex_(orig.tex_)
+{
 }
 
 flatTexture::~flatTexture() {
@@ -29,7 +33,7 @@ void            flatTexture::draw()
 {
   double        x = static_cast<double>(tex_.getWidth()),
           y = static_cast<double>(tex_.getHeight());
-  
+
   this->tex_.bind();
   glBegin(GL_QUADS);
   glTexCoord2i(0, 0);
@@ -41,4 +45,14 @@ void            flatTexture::draw()
   glTexCoord2i(0, 1);
   glVertex2d(0.0f, y);
   glEnd();
+}
+
+void          flatTexture::update(gdl::GameClock & clock)
+{
+  (void)clock;
+}
+
+AModel        &flatTexture::clone()
+{
+  return *this;
 }
