@@ -22,6 +22,8 @@ public:
   AModel &      getModel(const std::string & name);
   static ModelHandler& get();
 
+  void        preload();
+
 private:
   std::map<std::string, AModel*>        objects_;
 
