@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun May 27 11:18:08 2012 thibault carpentier
+// Last update Sun May 27 15:27:41 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -417,7 +417,7 @@ void	Player::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
   (void)objs;
   (void)x;
   (void)y;
-  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
+  setDangerMap(getPos().x, getPos().y, DANGER_PLAYER, map);
 }
 
 void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
