@@ -5,14 +5,15 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Sun May 20 14:26:01 2012 lois burg
+// Last update Mon May 28 14:54:04 2012 Thomas Duplomb
 //
 
 #include <GDL/ModelException.hpp>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
-#include "TwitterConnection.hh"
+#include "Carrousel/CarrouselHandler.hh"
+#include "Carrousel/ItemList.hh"
 
 using namespace std;
 
@@ -24,15 +25,20 @@ void  loadModels()
 int main(int ac, char **av)
 {
   try {
-        TwitterConnection *twitter = TwitterConnection::getInstance(ac, av);
-        StatesManager   mg("Bomberman v0.01");
+    StatesManager   mg("Bomberman v0.01");
+    CarrouselHandler *    carrouselHandler;
 
-        twitter->requestAccess();
-        //twitter->sendTweet(14);
-        mg.start(new Menu::MenuState());
-    }
-    catch (gdl::ModelException * e)
-    {
-        std::cout << e->what() << std::endl;
-    }
+    carrouselHandler = new CarrouselHandler();
+
+    ModelHandler::get().preload();
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+    mg.start(carrouselHandler);
+  }
+  catch (gdl::ModelException * e)
+  {
+    std::cout << e->what() << std::endl;
+  }
+
+  return 0;
 }

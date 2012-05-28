@@ -66,13 +66,19 @@ SOURCES += \
     srcs/graphics/gdlModel.cpp \
     srcs/graphics/RotatingImg.cpp \
     srcs/graphics/ExplosionBlock.cpp \
+    srcs/states/Carrousel/CarrouselHandler.cpp \
+    srcs/states/Carrousel/APage.cpp \
+    srcs/states/Carrousel/launchGame.cpp \
+    srcs/states/Carrousel/AContent.cpp \
+    srcs/states/Carrousel/ItemList.cpp \
+    srcs/states/Carrousel/AButton.cpp \
     srcs/core/TwitterConnection.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs
 
-LIBS	+= -L libs -lgdl_gl -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
+LIBS	+= -L libs -lgdl_gl -lkqoauth -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
 
 
 HEADERS += \
@@ -134,6 +140,12 @@ HEADERS += \
     srcs/graphics/gdlModel.hh \
     srcs/graphics/RotatingImg.hh \
     srcs/graphics/ExplosionBlock.hh \
+    srcs/states/Carrousel/CarrouselHandler.hh \
+    srcs/states/Carrousel/APage.hh \
+    srcs/states/Carrousel/launchGame.hh \
+    srcs/states/Carrousel/AContent.hh \
+    srcs/states/Carrousel/ItemList.hh \
+    srcs/states/Carrousel/AButton.hh \
     srcs/core/TwitterConnection.hh
 
 MOC_DIR = ./srcs/core/

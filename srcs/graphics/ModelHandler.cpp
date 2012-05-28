@@ -7,6 +7,7 @@
 
 #include "ModelHandler.hh"
 #include <iostream>
+#include "flatTexture.hh"
 
 using namespace Bomberman;
 
@@ -19,6 +20,16 @@ ModelHandler::~ModelHandler()
 {
 }
 
+void      ModelHandler::preload()
+{
+  storeModel(new flatTexture("Ressources/Images/Menu/bg.png"),
+        "bg");
+  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
+        "left");
+  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
+        "right");
+}
+
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
 {
   objects_[name] = model;
@@ -29,7 +40,7 @@ AModel &  ModelHandler::getModel(const std::string &name)
   if (objects_.find(name) != objects_.end())
     return objects_[name]->clone();
   else
-    return objects_["cube"]->clone();
+    throw std::exception();
 }
 
 ModelHandler &ModelHandler::get()

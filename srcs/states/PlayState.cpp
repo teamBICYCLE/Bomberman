@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun May 27 18:38:51 2012 lois burg
+// Last update Mon May 28 09:34:05 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -38,9 +38,10 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-      Map	map(13, 13, 1, 10, 0);
-    //       Map	map("Ressources/Map/map5");
-    // int	viewport[4];
+    //Map	map(13, 13, 1, 10, 0);
+    Map         map("Ressources/Map/map2");
+        // int	viewport[4];
+
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
@@ -77,29 +78,29 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
-	{
+        {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-	    bestScore_ = static_cast<Player*>(*it)->getScore();
-	}
+            bestScore_ = static_cast<Player*>(*it)->getScore();
+        }
       else if (dynamic_cast<Monster*>(*it))
-	++nbMonsters;
+        ++nbMonsters;
       if (!(*it)->toRemove())
-	{
-	  if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
-	      characterToUpdate_ == -1)
-	    (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+        {
+          if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+              characterToUpdate_ == -1)
+            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
-	}
+        }
       else
-	it = objs_.erase(it);
+        it = objs_.erase(it);
     }
   if (bestScore_ != -1)
     {
       if (!nbPlayers)
-	gameOver(sMg);
+        gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-	win(sMg);
+        win(sMg);
     }
 }
 
@@ -159,12 +160,12 @@ void  PlayState::draw(StatesManager * sMg)
   glBegin(GL_QUADS);
   glNormal3d(0, 0, 1);
   glTexCoord2d(0.0f, 0.0f); glVertex3f(0, 0, 0);
-  glTexCoord2d(static_cast<double>(this->mapH_) / 2.0f, 0.0f);
-  glVertex3f(this->mapH_, 0, 0);
-  glTexCoord2d(static_cast<double>(this->mapH_) / 2.0f, static_cast<double>(this->mapW_) /2.0f);
-  glVertex3f(this->mapH_, this->mapW_, 0);
-  glTexCoord2d(0.0f, static_cast<double>(this->mapW_) /2.0f);
-  glVertex3f(0, this->mapW_, 0);
+  glTexCoord2d(static_cast<double>(this->mapW_) / 2.0f, 0.0f);
+  glVertex3f(this->mapW_, 0, 0);
+  glTexCoord2d(static_cast<double>(this->mapW_) / 2.0f, static_cast<double>(this->mapH_) /2.0f);
+  glVertex3f(this->mapW_, this->mapH_, 0);
+  glTexCoord2d(0.0f, static_cast<double>(this->mapH_) /2.0f);
+  glVertex3f(0, this->mapH_, 0);
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glPopMatrix();
