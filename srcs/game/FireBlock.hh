@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 18:34:59 2012 lois burg
-// Last update Sat May 26 18:01:19 2012 thibault carpentier
+// Last update Mon May 28 14:42:27 2012 Jonathan Machado
 //
 
 #ifndef		__FIREBLOCK_HH__
 # define	__FIREBLOCK_HH__
 
 # include	"Block.hh"
+# include	"Bomb.hh"
 
 namespace	Bomberman
 {
@@ -30,11 +31,20 @@ namespace	Bomberman
     //    virtual void	setDanger(std::vector<std::vector<std::pair<int, int> > > &map) const;
 
     float    getTimeout() const;
+    Bomb			*isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const;
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;
     virtual void	unserialize(QDataStream &in);
     static void		sInit(void);
     virtual void	toQvariant(QSettings &w) const;
+    void			setRangeDanger(int, double, double, int, std::list<AObject*>,
+					       std::vector<std::vector<std::pair<int, int> > > &,
+					       int, int) const;
+
+    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
+
 
   private:
     void            spitFire(std::list<AObject*>& objs);

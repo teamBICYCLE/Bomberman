@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May 26 15:55:31 2012 thibault carpentier
-// Last update Sat May 26 16:42:20 2012 thibault carpentier
+// Last update Mon May 28 14:27:12 2012 Jonathan Machado
 //
 
 #ifndef _DANGER_H_
@@ -21,6 +21,6 @@
 # define DANGER_POWERUP (DANGER_MIN / 2)
 # define DANGER_MINE DANGER_MAX
 # define DANGER_EXPLOSION DANGER_MAX
-# define DANGER_FIREBLOCK (DANGER_MAX - (getTimeOut() *3))
+# define DANGER_FIREBLOCK (DANGER_MAX - (getTimeout() *3))
 
 #endif /*!_DANGER_H_*/
