@@ -63,7 +63,7 @@ function getLessDangerousDirection(this, x, y, type)
    local res_dir = dir[1]
    local danger_res = getZoneDanger(this, posX[1], posY[1])
    print("Danger local de ", danger_res )
-   for  i = 1, table.getn(dir) do
+   for  i = 2, table.getn(dir) do
       local tmpDanger = getZoneDanger(this, posX[i], posY[i])
     print("================= Testing : ", showdir(dir[i]) ," danger de :", tmpDanger, "et crossable == ", this:isCrossable(dirX[i], dirY[i], type))
       if (danger_res > 0 and
