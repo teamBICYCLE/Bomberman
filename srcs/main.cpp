@@ -14,6 +14,7 @@
 #include "AdventureState.hh"
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/ItemList.hh"
+#include "TwitterConnection.hh"
 
 using namespace std;
 

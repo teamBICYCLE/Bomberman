@@ -71,7 +71,7 @@ void TwitterConnection::requestAccess(void)
         connect(oauthManager_, SIGNAL(accessTokenReceived(QString,QString)),
                 this, SLOT(accessToken(QString,QString)));
         connect(oauthManager_, SIGNAL(requestReady(QByteArray)),
-                this, SLOT(ready(QByteArray)));
+                this, SLOT(ready()));
 
         oauthRequest_->initRequest(KQOAuthRequest::TemporaryCredentials, QUrl("https://api.twitter.com/oauth/request_token"));
         oauthRequest_->setConsumerKey(cKey_);
@@ -106,7 +106,7 @@ void TwitterConnection::privateSendTweet(int score)
         KQOAuthParameters tweet;
 
         connect(oauthManager_, SIGNAL(requestReady(QByteArray)),
-                    this, SLOT(ready(QByteArray)));
+                    this, SLOT(ready()));
         connect(oauthManager_, SIGNAL(authorizedRequestDone()),
              this, SLOT(onAuthorizedRequestDone()));
 
@@ -125,14 +125,14 @@ void TwitterConnection::privateSendTweet(int score)
 
 /* SLOTS */
 
-void TwitterConnection::tmpToken()
+void TwitterConnection::tmpToken(void) const
 {
     QUrl url("https://api.twitter.com/oauth/authorize");
 
     oauthManager_->getUserAuthorization(url);
 }
 
-void TwitterConnection::success()
+void TwitterConnection::success(void)
 {
     oauthManager_->getUserAccessTokens(QUrl("https://api.twitter.com/oauth/access_token"));
 
@@ -157,16 +157,13 @@ void TwitterConnection::accessToken(QString token, QString tokenSecret)
     }
 }
 
-#include <QDebug>
-
-void TwitterConnection::ready(QByteArray response)
+void TwitterConnection::ready(void)
 {
-    qDebug() << response;
     if (allowSendTweet_)
         app_.exit();
 }
 
-void TwitterConnection::onAuthorizedRequestDone()
+void TwitterConnection::onAuthorizedRequestDone(void)
 {
     QCoreApplication::exit();
 }
