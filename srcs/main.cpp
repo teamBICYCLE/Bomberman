@@ -33,7 +33,7 @@ int main(int ac, char **av)
         StatesManager   mg("Bomberman v0.01");
 
         twitter->requestAccess();
-        twitter->sendTweet(14);
+        //twitter->sendTweet(14);
         mg.start(new Menu::MenuState());
     }
     catch (gdl::ModelException * e)
