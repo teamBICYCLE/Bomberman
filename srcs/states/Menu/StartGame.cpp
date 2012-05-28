@@ -11,6 +11,7 @@
 
 #include "PlayState.hh"
 #include "AdventureState.hh"
+#include "ServerState.hh"
 
 namespace Menu {
 StartGame::StartGame(const std::string & normalImagePath,
@@ -22,9 +23,8 @@ StartGame::StartGame(const std::string & normalImagePath,
 
 void    StartGame::activate(StatesManager *sMg)
 {
-  //  sMg->pushState(new Bomberman::AdventureState());
-  // sMg->pushState(new Bomberman::AdventureState());
-  sMg->pushState(new Bomberman::PlayState());
+  sMg->pushState(new Bomberman::AdventureState());
+  // sMg->pushState(new Bomberman::Online::ServerState(3));
 }
 
 }

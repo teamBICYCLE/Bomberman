@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun May 27 15:39:51 2012 thibault carpentier
+// Last update Mon May 28 09:30:33 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -203,6 +203,8 @@ void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
 				     std::list<AObject*>objs,
 				     int x, int y) const
 {
+  (void)x;
+  (void)y;
   (void)objs;
   map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
 }

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Sat May 26 17:53:00 2012 thibault carpentier
+// Last update Sun May 27 18:37:29 2012 lois burg
 //
 
 #include "Mine.hh"
@@ -13,8 +13,8 @@
 
 using namespace	Bomberman;
 
-Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : Bomb(pos, rot, sz, range, timeOut, owner), chainReaction_(false)
+Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player& owner)
+  : Bomb(pos, rot, sz, 0, 0.0f, owner), chainReaction_(false)
 {
   type_ = "Mine";
 }

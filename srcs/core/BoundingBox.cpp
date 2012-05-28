@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 15:01:48 2012 lois burg
-// Last update Tue May 22 15:09:07 2012 thibault carpentier
+// Last update Tue May 22 16:14:50 2012 lois burg
 //
 
 #include "Player.hh"
@@ -100,8 +100,8 @@ bool	BoundingBox::collideLeft(const Vector3d &pos, const Vector3d &sz)
   left_ = false;
   if (pos == pos_)
     left_ = true;
-  if (!left_ && pos.x < pos_.x && (pos.x +sz.x) > pos_.x)
-    if ((pos.y <= pos_.y && (pos.y +sz.y) > pos_.y) ||
+  if (!left_ && pos.x < pos_.x && (pos.x + sz.x) > pos_.x)
+    if ((pos.y <= pos_.y && (pos.y + sz.y) > pos_.y) ||
 	 (pos.y > pos_.y && pos.y < (pos_.y + sz_.y)))
       left_ = true;
   return (left_);
@@ -113,7 +113,7 @@ bool	BoundingBox::collideRight(const Vector3d &pos, const Vector3d &sz)
   if (pos == pos_)
     right_ = true;
   if (!right_ && pos.x > pos_.x && pos.x < (pos_.x + sz_.x))
-    if ((pos.y <= pos_.y && (pos.y +sz.y) > pos_.y) ||
+    if ((pos.y <= pos_.y && (pos.y + sz.y) > pos_.y) ||
 	 (pos.y > pos_.y && pos.y < (pos_.y + sz_.y)))
       right_ = true;
   return (right_);
@@ -124,10 +124,10 @@ bool	BoundingBox::collideUp(const Vector3d &pos, const Vector3d &sz)
   above_ = false;
   if (pos == pos_)
     above_ = true;
-  if (!above_ && pos.y < pos_.y && (pos.y +sz.y) > pos_.y)
-  if ((pos.x <= pos_.x && (pos.x +sz.x) > pos_.x) ||
-       (pos.x > pos_.x && pos.x < (pos_.x + sz_.x)))
-    above_ = true;
+  if (!above_ && pos.y < pos_.y && (pos.y + sz.y) > pos_.y)
+    if ((pos.x <= pos_.x && (pos.x + sz.x) > pos_.x) ||
+	(pos.x > pos_.x && pos.x < (pos_.x + sz_.x)))
+      above_ = true;
   return (above_);
 }
 
@@ -137,7 +137,7 @@ bool	BoundingBox::collideDown(const Vector3d &pos, const Vector3d &sz)
   if (pos == pos_)
     below_ = true;
   if (!below_ && pos.y > pos_.y && pos.y < (pos_.y + sz_.y))
-    if ((pos.x <= pos_.x && (pos.x +sz .x) > pos_.x) ||
+    if ((pos.x <= pos_.x && (pos.x + sz .x) > pos_.x) ||
 	 (pos.x > pos_.x && pos.x < (pos_.x + sz_.x)))
       below_ = true;
   return (below_);

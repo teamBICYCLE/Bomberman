@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sun May 27 18:19:43 2012 thibault carpentier
+// Last update Mon May 28 09:54:09 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -199,7 +199,8 @@ int Brain::isCrossable(VirtualMachine &vm)
   		{
   		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
 		      || dynamic_cast<Block*>(obj) || dynamic_cast<Bomb*>(obj)
-		    || dynamic_cast<Monster*>(obj) || dynamic_cast<Ghost*>(obj))
+		      //		    || dynamic_cast<Monster*>(obj) || dynamic_cast<Ghost*>(obj)
+		      )
 		    valid = 0;
   		}
   	    });

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat May 26 16:48:10 2012 thibault carpentier
+// Last update Sun May 27 18:38:51 2012 lois burg
 //
 
 #include <iostream>
@@ -23,6 +23,14 @@
 
 using namespace	Bomberman;
 
+PlayState::PlayState()
+{
+}
+
+PlayState::~PlayState()
+{
+}
+
 bool  PlayState::init()
 {
   bool	success;
@@ -37,12 +45,14 @@ bool  PlayState::init()
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
-    //    glGetIntegerv(GL_VIEWPORT, viewport);
-    //    glMatrixMode(GL_PROJECTION);
-    //    glLoadIdentity();
-    //    gluOrtho2D(0, viewport[2], viewport[3], 0);
-    //    glMatrixMode(GL_MODELVIEW);
-    //    glLoadIdentity();
+    characterToUpdate_ = -1;
+    std::cout << mapH_ << " " << mapW_ << std::endl;
+//    glGetIntegerv(GL_VIEWPORT, viewport);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    gluOrtho2D(0, viewport[2], viewport[3], 0);
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
   } catch (Map::Failure& e) {
     success = false;
@@ -67,29 +77,30 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
-      {
+	{
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-              bestScore_ = static_cast<Player*>(*it)->getScore();
-      }
+	    bestScore_ = static_cast<Player*>(*it)->getScore();
+	}
       else if (dynamic_cast<Monster*>(*it))
-          ++nbMonsters;
-
+	++nbMonsters;
       if (!(*it)->toRemove())
-      {
-          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	{
+	  if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+	      characterToUpdate_ == -1)
+	    (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
-      }
+	}
       else
-          it = objs_.erase(it);
+	it = objs_.erase(it);
     }
   if (bestScore_ != -1)
-  {
+    {
       if (!nbPlayers)
-          gameOver(sMg);
+	gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-          win(sMg);
-  }
+	win(sMg);
+    }
 }
 
 void	PlayState::win(StatesManager *mngr)

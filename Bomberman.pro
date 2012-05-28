@@ -1,6 +1,5 @@
 TEMPLATE = app
 CONFIG += console
-
 QT += network
 CONFIG += crypto
 CONFIG += kqoauth
@@ -8,6 +7,9 @@ CONFIG += kqoauth
 OBJECTS_DIR = ./objs/
 
 SOURCES += \
+    srcs/core/Online.cpp \
+    srcs/core/Packet.cpp \
+    srcs/core/Select.cpp \
     srcs/core/Vector3d.cpp \
     srcs/core/StatesManager.cpp \
     srcs/core/SaveHandler.cpp \
@@ -17,6 +19,7 @@ SOURCES += \
     srcs/core/APowerup.cpp \
     srcs/core/AObject.cpp \
     srcs/core/AGameState.cpp \
+    srcs/core/PracticalSocket.cpp \
     srcs/game/VelocityPowerup.cpp \
     srcs/game/RangePowerup.cpp \
     srcs/game/PowerupFactory.cpp \
@@ -48,6 +51,8 @@ SOURCES += \
     srcs/ia/Brain.cpp \
     srcs/states/PlayState.cpp \
     srcs/states/AdventureState.cpp \
+    srcs/states/ServerState.cpp \
+    srcs/states/ClientState.cpp \
     srcs/states/Menu/MenuState.cpp \
     srcs/states/Menu/MenuLine.cpp \
     srcs/states/Menu/MenuEntry.cpp \
@@ -65,11 +70,14 @@ SOURCES += \
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
-INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs 
+INCLUDEPATH += -I ./srcs/core/ -I ./srcs/game/ -I ./srcs/ia/ -I ./srcs/graphics/ -I ./srcs/states/ -I ./libs
 
 LIBS	+= -L libs -lkqoauth -lgdl_gl -lGL -lGLU  -llua -ldl -Wl,--rpath=./libs
 
 HEADERS += \
+    srcs/core/Online.hh \
+    srcs/core/Packet.hh \
+    srcs/core/Select.hh \
     srcs/core/Vector3d.hh \
     srcs/core/StatesManager.hh \
     srcs/core/SaveHandler.hh \
@@ -79,6 +87,7 @@ HEADERS += \
     srcs/core/APowerup.hh \
     srcs/core/AObject.hh \
     srcs/core/AGameState.hh \
+    srcs/core/PracticalSocket.h \
     srcs/game/VelocityPowerup.hh \
     srcs/game/RangePowerup.hh \
     srcs/game/PowerupFactory.hh \
@@ -110,6 +119,8 @@ HEADERS += \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \
     srcs/states/AdventureState.hh \
+    srcs/states/ServerState.hh \
+    srcs/states/ClientState.hh \
     srcs/states/Menu/MenuState.hh \
     srcs/states/Menu/MenuLine.hh \
     srcs/states/Menu/MenuEntry.hh \
