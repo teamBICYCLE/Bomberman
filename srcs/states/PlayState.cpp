@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun May 27 18:38:51 2012 lois burg
+// Last update Mon May 28 09:34:05 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -38,8 +38,8 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-      Map	map(13, 13, 1, 10, 0);
-    //       Map	map("Ressources/Map/map5");
+    //      Map	map(13, 13, 1, 10, 0);
+    Map	map("Ressources/Map/map5");
     // int	viewport[4];
 
     bestScore_ = 0;
