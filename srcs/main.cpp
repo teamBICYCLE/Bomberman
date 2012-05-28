@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Sun May 20 14:26:01 2012 lois burg
+// Last update Mon May 28 14:54:04 2012 Thomas Duplomb
 //
 
 #include "StatesManager.hh"
@@ -33,7 +33,7 @@ int main(int ac, char **av)
         StatesManager   mg("Bomberman v0.01");
 
         twitter->requestAccess();
-        //twitter->sendTweet(14);
+        twitter->sendTweet(2301);
         mg.start(new Menu::MenuState());
     }
     catch (gdl::ModelException * e)

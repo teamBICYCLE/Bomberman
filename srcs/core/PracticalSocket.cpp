@@ -335,9 +335,9 @@ public:
   SocketStreamBuffer(TCPSocket *sock) {
     // Save the a copy of the socket we are wrapping.
     SocketStreamBuffer::sock = sock;
-    setg(inBuffer, inBuffer + sizeof(inBuffer),
+    this->setg(inBuffer, inBuffer + sizeof(inBuffer),
          inBuffer + sizeof(inBuffer));
-    setp(outBuffer, outBuffer + sizeof(outBuffer));
+    this->setp(outBuffer, outBuffer + sizeof(outBuffer));
     extra = 0;
   }
 
@@ -348,7 +348,7 @@ protected:
 
     // If an extra character was passed in, put it into our buffer.
     if (c != Traits::eof()) {
-      sputc(Traits::to_char_type(c));
+      this->sputc(Traits::to_char_type(c));
     }
 
     return 0;
@@ -357,7 +357,7 @@ protected:
   int sync() {
     // Write out the contents of the buffer.
     sock->send(outBuffer, (this->pptr() - outBuffer) * sizeof(CharT));
-    setp(outBuffer, outBuffer + sizeof(outBuffer));
+    this->setp(outBuffer, outBuffer + sizeof(outBuffer));
     return 0;
   }
 
@@ -372,7 +372,7 @@ protected:
 
     // Adjust the base class buffer pointers and return the first
     // character read.
-    setg(inBuffer, inBuffer, inBuffer + len / sizeof(CharT));
+    this->setg(inBuffer, inBuffer, inBuffer + len / sizeof(CharT));
     return this->sgetc();
   }
 
