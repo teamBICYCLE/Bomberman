@@ -10,6 +10,9 @@
 # include <fstream>
 
 # define TWITTER_DATA_FILE "Ressources/.twitter_data"
+# define NO_CONNECTION 2
+# define ALLOW_CONNECTION 1
+# define DISALLOW_CONNECTION 0
 
 class TwitterConnection : public QObject
 {
@@ -32,7 +35,7 @@ public:
 private:
     void privateSendTweet(int);
     void saveChoice(bool c) const;
-    bool getChoice(void) const;
+    uint getChoice(void) const;
 
 private:
     const QString cKey_;
@@ -41,7 +44,6 @@ private:
     KQOAuthRequest *oauthRequest_;
     KQOAuthManager *oauthManager_;
     QSettings config_;
-    bool userHasRefuse_;
     bool allowSendTweet_;
     static TwitterConnection *instance_;
 
@@ -50,7 +52,7 @@ private slots:
     void success();
     void accessToken(QString, QString);
     void onAuthorizedRequestDone();
-    void ready();
+    void ready(QByteArray response);
 };
 
 #endif // __TWITTERCONNECTION_HH__
