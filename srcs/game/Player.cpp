@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 18:04:03 2012 lois burg
+// Last update Mon May 28 18:52:27 2012 lois burg
 //
 
 #include <algorithm>
@@ -28,8 +28,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 {
   isInvincible_ = true;
   kickAbility_ = true;
-  nbBombs_ = 100;
-  nbMines_ = 10000;
+  nbBombs_ = 5;
+  nbMines_ = 10;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -510,5 +510,23 @@ void	Player::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
   (void)objs;
   (void)x;
   (void)y;
-  setDangerMap(getPos().x, getPos().y, DANGER_EXPLOSION, map);
+  setDangerMap(getPos().x, getPos().y, DANGER_PLAYER, map);
+}
+
+void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+				     std::list<AObject*>objs,
+				     int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
+  map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
 }

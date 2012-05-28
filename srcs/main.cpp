@@ -5,13 +5,15 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Mon May 28 14:12:15 2012 lois burg
+// Last update Mon May 28 18:53:07 2012 lois burg
 //
 
+#include <GDL/ModelException.hpp>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
-#include <GDL/ModelException.hpp>
+#include "Carrousel/CarrouselHandler.hh"
+#include "Carrousel/ItemList.hh"
 
 #include "Player.hh"
 
@@ -29,15 +31,20 @@ void  loadModels()
 int main(int ac, char **av)
 {
   try {
-        TwitterConnection *twitter = TwitterConnection::getInstance(ac, av);
-        StatesManager   mg("Bomberman v0.01");
+    StatesManager   mg("Bomberman v0.01");
+    CarrouselHandler *    carrouselHandler;
 
-        twitter->requestAccess();
-        // twitter->sendTweet(14);
-        mg.start(new Menu::MenuState());
-    }
-    catch (gdl::ModelException * e)
-    {
-        std::cout << e->what() << std::endl;
-    }
+    carrouselHandler = new CarrouselHandler();
+
+    ModelHandler::get().preload();
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
+    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+    mg.start(carrouselHandler);
+  }
+  catch (gdl::ModelException * e)
+  {
+    std::cout << e->what() << std::endl;
+  }
+
+  return 0;
 }

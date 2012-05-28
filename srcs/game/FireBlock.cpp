@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 16:18:32 2012 lois burg
+// Last update Mon May 28 18:52:15 2012 lois burg
 //
 
 #include <algorithm>
@@ -60,14 +60,17 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
       last_ = timer_;
       lastTime_ = now;
     }
-  if (now - lastTime_ >= timer_)
+  if (last_ <= 0)
     {
       spitFire(objs);
       lastTime_ = now;
       last_ = timer_;
     }
   else
-    last_ -= now;
+    {
+      last_ -= now - lastTime_;
+      lastTime_ = now;
+    }
   model_.update(clock);
 }
 
@@ -91,6 +94,7 @@ void	FireBlock::destroy(void)
   //indestructible block
 }
 
+//http://www.youtube.com/watch?v=aQZDbBGBJsM
 void	FireBlock::spitFire(std::list<AObject*>& objs)
 {
   Explosion	*e = new Explosion(pos_, Vector3d(1, 1, 0), 1, *(new Player()));
@@ -170,4 +174,54 @@ QDataStream &operator>>(QDataStream &in, FireBlock &v)
 void    FireBlock::toQvariant(QSettings &w) const
 {
     w.setValue("FireBlock", qVariantFromValue(*this));
+}
+
+void    FireBlock::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			int x, int y) const
+{
+  setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
+}
+
+void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::list<AObject*>objs,
+				     std::vector<std::vector<std::pair<int, int> > > &map,
+				     int x_, int y_) const
+{
+  Bomb		*bomb;
+  bool          rightInvalid = true;
+
+  for (int i = 1; i <= range; ++i)
+    {
+      bomb = isPosValid(rightInvalid, pos_.y + (dir_.y * i), pos_.x + (dir_.x * i), objs);
+      if (bomb != NULL)
+	bomb->setRangeDanger(bomb->getRange(), pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, objs, map, x_, y_);
+      if (pos_.x + (dir_.x * i) < x_  && rightInvalid)
+	setDangerMap(pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, map);
+								}
+}
+
+Bomb		*FireBlock::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const
+{
+  AObject *obj;
+  std::list<AObject*>::iterator i;
+  std::string type;
+
+  if (valid == true)
+    {
+      for(i = objs_.begin(); i != objs_.end(); ++i)
+	{
+	  obj = (*i);
+	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+	    {
+	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+		{
+		  valid = false;
+		  return NULL;
+		}
+	      else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
+		return static_cast<Bomb*>(obj);
+	      return NULL;
+	    }
+	}
+    }
+  return NULL;
 }

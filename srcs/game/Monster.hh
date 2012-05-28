@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Sat May 26 17:50:26 2012 thibault carpentier
+// Last update Sun May 27 15:39:01 2012 thibault carpentier
 //
 
 #ifndef		__MONSTER_HH__
@@ -35,12 +35,13 @@ namespace	Bomberman
 
   public:
     virtual void	update(gdl::GameClock& clock, eDirection direction, std::list<AObject*>& objs);
-    virtual void    update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
-    virtual void	setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-				  std::list<AObject*>objs,
-				  int x, int y) const;
+    virtual void	setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+					     std::list<AObject*>objs,
+					     int x, int y) const;
+
   public:
     /* Serialization */
     virtual void serialize(QDataStream &out) const;

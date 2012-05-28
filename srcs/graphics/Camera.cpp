@@ -14,7 +14,7 @@
 #include <SFML/Window.hpp>
 
 Camera::Camera()
-  :position_(6.5f, 6.5f, 13.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(6.5f, 6.5f, 15.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
@@ -31,7 +31,6 @@ void    Camera::initialize()
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
   glEnable(GL_LIGHTING);
-
 }
 
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)

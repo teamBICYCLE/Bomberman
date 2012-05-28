@@ -12,17 +12,21 @@
 
 # include <string>
 # include <GDL/Image.hpp>
+# include "AModel.hh"
 
-class flatTexture {
+class flatTexture : public AModel {
 public:
   flatTexture(const std::string & path);
-  flatTexture(const flatTexture& orig);
+  flatTexture(const AModel& orig);
+  flatTexture(const flatTexture & orig);
   virtual ~flatTexture();
-  
-  void          draw();
+
+  virtual void      draw();
+  virtual void      update(gdl::GameClock & clock);
+  virtual AModel &  clone();
 
 private:
-  gdl::Image    tex_;
+  gdl::Image        tex_;
 };
 
 #endif	/* FLATTEXTURE_HH */
