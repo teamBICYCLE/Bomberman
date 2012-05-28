@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 14:37:33 2012 thibault carpentier
+// Last update Mon May 28 18:03:39 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -472,4 +472,12 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
   (void)y;
   (void)objs;
   map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
+  map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
 }
