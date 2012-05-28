@@ -100,6 +100,15 @@ void SaveHandler::save(std::list<AObject*> &objs) const
     }
 }
 
+const std::string SaveHandler::getScreenshot(const std::string &file) const
+{
+    std::string ret;
+
+    ret = file.substr(file.find_last_of('/'), file.find_last_of('.'));
+    ret.append(SCREEN_EXT);
+    return ret;
+}
+
 const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFiles(void) const
 {
     unsigned char isFile = 0x8;

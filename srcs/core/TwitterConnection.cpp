@@ -10,7 +10,6 @@ TwitterConnection::TwitterConnection(int ac, char **av)
     oauthRequest_ = new KQOAuthRequest;
     oauthManager_ = new KQOAuthManager(this);
     allowSendTweet_ = false;
-    oauthRequest_->setEnableDebugOutput(true);
 }
 
 TwitterConnection::~TwitterConnection(void)

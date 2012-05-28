@@ -42,7 +42,6 @@ bool  PlayState::init()
     Map         map("Ressources/Map/map2");
         // int	viewport[4];
 
-
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();

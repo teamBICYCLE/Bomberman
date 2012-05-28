@@ -24,21 +24,23 @@ void  loadModels()
 
 int main(int ac, char **av)
 {
-  try {
-    StatesManager   mg("Bomberman v0.01");
-    CarrouselHandler *    carrouselHandler;
+    (void)ac;
+    (void)av;
+    try {
+        StatesManager   mg("Bomberman v0.01");
+        CarrouselHandler *carrouselHandler;
 
-    carrouselHandler = new CarrouselHandler();
+        carrouselHandler = new CarrouselHandler();
 
-    ModelHandler::get().preload();
-    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
-    carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
-    mg.start(carrouselHandler);
-  }
-  catch (gdl::ModelException * e)
-  {
-    std::cout << e->what() << std::endl;
-  }
+        ModelHandler::get().preload();
+        carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
+        carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+        mg.start(carrouselHandler);
+    }
+    catch (gdl::ModelException * e)
+    {
+        std::cout << e->what() << std::endl;
+    }
 
-  return 0;
+    return 0;
 }

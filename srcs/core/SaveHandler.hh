@@ -40,13 +40,13 @@ public:
     void save(std::list<AObject *> &) const;
     std::list<AObject *> *load(const std::string &file) const;
     const std::list< std::pair<std::string, std::string> > getSavedFiles(void) const;
+    const std::string getScreenshot(const std::string &file) const;
 
 private:
     const std::string newFileName(void) const;
     void writeObject(AObject *obj, QSettings &w) const;
     void initAllObjects(void) const;
     void createScreen(const std::string &name) const;
-
 };
 
 #endif // SAVEHANDLER_HPP
