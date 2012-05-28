@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:30:16 2012 lois burg
-// Last update Sun May 27 01:42:00 2012 romain sylvian
+// Last update Sun May 27 10:55:36 2012 thibault carpentier
 //
 
 #ifndef		__AOBJECT_HH__
@@ -55,7 +55,7 @@ namespace	Bomberman
     virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
 					  std::list<AObject*>objs, int x, int y) const;
     virtual void		setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
-						     std::list<AObject*>objs) const;
+						     std::list<AObject*>objs, int x, int y) const;
     virtual void		setDangerMap(int x, int y, int danger,
 					     std::vector<std::vector<std::pair<int, int> > > &map) const;
 
