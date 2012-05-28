@@ -7,6 +7,7 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
+#include <algorithm>
 #include "ItemList.hh"
 
 ItemList::ItemList()
