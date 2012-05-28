@@ -29,12 +29,12 @@ function getZoneDanger(this, x, y)
    local size = 0
    for j = 1, table.getn(posX) do
       local tmp = this:getDanger(posX[j], posY[j])
-      print("danger : ", "x ", posX[j], " y ", posY[j], this:getDanger(posX[j], posY[j]))
+--      print("danger : ", "x ", posX[j], " y ", posY[j], this:getDanger(posX[j], posY[j]))
       if (tmp ~= (DANGER_MAX + 1))
       then
 	 if (tmp > 0 and posX[j] == x and posY[j] == y)
 	 then
-	    print("result :", tmp, j)
+--	    print("result :", tmp, j)
 	    -- print()
 	    return (tmp)
 	 end
@@ -44,7 +44,7 @@ function getZoneDanger(this, x, y)
    end
    -- print()
    -- print(size)
-    print("result :", res / size)
+    -- print("result :", res / size)
    -- print()
    -- print()
    -- print()
@@ -59,23 +59,14 @@ function getLessDangerousDirection(this, x, y, type)
    local dirX = {x   , x + 0.05, x - 0.05, x       , x        }
    local dirY = {y   , y       , y       , y - 0.05, y + 0.05 }
 
-
---    for i = 1, table.getn(dir) do
---       print(getZoneDanger(this, posX[i], posY[i]))
---    end
---    print()
---  return (NODIR)
--- end
-   print(posX[1], posX[2], posX[3])
+--   print(posX[1], posX[2], posX[3])
    local res_dir = dir[1]
    local danger_res = getZoneDanger(this, posX[1], posY[1])
    for  i = 1, table.getn(dir) do
-      --      print( this:isCrossable(dirX[i], dirY[i], type), showdir(dir[i]),  getZoneDanger(this, posX[i], posY[i]))
-      print("================= Testing : ", showdir(dir[i]))
+--      print("================= Testing : ", showdir(dir[i]))
       local tmpDanger = getZoneDanger(this, posX[i], posY[i])
-      print("================= END   TEST", showdir(dir[i]))
-      print()
---      print("Comparing", tmpDanger, " with stored :", danger_res, "for dir : ", showdir(dir[i]))
+      -- print("================= END   TEST", showdir(dir[i]))
+      -- print()
       if (tmpDanger < danger_res
 	  and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
@@ -85,7 +76,7 @@ function getLessDangerousDirection(this, x, y, type)
       end
    end
 --   print("======", showdir(res_dir), "=======")
-  print()
-  print()
+  -- print()
+  -- print()
    return (res_dir)
 end
