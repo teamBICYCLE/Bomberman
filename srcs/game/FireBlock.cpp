@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 16:17:46 2012 thibault carpentier
+// Last update Mon May 28 16:30:45 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -179,7 +179,6 @@ void    FireBlock::toQvariant(QSettings &w) const
 void    FireBlock::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
 			int x, int y) const
 {
-  std::cout << getTimeout() << std::endl;
   setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
 }
 
