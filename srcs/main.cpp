@@ -8,16 +8,11 @@
 // Last update Sun May 20 14:26:01 2012 lois burg
 //
 
+#include <GDL/ModelException.hpp>
 #include "StatesManager.hh"
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
-#include <GDL/ModelException.hpp>
-
-#include "Player.hh"
-
 #include "TwitterConnection.hh"
-
-
 
 using namespace std;
 
