@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:25 2012 lois burg
-// Last update Sun May 20 17:47:01 2012 lois burg
+// Last update Sun May 27 18:37:43 2012 lois burg
 //
 
 #ifndef		__MINE_HH__
@@ -13,14 +13,15 @@
 
 # include	"Bomb.hh"
 # include	"Explosion.hh"
-# include       "gdlModel.hh"
+# include	"gdlModel.hh"
+# include	"Danger.hh"
 
 namespace	Bomberman
 {
   class	Mine : public Bomb
   {
   public:
-    Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner);
+    Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player& owner);
     Mine(const Mine&);
     Mine();
     virtual ~Mine();
@@ -30,6 +31,10 @@ namespace	Bomberman
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void		destroy(std::list<AObject*>& objs);
+
+    virtual void                setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
 
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;

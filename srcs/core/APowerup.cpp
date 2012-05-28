@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:37:08 2012 geoffroy lafontaine
-// Last update Sun May 20 17:46:23 2012 lois burg
+// Last update Sat May 26 18:34:15 2012 thibault carpentier
 //
 
 #include "APowerup.hh"
@@ -41,4 +41,14 @@ void	APowerup::interact(Explosion *e, std::list<AObject*>& objs)
   (void)e;
   (void)objs;
   destroy();
+}
+
+
+void  APowerup::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+			  int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  setDangerMap(getPos().x, getPos().y, DANGER_POWERUP, map);
 }

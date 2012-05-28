@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Mon May 21 11:49:15 2012 thibault carpentier
+// Last update Sun May 27 15:31:14 2012 thibault carpentier
 //
 //
 
@@ -35,7 +35,6 @@ namespace	Bomberman
     virtual void		loot(std::list<AObject *> &);
     virtual void		destroy(std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
-
     /* Serialization */
     virtual void serialize(QDataStream &out) const;
     virtual void unserialize(QDataStream &in);

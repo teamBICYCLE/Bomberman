@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 14:33:03 2012 geoffroy lafontaine
-// Last update Sun May 20 17:45:41 2012 lois burg
+// Last update Sat May 26 17:48:24 2012 thibault carpentier
 //
 
 #ifndef		__APOWERUP_HH__
@@ -13,6 +13,7 @@
 
 # include "Player.hh"
 # include "Explosion.hh"
+# include "Danger.hh"
 
 namespace	Bomberman
 {
@@ -34,6 +35,11 @@ namespace	Bomberman
     virtual void        serialize(QDataStream &out) const {(void)out;}
     virtual void        unserialize(QDataStream &in) {(void)in;}
     virtual void        sInit(void){}
+
+  public:
+    virtual void                setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					 std::list<AObject*>objs,
+					  int x, int y) const;
 
   private:
     APowerup(const APowerup& other);

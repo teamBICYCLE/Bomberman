@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Tue May 22 15:08:09 2012 thibault carpentier
+// Last update Sun May 27 18:37:29 2012 lois burg
 //
 
 #include "Mine.hh"
@@ -13,8 +13,8 @@
 
 using namespace	Bomberman;
 
-Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner)
-  : Bomb(pos, rot, sz, range, timeOut, owner), chainReaction_(false)
+Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player& owner)
+  : Bomb(pos, rot, sz, 0, 0.0f, owner), chainReaction_(false)
 {
   type_ = "Mine";
 }
@@ -61,6 +61,7 @@ void	Mine::interact(Explosion *e, std::list<AObject*>& objs)
 
 void	Mine::destroy(std::list<AObject*>& objs)
 {
+    std::cout << "* POUF *" << std::endl;
   explode(objs);
   if (!ownerCollide_)
     owner_.setBombCollide(true);
@@ -143,3 +144,14 @@ void Mine::aff2(void) const
     std::cout << "chainReaction : " << chainReaction_ << std::endl;
     std::cout << "=== END MINE ===" << std::endl;
 }
+
+
+void  Mine::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+		      int x, int y) const
+{
+  (void)objs;
+  (void)x;
+  (void)y;
+  setDangerMap(getPos().x, getPos().y, DANGER_MINE, map);
+}
+

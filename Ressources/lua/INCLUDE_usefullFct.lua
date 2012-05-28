@@ -4,71 +4,79 @@ function showdir(res)
    if (res == NODIR)
    then
       return("NODIR")
-   end
-   if (res == RIGHT)
+   elseif (res == RIGHT)
    then
       return("RIGHT")
-   end
-   if res == LEFT
+   elseif res == LEFT
    then
       return("LEFT")
-   end
-   if res == UP
+   elseif res == UP
    then
       return("UP")
-   end
-   if (res == DOWN)
+   elseif (res == DOWN)
    then
       return("DOWN")
-   end
-end
-
-function round(num)
-   under = math.floor(num)
-   upper = math.floor(num) + 1
-   underV = -(under - num)
-    upperV = upper - num
-   if (upperV > underV) then
-        return under
    else
-        return upper
+      return ("BADRETURN")
    end
 end
 
-function getLessDangerousDirection(this, x, y, type)
-   -- x = round(x, 0)
-   -- y = round(y, 0)
-   dir = {NODIR, RIGHT, LEFT, UP, DOWN}
-   posX = {x , x + 1, x - 1, x, x}
-   posY = {y, y, y, y - 1, y + 1}
-   dirX = {x, x + 1, x - 1, x, x}
-   dirY = {y, y, y, y - 1, y + 1}
+function getZoneDanger(this, x, y)
+   local posX = {x , x + 1 , x - 1 , x     , x     , x + 1 , x - 1 , x + 1 , x - 1}
+   local posY = {y , y     , y     , y - 1 , y + 1 , y + 1 , y + 1 , y - 1 , y - 1}
 
-   res = dir[1]
-   danger_res = this:getDanger(posX[1], posY[1], type)
-   i = 1
-   for i = 1, table.getn(dir)do
-      print (posX[i], posY[i], this:getDanger(posX[i], posY[i]), this:isCrossable(posX[i], posY[i], type), showdir(dir[i]))
-      if (this:getDanger(posX[i], posY[i]) <= danger_res
-       and this:isCrossable(dirX[i], dirY[i], type) == 1)
+   local res = 0
+   local size = 0
+   for j = 1, table.getn(posX) do
+      local tmp = this:getDanger(posX[j], posY[j])
+--      print("danger : ", "x ", posX[j], " y ", posY[j], this:getDanger(posX[j], posY[j]))
+      if (tmp ~= (DANGER_MAX + 1))
       then
-	 danger_res = this:getDanger(posX[i], posY[i])
-	 res = dir[i]
+	 if (tmp > 0 and posX[j] == x and posY[j] == y)
+	 then
+--	    print("result :", tmp, j)
+	    -- print()
+	    return (tmp)
+	 end
+	 res = res + tmp
+	 size = size + 1
       end
    end
-   print(showdir(dir[i]))
-   print()
-   print()
-   print()
-   -- nodir = this:getDanger(x, y)
-   -- up =  this:getDanger(x, y -0.5)
-   -- right = this:getDanger(x + 0.05, y)
-   -- left = this:getDanger(x - 0.05, y)
-   -- down = this:getDanger(x, y + 0.5)
+   -- print()
+   -- print(size)
+    -- print("result :", res / size)
+   -- print()
+   -- print()
+   -- print()
+   return (res / size)
+end
 
-   -- up_isgood = this:isCrossable(x, y - 0.05, type)
-   -- right_isgood = this:isCrossable(x + 0.05, y, type)
-   -- left_isgood =  this:isCrossable(x - 0.05, y, type)
-   -- down_isgood = this:isCrossable(x, y + 0,5)
-   return (res)
+
+function getLessDangerousDirection(this, x, y, type)
+   local dir = {NODIR, RIGHT   , LEFT    , UP      , DOWN     }
+   local posX = {x   , x + 1   , x - 1   , x       , x        }
+   local posY = {y   , y       , y       , y - 1   , y + 1    }
+   local dirX = {x   , x + 0.05, x - 0.05, x       , x        }
+   local dirY = {y   , y       , y       , y - 0.05, y + 0.05 }
+
+--   print(posX[1], posX[2], posX[3])
+   local res_dir = dir[1]
+   local danger_res = getZoneDanger(this, posX[1], posY[1])
+   for  i = 1, table.getn(dir) do
+--      print("================= Testing : ", showdir(dir[i]))
+      local tmpDanger = getZoneDanger(this, posX[i], posY[i])
+      -- print("================= END   TEST", showdir(dir[i]))
+      -- print()
+      if (tmpDanger < danger_res
+	  and this:isCrossable(dirX[i], dirY[i], type) == 1)
+      then
+   	 danger_res = tmpDanger
+   	 res_dir = dir[i]
+	 --print(showdir(res_dir))
+      end
+   end
+--   print("======", showdir(res_dir), "=======")
+  -- print()
+  -- print()
+   return (res_dir)
 end

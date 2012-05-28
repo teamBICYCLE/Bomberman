@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sun May 20 17:49:45 2012 lois burg
+// Last update Sun May 27 15:28:46 2012 thibault carpentier
 //
 
 #include <GL/gl.h>
@@ -133,3 +133,13 @@ void    Brick::toQvariant(QSettings &w) const
 {
     w.setValue("Brick", qVariantFromValue(*this));
 }
+
+
+// void	Brick::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
+// 			 int x, int y) const
+// {
+//   (void)x;
+//   (void)y;
+//   (void)objs;
+//   setDangerMap(getPos().x, getPos().y, DANGER_BLOCK, map);
+// }

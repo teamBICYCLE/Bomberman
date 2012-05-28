@@ -31,6 +31,20 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
     obj->toQvariant(w);
 }
 
+
+void    SaveHandler::createScreen(const std::string &name) const
+{
+    unsigned char* lTemp;
+    lTemp = (unsigned char *)(calloc(800 * 600 * 3, sizeof(unsigned char)));
+    QString screenName(SCREEN_PATH);
+
+    screenName.append(name.c_str());
+    screenName.append(SCREEN_EXT);
+    glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE,  lTemp);
+    QImage screen(lTemp, 800, 600, QImage::Format_RGB888);
+    screen.save(screenName);
+}
+
 const std::string   SaveHandler::newFileName(void) const
 {
     time_t t;
@@ -58,12 +72,14 @@ void SaveHandler::save(std::list<AObject*> &objs) const
 {
     std::list<AObject*>::const_iterator it;
     std::string name_file(SAVE_PATH);
+    const std::string timeName = SaveHandler::newFileName();
 
-    name_file.append(SaveHandler::newFileName());
+    name_file.append(timeName);
     name_file.append(SAVE_EXT);
 
     if (!QFile::exists(name_file.c_str()))
     {
+        SaveHandler::createScreen(timeName);
         SaveHandler::initAllObjects();
 
         QSettings w(name_file.c_str(), QSettings::IniFormat);

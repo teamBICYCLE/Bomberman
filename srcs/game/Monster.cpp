@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri May 25 11:18:06 2012 thibault carpentier
+// Last update Mon May 28 13:29:52 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -17,10 +17,10 @@
 using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
-  : Character(pos, rot, sz, "Monster", 1, 1.00), moved_(false), damage_(damage), brainScript_(b),
+  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("bombman"))
 {
-  //isInvincible_ = true;
+  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -199,3 +199,22 @@ void    Monster::toQvariant(QSettings &w) const
     w.setValue("Monster", qVariantFromValue(*this));
 }
 
+void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+				     std::list<AObject*>objs,
+				     int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
+}
+
+// void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+// 			   std::list<AObject*>objs,
+// 			   int x, int y) const
+// {
+//   (void)x;
+//   (void)y;
+//   (void)objs;
+//   setDangerMap(getPos().x, getPos().y, DANGER_MONSTER, map);
+// }

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri May 25 11:55:25 2012 thibault carpentier
+// Last update Mon May 28 09:34:05 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -23,6 +23,14 @@
 
 using namespace	Bomberman;
 
+PlayState::PlayState()
+{
+}
+
+PlayState::~PlayState()
+{
+}
+
 bool  PlayState::init()
 {
   bool	success;
@@ -31,12 +39,15 @@ bool  PlayState::init()
   success = true;
   try {
     //Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map         map("Ressources/Map/map2");
         // int	viewport[4];
+
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
+    characterToUpdate_ = -1;
+    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
@@ -67,29 +78,30 @@ void  PlayState::update(StatesManager * sMg)
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
-      {
+        {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-              bestScore_ = static_cast<Player*>(*it)->getScore();
-      }
+            bestScore_ = static_cast<Player*>(*it)->getScore();
+        }
       else if (dynamic_cast<Monster*>(*it))
-          ++nbMonsters;
-
+        ++nbMonsters;
       if (!(*it)->toRemove())
-      {
-          (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+        {
+          if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+              characterToUpdate_ == -1)
+            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
-      }
+        }
       else
-          it = objs_.erase(it);
+        it = objs_.erase(it);
     }
   if (bestScore_ != -1)
-  {
+    {
       if (!nbPlayers)
-          gameOver(sMg);
+        gameOver(sMg);
       else if ((nbPlayers == 1 && !nbMonsters))
-          win(sMg);
-  }
+        win(sMg);
+    }
 }
 
 void	PlayState::win(StatesManager *mngr)

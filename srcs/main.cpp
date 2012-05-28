@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Sun May 20 14:26:01 2012 lois burg
+// Last update Mon May 28 14:54:04 2012 Thomas Duplomb
 //
 
 #include <GDL/ModelException.hpp>
@@ -15,9 +15,11 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/ItemList.hh"
 
-#include "Map.hh"
-
 #include "Player.hh"
+
+#include "TwitterConnection.hh"
+
+
 
 using namespace std;
 
@@ -26,7 +28,7 @@ void  loadModels()
 
 }
 
-int main(void)
+int main(int ac, char **av)
 {
   try {
     StatesManager   mg("Bomberman v0.01");

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:02:52 2012 lois burg
-// Last update Thu May 17 11:49:26 2012 lois burg
+// Last update Sun May 27 15:31:04 2012 thibault carpentier
 //
 
 #ifndef		__BLOCK_HH__
@@ -14,6 +14,7 @@
 # include	"AObject.hh"
 # include       "TexturedCube.hh"
 # include       "RotatingImg.hh"
+# include	"Danger.hh"
 
 namespace	Bomberman
 {

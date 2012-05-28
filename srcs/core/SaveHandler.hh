@@ -18,10 +18,14 @@
 # include   <sys/types.h>
 # include   <time.h>
 # include   <ctime>
+# include   <QImage>
+# include   <QColor>
 # include   "AObject.hh"
 
 # define    SAVE_PATH   "Ressources/Saves/"
 # define    SAVE_EXT    ".bbm"
+# define    SCREEN_PATH "Ressources/Screenshots/"
+# define    SCREEN_EXT  ".png"
 
 using namespace Bomberman;
 
@@ -41,6 +45,7 @@ private:
     const std::string newFileName(void) const;
     void writeObject(AObject *obj, QSettings &w) const;
     void initAllObjects(void) const;
+    void createScreen(const std::string &name) const;
 
 };
 
