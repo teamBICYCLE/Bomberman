@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Mon May 28 14:54:04 2012 Thomas Duplomb
+// Last update Mon May 28 18:53:07 2012 lois burg
 //
 
 #include <GDL/ModelException.hpp>

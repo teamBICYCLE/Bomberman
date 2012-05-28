@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Mon May 28 09:28:51 2012 thibault carpentier
+// Last update Mon May 28 18:52:40 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -14,6 +14,7 @@
 # include	<map>
 # include	<sys/types.h>
 # include	"Character.hh"
+# include	"KeysConfig.hh"
 # include	"BoundingBox.hh"
 # include       "gdlModel.hh"
 # include	"Packet.hh"
@@ -63,8 +64,8 @@ namespace	Bomberman
     void	setNetworkControlled(bool b);
 
   public:
-    Online::Packet	pack(void) const;
-    void		applyPacket(const Online::Packet& p);
+    Online::Packet	pack(gdl::Input& keys);
+    void		applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
 
   public:
     /* Serialization */
@@ -84,6 +85,15 @@ namespace	Bomberman
     void	loadGame(std::list<AObject*>& objs);
 
   public:
+    void	setNetLeftPressed(bool b);
+    void	setNetRightPressed(bool b);
+    void	setNetUpPressed(bool b);
+    void	setNetDownPressed(bool b);
+    void	setNetBombPressed(bool b);
+    void	setNetMinePressed(bool b);
+    void	resetNetKeys(void);
+
+  public:
     void        moveAnimation(void);
 
   private:
@@ -101,6 +111,7 @@ namespace	Bomberman
     bool	kickAbility_;
     gdlModel    model_;
     bool	isNetworkControlled_;
+    KeysConfig	conf_;
   };
 }
 

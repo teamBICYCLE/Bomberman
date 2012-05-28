@@ -5,9 +5,10 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 26 16:28:00 2012 lois burg
-// Last update Sun May 27 15:14:50 2012 lois burg
+// Last update Mon May 28 17:41:06 2012 lois burg
 //
 
+#include <utility>
 #include <algorithm>
 #include "PracticalSocket.h"
 #include "Packet.hh"
@@ -15,6 +16,18 @@
 
 using namespace Bomberman;
 using namespace Online;
+
+std::map<gdl::Keys::Key, void (Player::*)(bool)>	networkMap;
+
+void	Bomberman::Online::init(void)
+{
+  networkMap.insert(std::make_pair(gdl::Keys::W, &Player::setNetUpPressed));
+  networkMap.insert(std::make_pair(gdl::Keys::S, &Player::setNetDownPressed));
+  networkMap.insert(std::make_pair(gdl::Keys::A, &Player::setNetLeftPressed));
+  networkMap.insert(std::make_pair(gdl::Keys::D, &Player::setNetRightPressed));
+  networkMap.insert(std::make_pair(gdl::Keys::LShift, &Player::setNetMinePressed));
+  networkMap.insert(std::make_pair(gdl::Keys::Space, &Player::setNetBombPressed));
+}
 
 Player	*Bomberman::Online::getPlayerWithId(const std::list<AObject*>& objs, int id)
 {
@@ -60,12 +73,12 @@ Packet	Bomberman::Online::recvPacket(std::iostream& sockStream, bool& disconnect
   return (p);
 }
 
-void	Bomberman::Online::updatePlayerWithId(const std::list<AObject*>& objs, int id, const Packet& p)
+void	Bomberman::Online::updatePlayerWithId(std::list<AObject*>& objs, int id, const Packet& p, gdl::GameClock& clock, gdl::Input& keys)
 {
   Player	*plyr;
 
   if ((plyr = getPlayerWithId(objs, id)))
-    plyr->applyPacket(p);
+    plyr->applyPacket(p, clock, keys, objs);
 }
 
 void	Bomberman::Online::forwardPacket(std::vector<TCPSocket*>& clients, int senderSockDesc, const Packet& p)

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Sun May 27 15:44:53 2012 thibault carpentier
+// Last update Mon May 28 16:23:23 2012 thibault carpentier
 //
 
 
@@ -24,19 +24,6 @@ DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
   std::cout << x << " " << y  << std::endl;
-  // dangerMeth_["VelocityPowerup"] = &DangerMap::powerupDanger;
-  // dangerMeth_["MinePowerup"] = &DangerMap::powerupDanger;
-  // dangerMeth_["KickPowerup"] = &DangerMap::powerupDanger;
-  // dangerMeth_["AmmoPowerup"] = &DangerMap::powerupDanger;
-  // dangerMeth_["RangePowerup"] = &DangerMap::powerupDanger;
-  // dangerMeth_["Mine"] = &DangerMap::mineDanger;
-  // dangerMeth_["Explosion"] = &DangerMap::explosionDanger;
-  // dangerMeth_["Player"] = &DangerMap::playerDanger;
-  // dangerMeth_["Monster"] = &DangerMap::monsterDanger;
-  // dangerMeth_["Brick"] = &DangerMap::blockDanger;
-  // dangerMeth_["Block"] = &DangerMap::blockDanger;
-  // dangerMeth_["Bomb"] = &DangerMap::bomberDanger;
-  // dangerMeth_["Fireblock"] = &DangerMap::fireBlockDanger;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -69,7 +56,6 @@ void DangerMap::updateCaseVison(const std::list<AObject*>::const_iterator &it)
 {
   (*it)->setDanger(danger_, objs_, x_, y_);
   (*it)->setVirtualPheromones(danger_, objs_, x_, y_);
-  // danger_[y][x].second = 0;
 }
 
 int  DangerMap::getDanger(int x, int y) const
@@ -99,7 +85,7 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
   //   {
   //     std::vector<std::pair<int, int> >::iterator toto;
   //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  // 	std::cout// <<  (*toto).first
+  // 	std::cout <<  (*toto).first
   // 	  //<< (*toto).second
   // 		  << " ";
   //     std::cout << std::endl;

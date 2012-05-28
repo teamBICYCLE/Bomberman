@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Sun May 27 12:41:42 2012 lois burg
+// Last update Mon May 28 18:16:12 2012 lois burg
 //
 
 #include <iostream>
@@ -29,6 +29,7 @@ using namespace	Online;
 ClientState::ClientState(const std::string& host)
   : PlayState(), host_(host), disconnected_(false)
 {
+  Online::init();
 }
 
 ClientState::~ClientState()
@@ -69,6 +70,13 @@ bool	ClientState::init()
 	  mapH_ = map.getHeight();
 	  mapW_ = map.getWidth();
 	  objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+	  for (int i = 0; i < nbPlayers; ++i)
+	    {
+	      Player	*plyr = Online::getPlayerWithId(objs_, i);
+
+	      if (plyr && i != playerNbr_)
+		plyr->setNetworkControlled(true);
+	    }
 	} catch (Map::Failure& e) {
 	  success = false;
 	  std::cerr << e.what() << std::endl;
@@ -91,18 +99,14 @@ void	ClientState::cleanUp()
 
 void	ClientState::update(StatesManager *mngr)
 {
-  Packet	prevPacket;
-  Packet	updatedPacket;
+  Packet	packet;
   Packet	netPacket;
   Player	*plyr;
 
-  //update depuis le serveur
   if (disconnected_)
     mngr->popState();//faire plus smooth
   else if (serv_)
     {
-      if ((plyr = getPlayerWithId(objs_, playerNbr_)))
-	prevPacket = plyr->pack();
       select_.reset();
       select_.setNonBlock();
       select_.addRead(serv_->getSockDesc());
@@ -111,14 +115,13 @@ void	ClientState::update(StatesManager *mngr)
 	{
 	  netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
 	  std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
-	  //check si c'est une bombe ou un joueur
-	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket);
+	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
 	}
       PlayState::update(mngr);
-      if (plyr)
-	updatedPacket = plyr->pack();
-      if (serv_ && updatedPacket != prevPacket)
-	sendPacket(serv_->getStream(), updatedPacket);
+      if ((plyr = getPlayerWithId(objs_, playerNbr_)))
+	packet = plyr->pack(mngr->getInput());
+      if (serv_ && packet.isUseful())
+	sendPacket(serv_->getStream(), packet);
     }
 }
 

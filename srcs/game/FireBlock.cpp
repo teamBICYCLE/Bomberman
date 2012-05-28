@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 14:38:33 2012 Jonathan Machado
+// Last update Mon May 28 18:52:15 2012 lois burg
 //
 
 #include <algorithm>
@@ -60,14 +60,17 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
       last_ = timer_;
       lastTime_ = now;
     }
-  if (now - lastTime_ >= timer_)
+  if (last_ <= 0)
     {
       spitFire(objs);
       lastTime_ = now;
       last_ = timer_;
     }
   else
-    last_ -= now;
+    {
+      last_ -= now - lastTime_;
+      lastTime_ = now;
+    }
   model_.update(clock);
 }
 
@@ -176,7 +179,7 @@ void    FireBlock::toQvariant(QSettings &w) const
 void    FireBlock::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
 			int x, int y) const
 {
-   setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
+  setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
 }
 
 void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::list<AObject*>objs,
@@ -186,7 +189,6 @@ void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::
   Bomb		*bomb;
   bool          rightInvalid = true;
 
-  setDangerMap(x, y, danger, map);
   for (int i = 1; i <= range; ++i)
     {
       bomb = isPosValid(rightInvalid, pos_.y + (dir_.y * i), pos_.x + (dir_.x * i), objs);
