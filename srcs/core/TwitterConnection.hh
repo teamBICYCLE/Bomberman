@@ -7,6 +7,7 @@
 # include <iostream>
 # include <QApplication>
 # include <QString>
+# include <fstream>
 
 # define TWITTER_DATA_FILE "Ressources/.twitter_data"
 
@@ -30,6 +31,8 @@ public:
 
 private:
     void privateSendTweet(int);
+    void saveChoice(bool c) const;
+    bool getChoice(void) const;
 
 private:
     const QString cKey_;
@@ -47,7 +50,7 @@ private slots:
     void success();
     void accessToken(QString, QString);
     void onAuthorizedRequestDone();
-    void ready(QByteArray);
+    void ready();
 };
 
 #endif // __TWITTERCONNECTION_HH__

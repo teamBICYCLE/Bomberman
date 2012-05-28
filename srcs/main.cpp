@@ -29,10 +29,11 @@ void  loadModels()
 int main(int ac, char **av)
 {
   try {
-        //TwitterConnection *twitter = TwitterConnection::getInstance(ac, av);
+        TwitterConnection *twitter = TwitterConnection::getInstance(ac, av);
         StatesManager   mg("Bomberman v0.01");
 
-        //twitter->requestAccess();
+        twitter->requestAccess();
+        twitter->sendTweet(14);
         mg.start(new Menu::MenuState());
     }
     catch (gdl::ModelException * e)
