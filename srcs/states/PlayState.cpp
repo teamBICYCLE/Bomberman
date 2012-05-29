@@ -38,7 +38,7 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(13, 7, 1, 10, 0);
+    Map	map(13, 13, 1, 10, 0);
     //Map         map("Ressources/Map/map2");
         // int	viewport[4];
 
@@ -101,6 +101,9 @@ void  PlayState::update(StatesManager * sMg)
       else if ((nbPlayers == 1 && !nbMonsters))
         win(sMg);
     }
+
+
+  // bind touche echap
 }
 
 void	PlayState::win(StatesManager *mngr)

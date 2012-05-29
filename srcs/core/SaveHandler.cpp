@@ -34,14 +34,14 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 
 void    SaveHandler::createScreen(const std::string &name) const
 {
-    unsigned char* lTemp;
-    lTemp = (unsigned char *)(calloc(800 * 600 * 3, sizeof(unsigned char)));
+    unsigned char* img;
+    img = (unsigned char *)(calloc(800 * 600 * 3, sizeof(unsigned char)));
     QString screenName(SCREEN_PATH);
 
     screenName.append(name.c_str());
     screenName.append(SCREEN_EXT);
-    glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE,  lTemp);
-    QImage screen(lTemp, 800, 600, QImage::Format_RGB888);
+    glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE, img);
+    QImage screen(img, 800, 600, QImage::Format_RGB888);
     screen.save(screenName);
 }
 

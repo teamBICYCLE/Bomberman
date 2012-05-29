@@ -28,6 +28,12 @@ void      ModelHandler::preload()
         "left");
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
         "right");
+
+  /* Save load */
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-load.png"),
+        "bg-load");
+  storeModel(new flatTexture("Ressources/Images/Menu/overlay-load.png"),
+        "overlay-load");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
