@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Sun May 27 18:39:14 2012 lois burg
+// Last update Tue May 29 12:04:38 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -36,6 +36,7 @@ namespace	Bomberman
 
     virtual void win(StatesManager *mngr);
     virtual void gameOver(StatesManager *mngr);
+    virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
   protected:
     void	saveScore(void) const;
@@ -46,6 +47,7 @@ namespace	Bomberman
     std::list<AObject*>	objs_;
     Camera              camera_;
     int			bestScore_;
+    int			winnerId_;
     int			characterToUpdate_;
     gdl::Image          img_;
   };

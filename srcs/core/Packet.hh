@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 26 11:59:16 2012 lois burg
-// Last update Mon May 28 16:45:56 2012 lois burg
+// Last update Tue May 29 10:53:47 2012 lois burg
 //
 
 #ifndef		__PACKET_HH__
@@ -18,23 +18,11 @@ namespace	Bomberman
 {
   namespace	Online
   {
-    enum	PacketType
-      {
-	UndefPkt,
-	BombPkt,
-	PlayerPkt
-      };
-
     struct	Packet
     {
       Packet();
 
-      PacketType type;
       int	id;
-      double	x;
-      double	y;
-      double	z;
-
       bool	up;
       bool	down;
       bool	left;

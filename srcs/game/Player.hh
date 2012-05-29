@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Mon May 28 18:52:40 2012 lois burg
+// Last update Tue May 29 11:14:04 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -85,12 +85,6 @@ namespace	Bomberman
     void	loadGame(std::list<AObject*>& objs);
 
   public:
-    void	setNetLeftPressed(bool b);
-    void	setNetRightPressed(bool b);
-    void	setNetUpPressed(bool b);
-    void	setNetDownPressed(bool b);
-    void	setNetBombPressed(bool b);
-    void	setNetMinePressed(bool b);
     void	resetNetKeys(void);
 
   public:
