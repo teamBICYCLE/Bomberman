@@ -36,13 +36,13 @@ void            flatTexture::draw()
 
   this->tex_.bind();
   glBegin(GL_QUADS);
-  glTexCoord2i(0, 0);
-  glVertex2d(0.0f, 0.0f);
-  glTexCoord2i(1, 0);
-  glVertex2d(x, 0.0f);
-  glTexCoord2i(1, 1);
-  glVertex2d(x, y);
   glTexCoord2i(0, 1);
+  glVertex2d(0.0f, 0.0f);
+  glTexCoord2i(1, 1);
+  glVertex2d(x, 0.0f);
+  glTexCoord2i(1, 0);
+  glVertex2d(x, y);
+  glTexCoord2i(0, 0);
   glVertex2d(0.0f, y);
   glEnd();
 }

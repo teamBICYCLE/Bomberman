@@ -48,11 +48,11 @@ private:
     static TwitterConnection *instance_;
 
 private slots:
-    void tmpToken();
-    void success();
+    void tmpToken(void) const;
+    void success(void);
     void accessToken(QString, QString);
-    void onAuthorizedRequestDone();
-    void ready(QByteArray response);
+    void onAuthorizedRequestDone(void);
+    void ready(void);
 };
 
 #endif // __TWITTERCONNECTION_HH__

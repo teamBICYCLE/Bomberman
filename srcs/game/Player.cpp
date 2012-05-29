@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 29 11:52:12 2012 lois burg
+// Last update Tue May 29 18:58:47 2012 lois burg
 //
 
 #include <algorithm>
@@ -26,10 +26,10 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  // isInvincible_ = true;
-  // kickAbility_ = true;
-  // nbBombs_ = 5;
-  // nbMines_ = 10;
+  isInvincible_ = true;
+  //kickAbility_ = true;
+  //nbBombs_ = 5;
+  //nbMines_ = 10;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -479,16 +479,20 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
 				     std::list<AObject*>objs,
 				     int x, int y) const
 {
-  (void)x;
-  (void)y;
   (void)objs;
-  // map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
-  // map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  // map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
+  if (pos_.y < y - 1)
+      map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x < x && pos_.y < y - 1)
+    map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x < x - 1)
+    map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.y > 0)
+      map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x > 0 && pos_.y > 0)
+    map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x > 0)
+    map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x > 0 && pos_.y < y - 1)
+    map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
 }

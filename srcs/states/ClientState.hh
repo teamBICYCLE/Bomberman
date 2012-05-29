@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:52:44 2012 lois burg
-// Last update Tue May 29 18:06:36 2012 lois burg
+// Last update Tue May 29 18:59:31 2012 lois burg
 //
 
 #ifndef		__CLIENTSTATE_HH__
