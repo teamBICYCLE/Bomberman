@@ -41,11 +41,15 @@ void CarrouselHandler::cleanUp()
 {
 }
 
+#include "ServerState.hh"
+
 void CarrouselHandler::update(StatesManager * sMg)
 {
   // a degager
   if (sMg->getInput().isKeyDown(gdl::Keys::P))
     sMg->pushState(new Bomberman::PlayState());
+  if (sMg->getInput().isKeyDown(gdl::Keys::S))
+    sMg->pushState(new Bomberman::Online::ServerState(2));
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
 

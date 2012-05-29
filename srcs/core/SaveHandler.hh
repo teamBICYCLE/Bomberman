@@ -38,7 +38,7 @@ public:
 
 public:
     void save(std::list<AObject *> &) const;
-    std::list<AObject *> *load(const std::string &file) const;
+    std::list<AObject *> *load(const std::string &file);
     const std::list< std::pair<std::string, std::string> > getSavedFiles(void) const;
     const std::string getScreenshot(const std::string &file) const;
 
@@ -47,6 +47,17 @@ private:
     void writeObject(AObject *obj, QSettings &w) const;
     void initAllObjects(void) const;
     void createScreen(const std::string &name) const;
+
+private:
+    void loadBlock(std::list<AObject*> *res, QSettings);
+    void loadBrick(std::list<AObject*> *res, QSettings);
+    void loadPlayer(std::list<AObject*> *res, QSettings);
+    void loadBomb(std::list<AObject*> *res, QSettings);
+    void loadMine(std::list<AObject*> *res, QSettings);
+    void loadMonster(std::list<AObject*> *res, QSettings);
+    void loadGhost(std::list<AObject*> *res, QSettings);
+    void loadExplosion(std::list<AObject*> *res, QSettings);
+    void loadFireBlock(std::list<AObject*> *res, QSettings);
 };
 
 #endif // SAVEHANDLER_HPP

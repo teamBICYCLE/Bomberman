@@ -20,28 +20,31 @@
 
 namespace	Bomberman
 {
-  class	ClientState : public PlayState
-  {
-  public:
-    ClientState(const std::string& host);
-    virtual ~ClientState();
+    namespace Online
+    {
+      class	ClientState : public PlayState
+      {
+      public:
+        ClientState(const std::string& host);
+        virtual ~ClientState();
 
-  public:
-    virtual bool init();
-    virtual void cleanUp();
+      public:
+        virtual bool init();
+        virtual void cleanUp();
 
-    virtual void update(StatesManager *mngr);
+        virtual void update(StatesManager *mngr);
 
-    virtual void win(StatesManager *mngr);
-    virtual void gameOver(StatesManager *mngr);
+        virtual void win(StatesManager *mngr);
+        virtual void gameOver(StatesManager *mngr);
 
-  private:
-    std::string		host_;
-    int			playerNbr_;
-    TCPSocket		*serv_;
-    Select		select_;
-    bool		disconnected_;
-  };
+      private:
+        std::string		host_;
+        int             playerNbr_;
+        TCPSocket		*serv_;
+        Select          select_;
+        bool            disconnected_;
+      };
+    }
 }
 
 #endif /* !__CLIENTSTATE_HH__*/

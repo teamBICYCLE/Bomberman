@@ -26,10 +26,10 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  isInvincible_ = true;
-  kickAbility_ = true;
-  nbBombs_ = 5;
-  nbMines_ = 10;
+  //isInvincible_ = true;
+  //kickAbility_ = true;
+  //nbBombs_ = 5;
+  //nbMines_ = 10;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
