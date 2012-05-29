@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Mon May 28 18:16:12 2012 lois burg
+// Last update Tue May 29 18:06:32 2012 lois burg
 //
 
 #include <iostream>
@@ -29,7 +29,6 @@ using namespace	Online;
 ClientState::ClientState(const std::string& host)
   : PlayState(), host_(host), disconnected_(false)
 {
-  Online::init();
 }
 
 ClientState::~ClientState()
@@ -38,7 +37,6 @@ ClientState::~ClientState()
 
 bool	ClientState::init()
 {
-  int	nbPlayers = 1;
   bool	success = true;
   time_t seed;
 
@@ -60,17 +58,17 @@ bool	ClientState::init()
 
 	sockStream >> seed;
 	sockStream >> playerNbr_;
-	sockStream >> nbPlayers;
-	std::cout << "The seed is: " << seed << ", I am the player #" << playerNbr_ << " out of " << nbPlayers << "players." << std::endl;
+	sockStream >> nbPlayers_;
+	std::cout << "The seed is: " << seed << ", I am the player #" << playerNbr_ << " out of " << nbPlayers_ << "players." << std::endl;
 	characterToUpdate_ = playerNbr_;
 	srand(seed);
 	std::cout << "Seed : " << seed << std::endl;
 	try {
-	  Map	map(13, 13, nbPlayers, 0, 0);
+	  Map	map(13, 13, nbPlayers_, 0, 0);
 	  mapH_ = map.getHeight();
 	  mapW_ = map.getWidth();
 	  objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-	  for (int i = 0; i < nbPlayers; ++i)
+	  for (int i = 0; i < nbPlayers_; ++i)
 	    {
 	      Player	*plyr = Online::getPlayerWithId(objs_, i);
 
@@ -114,7 +112,7 @@ void	ClientState::update(StatesManager *mngr)
       if (select_.canRead(serv_->getSockDesc()))
 	{
 	  netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
-	  std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
+	  // std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
 	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
 	}
       PlayState::update(mngr);
@@ -125,12 +123,19 @@ void	ClientState::update(StatesManager *mngr)
     }
 }
 
-void	ClientState::win(StatesManager *mngr)
+void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMonsters)
 {
-  (void)mngr;
-}
+  int		i = 0;
+  Player	*plyr = NULL;
 
-void	ClientState::gameOver(StatesManager *mngr)
-{
-  (void)mngr;
+  if (nbPlayersAlive == 1 && !nbMonsters)
+    {
+      while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
+	i++;
+      if (plyr)
+	winnerId_ = i;
+      win(mngr);
+    }
+  else if (!nbPlayersAlive)
+    {}//push drawState (egalite)
 }

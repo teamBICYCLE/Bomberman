@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:52:44 2012 lois burg
-// Last update Sat May 26 18:03:14 2012 lois burg
+// Last update Tue May 29 18:06:41 2012 lois burg
 //
 
 #ifndef		__SERVERSTATE_HH__
@@ -34,14 +34,12 @@ namespace	Bomberman
 
       virtual void update(StatesManager *mngr);
 
-      virtual void win(StatesManager *mngr);
-      virtual void gameOver(StatesManager *mngr);
+      // virtual void win(StatesManager *mngr);
+      // virtual void gameOver(StatesManager *mngr);
+      virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
     private:
-      void	sendMap(void);
-
-    private:
-      uint			nbPlayers_;
+      int			nbPlayers_;
       TCPServerSocket		*serv_;
       std::vector<TCPSocket*>	clients_;
       Select			select_;

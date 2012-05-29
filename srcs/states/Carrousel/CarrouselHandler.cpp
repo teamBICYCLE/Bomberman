@@ -12,6 +12,8 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include "PlayState.hh"
+#include "ServerState.hh"
+#include "ClientState.hh"
 
 CarrouselHandler::CarrouselHandler()
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(false)
@@ -48,8 +50,10 @@ void CarrouselHandler::update(StatesManager * sMg)
   // a degager
   if (sMg->getInput().isKeyDown(gdl::Keys::P))
     sMg->pushState(new Bomberman::PlayState());
-  if (sMg->getInput().isKeyDown(gdl::Keys::S))
+  else if (sMg->getInput().isKeyDown(gdl::Keys::S))
     sMg->pushState(new Bomberman::Online::ServerState(2));
+  else if (sMg->getInput().isKeyDown(gdl::Keys::C))
+    sMg->pushState(new Bomberman::Online::ClientState("localhost"));
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
 

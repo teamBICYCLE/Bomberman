@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Mon May 28 17:51:56 2012 lois burg
+// Last update Tue May 29 18:06:54 2012 lois burg
 //
 
 #include <iostream>
@@ -28,7 +28,6 @@ using namespace	Online;
 ServerState::ServerState(uint nbPlayers)
   : PlayState(), nbPlayers_(nbPlayers), clients_(nbPlayers_ - 1)
 {
-  Online::init();
 }
 
 ServerState::~ServerState()
@@ -37,7 +36,7 @@ ServerState::~ServerState()
 
 bool	ServerState::init()
 {
-  uint	i = 1;
+  int	i = 1;
   bool	success = true;
   time_t seed = time(NULL);
 
@@ -127,6 +126,7 @@ void	ServerState::update(StatesManager *mngr)
 	  p = recvPacket((*it)->getStream(), disconnected);
 	  if (disconnected)
 	    {
+	      (*it)->close();
 	      delete (*it);
 	      (*it) = NULL;
 	    }
@@ -147,16 +147,19 @@ void	ServerState::update(StatesManager *mngr)
       });
 }
 
-void	ServerState::win(StatesManager *mngr)
+void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMonsters)
 {
-  (void)mngr;
-}
+  int		i = 0;
+  Player	*plyr = NULL;
 
-void	ServerState::gameOver(StatesManager *mngr)
-{
-  (void)mngr;
-}
-
-void	ServerState::sendMap(void)
-{
+  if (nbPlayersAlive == 1 && !nbMonsters)
+    {
+      while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
+	i++;
+      if (plyr)
+	winnerId_ = i;
+      win(mngr);
+    }
+  else if (!nbPlayersAlive)
+    {}//push drawState (egalite)
 }

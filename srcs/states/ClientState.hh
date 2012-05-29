@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:52:44 2012 lois burg
-// Last update Sat May 26 16:18:49 2012 lois burg
+// Last update Tue May 29 18:59:31 2012 lois burg
 //
 
 #ifndef		__CLIENTSTATE_HH__
@@ -20,31 +20,32 @@
 
 namespace	Bomberman
 {
-    namespace Online
+  namespace Online
+  {
+    class	ClientState : public PlayState
     {
-      class	ClientState : public PlayState
-      {
-      public:
-        ClientState(const std::string& host);
-        virtual ~ClientState();
+    public:
+      ClientState(const std::string& host);
+      virtual ~ClientState();
 
-      public:
-        virtual bool init();
-        virtual void cleanUp();
+    public:
+      virtual bool init();
+      virtual void cleanUp();
 
-        virtual void update(StatesManager *mngr);
+      virtual void update(StatesManager *mngr);
 
-        virtual void win(StatesManager *mngr);
-        virtual void gameOver(StatesManager *mngr);
+      // virtual void win(StatesManager *mngr);
+      // virtual void gameOver(StatesManager *mngr);
+      virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
-      private:
-        std::string		host_;
-        int             playerNbr_;
-        TCPSocket		*serv_;
-        Select          select_;
-        bool            disconnected_;
-      };
-    }
+    private:
+      std::string	host_;
+      int		playerNbr_;
+      int		nbPlayers_;
+      TCPSocket		*serv_;
+      Select		select_;
+      bool		disconnected_;
+    };
+  }
 }
-
 #endif /* !__CLIENTSTATE_HH__*/

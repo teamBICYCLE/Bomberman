@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 29 15:06:45 2012 Jonathan Machado
+// Last update Tue May 29 18:58:47 2012 lois burg
 //
 
 #include <algorithm>
@@ -26,7 +26,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  //isInvincible_ = true;
+  isInvincible_ = true;
   //kickAbility_ = true;
   //nbBombs_ = 5;
   //nbMines_ = 10;
@@ -312,7 +312,6 @@ void	Player::setBombCollide(bool b)
 void	Player::addScore(int val)
 {
   score_ += val;
-  std::cout << "Score: " << score_ << std::endl;
 }
 
 void	Player::setKickAbility(bool b)
@@ -357,11 +356,7 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
-  p.type = Online::PlayerPkt;
   p.id = id_;
-  p.x = pos_.x;
-  p.y = pos_.y;
-  p.z = pos_.z;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));
   p.left = keys.isKeyDown(conf_.get(K_LEFT, id_));
@@ -373,9 +368,6 @@ Online::Packet	Player::pack(gdl::Input& keys)
 
 void	Player::applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  // pos_.x = p.x;
-  // pos_.y = p.y;
-  // pos_.z = p.z;
   networkMap_[conf_.get(K_UP, id_)] = p.up;
   networkMap_[conf_.get(K_DOWN, id_)] = p.down;
   networkMap_[conf_.get(K_LEFT, id_)] = p.left;
@@ -386,44 +378,14 @@ void	Player::applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::In
   resetNetKeys();
 }
 
-void	Player::setNetLeftPressed(bool b)
-{
-  networkMap_[conf_.get(K_LEFT, id_)] = b;
-}
-
-void	Player::setNetRightPressed(bool b)
-{
-  networkMap_[conf_.get(K_RIGHT, id_)] = b;
-}
-
-void	Player::setNetUpPressed(bool b)
-{
-  networkMap_[conf_.get(K_UP, id_)] = b;
-}
-
-void	Player::setNetDownPressed(bool b)
-{
-  networkMap_[conf_.get(K_DOWN, id_)] = b;
-}
-
-void	Player::setNetBombPressed(bool b)
-{
-  networkMap_[conf_.get(K_PUT_BOMB, id_)] = b;
-}
-
-void	Player::setNetMinePressed(bool b)
-{
-  networkMap_[conf_.get(K_PUT_MINE, id_)] = b;
-}
-
 void	Player::resetNetKeys(void)
 {
-  setNetLeftPressed(false);
-  setNetRightPressed(false);
-  setNetUpPressed(false);
-  setNetDownPressed(false);
-  setNetBombPressed(false);
-  setNetMinePressed(false);
+  networkMap_[conf_.get(K_UP, id_)] = false;
+  networkMap_[conf_.get(K_DOWN, id_)] = false;
+  networkMap_[conf_.get(K_LEFT, id_)] = false;
+  networkMap_[conf_.get(K_RIGHT, id_)] = false;
+  networkMap_[conf_.get(K_PUT_BOMB, id_)] = false;
+  networkMap_[conf_.get(K_PUT_MINE, id_)] = false;
 }
 
 /* Serialization */
@@ -517,23 +479,20 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
 				     std::list<AObject*>objs,
 				     int x, int y) const
 {
-  (void)x;
-  (void)y;
   (void)objs;
   map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
-  map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  if (pos_.y > 0 )
-    {
+  if (pos_.y < y - 1)
+      map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x < x && pos_.y < y - 1)
+    map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x < x - 1)
+    map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.y > 0)
       map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-      if (pos_.x > 0)
-	map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-    }
+  if (pos_.x > 0 && pos_.y > 0)
+    map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
   if (pos_.x > 0)
-    {
-      if (pos_.y > 0)
-	map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-      map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-    }
+    map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  if (pos_.x > 0 && pos_.y < y - 1)
+    map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
 }
