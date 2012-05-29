@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 18:52:27 2012 lois burg
+// Last update Tue May 29 14:53:43 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -26,7 +26,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  //isInvincible_ = true;
+  isInvincible_ = true;
   //kickAbility_ = true;
   //nbBombs_ = 5;
   //nbMines_ = 10;
@@ -520,13 +520,13 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
   (void)x;
   (void)y;
   (void)objs;
-  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
-  map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
-  map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
+  // map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 1;
+  // map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 1;
 }

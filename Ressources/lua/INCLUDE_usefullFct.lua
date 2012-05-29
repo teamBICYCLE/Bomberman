@@ -56,8 +56,8 @@ function getLessDangerousDirection(this, x, y, type)
    local dir = {NODIR, RIGHT   , LEFT    , UP      , DOWN     }
    local posX = {x   , x + 1   , x - 1   , x       , x        }
    local posY = {y   , y       , y       , y - 1   , y + 1    }
-   local dirX = {x   , x + 0.05, x - 0.05, x       , x        }
-   local dirY = {y   , y       , y       , y - 0.05, y + 0.05 }
+   local dirX = {x   , x + 1, x - 1, x       , x        }
+   local dirY = {y   , y       , y       , y - 1, y + 1 }
 
    --   print(posX[1], posX[2], posX[3])
    local res_dir = dir[1]
