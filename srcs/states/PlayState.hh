@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Tue May 29 12:04:38 2012 lois burg
+// Last update Wed May 30 16:15:12 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -23,7 +23,7 @@ namespace	Bomberman
   {
   public:
     PlayState(void);
-    PlayState(std::list<AObject*> *);
+    PlayState(const std::list<AObject*> *);
     virtual ~PlayState(void);
 
   public:
@@ -41,8 +41,9 @@ namespace	Bomberman
 
   protected:
     void	saveScore(void) const;
-    uint    getHeight(std::list<AObject*> *list) const;
-    uint    getWidth(std::list<AObject*> *list) const;
+    void	clearObjs(void);
+    uint    getHeight(const std::list<AObject*> *list) const;
+    uint    getWidth(const std::list<AObject*> *list) const;
 
   protected:
     size_t              mapW_;

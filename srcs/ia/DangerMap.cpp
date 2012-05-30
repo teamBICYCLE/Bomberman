@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Tue May 29 17:49:55 2012 thibault carpentier
+// Last update Wed May 30 17:37:22 2012 thibault carpentier
 //
 
 
@@ -23,7 +23,6 @@ using namespace Bomberman;
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
-  std::cout << x << " " << y  << std::endl;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }
@@ -63,6 +62,12 @@ int  DangerMap::getDanger(int x, int y) const
   return (danger_[y][x].first);
 }
 
+int  DangerMap::getPheromones(int x, int y) const
+{
+  return (danger_[y][x].second);
+}
+
+
 void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 {
   int x, y;
@@ -79,24 +84,25 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
         updateCaseVison(it);
     }
 
-  // // //  temporaire
-//  std::vector<std::vector<std::pair<int, int> > >::iterator test;
-//  for (test = danger_.begin(); test != danger_.end(); ++test)
-//    {
-//      std::vector<std::pair<int, int> >::iterator toto;
-//      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-//  	std::cout //<<  (*toto).first
-//  	  << (*toto).second
-//  		  << " ";
-//      std::cout << std::endl;
-//    }
-//  std::cout << std::endl;
-//  std::cout << std::endl;
-//  std::cout << std::endl;
-//  std::cout << std::endl;
-//  std::cout << std::endl;
-//  std::cout << std::endl;
-//  std::cout << std::endl;
+ //  // //  temporaire
+ // std::vector<std::vector<std::pair<int, int> > >::iterator test;
+ // for (test = danger_.begin(); test != danger_.end(); ++test)
+ //   {
+ //     std::vector<std::pair<int, int> >::iterator toto;
+ //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+ // 	std::cout
+ // 	  //	  <<  (*toto).first
+ // 	  << (*toto).second
+ // 		  << " ";
+ //     std::cout << std::endl;
+ //   }
+ // std::cout << std::endl;
+ // std::cout << std::endl;
+ // std::cout << std::endl;
+ // std::cout << std::endl;
+ // std::cout << std::endl;
+ // std::cout << std::endl;
+ // std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const

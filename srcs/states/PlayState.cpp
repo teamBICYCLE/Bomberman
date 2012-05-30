@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 10:19:29 2012 lois burg
+// Last update Wed May 30 17:43:51 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -24,13 +24,13 @@
 using namespace	Bomberman;
 
 PlayState::PlayState(void)
-  : winnerId_(0)
+  : bestScore_(0), winnerId_(0), characterToUpdate_(-1)
 {
   Character::CharacterId = 0;
 }
 
-PlayState::PlayState(std::list<AObject*> *list)
-    : objs_(*list), winnerId_(0)
+PlayState::PlayState(const std::list<AObject*> *list)
+    : objs_(*list), winnerId_(0), characterToUpdate_(-1)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -51,11 +51,11 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(13, 13, 1, 1, 0);
-    //Map         map("Ressources/Map/map5");
-        // int	viewport[4];
 
-    bestScore_ = 0;
+    Map	map(13, 13, 1, 10, 0);
+    //  Map         map("Ressources/Map/map2");
+    // int	viewport[4];
+
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
     characterToUpdate_ = -1;
@@ -76,6 +76,11 @@ bool  PlayState::init()
 void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
+  clearObjs();
+}
+
+void	PlayState::clearObjs(void)
+{
   for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
     delete (*it);
   objs_.clear();
@@ -86,6 +91,7 @@ void  PlayState::update(StatesManager * sMg)
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
+  bool		update_ia = true;
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   for (it = objs_.begin(); it != objs_.end();)
@@ -100,7 +106,14 @@ void  PlayState::update(StatesManager * sMg)
             }
         }
       else if (dynamic_cast<Monster*>(*it))
-        ++nbMonsters;
+        {
+          if (update_ia)
+            {
+              static_cast<Monster*>(*it)->getBrain()->updateDangerMap(objs_);
+              update_ia = false;
+            }
+          ++nbMonsters;
+        }
       if (!(*it)->toRemove())
         {
           if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
@@ -110,13 +123,6 @@ void  PlayState::update(StatesManager * sMg)
         }
       else
         it = objs_.erase(it);
-    }
-  if (bestScore_ != -1)
-    {
-      if (!nbPlayers)
-        gameOver(sMg);
-      else if ((nbPlayers == 1 && !nbMonsters))
-        win(sMg);
     }
   // bind touche echap
   checkEndGame(sMg, nbPlayers, nbMonsters);
@@ -207,7 +213,7 @@ void  PlayState::resume()
   std::cout << "resume Play" << std::endl;
 }
 
-uint PlayState::getHeight(std::list<AObject*> *list) const
+uint PlayState::getHeight(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
     uint maxY = list->front()->getPos().y;
@@ -220,7 +226,7 @@ uint PlayState::getHeight(std::list<AObject*> *list) const
     return maxY;
 }
 
-uint PlayState::getWidth(std::list<AObject*> *list) const
+uint PlayState::getWidth(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
     uint maxX = list->front()->getPos().x;

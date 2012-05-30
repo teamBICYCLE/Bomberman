@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:02:52 2012 lois burg
-// Last update Sun May 27 15:31:04 2012 thibault carpentier
+// Last update Wed May 30 15:31:21 2012 thibault carpentier
 //
 
 #ifndef		__BLOCK_HH__
@@ -30,6 +30,9 @@ namespace	Bomberman
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void		draw(void);
     virtual void		destroy(void);
+    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+					  std::list<AObject*>objs,
+					  int x, int y) const;
 
     /* Serialization */
     virtual void serialize(QDataStream &out) const;

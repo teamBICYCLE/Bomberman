@@ -505,11 +505,13 @@ int findTCPServerSocketDesc(const char *localAddr, const char *localPort) {
     throw SocketException("getaddrinfo() failed: %s", gai_strerror(result));
 
   // Create socket for incoming connections
+  int opt = 1;
   int desc;
   if ((desc = socket(servAddr->ai_family, servAddr->ai_socktype,
                          servAddr->ai_protocol)) < 0)
     throw SocketException("Can't create socket");
 
+  setsockopt(desc, SOL_SOCKET, SO_REUSEADDR, (const char *)&opt, sizeof(opt));
   // Bind to the local address
   result = bind(desc, servAddr->ai_addr, servAddr->ai_addrlen);
   // Free address list, whether or not the bind worked.

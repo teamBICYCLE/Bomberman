@@ -41,12 +41,12 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
   (void)input;
   if (input.isKeyDown(gdl::Keys::Up))
     glDisable(GL_LIGHTING);
-  std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
-     if (dynamic_cast<Bomberman::Player *>(obj))
-  {
-                position_ = obj->getPos();
-}
-  });
+//  std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
+//     if (dynamic_cast<Bomberman::Player *>(obj))
+//  {
+//                position_ = obj->getPos();
+//  }
+//  });
   //  if (input.isKeyDown(gdl::Keys::Down))
   //    position_.x += 1;
 }

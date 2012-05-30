@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Mon May 28 18:53:07 2012 lois burg
+// Last update Wed May 30 17:28:30 2012 romain sylvian
 //
 
 #include <GDL/ModelException.hpp>
@@ -16,6 +16,7 @@
 #include "Carrousel/ItemList.hh"
 #include "TwitterConnection.hh"
 #include "Carrousel/LoadContent.hh"
+#include "Carrousel/QuickGame.hh"
 
 using namespace std;
 
@@ -35,8 +36,9 @@ int main(int ac, char **av)
         carrouselHandler = new CarrouselHandler();
 
         ModelHandler::get().preload();
-        carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
-        carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "right", "left"));
+        carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "right", "left"));
+        // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+        carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
 
         mg.start(carrouselHandler);
     }
