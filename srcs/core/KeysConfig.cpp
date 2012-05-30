@@ -181,7 +181,7 @@ gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
 {
     if (KeysConfig::fileIsValid(id))
         return searchKey(k, id);
-    else if (id == 0)
+    if (id == 0)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
 }

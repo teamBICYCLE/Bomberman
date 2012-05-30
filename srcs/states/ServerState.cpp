@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Tue May 29 18:06:54 2012 lois burg
+// Last update Wed May 30 15:05:02 2012 lois burg
 //
 
 #include <iostream>
@@ -96,6 +96,8 @@ bool	ServerState::init()
 void	ServerState::cleanUp()
 {
   std::cout << "Cleanup server" << std::endl;
+  for (std::vector<TCPSocket*>::iterator it = clients_.begin(); it != clients_.end(); ++it)
+    delete (*it);
   clients_.clear();
   delete serv_;
   PlayState::cleanUp();
