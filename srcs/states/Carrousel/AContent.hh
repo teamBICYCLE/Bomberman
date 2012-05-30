@@ -20,7 +20,7 @@ public:
   virtual ~AContent();
   virtual void    update(gdl::Input & input, gdl::GameClock & gClock,
                          StatesManager * sMg) = 0;
-  virtual void    draw() = 0;
+  virtual void    draw(void) = 0;
 };
 
 #endif // ACONTENT_HH

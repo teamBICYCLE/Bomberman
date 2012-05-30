@@ -15,6 +15,7 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/ItemList.hh"
 #include "TwitterConnection.hh"
+#include "Carrousel/LoadContent.hh"
 
 using namespace std;
 
@@ -35,7 +36,8 @@ int main(int ac, char **av)
 
         ModelHandler::get().preload();
         carrouselHandler->pushPage(new APage(new ItemList(), "bg", "left", "right"));
-        carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+        carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "right", "left"));
+
         mg.start(carrouselHandler);
     }
     catch (gdl::ModelException * e)

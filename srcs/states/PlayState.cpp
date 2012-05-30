@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 10:17:42 2012 lois burg
+// Last update Wed May 30 10:19:29 2012 lois burg
 //
 
 #include <iostream>
@@ -101,6 +101,14 @@ void  PlayState::update(StatesManager * sMg)
       else
         it = objs_.erase(it);
     }
+  if (bestScore_ != -1)
+    {
+      if (!nbPlayers)
+        gameOver(sMg);
+      else if ((nbPlayers == 1 && !nbMonsters))
+        win(sMg);
+    }
+  // bind touche echap
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 

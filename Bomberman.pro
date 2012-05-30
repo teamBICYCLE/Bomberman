@@ -72,7 +72,8 @@ SOURCES += \
     srcs/states/Carrousel/AContent.cpp \
     srcs/states/Carrousel/ItemList.cpp \
     srcs/states/Carrousel/AButton.cpp \
-    srcs/core/TwitterConnection.cpp
+    srcs/core/TwitterConnection.cpp \
+    srcs/states/Carrousel/LoadContent.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -146,6 +147,7 @@ HEADERS += \
     srcs/states/Carrousel/AContent.hh \
     srcs/states/Carrousel/ItemList.hh \
     srcs/states/Carrousel/AButton.hh \
-    srcs/core/TwitterConnection.hh
+    srcs/core/TwitterConnection.hh \
+    srcs/states/Carrousel/LoadContent.hh
 
 MOC_DIR = ./srcs/core/
