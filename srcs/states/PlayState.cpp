@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 10:19:29 2012 lois burg
+// Last update Wed May 30 10:45:35 2012 lois burg
 //
 
 #include <iostream>
@@ -66,6 +66,11 @@ bool  PlayState::init()
 void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
+  clearObjs();
+}
+
+void	PlayState::clearObjs(void)
+{
   for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
     delete (*it);
   objs_.clear();

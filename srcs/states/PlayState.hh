@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Tue May 29 12:04:38 2012 lois burg
+// Last update Wed May 30 10:45:17 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -40,6 +40,7 @@ namespace	Bomberman
 
   protected:
     void	saveScore(void) const;
+    void	clearObjs(void);
 
   protected:
     size_t              mapW_;

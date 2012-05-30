@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 19 11:29:40 2012 lois burg
-// Last update Wed May 23 11:45:10 2012 lois burg
+// Last update Wed May 30 10:42:25 2012 lois burg
 //
 
 #ifndef		__ADVENTURESTATE_HH__
@@ -31,8 +31,10 @@ namespace	Bomberman
     virtual void gameOver(StatesManager *mngr);
 
   private:
-    std::list<Map*>		adventureMaps_;
-    std::list<Map*>::iterator	adventureLevel_;
+    Map		*curMap_;
+    int		curMapId_;
+    const std::string	mapBaseName_;
+    const int	nbMaps_;
   };
 }
 #endif /* !__ADVENTURESTATE_HH__*/
