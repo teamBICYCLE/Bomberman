@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 10:19:29 2012 lois burg
+// Last update Wed May 30 17:31:01 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -51,8 +51,8 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    //Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+     Map	map(13, 13, 1, 10, 0);
+    //  Map         map("Ressources/Map/map2");
         // int	viewport[4];
 
     bestScore_ = 0;
@@ -86,6 +86,7 @@ void  PlayState::update(StatesManager * sMg)
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
+  bool		update_ia = true;
 
   camera_.update(sMg->getGameClock(), sMg->getInput());
   for (it = objs_.begin(); it != objs_.end();)
@@ -100,7 +101,14 @@ void  PlayState::update(StatesManager * sMg)
 	    }
         }
       else if (dynamic_cast<Monster*>(*it))
-        ++nbMonsters;
+	{
+	  if (update_ia)
+	    {
+	      static_cast<Monster*>(*it)->getBrain()->updateDangerMap(objs_);
+	      update_ia = false;
+	    }
+	  ++nbMonsters;
+	}
       if (!(*it)->toRemove())
         {
           if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||

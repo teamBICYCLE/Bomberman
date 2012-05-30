@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Wed May 30 16:51:36 2012 thibault carpentier
+// Last update Wed May 30 17:37:22 2012 thibault carpentier
 //
 
 
@@ -23,7 +23,6 @@ using namespace Bomberman;
 DangerMap::DangerMap(int x, int y)
   : danger_(y), x_(x), y_(y)
 {
-  std::cout << x << " " << y  << std::endl;
   for (int i = 0; i < y; ++i)
     danger_[i] = std::vector<std::pair<int, int> >(x);
 }

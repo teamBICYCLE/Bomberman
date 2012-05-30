@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Sun May 27 15:39:01 2012 thibault carpentier
+// Last update Wed May 30 17:04:03 2012 thibault carpentier
 //
 
 #ifndef		__MONSTER_HH__
@@ -54,6 +54,7 @@ namespace	Bomberman
 
   public:
     void	setDamage(uint damage);
+    Bomberman::Thinking::Brain	*getBrain(void) const;
 
   protected:
     void	turnLeft(void);
