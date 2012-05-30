@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "Brick"), model_(ModelHandler::get().getModel("cube"))
+  : AObject(pos, rot, sz, "cube"), model_(ModelHandler::get().getModel("brick"))
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
@@ -29,7 +29,7 @@ Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 }
 
 Brick::Brick(const Brick &other)
-  : AObject(other.pos_, other.rot_, other.sz_, "Brick"), model_(other.model_)
+  : AObject(other.pos_, other.rot_, other.sz_, "cube"), model_(other.model_)
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
@@ -43,7 +43,7 @@ Brick::Brick(const Brick &other)
 }
 
 Brick::Brick()
-    : AObject(Vector3d(), Vector3d(), Vector3d(), "Brick"), model_(ModelHandler::get().getModel("cube"))
+    : AObject(Vector3d(), Vector3d(), Vector3d(), "cube"), model_(ModelHandler::get().getModel("brick"))
 {
 }
 
