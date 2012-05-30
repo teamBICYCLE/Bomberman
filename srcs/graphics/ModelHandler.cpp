@@ -23,8 +23,6 @@ ModelHandler::~ModelHandler()
 
 void      ModelHandler::preload()
 {
-  storeModel(new flatTexture("Ressources/Images/Menu/bg.png"),
-        "bg");
   storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
         "left");
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
