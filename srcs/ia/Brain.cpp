@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Mon May 28 09:54:09 2012 thibault carpentier
+// Last update Wed May 30 16:19:26 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -51,6 +51,7 @@ Brain::Brain(int x, int y)
 
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
+  meth_[registerFct("getPheromones")] = &Brain::getPheromones;
 }
 
 Brain::Brain(const Brain &other)
@@ -152,9 +153,25 @@ bool Brain::isParamsPosition(VirtualMachine &vm) const
   return (false);
 }
 
+int Brain::getPheromones(VirtualMachine &vm)
+{
+  int pheromones = 0;
+  int x, y;
+
+  if (isParamsPosition(vm))
+    {
+      x = lua_tonumber(vm.getLua(), 1);
+      y = lua_tonumber(vm.getLua(), 2);
+      if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
+	pheromones = danger_.getPheromones(x, y);
+    }
+  lua_pushnumber(vm.getLua(), pheromones);
+  return (1);
+}
+
 int Brain::getDanger(VirtualMachine &vm)
 {
-  int danger = DANGER_MAX + 1;
+  int danger = 2;
   int x, y;
 
   if (isParamsPosition(vm))

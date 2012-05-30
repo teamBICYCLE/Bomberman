@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Mon May 21 18:55:59 2012 thibault carpentier
+// Last update Wed May 30 16:13:06 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -207,6 +207,18 @@ namespace Bomberman
        *
        */
       int getDanger(VirtualMachine &vm);
+
+      /*!
+       *  \brief Method returning pheromones
+       *
+       *  The method return the  pheromones concentration of the following position (number x, number y)
+       *
+       *
+       *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
+       *  \return (int) The number of value pushed on the lua-stack (number)  pheromones value.
+       *
+       */
+      int getPheromones(VirtualMachine &vm);
 
       /*!
        *  \brief Method returning X

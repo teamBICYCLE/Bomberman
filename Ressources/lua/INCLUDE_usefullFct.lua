@@ -164,3 +164,27 @@ function getLessDangerousDirection(this, x, y, type)
 --   print("======", showdir(res_dir), "=======") 
    return (res_dir)
 end
+
+function trackPlayer(this, x, y, type)
+   local dir =  { RIGHT   , LEFT    , UP      , DOWN     }
+   local posX = { x + 1   , x - 1   , x       , x        }
+   local posY = { y       , y       , y - 1   , y + 1    }
+   local dirX = { x + 0.05, x - 0.05 , x      , x        }
+   local dirY = { y       , y       , y - 0.05, y + 0.05 }
+
+   local res_dir = NODIR
+   local res_ph = this:getPheromones(floor(x), floor(y))
+   for  k = 1, table.getn(dir) do
+      local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
+      if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
+       and this:isCrossable(dirX[k], dirY[k], type) == 1)
+      then
+	 res_ph = tmp
+	 --	 print(tmp, "x", floor(x), "y", floor(y))
+	 res_dir = dir[k]
+      end
+   end
+   -- print(showdir(res_dir))
+   return (res_dir)
+
+end
