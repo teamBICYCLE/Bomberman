@@ -48,7 +48,7 @@ void ExplosionBlock::draw()
 void ExplosionBlock::update(gdl::GameClock &clock)
 {
   iter_++;
-  iter_ %= 16 * 16;
+  iter_ %= 16 * (4 * 4);
 }
 
 AModel &ExplosionBlock::clone()

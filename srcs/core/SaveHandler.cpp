@@ -124,15 +124,16 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
     std::stringstream strm;
     std::string realPath;
 
-    pdir = opendir(SAVE_PATH);
-    while((entry = readdir(pdir)))
-    {
-        std::string name(entry->d_name);
-        if (entry->d_type == isFile &&
+    if (pdir = opendir(SAVE_PATH))
+      {
+        while((entry = readdir(pdir)))
+          {
+            std::string name(entry->d_name);
+            if (entry->d_type == isFile &&
                 name.substr(name.find_last_of('.'), name.length()) == SAVE_EXT)
-            intlist.push_back(atoi(name.substr(0, name.find_last_of('.')).c_str()));
-    }
-
+              intlist.push_back(atoi(name.substr(0, name.find_last_of('.')).c_str()));
+          }
+      }
     intlist.sort();
     intlist.reverse();
 

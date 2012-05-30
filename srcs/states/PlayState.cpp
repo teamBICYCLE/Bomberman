@@ -51,8 +51,8 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    //Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map	map(13, 13, 1, 1, 0);
+    //Map         map("Ressources/Map/map5");
         // int	viewport[4];
 
     bestScore_ = 0;
@@ -87,17 +87,17 @@ void  PlayState::update(StatesManager * sMg)
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
 
-  camera_.update(sMg->getGameClock(), sMg->getInput());
+  camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   for (it = objs_.begin(); it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-	    {
-	      bestScore_ = static_cast<Player*>(*it)->getScore();
-	      winnerId_ = static_cast<Player*>(*it)->getId();
-	    }
+            {
+              bestScore_ = static_cast<Player*>(*it)->getScore();
+              winnerId_ = static_cast<Player*>(*it)->getId();
+            }
         }
       else if (dynamic_cast<Monster*>(*it))
         ++nbMonsters;

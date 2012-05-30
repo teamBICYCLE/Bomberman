@@ -114,8 +114,8 @@ void	Bomb::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z + 0.5);
-  glScaled(0.0035, 0.0035,0.0035);
+  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z + 0.20);
+  glScaled(0.0025, 0.0025,0.0025);
   glRotated(90, 1, 0, 0);
   model_.draw();
 }
@@ -289,20 +289,20 @@ Bomb		*Bomb::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) c
   if (valid == true)
     {
       for(i = objs_.begin(); i != objs_.end(); ++i)
-	{
-	  obj = (*i);
-	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
-	    {
-	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
-		{
-		  valid = false;
-		  return NULL;
-		}
-	      else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
-		return static_cast<Bomb*>(obj);
-	      return NULL;
-	    }
-	}
+        {
+          obj = (*i);
+          if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+            {
+              if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+                {
+                  valid = false;
+                  return NULL;
+                }
+              else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
+                return static_cast<Bomb*>(obj);
+              return NULL;
+            }
+        }
     }
   return NULL;
 }
@@ -322,34 +322,34 @@ void		Bomb::setRangeDanger(int range, double x, double y, int danger, std::list<
     {
       bomb = isPosValid(rightInvalid, y, x + i, objs);
       if (bomb != NULL && map[y][x].first > map[y][x + i].first)
-	setRangeDanger(bomb->getRange(), x + i, y, danger, objs, map, x_, y_);
+        setRangeDanger(bomb->getRange(), x + i, y, danger, objs, map, x_, y_);
       if (x + i < x_  && rightInvalid)
-	setDangerMap(x + i, y, danger, map);
+        setDangerMap(x + i, y, danger, map);
 
 
       bomb = isPosValid(leftInvalid, y, x - i, objs);
       if (bomb != NULL && map[y][x].first > map[y][x - i].first)
-      	setRangeDanger(bomb->getRange(), x - i, y, danger, objs, map, x_, y_);
+        setRangeDanger(bomb->getRange(), x - i, y, danger, objs, map, x_, y_);
       if (x - i >= 0 && leftInvalid)
         setDangerMap(x - i, y, danger, map);
 
 
       bomb = isPosValid(downInvalid, y + i, x, objs);
       if (bomb != NULL && map[y][x].first > map[y + i][x].first)
-      	setRangeDanger(bomb->getRange(), x, y + i, danger, objs, map, x_, y_);
+        setRangeDanger(bomb->getRange(), x, y + i, danger, objs, map, x_, y_);
       if (y + i < y_ && downInvalid)
         setDangerMap(x, y + i, danger, map);
 
       bomb = isPosValid(upInvalid, y - i, x, objs);
       if (bomb != NULL && map[y][x].first > map[y - i][x].first)
-       	setRangeDanger(bomb->getRange(), x, y - i, danger, objs, map, x_, y_);
+        setRangeDanger(bomb->getRange(), x, y - i, danger, objs, map, x_, y_);
       if (y - i >= 0 && upInvalid)
         setDangerMap(x, y - i, danger, map);
     }
 }
 
 void    Bomb::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
-			int x, int y) const
+                        int x, int y) const
 {
   setRangeDanger(range_, pos_.x, pos_.y, DANGER_BOMB, objs, map, x, y);
 }
