@@ -91,7 +91,7 @@ KeysConfig::KeysConfig()
 
     KeysConfig::getFileData(0);
     KeysConfig::getFileData(1);
-    aff();
+    //aff();
 }
 
 KeysConfig::~KeysConfig()
@@ -179,7 +179,7 @@ gdl::Keys::Key &KeysConfig::searchKey(eKeys k, int id)
 
 gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
 {
-    std::cout << std::endl << std::endl << "==========================" << std::endl;
+    //std::cout << std::endl << std::endl << "==========================" << std::endl;
     if (KeysConfig::fileIsValid(id))
         return searchKey(k, id);
     if (id == 0)
