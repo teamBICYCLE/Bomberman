@@ -20,6 +20,8 @@ class StatesManager;
 class AGameState
 {
 public:
+  virtual ~AGameState() {}
+
   virtual bool init() = 0;
   virtual void cleanUp() = 0;
 
@@ -32,7 +34,6 @@ public:
 
 protected:
   AGameState() {}
-  virtual ~AGameState() {}
 };
 
 #include "StatesManager.hh"

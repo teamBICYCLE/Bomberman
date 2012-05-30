@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Sun May 27 18:39:14 2012 lois burg
+// Last update Tue May 29 12:04:38 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -22,8 +22,9 @@ namespace	Bomberman
   class	PlayState : public AGameState
   {
   public:
-    PlayState();
-    virtual ~PlayState();
+    PlayState(void);
+    PlayState(std::list<AObject*> *);
+    virtual ~PlayState(void);
 
   public:
     virtual bool init();
@@ -36,17 +37,21 @@ namespace	Bomberman
 
     virtual void win(StatesManager *mngr);
     virtual void gameOver(StatesManager *mngr);
+    virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
   protected:
     void	saveScore(void) const;
+    uint    getHeight(std::list<AObject*> *list) const;
+    uint    getWidth(std::list<AObject*> *list) const;
 
   protected:
     size_t              mapW_;
     size_t              mapH_;
     std::list<AObject*>	objs_;
     Camera              camera_;
-    int			bestScore_;
-    int			characterToUpdate_;
+    int                 bestScore_;
+    int                 winnerId_;
+    int                 characterToUpdate_;
     gdl::Image          img_;
   };
 }

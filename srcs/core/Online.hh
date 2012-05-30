@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 26 16:26:23 2012 lois burg
-// Last update Mon May 28 17:41:25 2012 lois burg
+// Last update Tue May 29 10:53:34 2012 lois burg
 //
 
 #ifndef		__ONLINE_HH__
@@ -23,8 +23,6 @@ namespace	Bomberman
   {
     const std::string	Disconnected = "[__DISCONNECTED__]";
     const in_port_t	ServPort = 24542;
-
-    void	init(void);
 
     Player	*getPlayerWithId(const std::list<AObject*>& objs, int id);
     void	sendPacket(std::iostream& sockStream, const Packet& p);

@@ -84,7 +84,6 @@ void TwitterConnection::requestAccess(void)
 
 void TwitterConnection::sendTweet(int score)
 {
-    std::cout << getChoice() << std::endl;
     if (getChoice() == ALLOW_CONNECTION &&
             !config_.value("oauth_token").toString().isEmpty() &&
             !config_.value("oauth_token_secret").toString().isEmpty())

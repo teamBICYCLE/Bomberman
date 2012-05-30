@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Mon May 28 09:34:05 2012 thibault carpentier
+// Last update Wed May 30 10:19:29 2012 lois burg
 //
 
 #include <iostream>
@@ -23,11 +23,24 @@
 
 using namespace	Bomberman;
 
-PlayState::PlayState()
+PlayState::PlayState(void)
+  : winnerId_(0)
 {
+  Character::CharacterId = 0;
 }
 
-PlayState::~PlayState()
+PlayState::PlayState(std::list<AObject*> *list)
+    : objs_(*list), winnerId_(0)
+{
+  Character::CharacterId = 0;
+  img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
+  bestScore_ = 0;
+  characterToUpdate_ = -1;
+  mapH_ = PlayState::getHeight(list);
+  mapW_ = PlayState::getWidth(list);
+}
+
+PlayState::~PlayState(void)
 {
 }
 
@@ -38,15 +51,14 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(13, 7, 1, 10, 0);
-    //Map         map("Ressources/Map/map2");
+    //Map	map(13, 13, 1, 10, 0);
+    Map         map("Ressources/Map/map5");
         // int	viewport[4];
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
     characterToUpdate_ = -1;
-    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();
@@ -64,6 +76,8 @@ bool  PlayState::init()
 void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
+  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    delete (*it);
   objs_.clear();
 }
 
@@ -80,7 +94,10 @@ void  PlayState::update(StatesManager * sMg)
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-            bestScore_ = static_cast<Player*>(*it)->getScore();
+	    {
+	      bestScore_ = static_cast<Player*>(*it)->getScore();
+	      winnerId_ = static_cast<Player*>(*it)->getId();
+	    }
         }
       else if (dynamic_cast<Monster*>(*it))
         ++nbMonsters;
@@ -101,30 +118,33 @@ void  PlayState::update(StatesManager * sMg)
       else if ((nbPlayers == 1 && !nbMonsters))
         win(sMg);
     }
+  // bind touche echap
+  checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)
 {
-  static bool LOL = false;
-
-  if (LOL)
-    return;
-  LOL = true;
-  (void)mngr;//switcher sur winstate
-  std::cout << "YOU WIN" << std::endl;
+  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
   saveScore();
+  mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
 {
-  static bool LOL = false;
-
-  if (LOL)
-    return;
-  LOL = true;
-  (void)mngr;//switcher sur gameoverstate
-  std::cout << "YOU LOSE" << std::endl;
+  std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
   saveScore();
+  mngr->popState();//passer sur gameOverstate
+}
+
+void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
+{
+  if (bestScore_ != -1)
+    {
+      if (!nbPlayers)
+        gameOver(mngr);
+      else if ((nbPlayers == 1 && !nbMonsters))
+        win(mngr);
+    }
 }
 
 void	PlayState::saveScore(void) const
@@ -185,4 +205,30 @@ void  PlayState::pause()
 void  PlayState::resume()
 {
   std::cout << "resume Play" << std::endl;
+}
+
+uint PlayState::getHeight(std::list<AObject*> *list) const
+{
+    std::list<AObject*>::const_iterator it;
+    uint maxY = list->front()->getPos().y;
+
+    for (it = list->begin(); it != list->end(); it++)
+    {
+        if ((*it)->getPos().y > maxY)
+            maxY = (*it)->getPos().y;
+    }
+    return maxY;
+}
+
+uint PlayState::getWidth(std::list<AObject*> *list) const
+{
+    std::list<AObject*>::const_iterator it;
+    uint maxX = list->front()->getPos().x;
+
+    for (it = list->begin(); it != list->end(); it++)
+    {
+        if ((*it)->getPos().x > maxX)
+            maxX = (*it)->getPos().x;
+    }
+    return maxX;
 }

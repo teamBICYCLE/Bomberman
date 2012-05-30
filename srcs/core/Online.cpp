@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Sat May 26 16:28:00 2012 lois burg
-// Last update Mon May 28 17:41:06 2012 lois burg
+// Last update Tue May 29 10:53:27 2012 lois burg
 //
 
 #include <utility>
@@ -16,18 +16,6 @@
 
 using namespace Bomberman;
 using namespace Online;
-
-std::map<gdl::Keys::Key, void (Player::*)(bool)>	networkMap;
-
-void	Bomberman::Online::init(void)
-{
-  networkMap.insert(std::make_pair(gdl::Keys::W, &Player::setNetUpPressed));
-  networkMap.insert(std::make_pair(gdl::Keys::S, &Player::setNetDownPressed));
-  networkMap.insert(std::make_pair(gdl::Keys::A, &Player::setNetLeftPressed));
-  networkMap.insert(std::make_pair(gdl::Keys::D, &Player::setNetRightPressed));
-  networkMap.insert(std::make_pair(gdl::Keys::LShift, &Player::setNetMinePressed));
-  networkMap.insert(std::make_pair(gdl::Keys::Space, &Player::setNetBombPressed));
-}
 
 Player	*Bomberman::Online::getPlayerWithId(const std::list<AObject*>& objs, int id)
 {
@@ -57,14 +45,12 @@ Packet	Bomberman::Online::recvPacket(std::iostream& sockStream, bool& disconnect
 
   try {
     sockStream >> pkt;
-    std::cout << "Raw packet: " << pkt << std::endl;
     if (pkt == Online::Disconnected)
       disconnected = true;
     else
       {
 	while ((it = std::find(pkt.begin(), pkt.end(), '-')) != pkt.end())
 	  (*it) = ' ';
-	std::cout << "Treated packet: " << pkt << std::endl;
 	p = Packet::unserialize(pkt);
       }
   } catch (SocketException& e) {

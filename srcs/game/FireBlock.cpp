@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Mon May 28 18:52:15 2012 lois burg
+// Last update Wed May 30 11:56:59 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -189,6 +189,8 @@ void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::
   Bomb		*bomb;
   bool          rightInvalid = true;
 
+  (void)x;
+  (void)y;
   for (int i = 1; i <= range; ++i)
     {
       bomb = isPosValid(rightInvalid, pos_.y + (dir_.y * i), pos_.x + (dir_.x * i), objs);

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 29 16:00:10 2012 Jonathan Machado
+// Last update Wed May 30 09:48:54 2012 lois burg
 //
 
 #include <algorithm>
@@ -19,14 +19,12 @@
 
 using namespace	Bomberman;
 
-bool allowLoading_ = true;
-
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  //isInvincible_ = true;
+  // isInvincible_ = true;
   //kickAbility_ = true;
   //nbBombs_ = 5;
   //nbMines_ = 10;
@@ -46,7 +44,6 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
   actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
-  actionsMap_.insert(std::make_pair(conf_.get(K_LOAD, id_), &Player::loadGame));
 
   networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
@@ -75,7 +72,6 @@ Player::Player()
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
   actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
-  actionsMap_.insert(std::make_pair(conf_.get(K_LOAD, id_), &Player::loadGame));
 
   networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
@@ -222,26 +218,6 @@ void	Player::saveGame(std::list<AObject*>& objs)
     SaveHandler s;
 
     s.save(objs);
-    allowLoading_ = true;
-}
-
-void	Player::loadGame(std::list<AObject*>& objs)
-{
-    if (allowLoading_ == true)
-    {
-        SaveHandler s;
-        std::list<AObject*>::iterator it;
-        std::list<AObject*> newList;
-
-        for (it = objs.begin(); it != objs.end(); it++)
-            (*it)->removeLater_ = true;
-
-        newList = *(s.load(s.getSavedFiles().front().second));
-
-        objs.insert(objs.end(), newList.begin(), newList.end());
-        std::cout << "end" << std::endl;
-        allowLoading_ = false;
-    }
 }
 
 uint	Player::getNbBombs(void) const
@@ -312,7 +288,6 @@ void	Player::setBombCollide(bool b)
 void	Player::addScore(int val)
 {
   score_ += val;
-  std::cout << "Score: " << score_ << std::endl;
 }
 
 void	Player::setKickAbility(bool b)
@@ -357,11 +332,7 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
-  p.type = Online::PlayerPkt;
   p.id = id_;
-  p.x = pos_.x;
-  p.y = pos_.y;
-  p.z = pos_.z;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));
   p.left = keys.isKeyDown(conf_.get(K_LEFT, id_));
@@ -373,9 +344,6 @@ Online::Packet	Player::pack(gdl::Input& keys)
 
 void	Player::applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  // pos_.x = p.x;
-  // pos_.y = p.y;
-  // pos_.z = p.z;
   networkMap_[conf_.get(K_UP, id_)] = p.up;
   networkMap_[conf_.get(K_DOWN, id_)] = p.down;
   networkMap_[conf_.get(K_LEFT, id_)] = p.left;
@@ -386,44 +354,14 @@ void	Player::applyPacket(const Online::Packet& p, gdl::GameClock& clock, gdl::In
   resetNetKeys();
 }
 
-void	Player::setNetLeftPressed(bool b)
-{
-  networkMap_[conf_.get(K_LEFT, id_)] = b;
-}
-
-void	Player::setNetRightPressed(bool b)
-{
-  networkMap_[conf_.get(K_RIGHT, id_)] = b;
-}
-
-void	Player::setNetUpPressed(bool b)
-{
-  networkMap_[conf_.get(K_UP, id_)] = b;
-}
-
-void	Player::setNetDownPressed(bool b)
-{
-  networkMap_[conf_.get(K_DOWN, id_)] = b;
-}
-
-void	Player::setNetBombPressed(bool b)
-{
-  networkMap_[conf_.get(K_PUT_BOMB, id_)] = b;
-}
-
-void	Player::setNetMinePressed(bool b)
-{
-  networkMap_[conf_.get(K_PUT_MINE, id_)] = b;
-}
-
 void	Player::resetNetKeys(void)
 {
-  setNetLeftPressed(false);
-  setNetRightPressed(false);
-  setNetUpPressed(false);
-  setNetDownPressed(false);
-  setNetBombPressed(false);
-  setNetMinePressed(false);
+  networkMap_[conf_.get(K_UP, id_)] = false;
+  networkMap_[conf_.get(K_DOWN, id_)] = false;
+  networkMap_[conf_.get(K_LEFT, id_)] = false;
+  networkMap_[conf_.get(K_RIGHT, id_)] = false;
+  networkMap_[conf_.get(K_PUT_BOMB, id_)] = false;
+  networkMap_[conf_.get(K_PUT_MINE, id_)] = false;
 }
 
 /* Serialization */

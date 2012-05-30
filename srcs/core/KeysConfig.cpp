@@ -20,7 +20,6 @@ KeysConfig::KeysConfig()
     defaultPlayer1_.insert(std::make_pair(K_PUT_BOMB, gdl::Keys::Space));
     defaultPlayer1_.insert(std::make_pair(K_PUT_MINE, gdl::Keys::LShift));
     defaultPlayer1_.insert(std::make_pair(K_SAVE, gdl::Keys::F12));
-    defaultPlayer1_.insert(std::make_pair(K_LOAD, gdl::Keys::F11));
 
     defaultPlayer2_.insert(std::make_pair(K_LEFT, gdl::Keys::Numpad4));
     defaultPlayer2_.insert(std::make_pair(K_RIGHT, gdl::Keys::Numpad6));
@@ -28,8 +27,6 @@ KeysConfig::KeysConfig()
     defaultPlayer2_.insert(std::make_pair(K_DOWN, gdl::Keys::Numpad5));
     defaultPlayer2_.insert(std::make_pair(K_PUT_BOMB, gdl::Keys::Numpad0));
     defaultPlayer2_.insert(std::make_pair(K_PUT_MINE, gdl::Keys::Add));
-    defaultPlayer2_.insert(std::make_pair(K_SAVE, gdl::Keys::F12));
-    defaultPlayer2_.insert(std::make_pair(K_LOAD, gdl::Keys::F11));
 
     /* letter */
     ref_.insert(std::make_pair("A", gdl::Keys::A));
@@ -126,13 +123,14 @@ void KeysConfig::getFileData(int id)
 
 bool KeysConfig::fileIsValid(int id) const
 {
-    if (id == 0 && fileData_[id].size() > 0)
-        return true;
+  //std::cout << id << std::endl;
+  if (id == 0 && fileData_[id].size() > 0)
+    return true;
 
-    if (id == 1 && fileData_[id].size() > 0)
-        return true;
+  if (id == 1 && fileData_[id].size() > 0)
+    return true;
 
-    return false;
+  return false;
 }
 
 bool KeysConfig::checkFormat(const std::string &str, int n) const

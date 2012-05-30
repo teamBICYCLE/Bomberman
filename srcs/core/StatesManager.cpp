@@ -14,7 +14,7 @@
 #include "TexturedCube.hh"
 #include "gdlModel.hh"
 #include "RotatingImg.hh"
-#include  "ExplosionBlock.hh"
+#include "ExplosionBlock.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -78,12 +78,13 @@ void      StatesManager::changeState(AGameState * state)
   this->pushState(state);
 }
 
-void      StatesManager::pushState(AGameState * state)
+void      StatesManager::pushState(AGameState * state, bool init)
 {
   if (!this->states_.empty())
     this->states_.back()->pause();
   this->states_.push_back(state);
-  this->states_.back()->init();
+  if (init)
+      this->states_.back()->init();
 }
 
 void      StatesManager::popState(void)
@@ -91,6 +92,7 @@ void      StatesManager::popState(void)
   if (!this->states_.empty())
     {
       this->states_.back()->cleanUp();
+      //delete this->states_.back();
       this->states_.pop_back();
     }
   if (!this->states_.empty())
@@ -102,6 +104,7 @@ void      StatesManager::clearStates(void)
   while (!states_.empty())
     {
       this->states_.back()->cleanUp();
+      //delete this->states_.back();
       this->states_.pop_back();
     }
 }
