@@ -49,9 +49,7 @@ void CarrouselHandler::cleanUp()
 void CarrouselHandler::update(StatesManager * sMg)
 {
   // a degager
-  if (sMg->getInput().isKeyDown(gdl::Keys::P))
-    sMg->pushState(new Bomberman::PlayState(), true);
-  else if (sMg->getInput().isKeyDown(gdl::Keys::S))
+  if (sMg->getInput().isKeyDown(gdl::Keys::S))
     sMg->pushState(new Bomberman::Online::ServerState(2), true);
   else if (sMg->getInput().isKeyDown(gdl::Keys::C))
     sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);

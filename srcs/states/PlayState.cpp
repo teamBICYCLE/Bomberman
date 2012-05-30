@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 15:23:17 2012 lois burg
+// Last update Wed May 30 16:18:21 2012 lois burg
 //
 
 #include <iostream>
@@ -29,7 +29,7 @@ PlayState::PlayState(void)
   Character::CharacterId = 0;
 }
 
-PlayState::PlayState(std::list<AObject*> *list)
+PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1)
 {
   Character::CharacterId = 0;
@@ -51,7 +51,7 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(50, 50, 1, 1, 0);
+    Map	map(13, 13, 1, 1, 0);
     // Map         map("Ressources/Map/map5");
         // int	viewport[4];
 
@@ -204,7 +204,7 @@ void  PlayState::resume()
   std::cout << "resume Play" << std::endl;
 }
 
-uint PlayState::getHeight(std::list<AObject*> *list) const
+uint PlayState::getHeight(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
     uint maxY = list->front()->getPos().y;
@@ -217,7 +217,7 @@ uint PlayState::getHeight(std::list<AObject*> *list) const
     return maxY;
 }
 
-uint PlayState::getWidth(std::list<AObject*> *list) const
+uint PlayState::getWidth(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
     uint maxX = list->front()->getPos().x;
