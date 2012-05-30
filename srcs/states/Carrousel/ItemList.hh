@@ -23,7 +23,8 @@ public:
   void          pushButton(AButton * button);
   virtual void  update(gdl::Input &input,
                        gdl::GameClock &gClock,
-                       StatesManager *sMg);
+                       StatesManager *sMg,
+                       CarrouselHandler * cH);
   virtual void  draw();
 
 private:

@@ -17,7 +17,8 @@
 #include "ClientState.hh"
 
 CarrouselHandler::CarrouselHandler()
-  : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(false)
+  : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(false),
+    arrowsFocusLeft_(true), arrowsFocusRight_(true)
 {
 }
 
@@ -57,11 +58,16 @@ void CarrouselHandler::update(StatesManager * sMg)
     sMg->pushState(new Bomberman::AdventureState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
-
-  if (sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
-    --(*this);
-  if (sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
-    ++(*this);
+  if (arrowsFocusLeft_)
+    {
+      if (sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
+        --(*this);
+    }
+  if (arrowsFocusRight_)
+    {
+      if (sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
+        ++(*this);
+    }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
     sMg->popState();
 
@@ -69,7 +75,7 @@ void CarrouselHandler::update(StatesManager * sMg)
   rightPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Right);
   escPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Escape);
 
-  pages_[activ_]->update(sMg->getInput(), sMg->getGameClock(), sMg);
+  pages_[activ_]->update(sMg->getInput(), sMg->getGameClock(), sMg, this);
 }
 
 void CarrouselHandler::draw(StatesManager * sMg)
@@ -96,6 +102,32 @@ void CarrouselHandler::pause()
 
 void CarrouselHandler::resume()
 {
+}
+
+void CarrouselHandler::setArrowFocus(bool val)
+{
+  arrowsFocusLeft_ = val;
+  arrowsFocusRight_ = val;
+}
+
+void CarrouselHandler::setArrowFocusLeft(bool val)
+{
+  arrowsFocusLeft_ = val;
+}
+
+void CarrouselHandler::setArrowFocusRight(bool val)
+{
+  arrowsFocusRight_ = val;
+}
+
+bool CarrouselHandler::getArrowFocusLeft() const
+{
+  return arrowsFocusLeft_;
+}
+
+bool CarrouselHandler::getArrowFocusRight() const
+{
+  return arrowsFocusRight_;
 }
 
 void CarrouselHandler::drawPreviousPreview()

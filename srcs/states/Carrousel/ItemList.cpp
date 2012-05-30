@@ -26,7 +26,8 @@ void ItemList::pushButton(AButton *button)
 
 void ItemList::update(gdl::Input &keys,
                       gdl::GameClock &gClock,
-                      StatesManager *sMg)
+                      StatesManager *sMg,
+                      CarrouselHandler * cH)
 {
   if (keys.isKeyDown(gdl::Keys::Up) && upPressed_)
   {

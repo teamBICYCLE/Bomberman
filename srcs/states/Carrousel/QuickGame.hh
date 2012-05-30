@@ -22,7 +22,8 @@ namespace	Bomberman
     virtual ~QuickGame();
 
   public:
-    virtual void	update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg);
+    virtual void	update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg,
+                               CarrouselHandler * cH);
     virtual void	draw(void);
 
   private:

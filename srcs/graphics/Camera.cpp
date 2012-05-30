@@ -76,7 +76,6 @@ else
 zoom_.y = max.y;
 zoom_.x = zoom_.y * (16.0f/9.0f);
 }
-  std::cout << zoom_.x  << std::endl;
 position /= i;
 position_ = position;
   //  if (input.isKeyDown(gdl::Keys::Down))
