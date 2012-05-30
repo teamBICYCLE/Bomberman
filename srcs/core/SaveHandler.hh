@@ -24,7 +24,7 @@
 
 # define    SAVE_PATH   "Ressources/Saves/"
 # define    SAVE_EXT    ".bbm"
-# define    SCREEN_PATH "Ressources/Screenshots/"
+# define    SCREEN_PATH "Ressources/Screenshots"
 # define    SCREEN_EXT  ".png"
 
 using namespace Bomberman;

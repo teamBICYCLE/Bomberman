@@ -35,13 +35,15 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 void    SaveHandler::createScreen(const std::string &name) const
 {
     unsigned char* img;
-    img = (unsigned char *)(calloc(800 * 600 * 3, sizeof(unsigned char)));
+    img = (unsigned char *)(calloc(1600 * 800 * 3, sizeof(unsigned char)));
     QString screenName(SCREEN_PATH);
 
+    screenName.append("/");
     screenName.append(name.c_str());
     screenName.append(SCREEN_EXT);
-    glReadPixels(0, 0, 800, 600,  GL_RGB, GL_UNSIGNED_BYTE, img);
-    QImage screen(img, 800, 600, QImage::Format_RGB888);
+    glReadPixels(0, 0, 1600, 800,  GL_RGB, GL_UNSIGNED_BYTE, img);
+    QImage screen(img, 1600, 800, QImage::Format_RGB888);
+    screen = screen.scaledToHeight(112);
     screen.save(screenName);
 }
 
@@ -104,7 +106,8 @@ const std::string SaveHandler::getScreenshot(const std::string &file) const
 {
     std::string ret;
 
-    ret = file.substr(file.find_last_of('/'), file.find_last_of('.'));
+    ret.append(SCREEN_PATH);
+    ret.append(file.substr(file.find_last_of('/'), (file.length() - file.find_last_of('/')) - 4));
     ret.append(SCREEN_EXT);
     return ret;
 }

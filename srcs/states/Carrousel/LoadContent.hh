@@ -28,6 +28,7 @@ private:
     void drawArrow(void) const;
     void down(void);
     void up(void);
+    void load(StatesManager *sMg) const;
 
 private:
     SaveHandler *save_;
@@ -35,6 +36,7 @@ private:
     bool        refresh_;
     bool        up_;
     bool        down_;
+    bool        return_;
     std::list< std::pair<std::string, std::string> > list_;
     uint        current_;
 };

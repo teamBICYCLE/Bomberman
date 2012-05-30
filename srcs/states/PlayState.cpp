@@ -23,13 +23,22 @@
 
 using namespace	Bomberman;
 
-PlayState::PlayState()
+PlayState::PlayState(void)
   : winnerId_(0)
 {
   Character::CharacterId = 0;
 }
 
-PlayState::~PlayState()
+PlayState::PlayState(std::list<AObject*> list)
+    : objs_(list), winnerId_(0)
+{
+  Character::CharacterId = 0;
+  img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
+  bestScore_ = 0;
+  characterToUpdate_ = -1;
+}
+
+PlayState::~PlayState(void)
 {
 }
 
@@ -40,15 +49,14 @@ bool  PlayState::init()
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
-    Map	map(13, 13, 1, 10, 0);
-    //Map         map("Ressources/Map/map2");
+    //Map	map(13, 13, 1, 10, 0);
+    Map         map("Ressources/Map/map2");
         // int	viewport[4];
 
     bestScore_ = 0;
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
     characterToUpdate_ = -1;
-    std::cout << mapH_ << " " << mapW_ << std::endl;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();

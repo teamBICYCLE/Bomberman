@@ -22,8 +22,9 @@ namespace	Bomberman
   class	PlayState : public AGameState
   {
   public:
-    PlayState();
-    virtual ~PlayState();
+    PlayState(void);
+    PlayState(std::list<AObject*>);
+    virtual ~PlayState(void);
 
   public:
     virtual bool init();
@@ -46,9 +47,9 @@ namespace	Bomberman
     size_t              mapH_;
     std::list<AObject*>	objs_;
     Camera              camera_;
-    int			bestScore_;
-    int			winnerId_;
-    int			characterToUpdate_;
+    int                 bestScore_;
+    int                 winnerId_;
+    int                 characterToUpdate_;
     gdl::Image          img_;
   };
 }
