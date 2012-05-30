@@ -1,5 +1,6 @@
 #include "LoadContent.hh"
 #include "SaveHandler.hh"
+#include "PlayState.hh"
 
 #include <iostream>
 
@@ -10,7 +11,8 @@ LoadContent::LoadContent()
     refresh_ = false;
     up_ = false;
     down_ = false;
-    current_ = 0;
+    return_ = false;
+    current_ = -1;
     LoadContent::refresh();
 }
 
@@ -25,7 +27,9 @@ void LoadContent::refresh(void)
 
 void LoadContent::down(void)
 {
-    if (current_ == (list_.size() - 1) || current_ == 2)
+    if (list_.size() == 0)
+        current_ = -1;
+    else if (current_ == (list_.size() - 1) || current_ == 2)
         current_ = 0;
     else
         current_ += 1;
@@ -33,43 +37,75 @@ void LoadContent::down(void)
 
 void LoadContent::up(void)
 {
-    if (current_ > 0)
+    if (list_.size() == 0)
+        current_ = -1;
+    else if (current_ > 0)
         current_ -= 1;
     else
         current_ = (((list_.size() - 1) <= 2) ? (list_.size() - 1) : (2));
 }
 
-void LoadContent::update(gdl::Input & input, gdl::GameClock & gClock, StatesManager *sMg)
+void LoadContent::load(StatesManager *sMg) const
 {
+    std::list< std::pair<std::string, std::string> >::const_iterator it;
+    std::list<AObject*> *obj;
+    uint i = 0;
+
+    if (current_ != static_cast<uint>(-1))
+        for (it = list_.begin(); it != list_.end(); it++)
+        {
+            if (i == current_)
+            {
+                obj = save_->load(it->second);
+                sMg->pushState(new PlayState(obj));
+                break;
+            }
+            i++;
+        }
+}
+
+void LoadContent::update(gdl::Input &input, gdl::GameClock &gClock, StatesManager *sMg)
+{
+    (void)gClock;
+    (void)sMg;
     if (input.isKeyDown(gdl::Keys::F5) && !refresh_)
         refresh();
     if (input.isKeyDown(gdl::Keys::Up) && !up_)
         LoadContent::up();
     if (input.isKeyDown(gdl::Keys::Down) && !down_)
         LoadContent::down();
+    if (input.isKeyDown(gdl::Keys::Return) && !return_)
+        LoadContent::load(sMg);
 
     refresh_ = input.isKeyDown(gdl::Keys::F5);
     up_ = input.isKeyDown(gdl::Keys::Up);
     down_ = input.isKeyDown(gdl::Keys::Down);
+    return_ = input.isKeyDown(gdl::Keys::Return);
+
+    if (list_.size() > 0 && current_ == static_cast<uint>(-1))
+        current_ = 0;
 }
 
 void LoadContent::drawArrow(void) const
 {
-    flatTexture     arrow(Bomberman::ModelHandler::get().getModel("overlay-load"));
-    int align = current_ * 187;
+    if (current_ != static_cast<uint>(-1))
+    {
+        flatTexture     arrow(Bomberman::ModelHandler::get().getModel("overlay-load"));
+        int align = current_ * 187;
 
-    glPushMatrix();
-    glTranslated(400, (540 - align), 0);
-    arrow.draw();
-    glPopMatrix();
+        glPushMatrix();
+        glTranslated(400, (540 - align), 0);
+        arrow.draw();
+        glPopMatrix();
+    }
 }
 
 void LoadContent::draw(void)
 {
     glPushMatrix();
-    int align = 700;
-    int alignImg = 552;
-    int yImg = 246;
+    int align = 800;
+    int alignImg = 553;
+    int yImg = 272;
     int y = 310;
     int i = 0;
     std::list< std::pair<std::string, std::string> >::iterator it;
@@ -77,19 +113,16 @@ void LoadContent::draw(void)
     LoadContent::drawArrow();
     for (it = list_.begin(); i < 3 && it != list_.end(); it++)
     {
+        flatTexture     screen(save_->getScreenshot(it->second));
         text_->setText(it->first);
         text_->setPosition(align, y);
         text_->draw();
 
-        // draw de l'image <- alignImg et yImg represente
-        // les coordonnes de la ou il faut mettre l'image
-        // merci thomas
-        text_->setText(".");
-        text_->setPosition(alignImg, yImg);
-        text_->draw();
+        glTranslated(alignImg, yImg, 0);
+        screen.draw();
 
         y += 183;
-        yImg += 183;
+        yImg += 182;
         i++;
     }
     for (; i < 3; i++)
@@ -100,5 +133,4 @@ void LoadContent::draw(void)
         y += 183;
     }
     glPopMatrix();
-    //std::cout << "draw" << std::endl;
 }
