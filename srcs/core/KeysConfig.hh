@@ -37,8 +37,7 @@ namespace Bomberman
       K_LEFT,
       K_PUT_BOMB,
       K_PUT_MINE,
-      K_SAVE,
-      K_LOAD
+      K_SAVE
     };
 
   typedef std::map<eKeys, gdl::Keys::Key> keysMap;

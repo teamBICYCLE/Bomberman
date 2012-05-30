@@ -82,7 +82,6 @@ namespace	Bomberman
     void	putBomb(std::list<AObject*>& objs);
     void	putMine(std::list<AObject*>& objs);
     void	saveGame(std::list<AObject*>& objs);
-    void	loadGame(std::list<AObject*>& objs);
 
   public:
     void	resetNetKeys(void);
