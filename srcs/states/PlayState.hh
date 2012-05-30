@@ -41,6 +41,8 @@ namespace	Bomberman
 
   protected:
     void	saveScore(void) const;
+    uint    getHeight(std::list<AObject*> *list) const;
+    uint    getWidth(std::list<AObject*> *list) const;
 
   protected:
     size_t              mapW_;

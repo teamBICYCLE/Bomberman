@@ -36,6 +36,8 @@ PlayState::PlayState(std::list<AObject*> *list)
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bestScore_ = 0;
   characterToUpdate_ = -1;
+  mapH_ = PlayState::getHeight(list);
+  mapW_ = PlayState::getWidth(list);
 }
 
 PlayState::~PlayState(void)
@@ -50,7 +52,7 @@ bool  PlayState::init()
   success = true;
   try {
     //Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map2");
+    Map         map("Ressources/Map/map5");
         // int	viewport[4];
 
     bestScore_ = 0;
@@ -203,4 +205,30 @@ void  PlayState::pause()
 void  PlayState::resume()
 {
   std::cout << "resume Play" << std::endl;
+}
+
+uint PlayState::getHeight(std::list<AObject*> *list) const
+{
+    std::list<AObject*>::const_iterator it;
+    uint maxY = list->front()->getPos().y;
+
+    for (it = list->begin(); it != list->end(); it++)
+    {
+        if ((*it)->getPos().y > maxY)
+            maxY = (*it)->getPos().y;
+    }
+    return maxY;
+}
+
+uint PlayState::getWidth(std::list<AObject*> *list) const
+{
+    std::list<AObject*>::const_iterator it;
+    uint maxX = list->front()->getPos().x;
+
+    for (it = list->begin(); it != list->end(); it++)
+    {
+        if ((*it)->getPos().x > maxX)
+            maxX = (*it)->getPos().x;
+    }
+    return maxX;
 }

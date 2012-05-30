@@ -45,10 +45,13 @@ void LoadContent::up(void)
         current_ = (((list_.size() - 1) <= 2) ? (list_.size() - 1) : (2));
 }
 
+#include "Player.hh"
+
 void LoadContent::load(StatesManager *sMg) const
 {
     std::list< std::pair<std::string, std::string> >::const_iterator it;
     std::list<AObject*> *obj;
+    std::list<AObject*>::const_iterator it2;
     uint i = 0;
 
     if (current_ != static_cast<uint>(-1))
@@ -57,7 +60,7 @@ void LoadContent::load(StatesManager *sMg) const
             if (i == current_)
             {
                 obj = save_->load(it->second);
-                sMg->pushState(new PlayState(obj));
+                sMg->pushState(new PlayState(obj), false);
                 break;
             }
             i++;

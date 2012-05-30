@@ -80,23 +80,23 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
     }
 
   // // //  temporaire
-  std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  for (test = danger_.begin(); test != danger_.end(); ++test)
-    {
-      std::vector<std::pair<int, int> >::iterator toto;
-      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  	std::cout //<<  (*toto).first
-  	  << (*toto).second
-  		  << " ";
-      std::cout << std::endl;
-    }
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
+//  std::vector<std::vector<std::pair<int, int> > >::iterator test;
+//  for (test = danger_.begin(); test != danger_.end(); ++test)
+//    {
+//      std::vector<std::pair<int, int> >::iterator toto;
+//      for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+//  	std::cout //<<  (*toto).first
+//  	  << (*toto).second
+//  		  << " ";
+//      std::cout << std::endl;
+//    }
+//  std::cout << std::endl;
+//  std::cout << std::endl;
+//  std::cout << std::endl;
+//  std::cout << std::endl;
+//  std::cout << std::endl;
+//  std::cout << std::endl;
+//  std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const
