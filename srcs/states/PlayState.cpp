@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Tue May 29 19:01:21 2012 lois burg
+// Last update Wed May 30 10:17:42 2012 lois burg
 //
 
 #include <iostream>
@@ -41,7 +41,7 @@ bool  PlayState::init()
   success = true;
   try {
     //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map         map("Ressources/Map/map2");
         // int	viewport[4];
 
     bestScore_ = 0;

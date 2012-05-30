@@ -126,13 +126,14 @@ void KeysConfig::getFileData(int id)
 
 bool KeysConfig::fileIsValid(int id) const
 {
-    if (id == 0 && fileData_[id].size() > 0)
-        return true;
+  std::cout << id << std::endl;
+  if (id == 0 && fileData_[id].size() > 0)
+    return true;
 
-    if (id == 1 && fileData_[id].size() > 0)
-        return true;
+  if (id == 1 && fileData_[id].size() > 0)
+    return true;
 
-    return false;
+  return false;
 }
 
 bool KeysConfig::checkFormat(const std::string &str, int n) const

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Tue May 29 18:58:47 2012 lois burg
+// Last update Wed May 30 09:48:54 2012 lois burg
 //
 
 #include <algorithm>
@@ -26,7 +26,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  isInvincible_ = true;
+  // isInvincible_ = true;
   //kickAbility_ = true;
   //nbBombs_ = 5;
   //nbMines_ = 10;
