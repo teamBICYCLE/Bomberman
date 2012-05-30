@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 10:13:31 2012 lois burg
+// Last update Wed May 30 12:15:33 2012 lois burg
 //
 
 #include <iostream>
@@ -26,6 +26,7 @@
 using namespace	Bomberman;
 
 AdventureState::AdventureState()
+  : PlayState(), curMapId_(0), mapBaseName_("./Ressources/Map/adventure"), nbMaps_(5)
 {
 }
 
@@ -37,23 +38,16 @@ bool	AdventureState::init()
 {
   bool			success = true;
   std::stringstream	ss;
-  std::string		mapName = "./Ressources/Map/adventure";
-  Map			*map;
 
   try {
-    for (int i = 1; i <= 5; ++i)
-      {
-	ss.clear();
-	ss.str("");
-	ss << mapName << i;
-	map = new Map(ss.str());
-	adventureMaps_.push_back(map);
-	Character::CharacterId = 0;
-      }
-    adventureLevel_ = adventureMaps_.begin();
-    mapH_ = (*adventureLevel_)->getHeight();
-    mapW_ = (*adventureLevel_)->getWidth();
-    objs_.insert(objs_.end(), (*adventureLevel_)->getTerrain().begin(), (*adventureLevel_)->getTerrain().end());
+    characterToUpdate_ = -1;
+    ss << mapBaseName_ << curMapId_;
+    curMap_ = new Map(ss.str());
+    Character::CharacterId = 0;
+    mapH_ = curMap_->getHeight();
+    mapW_ = curMap_->getWidth();
+    objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+    ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -64,41 +58,59 @@ bool	AdventureState::init()
 void	AdventureState::cleanUp()
 {
   std::cout << "clean up Adventure" << std::endl;
-  // for (std::list<Map*>::iterator it = adventureMaps_.begin(); it != adventureMaps_.end(); ++it)
-  //   delete (*it);
-  adventureMaps_.clear();
-  // for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-  //   delete (*it);
-  objs_.clear();
+  // delete curMap_;
+  // PlayState::cleanUp();
 }
 
 void	AdventureState::win(StatesManager *mngr)
 {
+  std::stringstream	ss;
+
   (void)mngr;
   std::cout << "YOU WIN" << std::endl;
-  if (adventureLevel_ != adventureMaps_.end())
-    ++adventureLevel_;
-  if (adventureLevel_ == adventureMaps_.end())
+  if (curMapId_ != nbMaps_)
+    ++curMapId_;
+  if (curMapId_ == nbMaps_)
     {
       std::cout << "CONGRATS!" << std::endl;
       mngr->popState();
     }
   else
     {
-      mapH_ = (*adventureLevel_)->getHeight();
-      mapW_ = (*adventureLevel_)->getWidth();
-      objs_.clear();
-      objs_.insert(objs_.end(), (*adventureLevel_)->getTerrain().begin(), (*adventureLevel_)->getTerrain().end());
+      delete curMap_;
+      ss << mapBaseName_ << curMapId_;
+      try {
+	clearObjs();
+	Character::CharacterId = 0;
+	curMap_ = new Map(ss.str());
+	mapH_ = curMap_->getHeight();
+	mapW_ = curMap_->getWidth();
+	objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+      } catch (Map::Failure& e) {
+	std::cerr << e.what() << std::endl;
+	mngr->popState();
+      }
     }
 }
 
 void	AdventureState::gameOver(StatesManager *mngr)
 {
+  std::stringstream	ss;
+
   (void)mngr;
   std::cout << "YOU LOSE :(" << std::endl;
-  adventureLevel_ = adventureMaps_.begin();
-  mapH_ = (*adventureLevel_)->getHeight();
-  mapW_ = (*adventureLevel_)->getWidth();
-  objs_.clear();
-  objs_.insert(objs_.end(), (*adventureLevel_)->getTerrain().begin(), (*adventureLevel_)->getTerrain().end());
+  curMapId_ = 0;
+  delete curMap_;
+  ss << mapBaseName_ << curMapId_;
+  try {
+    clearObjs();
+    Character::CharacterId = 0;
+    curMap_ = new Map(ss.str());
+    mapH_ = curMap_->getHeight();
+    mapW_ = curMap_->getWidth();
+    objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+  } catch (Map::Failure& e) {
+    std::cerr << e.what() << std::endl;
+    mngr->popState();
+  }
 }

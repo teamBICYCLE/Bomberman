@@ -7,13 +7,13 @@
 LoadContent::LoadContent()
     : AContent(), save_(new SaveHandler()), text_(new gdl::Text())
 {
-    text_->setFont("Ressources/Fonts/Dimbo.ttf");
-    refresh_ = false;
-    up_ = false;
-    down_ = false;
-    return_ = false;
-    current_ = -1;
-    LoadContent::refresh();
+  text_->setFont("Ressources/Fonts/Dimbo.ttf");
+  refresh_ = false;
+  up_ = false;
+  down_ = false;
+  return_ = false;
+  current_ = -1;
+  LoadContent::refresh();
 }
 
 LoadContent::~LoadContent()
@@ -45,12 +45,10 @@ void LoadContent::up(void)
         current_ = (((list_.size() - 1) <= 2) ? (list_.size() - 1) : (2));
 }
 
-#include "Player.hh"
-
 void LoadContent::load(StatesManager *sMg) const
 {
     std::list< std::pair<std::string, std::string> >::const_iterator it;
-    std::list<AObject*> *obj;
+    const std::list<AObject*> *obj;
     std::list<AObject*>::const_iterator it2;
     uint i = 0;
 

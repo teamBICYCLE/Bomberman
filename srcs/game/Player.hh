@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Tue May 29 11:14:04 2012 lois burg
+// Last update Wed May 30 16:26:30 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -81,7 +81,6 @@ namespace	Bomberman
     void	turnDown(std::list<AObject*>& objs);
     void	putBomb(std::list<AObject*>& objs);
     void	putMine(std::list<AObject*>& objs);
-    void	saveGame(std::list<AObject*>& objs);
 
   public:
     void	resetNetKeys(void);

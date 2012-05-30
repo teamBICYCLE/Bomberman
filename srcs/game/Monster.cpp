@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Tue May 29 11:38:48 2012 lois burg
+// Last update Wed May 30 15:34:56 2012 lois burg
 //
 
 #include <algorithm>
@@ -60,12 +60,22 @@ Monster::~Monster()
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  brainScript_->updateDangerMap(objs);
-  brainScript_->selectFct("thinking");
-  brainScript_->addParam(pos_.x);
-  brainScript_->addParam(pos_.y);
-  brainScript_->callFct(1);
-  update(clock, brainScript_->getDecision(), objs);
+  // brainScript_->updateDangerMap(objs);
+  // brainScript_->selectFct("thinking");
+  // brainScript_->addParam(pos_.x);
+  // brainScript_->addParam(pos_.y);
+  // brainScript_->callFct(1);
+  eDirection d = NODIR;
+  d =  brainScript_->getDecision();
+  if (keys.isKeyDown(gdl::Keys::Right))
+    d = RIGHT;
+  else if (keys.isKeyDown(gdl::Keys::Left))
+    d = LEFT;
+  else if (keys.isKeyDown(gdl::Keys::Up))
+    d = UP;
+  else if (keys.isKeyDown(gdl::Keys::Down))
+    d = DOWN;
+  update(clock, d, objs);
   model_.update(clock);
   (void)keys;
 }

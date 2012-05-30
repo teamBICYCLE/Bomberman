@@ -19,7 +19,6 @@ KeysConfig::KeysConfig()
     defaultPlayer1_.insert(std::make_pair(K_DOWN, gdl::Keys::S));
     defaultPlayer1_.insert(std::make_pair(K_PUT_BOMB, gdl::Keys::Space));
     defaultPlayer1_.insert(std::make_pair(K_PUT_MINE, gdl::Keys::LShift));
-    defaultPlayer1_.insert(std::make_pair(K_SAVE, gdl::Keys::F12));
 
     defaultPlayer2_.insert(std::make_pair(K_LEFT, gdl::Keys::Numpad4));
     defaultPlayer2_.insert(std::make_pair(K_RIGHT, gdl::Keys::Numpad6));
@@ -124,7 +123,6 @@ void KeysConfig::getFileData(int id)
 
 bool KeysConfig::fileIsValid(int id) const
 {
-  //std::cout << id << std::endl;
   if (id == 0 && fileData_[id].size() > 0)
     return true;
 
@@ -184,7 +182,7 @@ gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
     std::cout << std::endl << std::endl << "==========================" << std::endl;
     if (KeysConfig::fileIsValid(id))
         return searchKey(k, id);
-    else if (id == 0)
+    if (id == 0)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
 }
