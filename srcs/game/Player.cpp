@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 30 16:35:22 2012 thibault carpentier
+// Last update Wed May 30 17:08:34 2012 lois burg
 //
 
 #include <algorithm>
@@ -43,7 +43,6 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   actionsMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
-  actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
 
   networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
@@ -71,7 +70,6 @@ Player::Player()
   actionsMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), &Player::turnDown));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), &Player::putBomb));
   actionsMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), &Player::putMine));
-  actionsMap_.insert(std::make_pair(conf_.get(K_SAVE, id_), &Player::saveGame));
 
   networkMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), false));
@@ -211,13 +209,6 @@ void	Player::putMine(std::list<AObject*>& objs)
 	  --nbMines_;
 	}
     }
-}
-
-void	Player::saveGame(std::list<AObject*>& objs)
-{
-    SaveHandler s;
-
-    s.save(objs);
 }
 
 uint	Player::getNbBombs(void) const

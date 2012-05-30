@@ -54,7 +54,7 @@ void APage::drawLeft()
 void APage::drawRight()
 {
   glPushMatrix();
-  glTranslated(1550, 350, 0);
+  glTranslated(1444, 350, 0);
   rightImg_.draw();
   glPopMatrix();
 }

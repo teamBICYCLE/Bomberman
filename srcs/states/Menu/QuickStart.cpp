@@ -22,7 +22,7 @@ QuickStart::QuickStart(const std::string & normalImagePath,
 
 void    QuickStart::activate(StatesManager *sMg)
 {
-  sMg->pushState(new Bomberman::Online::ClientState("localhost"));
+  sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
   //sMg->pushState(new Bomberman::PlayState());
 }
 

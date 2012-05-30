@@ -1,3 +1,4 @@
+
 /*
  * File:   ModelHandler.cpp
  * Author: duplom_t
@@ -34,6 +35,13 @@ void      ModelHandler::preload()
         "bg-load");
   storeModel(new flatTexture("Ressources/Images/Menu/overlay-load.png"),
         "overlay-load");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-left.png"),
+        "arrow-load-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
+        "arrow-load-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
+        "bg-quickgame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
