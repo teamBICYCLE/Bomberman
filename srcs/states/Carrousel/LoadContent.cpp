@@ -1,5 +1,6 @@
 #include "LoadContent.hh"
 #include "SaveHandler.hh"
+#include "PlayState.hh"
 
 #include <iostream>
 
@@ -56,6 +57,7 @@ void LoadContent::load(StatesManager *sMg) const
             if (i == current_)
             {
                 obj = save_->load(it->second);
+                sMg->pushState(new PlayState(obj));
                 break;
             }
             i++;
@@ -80,7 +82,7 @@ void LoadContent::update(gdl::Input &input, gdl::GameClock &gClock, StatesManage
     down_ = input.isKeyDown(gdl::Keys::Down);
     return_ = input.isKeyDown(gdl::Keys::Return);
 
-    if (list_.size() > 0)
+    if (list_.size() > 0 && current_ == static_cast<uint>(-1))
         current_ = 0;
 }
 

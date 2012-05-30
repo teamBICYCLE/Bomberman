@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Tue May 29 19:01:21 2012 lois burg
+// Last update Wed May 30 10:19:29 2012 lois burg
 //
 
 #include <iostream>
@@ -29,8 +29,8 @@ PlayState::PlayState(void)
   Character::CharacterId = 0;
 }
 
-PlayState::PlayState(std::list<AObject*> list)
-    : objs_(list), winnerId_(0)
+PlayState::PlayState(std::list<AObject*> *list)
+    : objs_(*list), winnerId_(0)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");

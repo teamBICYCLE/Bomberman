@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Tue May 22 16:15:29 2012 thibault carpentier
+// Last update Wed May 30 09:59:50 2012 lois burg
 //
 
 #include <algorithm>
@@ -328,7 +328,7 @@ void Map::addPlayers(std::list<std::string> &map)
     }
 
     if (!player)
-      throw Map::Failure("getFromFile", "No player set on the map.");
+      throw Map::Failure("addPlayers", "No player set on the map.");
 }
 
 void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
@@ -357,7 +357,7 @@ void Map::mapFileIsValid(std::list<std::string> &map) const
     for (it = map.begin(); it != map.end(); it++)
     {
         if (it->length() > max)
-            throw Map::Failure("getFromFile", "Map is not valid !");
+            throw Map::Failure("mapFileIsValid", "Map is not valid !");
     }
 }
 
@@ -378,7 +378,7 @@ void Map::setFromFile(std::list<std::string> &map)
         Map::addBlocks((*itm), y, &tmp);
         Map::addBricks((*itm), y, &tmp);
         Map::addGhosts((*itm), y, &tmp, b);
-        Map::addMonsters((*itm), y, &tmp ,b);
+        Map::addMonsters((*itm), y, &tmp, b);
         y++;
     }
     for (it = tmp.begin(); it != tmp.end(); it++)

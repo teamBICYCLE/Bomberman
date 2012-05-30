@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 23 11:50:09 2012 lois burg
+// Last update Wed May 30 10:13:31 2012 lois burg
 //
 
 #include <iostream>
@@ -38,11 +38,10 @@ bool	AdventureState::init()
   bool			success = true;
   std::stringstream	ss;
   std::string		mapName = "./Ressources/Map/adventure";
-  int			i = 1;
   Map			*map;
 
   try {
-    for (; i <= 5; ++i)
+    for (int i = 1; i <= 5; ++i)
       {
 	ss.clear();
 	ss.str("");
@@ -65,7 +64,11 @@ bool	AdventureState::init()
 void	AdventureState::cleanUp()
 {
   std::cout << "clean up Adventure" << std::endl;
+  // for (std::list<Map*>::iterator it = adventureMaps_.begin(); it != adventureMaps_.end(); ++it)
+  //   delete (*it);
   adventureMaps_.clear();
+  // for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+  //   delete (*it);
   objs_.clear();
 }
 
@@ -96,5 +99,6 @@ void	AdventureState::gameOver(StatesManager *mngr)
   adventureLevel_ = adventureMaps_.begin();
   mapH_ = (*adventureLevel_)->getHeight();
   mapW_ = (*adventureLevel_)->getWidth();
+  objs_.clear();
   objs_.insert(objs_.end(), (*adventureLevel_)->getTerrain().begin(), (*adventureLevel_)->getTerrain().end());
 }

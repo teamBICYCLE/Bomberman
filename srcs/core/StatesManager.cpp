@@ -92,7 +92,7 @@ void      StatesManager::popState(void)
   if (!this->states_.empty())
     {
       this->states_.back()->cleanUp();
-      delete this->states_.back();
+      //delete this->states_.back();
       this->states_.pop_back();
     }
   if (!this->states_.empty())
@@ -104,7 +104,7 @@ void      StatesManager::clearStates(void)
   while (!states_.empty())
     {
       this->states_.back()->cleanUp();
-      delete this->states_.back();
+      //delete this->states_.back();
       this->states_.pop_back();
     }
 }

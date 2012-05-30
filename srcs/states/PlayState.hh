@@ -23,7 +23,7 @@ namespace	Bomberman
   {
   public:
     PlayState(void);
-    PlayState(std::list<AObject*>);
+    PlayState(std::list<AObject*> *);
     virtual ~PlayState(void);
 
   public:
