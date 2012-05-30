@@ -126,7 +126,6 @@ void KeysConfig::getFileData(int id)
 
 bool KeysConfig::fileIsValid(int id) const
 {
-  std::cout << id << std::endl;
   if (id == 0 && fileData_[id].size() > 0)
     return true;
 

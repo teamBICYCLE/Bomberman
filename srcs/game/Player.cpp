@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 30 09:48:54 2012 lois burg
+// Last update Wed May 30 12:11:46 2012 lois burg
 //
 
 #include <algorithm>

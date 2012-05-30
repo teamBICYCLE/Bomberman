@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 11:10:08 2012 lois burg
+// Last update Wed May 30 12:15:33 2012 lois burg
 //
 
 #include <iostream>
@@ -26,7 +26,7 @@
 using namespace	Bomberman;
 
 AdventureState::AdventureState()
-  : curMapId_(0), mapBaseName_("./Ressources/Map/adventure"), nbMaps_(5)
+  : PlayState(), curMapId_(0), mapBaseName_("./Ressources/Map/adventure"), nbMaps_(5)
 {
 }
 
@@ -40,6 +40,7 @@ bool	AdventureState::init()
   std::stringstream	ss;
 
   try {
+    characterToUpdate_ = -1;
     ss << mapBaseName_ << curMapId_;
     curMap_ = new Map(ss.str());
     Character::CharacterId = 0;
@@ -80,6 +81,7 @@ void	AdventureState::win(StatesManager *mngr)
       ss << mapBaseName_ << curMapId_;
       try {
 	clearObjs();
+	Character::CharacterId = 0;
 	curMap_ = new Map(ss.str());
 	mapH_ = curMap_->getHeight();
 	mapW_ = curMap_->getWidth();
@@ -102,6 +104,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
   ss << mapBaseName_ << curMapId_;
   try {
     clearObjs();
+    Character::CharacterId = 0;
     curMap_ = new Map(ss.str());
     mapH_ = curMap_->getHeight();
     mapW_ = curMap_->getWidth();
