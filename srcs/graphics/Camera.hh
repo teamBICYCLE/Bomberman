@@ -41,7 +41,7 @@ private:
 
 protected:
   Vector3d    position_;
-  Vector3d    rotation_;
+  Vector3d    zoom_;
 };
 
 #include "AObject.hh"

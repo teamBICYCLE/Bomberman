@@ -38,11 +38,11 @@ namespace	Bomberman
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
     virtual void        setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-				  std::list<AObject*>objs,
-				  int x, int y) const;
+                                  std::list<AObject*>objs,
+                                  int x, int y) const;
     virtual void        setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
-				  std::list<AObject*>objs,
-				  int x, int y) const;
+                                  std::list<AObject*>objs,
+                                  int x, int y) const;
   public:
     uint	getNbBombs(void) const;
     int		getNbMines(void) const;
@@ -104,6 +104,7 @@ namespace	Bomberman
     gdlModel    model_;
     bool	isNetworkControlled_;
     KeysConfig	conf_;
+    Vector3d    color_;
   };
 }
 

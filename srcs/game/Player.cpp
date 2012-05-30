@@ -9,6 +9,7 @@
 //
 
 #include <algorithm>
+#include <cstdlib>
 #include "Brick.hh"
 #include "Bomb.hh"
 #include "Mine.hh"
@@ -24,6 +25,11 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
+  srand(id_);
+  color_ = Vector3d(static_cast<float>(rand() % 101) / 100
+                    , static_cast<float>(rand() % 101) / 100,
+                    static_cast<float>(rand() % 101) / 100);
+  std::cout << color_.x << std::endl;
   isInvincible_ = true;
   kickAbility_ = true;
   nbBombs_ = 5;
@@ -140,6 +146,7 @@ void		Player::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
+  glColor3d(color_.x, color_.y, color_.z);
   this->model_.draw();
   glColor3d(1.0f, 1.0f, 1.0f);
 }
@@ -202,12 +209,12 @@ void	Player::putMine(std::list<AObject*>& objs)
   if (nbMines_ > 0 && bombCollide_)
     {
       if ((m = new Mine(pos_ + (sz_ / 2), rot_, Vector3d(1, 1, 1), *this)))
-	{
-	  bombCollide_ = m->getOwnerCollide();
-	  m->adjustPos();
-	  objs.push_back(m);
-	  --nbMines_;
-	}
+        {
+          bombCollide_ = m->getOwnerCollide();
+          m->adjustPos();
+          objs.push_back(m);
+          --nbMines_;
+        }
     }
 }
 

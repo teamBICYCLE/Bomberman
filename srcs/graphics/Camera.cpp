@@ -15,7 +15,7 @@
 #include "Player.hh"
 
 Camera::Camera()
-  :position_(5.f, 3.f, 1.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(5.f, 3.f, 1.0f)
 {
   this->initialize();
 }
@@ -37,16 +37,48 @@ void    Camera::initialize()
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
                        std::list<Bomberman::AObject*>& objs)
 {
+  Vector3d    position;
+  Vector3d    min(0, 0, 0), max(0, 0, 0);
+  int         i = 0;
+
   (void)gameClock;
   (void)input;
   if (input.isKeyDown(gdl::Keys::Up))
     glDisable(GL_LIGHTING);
-//  std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
-//     if (dynamic_cast<Bomberman::Player *>(obj))
-//  {
-//                position_ = obj->getPos();
-//  }
-//  });
+  std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
+     if (dynamic_cast<Bomberman::Player *>(obj))
+  {
+                Vector3d local = obj->getPos();
+
+                if (local.x < min.x)
+                min.x = local.x;
+  if (local.x > max.x)
+    max.x = local.x;
+  if (local.y < min.y)
+    min.y = local.y;
+  if (local.y > max.y)
+    max.y = local.y;
+      position += obj->getPos();
+      ++i;
+  }
+  });
+max.x = (max.x - min.x);
+max.x = max.x >= 16 ? max.x : 16;
+max.y = (max.y - min.y);
+max.y = max.y >= 9 ? max.y : 9;
+if (max.x / 16 >= max.y / 9)
+{
+  zoom_.x = max.x;
+  zoom_.y = zoom_.x * (9.0f/16.0f);
+}
+else
+{
+zoom_.y = max.y;
+zoom_.x = zoom_.y * (16.0f/9.0f);
+}
+  std::cout << zoom_.x  << std::endl;
+position /= i;
+position_ = position;
   //  if (input.isKeyDown(gdl::Keys::Down))
   //    position_.x += 1;
 }
@@ -59,13 +91,13 @@ void    Camera::draw()
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);
+  glOrtho(-zoom_.x / 2, zoom_.x / 2, -zoom_.y / 2, zoom_.y / 2, this->zNear, this->zFar);
   //gluPerspective(this->fov, this->winxSize / this->winySize,
    //             this->zNear, this->zFar);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glScaled(1, -1, 1);
-  gluLookAt(position_.x, position_.y + 3.0f, position_.z + 4.0f,
+  gluLookAt(position_.x, position_.y + 3.0f, 4.0f,
            position_.x, position_.y, position_.z,
             0.0, 1, 0);
   glEnable(GL_DEPTH_TEST);
