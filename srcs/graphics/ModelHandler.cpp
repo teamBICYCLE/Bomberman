@@ -1,3 +1,4 @@
+
 /*
  * File:   ModelHandler.cpp
  * Author: duplom_t
@@ -39,7 +40,7 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
         "arrow-load-right");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.jpg"),
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
         "bg-quickgame");
 }
 
