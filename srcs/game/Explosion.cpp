@@ -59,6 +59,7 @@ void		Explosion::draw(void)
   glPopMatrix();
   glPushMatrix();
   glTranslated(pos_.x * sz_.x, pos_.y * sz_.y, pos_.z * sz_.z);
+  glScaled(1.5f, 1.5f, 1.5f);
   model_.draw();
 }
 
@@ -133,7 +134,7 @@ void    Explosion::toQvariant(QSettings &w) const
 }
 
 void  Explosion::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
-			   int x, int y) const
+                           int x, int y) const
 {
   (void)x;
   (void)y;

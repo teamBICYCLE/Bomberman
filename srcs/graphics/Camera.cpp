@@ -12,9 +12,10 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <SFML/Window.hpp>
+#include "Player.hh"
 
 Camera::Camera()
-  :position_(6.5f, 6.5f, 15.0f), rotation_(0.0f, 0.0f, 0.0f)
+  :position_(5.f, 3.f, 1.0f), rotation_(0.0f, 0.0f, 0.0f)
 {
   this->initialize();
 }
@@ -33,12 +34,19 @@ void    Camera::initialize()
   glEnable(GL_LIGHTING);
 }
 
-void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input)
+void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
+                       std::list<Bomberman::AObject*>& objs)
 {
   (void)gameClock;
   (void)input;
   if (input.isKeyDown(gdl::Keys::Up))
     glDisable(GL_LIGHTING);
+//  std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
+//     if (dynamic_cast<Bomberman::Player *>(obj))
+//  {
+//                position_ = obj->getPos();
+//  }
+//  });
   //  if (input.isKeyDown(gdl::Keys::Down))
   //    position_.x += 1;
 }
@@ -51,15 +59,15 @@ void    Camera::draw()
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  //glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);
-  gluPerspective(this->fov, this->winxSize / this->winySize,
-                this->zNear, this->zFar);
+  glOrtho(-8, 8, -5, 5, this->zNear, this->zFar);
+  //gluPerspective(this->fov, this->winxSize / this->winySize,
+   //             this->zNear, this->zFar);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glScaled(1, -1, 1);
-  gluLookAt(position_.x, position_.y, position_.z,
-           6.5, 6.5, 0,
-            0, 1, 0);
+  gluLookAt(position_.x, position_.y + 3.0f, position_.z + 4.0f,
+           position_.x, position_.y, position_.z,
+            0.0, 1, 0);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
 

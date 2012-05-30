@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Wed May 30 15:34:56 2012 lois burg
+// Last update Wed May 30 17:42:47 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -20,7 +20,7 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("bombman"))
 {
-  // isInvincible_ = true;
+  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -55,16 +55,21 @@ Monster::Monster()
     damage_ = 0;
 }
 
+Bomberman::Thinking::Brain *Monster::getBrain(void) const
+{
+  return (brainScript_);
+}
+
 Monster::~Monster()
 {}
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  // brainScript_->updateDangerMap(objs);
-  // brainScript_->selectFct("thinking");
-  // brainScript_->addParam(pos_.x);
-  // brainScript_->addParam(pos_.y);
-  // brainScript_->callFct(1);
+  //  brainScript_->updateDangerMap(objs);
+  brainScript_->selectFct("thinking");
+  brainScript_->addParam(pos_.x);
+  brainScript_->addParam(pos_.y);
+  brainScript_->callFct(1);
   eDirection d = NODIR;
   d =  brainScript_->getDecision();
   if (keys.isKeyDown(gdl::Keys::Right))
