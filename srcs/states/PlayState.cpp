@@ -18,8 +18,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
-
-#include "SaveHandler.hh"
+#include "Score.hh"
 
 using namespace	Bomberman;
 
@@ -131,16 +130,20 @@ void  PlayState::update(StatesManager *sMg)
 
 void	PlayState::win(StatesManager *mngr)
 {
-  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
-  saveScore();
-  mngr->popState();//passer sur winstate
+    Score score;
+
+    std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
+    score.save(bestScore_);
+    mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
 {
-  std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
-  saveScore();
-  mngr->popState();//passer sur gameOverstate
+    Score score;
+
+    std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
+    score.save(bestScore_);
+    mngr->popState();//passer sur gameOverstate
 }
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
@@ -154,18 +157,18 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
     }
 }
 
-void	PlayState::saveScore(void) const
-{
-  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
+//void	PlayState::saveScore(void) const
+//{
+//  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
 
-  if (leaderboards.good())
-    {
-      std::cout << bestScore_ << std::endl;
-      leaderboards << "AAAA: " << bestScore_ << std::endl;
-      leaderboards.close();
-    }
-  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
-}
+//  if (leaderboards.good())
+//    {
+//      std::cout << bestScore_ << std::endl;
+//      leaderboards << "AAAA: " << bestScore_ << std::endl;
+//      leaderboards.close();
+//    }
+//  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
+//}
 
 #define MULTZ 1.0f
 

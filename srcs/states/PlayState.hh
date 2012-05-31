@@ -40,7 +40,7 @@ namespace	Bomberman
     virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
   protected:
-    void	saveScore(void) const;
+    //void	saveScore(void) const;
     void	clearObjs(void);
     uint    getHeight(const std::list<AObject*> *list) const;
     uint    getWidth(const std::list<AObject*> *list) const;

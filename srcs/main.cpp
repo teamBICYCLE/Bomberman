@@ -27,12 +27,12 @@ void  loadModels()
 
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
     try {
         StatesManager   mg("Bomberman v0.01");
         CarrouselHandler *carrouselHandler;
+        TwitterConnection *ptr = TwitterConnection::getInstance(ac, av);
 
+        ptr->requestAccess();
         carrouselHandler = new CarrouselHandler();
 
         ModelHandler::get().preload();
