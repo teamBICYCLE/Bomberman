@@ -39,6 +39,10 @@ void      ModelHandler::preload()
   /* Arrows */
   storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
         "custom_arrows");
+  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows_overlay.png"),
+        "custom_arrows_overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/go-overlay.png"),
+        "go-overlay");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-left.png"),
         "arrow-load-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),

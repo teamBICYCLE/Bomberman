@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 18:21:19 2012 lois burg
+// Last update Thu May 31 18:45:42 2012 lois burg
 //
 
 #include <utility>
@@ -71,13 +71,29 @@ void	CustomGame::draw(void)
 
 void	CustomGame::drawArrow(void) const
 {
-  flatTexture	arrow(ModelHandler::get().getModel("custom_arrows"));
-  int		align = currentSelection_ * 70;
+  flatTexture	*arrow;
+  int		vAlign;
+  int		hAlign = 850;
 
+  if (currentSelection_ == CustomGame::NbParams)
+    {
+      vAlign = currentSelection_ * 85;
+      hAlign = 815;
+      arrow = new flatTexture(ModelHandler::get().getModel("go-overlay"));
+    }
+  else
+    {
+      if (editing_)
+	arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows_overlay"));
+      else
+	arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows"));
+      vAlign = currentSelection_ * 70;
+    }
   glPushMatrix();
-  glTranslated(850, (570 - align), 0);
-  arrow.draw();
+  glTranslated(hAlign, (570 - vAlign), 0);
+  arrow->draw();
   glPopMatrix();
+  delete arrow;
 }
 
 void	CustomGame::drawIntAt(int val, int x, int y)
