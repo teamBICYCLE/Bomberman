@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Thu May 31 11:16:50 2012 lois burg
+// Last update Thu May 31 17:12:33 2012 lois burg
 //
 
 #include <GDL/ModelException.hpp>
@@ -39,12 +39,12 @@ int main(int ac, char **av)
         carrouselHandler = new CarrouselHandler();
 
         ModelHandler::get().preload();
-        carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "right", "left"));
-        carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "right", "left"));
-        carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "right", "left"));
+        carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
+        carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
+        carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
         // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
         carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-        carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "arrow-load-left", "arrow-load-right"));
+        carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
 
         mg.start(carrouselHandler);
     }
