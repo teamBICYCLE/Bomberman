@@ -24,7 +24,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  isInvincible_ = true;
+  //isInvincible_ = true;
   kickAbility_ = true;
   nbBombs_ = 5;
   nbMines_ = 10000;
@@ -323,6 +323,7 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
+  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));
