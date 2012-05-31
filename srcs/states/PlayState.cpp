@@ -81,12 +81,12 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
-  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-    delete (*it);
+//  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+//    delete (*it);
   objs_.clear();
 }
 
-void  PlayState::update(StatesManager * sMg)
+void  PlayState::update(StatesManager *sMg)
 {
   int		nbPlayers = 0;
   int		nbMonsters = 0;
@@ -125,7 +125,7 @@ void  PlayState::update(StatesManager * sMg)
         it = objs_.erase(it);
     }
   // bind touche echap
-  checkEndGame(sMg, nbPlayers, nbMonsters);
+  PlayState::checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)
@@ -155,7 +155,7 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 
 void	PlayState::saveScore(void) const
 {
-  std::ofstream	leaderboards("./Ressources/scores/leaderboards.sc", std::ios::app);
+  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
 
   if (leaderboards.good())
     {

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 31 13:50:31 2012 thibault carpentier
+// Last update Thu May 31 14:12:23 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -30,7 +30,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   std::cout << color_.x << std::endl;
-  //  isInvincible_ = true;
+  //isInvincible_ = true;
   kickAbility_ = true;
   nbBombs_ = 5;
   nbMines_ = 10000;
@@ -330,6 +330,7 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
+  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));

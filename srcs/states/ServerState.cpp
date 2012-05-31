@@ -60,7 +60,7 @@ bool	ServerState::init()
   //END TEMPORARY
 
   try {
-    Map	map(13, 13, nbPlayers_, 0, 0);
+    Map	map(5, 5, nbPlayers_, 0, 0);
 
     characterToUpdate_ = 0;
     mapH_ = map.getHeight();
@@ -113,6 +113,7 @@ void	ServerState::update(StatesManager *mngr)
   plyr = getPlayerWithId(objs_, 0);
   select_.reset();
   select_.setNonBlock();
+
   std::for_each(clients_.begin(), clients_.end(), [this] (TCPSocket *s) -> void {
       if (s)
 	select_.addRead(s->getSockDesc());
@@ -141,7 +142,10 @@ void	ServerState::update(StatesManager *mngr)
     }
   PlayState::update(mngr);
   if (plyr)
+  {
+      std::cout << nbPlayers_ << "pack pack" << std::endl;
     packet = plyr->pack(mngr->getInput());
+  }
   if (packet.isUseful())
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)

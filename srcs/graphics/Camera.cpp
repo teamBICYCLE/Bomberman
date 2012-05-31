@@ -11,6 +11,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <algorithm>
 #include <SFML/Window.hpp>
 #include "Player.hh"
 
