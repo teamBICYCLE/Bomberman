@@ -134,6 +134,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
             }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
+  this->model_.getModel().set_anim_speed("run", 1 + this->speed_);
+  this->model_.getModel().set_anim_speed("start", 1 + this->speed_);
+  this->model_.getModel().set_anim_speed("stop", 1 + this->speed_);
   this->moveAnimation();
   this->model_.update(clock);
 }
