@@ -84,23 +84,25 @@ void Score::save(int score) const
     }
 }
 
-const std::list<std::string> *Score::getScores(void) const
+std::list<std::string> *Score::getScores(void) const
 {
     std::list<std::string> *ret = new std::list<std::string>;
     std::string line;
     std::ifstream infile;
 
+    ret->push_back("Empty");
     infile.open(PATH_SCORE);
-    if (infile.fail())
-        std::cerr << "Unable to open score file !" << std::endl;
-    while (!infile.eof())
+    if (!infile.fail())
     {
-        getline(infile, line);
-        if (!line.empty())
-            ret->push_back(line);
+        while (!infile.eof())
+        {
+            getline(infile, line);
+            if (!line.empty())
+                ret->push_back(line);
+        }
+        infile.close();
+        ret->sort(sortFct);
     }
-    infile.close();
-    ret->sort(sortFct);
     return ret;
 }
 

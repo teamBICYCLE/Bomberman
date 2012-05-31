@@ -21,7 +21,7 @@ public:
     ~Score(void);
 
 public:
-    const std::list<std::string> *getScores(void) const;
+    std::list<std::string> *getScores(void) const;
     void save(int) const;
 
 private:
