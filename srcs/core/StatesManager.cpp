@@ -48,7 +48,7 @@ void      StatesManager::initialize()
 
   gdl::Model::cut_animation(marvin->getModel(), "Take 001", 0, 35, "start");
   gdl::Model::cut_animation(marvin->getModel(), "Take 001", 36, 54, "run");
-  gdl::Model::cut_animation(marvin->getModel(), "Take 001", 55, 120, "stop");
+  gdl::Model::cut_animation(marvin->getModel(), "Take 001", 60, 120, "stop");
 
 
   Bomberman::ModelHandler::get().storeModel(

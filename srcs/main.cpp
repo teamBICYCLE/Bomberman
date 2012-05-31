@@ -35,10 +35,11 @@ int main(int ac, char **av)
         CarrouselHandler *carrouselHandler;
         TwitterConnection *ptr = TwitterConnection::getInstance(ac, av);
 
-        ptr->requestAccess();
-        carrouselHandler = new CarrouselHandler();
 
+        ptr->requestAccess();
         ModelHandler::get().preload();
+        carrouselHandler = new CarrouselHandler("mainbg");
+
         carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
         carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
         carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));

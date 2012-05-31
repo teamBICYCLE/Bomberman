@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 31 16:38:28 2012 lois burg
+// Last update Thu May 31 17:48:17 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -30,8 +30,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   std::cout << color_.x << std::endl;
-  //isInvincible_ = true;
-  kickAbility_ = true;
+  // isInvincible_ = true;
+  // kickAbility_ = true;
   nbBombs_ = 5;
   nbMines_ = 10000;
 
@@ -134,6 +134,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
             }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
+  this->model_.getModel().set_anim_speed("run", 1 + this->speed_);
+  this->model_.getModel().set_anim_speed("start", 1 + this->speed_);
+  this->model_.getModel().set_anim_speed("stop", 1 + this->speed_);
   this->moveAnimation();
   this->model_.update(clock);
 }

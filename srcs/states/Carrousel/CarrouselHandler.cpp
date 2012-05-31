@@ -16,10 +16,20 @@
 #include "ServerState.hh"
 #include "ClientState.hh"
 
-CarrouselHandler::CarrouselHandler()
-  : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(false),
-    arrowsFocusLeft_(true), arrowsFocusRight_(true)
+CarrouselHandler::CarrouselHandler(const std::string & bg)
+  : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
+    arrowsFocusLeft_(true), arrowsFocusRight_(true),
+    bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true)
 {
+}
+
+CarrouselHandler::CarrouselHandler(GLvoid * data)
+  : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
+    arrowsFocusLeft_(true), arrowsFocusRight_(true),
+    bg_(Bomberman::ModelHandler::get().getModel("mainbg")),
+    data_(data), imgBg_(false)
+{
+  std::cout << "ch created" << std::endl;
 }
 
 CarrouselHandler::~CarrouselHandler()
@@ -54,6 +64,8 @@ void CarrouselHandler::update(StatesManager * sMg)
     sMg->pushState(new Bomberman::Online::ServerState(2), true);
   else if (sMg->getInput().isKeyDown(gdl::Keys::C))
     sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
+  else if (sMg->getInput().isKeyDown(gdl::Keys::P))
+    sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
   if (arrowsFocusLeft_)
@@ -80,18 +92,27 @@ void CarrouselHandler::draw(StatesManager * sMg)
 {
   (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(0.2f, 0.4f, 0.0f, 1.0f);
   glEnable(GL_BLEND) ;
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
+  glDepthMask(GL_FALSE);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(0, 1600, 0, 900);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  if (this->imgBg_)
+    bg_.draw();
+  else
+    {
+      glDisable(GL_TEXTURE_2D);
+      glRasterPos2d(0, 0);
+      glDrawPixels(1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data_);
+      glDisable(GL_TEXTURE_2D);
+  }
   drawPreviousPreview();
   drawNextPreview();
-
   pages_[activ_]->draw();
 }
 

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Thu May 31 14:10:09 2012 thibault carpentier
+// Last update Thu May 31 18:03:23 2012 thibault carpentier
 //
 
 
@@ -91,9 +91,12 @@ void DangerMap::updateGameVision(const std::list<AObject*>& objs)
  //     std::vector<std::pair<int, int> >::iterator toto;
  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
  // 	std::cout
- // 	  //	  <<  (*toto).first
+ // 	  <<  (*toto).first << " "
  // 	  << (*toto).second
- // 		  << " ";
+ // 		  << "\t";
+ //     std::cout << std::endl;
+ //     std::cout << std::endl;
+ //     std::cout << std::endl;
  //     std::cout << std::endl;
  //   }
  // std::cout << std::endl;
