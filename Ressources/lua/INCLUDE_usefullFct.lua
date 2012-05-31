@@ -165,6 +165,20 @@ function getLessDangerousDirection(this, x, y, type)
    return (res_dir)
 end
 
+function centerPlayer(x, y)
+   local diffX = x - floor(x)
+   local diffY = y - floor(y)
+
+   if (diffX > 0.3)
+   then
+      return RIGHT
+   elseif (diffY > 0.3)
+   then
+      return UP
+   end
+   return NODIR
+end
+
 function trackPlayer(this, x, y, type)
    local dir =  { RIGHT   , LEFT    , UP      , DOWN     }
    local posX = { x + 1   , x - 1   , x       , x        }
