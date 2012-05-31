@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Wed May 30 16:09:27 2012 lois burg
+// Last update Thu May 31 10:51:43 2012 lois burg
 //
 
 #ifndef		__QUICKGAME_HH__
@@ -22,7 +22,7 @@ namespace	Bomberman
     virtual ~QuickGame();
 
   public:
-    virtual void	update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg);
+    virtual void	update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH);
     virtual void	draw(void);
 
   private:

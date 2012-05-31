@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Thu May 31 09:55:22 2012 lois burg
+// Last update Thu May 31 16:28:27 2012 lois burg
 //
 
 #include <iostream>
@@ -153,14 +153,17 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
-  if (nbPlayersAlive == 1 && !nbMonsters)
+  if (readyUp_ <= 0)
     {
-      while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
-	i++;
-      if (plyr)
-	winnerId_ = i;
-      win(mngr);
+      if (nbPlayersAlive == 1 && !nbMonsters)
+	{
+	  while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
+	    i++;
+	  if (plyr)
+	    winnerId_ = i;
+	  win(mngr);
+	}
+      else if (!nbPlayersAlive)
+	{}//push drawState (egalite)
     }
-  else if (!nbPlayersAlive)
-    {}//push drawState (egalite)
 }

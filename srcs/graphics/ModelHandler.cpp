@@ -38,12 +38,15 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
         "arrow-load-right");
 
+  /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
         "bg-quickgame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-adventure.png"),
         "bg-adventure");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-leaderboards.png"),
         "bg-leaderboards");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-customgame.png"),
+        "bg-customgame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

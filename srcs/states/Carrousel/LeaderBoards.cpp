@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 10:38:32 2012 lois burg
+// Last update Thu May 31 10:52:03 2012 lois burg
 //
 
 #include "LeaderBoards.hh"
@@ -20,11 +20,12 @@ LeaderBoards::~LeaderBoards()
 {
 }
 
-void	LeaderBoards::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg)
+void	LeaderBoards::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH)
 {
   (void)input;
   (void)gClock;
   (void)sMg;
+  (void)cH;
 }
 
 void	LeaderBoards::draw(void)

@@ -14,13 +14,16 @@
 # include <GDL/Input.hpp>
 # include "StatesManager.hh"
 
+class CarrouselHandler;
+
 class AContent
 {
 public:
   virtual ~AContent();
   virtual void    update(gdl::Input & input, gdl::GameClock & gClock,
-                         StatesManager * sMg) = 0;
+                         StatesManager * sMg, CarrouselHandler * cH) = 0;
   virtual void    draw(void) = 0;
 };
+
 
 #endif // ACONTENT_HH

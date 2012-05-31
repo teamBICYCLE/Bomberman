@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Wed May 30 16:15:12 2012 lois burg
+// Last update Thu May 31 16:23:35 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -54,6 +54,8 @@ namespace	Bomberman
     int                 winnerId_;
     int                 characterToUpdate_;
     gdl::Image          img_;
+    float		readyUp_;
+    float		lastTime_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

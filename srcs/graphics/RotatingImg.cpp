@@ -32,6 +32,7 @@ void RotatingImg::draw()
 {
   glTranslated(0.5, 0.5, 0);
   glRotated(angle_, 0.0f, 0.0f, 1.0f);
+  glScaled(0.8f, 0.8f, 0.8f);
   glTranslated(-0.5, -0.5, 0);
   if (img_.isValid())
     {
@@ -50,6 +51,7 @@ void RotatingImg::draw()
 
 void RotatingImg::update(gdl::GameClock &clock)
 {
+  (void)clock;
   angle_ += 1;
 }
 

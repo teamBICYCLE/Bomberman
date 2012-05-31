@@ -29,9 +29,9 @@ APage::~APage()
 }
 
 void APage::update(gdl::Input & input, gdl::GameClock &gClock,
-                   StatesManager * sMg)
+                   StatesManager * sMg, CarrouselHandler *cH)
 {
-  content_->update(input, gClock, sMg);
+  content_->update(input, gClock, sMg, cH);
 }
 
 void APage::draw()

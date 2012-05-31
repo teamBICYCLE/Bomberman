@@ -29,6 +29,12 @@ public:
   virtual void pause();
   virtual void resume();
 
+  void        setArrowFocus(bool val);
+  void        setArrowFocusLeft(bool val);
+  void        setArrowFocusRight(bool val);
+  bool        getArrowFocusLeft() const;
+  bool        getArrowFocusRight() const;
+
   void          drawPreviousPreview();
   void          drawNextPreview();
 
@@ -42,6 +48,8 @@ private:
   bool                   leftPressed_;
   bool                   rightPressed_;
   bool                   escPressed_;
+  bool                    arrowsFocusLeft_;
+  bool                    arrowsFocusRight_;
 };
 
 #endif // CARROUSELHANDLER_HH

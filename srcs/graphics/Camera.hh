@@ -41,7 +41,7 @@ static const float zFar = 1000.0f;
 
 protected:
   Vector3d    position_;
-  Vector3d    rotation_;
+  Vector3d    zoom_;
 };
 
 #include "AObject.hh"
