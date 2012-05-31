@@ -123,6 +123,7 @@ void KeysConfig::getFileData(int id)
 
 bool KeysConfig::fileIsValid(int id) const
 {
+    std::cout << "id : " << id << std::endl;
   if (id == 0 && fileData_[id].size() > 0)
     return true;
 
@@ -179,25 +180,9 @@ gdl::Keys::Key &KeysConfig::searchKey(eKeys k, int id)
 
 gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
 {
-    std::cout << std::endl << std::endl << "==========================" << std::endl;
-    aff();
     if (KeysConfig::fileIsValid(id))
         return searchKey(k, id);
     if (id == 0)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
-}
-
-void KeysConfig::aff(void)
-{
-    std::list<std::string>::iterator it;
-
-    for (it = fileData_[0].begin(); it != fileData_[0].end(); it++)
-    {
-        std::cout << (*it) << std::endl;
-    }
-    for (it = fileData_[1].begin(); it != fileData_[1].end(); it++)
-    {
-        std::cout << (*it) << std::endl;
-    }
 }

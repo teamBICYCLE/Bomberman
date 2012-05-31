@@ -153,7 +153,7 @@ end
 function getLessDangerousDirection(this, x, y, type)
    local danger = 0
    local res_dir = NODIR
---   print (x, y, "floor", floor(x),floor(y))  
+--   print (x, y, "floor", floor(x),floor(y))
    res_dir, danger = testCross(this, x, y, type)
 
    res_dir = testAngles(this, x, y, type, danger, res_dir)
@@ -161,8 +161,22 @@ function getLessDangerousDirection(this, x, y, type)
    then
       -- aller quelque part
    end
---   print("======", showdir(res_dir), "=======") 
+--   print("======", showdir(res_dir), "=======")
    return (res_dir)
+end
+
+function centerPlayer(x, y)
+   local diffX = x - floor(x)
+   local diffY = y - floor(y)
+
+   if (diffX > 0.3)
+   then
+      return RIGHT
+   elseif (diffY > 0.3)
+   then
+      return UP
+   end
+   return NODIR
 end
 
 function trackPlayer(this, x, y, type)
@@ -173,9 +187,9 @@ function trackPlayer(this, x, y, type)
    local dirY = { y       , y       , y - 0.05, y + 0.05 }
 
    local res_dir = NODIR
-   local res_ph = this:getPheromones(floor(x), floor(y))
+   local res_ph = this:getPheromones(x, y)
    for  k = 1, table.getn(dir) do
-      local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
+      local tmp = this:getPheromones(posX[k], posY[k])
       if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
        and this:isCrossable(dirX[k], dirY[k], type) == 1)
       then

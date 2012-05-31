@@ -124,7 +124,7 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
     std::stringstream strm;
     std::string realPath;
 
-    if (pdir = opendir(SAVE_PATH))
+    if ((pdir = opendir(SAVE_PATH)))
       {
         while((entry = readdir(pdir)))
           {

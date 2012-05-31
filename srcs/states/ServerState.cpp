@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Thu May 31 16:28:27 2012 lois burg
+// Last update Thu May 31 16:42:15 2012 lois burg
 //
 
 #include <iostream>
@@ -60,7 +60,7 @@ bool	ServerState::init()
   //END TEMPORARY
 
   try {
-    Map	map(13, 13, nbPlayers_, 0, 0);
+    Map	map(5, 5, nbPlayers_, 0, 0);
 
     characterToUpdate_ = 0;
     mapH_ = map.getHeight();
@@ -112,6 +112,7 @@ void	ServerState::update(StatesManager *mngr)
 
   select_.reset();
   select_.setNonBlock();
+
   std::for_each(clients_.begin(), clients_.end(), [this] (TCPSocket *s) -> void {
       if (s)
 	select_.addRead(s->getSockDesc());
