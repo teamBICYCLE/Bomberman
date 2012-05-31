@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 31 11:31:40 2012 lois burg
+// Last update Thu May 31 17:42:55 2012 lois burg
 //
 
 #include <algorithm>
@@ -25,7 +25,7 @@ using namespace	Bomberman;
 
 FireBlock::FireBlock(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, const Vector3d& dir)
   : Block(pos, rot, sz), dir_(dir), range_(2), lastTime_(-1), timer_(3.0f),
-    model_(ModelHandler::get().getModel("cube"))
+    model_(ModelHandler::get().getModel("fireblock"))
 {
   type_ = "FireBlock";
 }
@@ -40,7 +40,7 @@ FireBlock::FireBlock(const FireBlock &other)
 
 FireBlock::FireBlock()
   : Block(Vector3d(), Vector3d(), Vector3d()), dir_(Vector3d()), range_(2),
-    model_(ModelHandler::get().getModel("cube"))
+    model_(ModelHandler::get().getModel("fireblock"))
 {
   type_ = "FireBlock";
 }
