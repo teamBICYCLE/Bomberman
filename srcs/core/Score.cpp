@@ -1,7 +1,9 @@
 #include <algorithm>
 #include "Score.hh"
 
+
 Score::Score(void)
+    : twitter_(TwitterConnection::getInstance())
 {
 }
 
@@ -11,17 +13,55 @@ Score::~Score(void)
 
 bool sortFct(std::string one, std::string two)
 {
-    one = one.substr(one.find_last_of(" : "), (one.length() - one.find_last_of(" : ")));
-    two = one.substr(two.find_last_of(" : "), (two.length() - two.find_last_of(" : ")));
 
-    std::stringstream ss1(one);
-    std::stringstream ss2(two);
-    int ione;
-    int itwo;
+    if (one.find(SEP_SCORE) != std::string::npos &&
+            two.find(SEP_SCORE) != std::string::npos &&
+            !one.empty() && !two.empty())
+    {
+        one = one.substr(one.find_last_of(SEP_SCORE), (one.length() - one.find_last_of(SEP_SCORE)));
+        two = two.substr(two.find_last_of(SEP_SCORE), (two.length() - two.find_last_of(SEP_SCORE)));
 
-    ss1 >> ione;
-    ss2 >> itwo;
-    return (ione < itwo);
+        std::stringstream ss1(one);
+        std::stringstream ss2(two);
+        int ione;
+        int itwo;
+
+        ss1 >> ione;
+        ss2 >> itwo;
+        return (ione < itwo);
+    }
+    return false;
+}
+
+bool Score::isHighScore(int score) const
+{
+    std::list<std::string> lst;
+    std::string line;
+    std::ifstream infile;
+    std::string frontStr;
+    int front;
+
+    infile.open(PATH_SCORE);
+    if (infile.fail())
+        std::cerr << "Unable to open score file !" << std::endl;
+    while (!infile.eof())
+    {
+        getline(infile, line);
+        if (!line.empty())
+            lst.push_back(line);
+    }
+    infile.close();
+    lst.sort(sortFct);
+    if (!lst.empty())
+    {
+        frontStr = lst.front();
+        frontStr = frontStr.substr(frontStr.find_last_of(SEP_SCORE), (frontStr.length() - frontStr.find_last_of(SEP_SCORE)));
+        std::stringstream ss(frontStr);
+        ss >> front;
+        if (score > front || lst.size() == 1)
+            return true;
+    }
+    return false;
 }
 
 void Score::save(int score) const
@@ -30,12 +70,17 @@ void Score::save(int score) const
     time_t          t;
     char            buff[20];
 
-    if (leaderboards.good())
+    if (leaderboards.good() && score > 0)
     {
         t = time(NULL);
         strftime(buff, 20, "%d/%m %H:%M", localtime(&t));
-        leaderboards << buff << " : " << score << std::endl;
+        leaderboards << buff << SEP_SCORE << score << std::endl;
         leaderboards.close();
+    }
+    if (Score::isHighScore(score))
+    {
+        std::cout << "TWEEEEEET" << std::endl;
+        twitter_->sendTweet(score);
     }
 }
 
@@ -44,16 +89,15 @@ const std::list<std::string> *Score::getScores(void) const
     std::list<std::string> *ret = new std::list<std::string>;
     std::string line;
     std::ifstream infile;
-    int i = 0;
 
     infile.open(PATH_SCORE);
     if (infile.fail())
         std::cerr << "Unable to open score file !" << std::endl;
-    while (!infile.eof() || i < 10)
+    while (!infile.eof())
     {
         getline(infile, line);
-        ret->push_back(line);
-        ++i;
+        if (!line.empty())
+            ret->push_back(line);
     }
     infile.close();
     ret->sort(sortFct);

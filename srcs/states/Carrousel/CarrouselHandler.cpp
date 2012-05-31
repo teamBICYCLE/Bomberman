@@ -50,12 +50,10 @@ void CarrouselHandler::cleanUp()
 void CarrouselHandler::update(StatesManager * sMg)
 {
   // a degager
-  if (sMg->getInput().isKeyDown(gdl::Keys::S))
+  if (sMg->getInput().isKeyDown(gdl::Keys::H))
     sMg->pushState(new Bomberman::Online::ServerState(2), true);
   else if (sMg->getInput().isKeyDown(gdl::Keys::C))
     sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
-  else if (sMg->getInput().isKeyDown(gdl::Keys::A))
-    sMg->pushState(new Bomberman::AdventureState(), true);
   else if (sMg->getInput().isKeyDown(gdl::Keys::P))
     sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
@@ -82,6 +80,7 @@ void CarrouselHandler::update(StatesManager * sMg)
 
 void CarrouselHandler::draw(StatesManager * sMg)
 {
+  (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glEnable(GL_BLEND) ;

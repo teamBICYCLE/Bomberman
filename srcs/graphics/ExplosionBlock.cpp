@@ -47,6 +47,7 @@ void ExplosionBlock::draw()
 
 void ExplosionBlock::update(gdl::GameClock &clock)
 {
+  (void)clock;
   iter_++;
   iter_ %= 16 * (4 * 4);
 }

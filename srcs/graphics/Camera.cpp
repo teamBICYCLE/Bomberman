@@ -7,13 +7,15 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
-#include "Camera.hh"
+#include <algorithm>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <algorithm>
 #include <SFML/Window.hpp>
+#include <algorithm>
 #include "Player.hh"
+#include "Camera.hh"
 
 Camera::Camera()
   :position_(5.f, 3.f, 1.0f)

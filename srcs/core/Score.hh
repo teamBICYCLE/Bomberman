@@ -8,8 +8,10 @@
 # include   <fstream>
 # include   <iostream>
 # include   <sstream>
+#include    "TwitterConnection.hh"
 
 # define PATH_SCORE "Ressources/Scores/leaderboards.sc"
+# define SEP_SCORE " - "
 
 class Score
 {
@@ -21,6 +23,12 @@ public:
 public:
     const std::list<std::string> *getScores(void) const;
     void save(int) const;
+
+private:
+    bool isHighScore(int score) const;
+
+private:
+    TwitterConnection *twitter_;
 };
 
 #endif // SCORE_HH

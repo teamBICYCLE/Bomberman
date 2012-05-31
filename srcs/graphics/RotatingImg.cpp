@@ -51,6 +51,7 @@ void RotatingImg::draw()
 
 void RotatingImg::update(gdl::GameClock &clock)
 {
+  (void)clock;
   angle_ += 1;
 }
 
