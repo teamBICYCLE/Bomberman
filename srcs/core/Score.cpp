@@ -11,8 +11,8 @@ Score::~Score(void)
 
 bool sortFct(std::string one, std::string two)
 {
-    one = one.substr(one.find_last_of(" : "), (one.length() - one.find_last_of(" : ")));
-    two = one.substr(two.find_last_of(" : "), (two.length() - two.find_last_of(" : ")));
+    one = one.substr(one.find_last_of(" - "), (one.length() - one.find_last_of(" - ")));
+    two = one.substr(two.find_last_of(" - "), (two.length() - two.find_last_of(" - ")));
 
     std::stringstream ss1(one);
     std::stringstream ss2(two);

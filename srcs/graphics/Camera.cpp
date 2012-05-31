@@ -12,6 +12,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <SFML/Window.hpp>
+#include <algorithm>
 #include "Player.hh"
 
 Camera::Camera()

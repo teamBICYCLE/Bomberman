@@ -27,6 +27,7 @@ PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1)
 {
   Character::CharacterId = 0;
+  img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
