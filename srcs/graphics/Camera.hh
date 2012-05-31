@@ -36,7 +36,7 @@ private:
    const float fov = 70.0f;
    const float winxSize = 1600.0f;
    const float winySize = 900.0f;
-   const float zNear = 0.1f;
+   const float zNear = -1000.0f;
    const float zFar = 1000.0f;
 
 protected:

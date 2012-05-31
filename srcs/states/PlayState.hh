@@ -54,6 +54,8 @@ namespace	Bomberman
     int                 winnerId_;
     int                 characterToUpdate_;
     gdl::Image          img_;
+    gdl::Image          bg_;
+    bool                escapeDisable_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

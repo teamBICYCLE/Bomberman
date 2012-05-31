@@ -11,13 +11,15 @@
 # define  CARROUSELHANDLER_HH
 
 # include <vector>
+# include <GL/gl.h>
 # include "AGameState.hh"
 # include "APage.hh"
 
 class CarrouselHandler : public AGameState
 {
 public:
-  CarrouselHandler();
+  CarrouselHandler(const std::string &bg);
+  CarrouselHandler(GLvoid * data);
   virtual ~CarrouselHandler();
 
   void          pushPage(APage *);
@@ -50,6 +52,9 @@ private:
   bool                   escPressed_;
   bool                    arrowsFocusLeft_;
   bool                    arrowsFocusRight_;
+  flatTexture             bg_;
+  GLvoid                  *data_;
+  bool                    imgBg_;
 };
 
 #endif // CARROUSELHANDLER_HH

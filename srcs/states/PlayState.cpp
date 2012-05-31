@@ -20,20 +20,25 @@
 #include <GDL/Text.hpp>
 
 #include "SaveHandler.hh"
+#include "Carrousel/CarrouselHandler.hh"
+#include "Carrousel/LoadContent.hh"
 
 using namespace	Bomberman;
 
 PlayState::PlayState(void)
-  : bestScore_(0), winnerId_(0), characterToUpdate_(-1)
-{
-  Character::CharacterId = 0;
-}
-
-PlayState::PlayState(const std::list<AObject*> *list)
-    : objs_(*list), winnerId_(0), characterToUpdate_(-1)
+  : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
+  bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
+}
+
+PlayState::PlayState(const std::list<AObject*> *list)
+    : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false)
+{
+  Character::CharacterId = 0;
+  img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
+  bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
   bestScore_ = 0;
   characterToUpdate_ = -1;
   mapH_ = PlayState::getHeight(list);
@@ -48,7 +53,6 @@ bool  PlayState::init()
 {
   bool	success;
 
-  img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   success = true;
   try {
 
@@ -124,7 +128,20 @@ void  PlayState::update(StatesManager * sMg)
       else
         it = objs_.erase(it);
     }
-  // bind touche echap
+  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
+    {
+      GLvoid    *data = (unsigned char *)(calloc(1600 * 900 * 3, sizeof(unsigned char)));
+      CarrouselHandler  *cH;
+
+      glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
+      cH = new CarrouselHandler(data);
+      std::cout << "failed to read" << std::endl;
+      cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+      sMg->pushState(cH);
+      escapeDisable_ = true;
+    }
+  else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
+    escapeDisable_ = false;
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
@@ -170,11 +187,32 @@ void	PlayState::saveScore(void) const
 
 void  PlayState::draw(StatesManager * sMg)
 {
+  double      h = this->mapH_, w = this->mapW_;
   (void)sMg;
   camera_.draw();
   camera_.drawRepere();
+
+  glDepthMask(GL_FALSE);
   glPushMatrix();
-  //    glTranslated(-0.5f, -0.5f, 0);
+  glEnable(GL_TEXTURE_2D);
+  if (bg_.isValid())
+    {
+    bg_.bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+  glColor3d(0, 1, 0);
+  glBegin(GL_QUADS);
+  glTexCoord2d(1, 0); glVertex3d(-w, -h, 0);
+  glTexCoord2d(0, 0); glVertex3d(w + (2*w), -h, 0);
+  glTexCoord2d(0, 1); glVertex3d(w + (2*w) , h + (2*h), 0);
+  glTexCoord2d(1, 1); glVertex3d(-w, h + (2*h), 0);
+  glEnd();
+  glPopMatrix();
+  glDisable(GL_TEXTURE_2D);
+  glDepthMask(GL_TRUE);
+
+  glPushMatrix();
   glEnable(GL_TEXTURE_2D);
   if (img_.isValid())
     {
@@ -194,13 +232,13 @@ void  PlayState::draw(StatesManager * sMg)
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glPopMatrix();
+
   glPushMatrix();
   std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
       obj->draw();
     });
   glPopMatrix();
   glFlush();
-  // basic fps time handling
 }
 
 void  PlayState::pause()

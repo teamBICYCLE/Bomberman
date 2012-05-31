@@ -33,9 +33,9 @@ int main(int ac, char **av)
         StatesManager   mg("Bomberman v0.01");
         CarrouselHandler *carrouselHandler;
 
-        carrouselHandler = new CarrouselHandler();
-
         ModelHandler::get().preload();
+        carrouselHandler = new CarrouselHandler("mainbg");
+
         carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "right", "left"));
         // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
         carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
