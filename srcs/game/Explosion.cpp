@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 11 11:45:40 2012 lois burg
-// Last update Sat May 26 17:49:37 2012 thibault carpentier
+// Last update Wed May 30 19:19:10 2012 lois burg
 //
 
 #include "Explosion.hh"

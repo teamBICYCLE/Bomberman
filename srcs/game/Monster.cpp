@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Wed May 30 17:42:47 2012 thibault carpentier
+// Last update Thu May 31 16:38:11 2012 lois burg
 //
 
 #include <algorithm>
@@ -20,7 +20,7 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("bombman"))
 {
-  isInvincible_ = true;
+  // isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -221,7 +221,8 @@ void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
   (void)x;
   (void)y;
   (void)objs;
-  map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
+  if (map[pos_.y][pos_.x].second == PHEROMONE_PLAYER)
+    map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
 }
 
 // void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,

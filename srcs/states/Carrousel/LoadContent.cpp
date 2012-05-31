@@ -70,6 +70,7 @@ void LoadContent::update(gdl::Input &input, gdl::GameClock &gClock, StatesManage
 {
     (void)gClock;
     (void)sMg;
+    (void)cH;
     if (input.isKeyDown(gdl::Keys::F5) && !refresh_)
         refresh();
     if (input.isKeyDown(gdl::Keys::Up) && !up_)

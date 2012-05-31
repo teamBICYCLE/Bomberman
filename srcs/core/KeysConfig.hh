@@ -67,8 +67,6 @@ namespace Bomberman
     std::map<const std::string, gdl::Keys::Key> ref_;
     std::map<eKeys, const std::string> config_;
     std::vector< std::list<std::string> > fileData_;
-
-    void aff(void);
   };
 }
 

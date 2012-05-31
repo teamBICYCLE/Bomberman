@@ -35,13 +35,34 @@ void      ModelHandler::preload()
         "bg-load");
   storeModel(new flatTexture("Ressources/Images/Menu/overlay-load.png"),
         "overlay-load");
+
+  /* Arrows */
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-left.png"),
         "arrow-load-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
         "arrow-load-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-adventure-left.png"),
+        "arrow-adventure-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-adventure-right.png"),
+        "arrow-adventure-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-keybind-left.png"),
+        "arrow-keybind-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-keybind-right.png"),
+        "arrow-keybind-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-left.png"),
+        "arrow-settings-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-right.png"),
+        "arrow-settings-right");
 
+  /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
         "bg-quickgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-adventure.png"),
+        "bg-adventure");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-leaderboards.png"),
+        "bg-leaderboards");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-customgame.png"),
+        "bg-customgame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

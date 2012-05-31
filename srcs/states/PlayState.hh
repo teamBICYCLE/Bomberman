@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Wed May 30 16:15:12 2012 lois burg
+// Last update Thu May 31 16:23:35 2012 lois burg
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -40,7 +40,7 @@ namespace	Bomberman
     virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
   protected:
-    void	saveScore(void) const;
+    //void	saveScore(void) const;
     void	clearObjs(void);
     uint    getHeight(const std::list<AObject*> *list) const;
     uint    getWidth(const std::list<AObject*> *list) const;
@@ -56,6 +56,8 @@ namespace	Bomberman
     gdl::Image          img_;
     gdl::Image          bg_;
     bool                escapeDisable_;
+    float		readyUp_;
+    float		lastTime_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

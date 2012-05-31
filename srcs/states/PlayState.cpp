@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 17:43:51 2012 thibault carpentier
+// Last update Thu May 31 16:41:42 2012 lois burg
 //
 
 #include <iostream>
@@ -18,15 +18,16 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
-
 #include "SaveHandler.hh"
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
+#include "Score.hh"
 
 using namespace	Bomberman;
 
 PlayState::PlayState(void)
-  : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false)
+  : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
+  readyUp_(3.0f), lastTime_(-1)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -34,7 +35,8 @@ PlayState::PlayState(void)
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
-    : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false)
+    : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
+      readyUp_(3.0f), lastTime_(-1)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -56,8 +58,8 @@ bool  PlayState::init()
   success = true;
   try {
 
-    Map	map(13, 13, 1, 10, 0);
-    //  Map         map("Ressources/Map/map2");
+    //    Map	map(13, 13, 1, 10, 0);
+    Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -85,20 +87,28 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
-  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-    delete (*it);
+ for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+   delete (*it);
   objs_.clear();
 }
 
-void  PlayState::update(StatesManager * sMg)
+void  PlayState::update(StatesManager *sMg)
 {
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
   bool		update_ia = true;
+  float		now = sMg->getGameClock().getTotalGameTime();
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
-  for (it = objs_.begin(); it != objs_.end();)
+  if (lastTime_ == -1)
+    lastTime_ = now;
+  if (readyUp_ > 0)
+    {
+      readyUp_ -= now - lastTime_;
+      lastTime_ = now;
+    }
+  for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
         {
@@ -142,26 +152,30 @@ void  PlayState::update(StatesManager * sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  checkEndGame(sMg, nbPlayers, nbMonsters);
+  PlayState::checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)
 {
-  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
-  saveScore();
-  mngr->popState();//passer sur winstate
+    Score score;
+
+    std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
+    score.save(bestScore_);
+    mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
 {
-  std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
-  saveScore();
-  mngr->popState();//passer sur gameOverstate
+    Score score;
+
+    std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
+    score.save(bestScore_);
+    mngr->popState();//passer sur gameOverstate
 }
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 {
-  if (bestScore_ != -1)
+  if (bestScore_ != -1 && readyUp_ <= 0)
     {
       if (!nbPlayers)
         gameOver(mngr);
@@ -170,20 +184,18 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
     }
 }
 
-void	PlayState::saveScore(void) const
-{
-  std::ofstream	leaderboards("./Ressources/scores/leaderboards.sc", std::ios::app);
+//void	PlayState::saveScore(void) const
+//{
+//  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
 
-  if (leaderboards.good())
-    {
-      std::cout << bestScore_ << std::endl;
-      leaderboards << "AAAA: " << bestScore_ << std::endl;
-      leaderboards.close();
-    }
-  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
-}
-
-#define MULTZ 1.0f
+//  if (leaderboards.good())
+//    {
+//      std::cout << bestScore_ << std::endl;
+//      leaderboards << "AAAA: " << bestScore_ << std::endl;
+//      leaderboards.close();
+//    }
+//  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
+//}
 
 void  PlayState::draw(StatesManager * sMg)
 {

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 12:15:33 2012 lois burg
+// Last update Thu May 31 16:41:05 2012 lois burg
 //
 
 #include <iostream>
@@ -58,8 +58,8 @@ bool	AdventureState::init()
 void	AdventureState::cleanUp()
 {
   std::cout << "clean up Adventure" << std::endl;
-  // delete curMap_;
-  // PlayState::cleanUp();
+  delete curMap_;
+  PlayState::cleanUp();
 }
 
 void	AdventureState::win(StatesManager *mngr)

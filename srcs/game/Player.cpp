@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 30 17:08:34 2012 lois burg
+// Last update Thu May 31 16:38:28 2012 lois burg
 //
 
 #include <algorithm>
@@ -22,7 +22,7 @@ using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2),
-    bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
+    bombTime_(3.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
   srand(id_);
@@ -30,7 +30,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   std::cout << color_.x << std::endl;
-  isInvincible_ = true;
+  //isInvincible_ = true;
   kickAbility_ = true;
   nbBombs_ = 5;
   nbMines_ = 10000;
@@ -333,6 +333,7 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
+  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));
@@ -459,17 +460,19 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
   (void)objs;
   map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
   if (pos_.y < y - 1)
-      map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 10;
-  if (pos_.x < x && pos_.y < y - 1)
-    map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 10;
+    map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 10;
+  if (pos_.x < x - 1 && pos_.y < y - 1)
+    map[pos_.y + 1][pos_.x + 1].second = PHEROMONE_PLAYER - 20;
   if (pos_.x < x - 1)
     map[pos_.y][pos_.x + 1].second = PHEROMONE_PLAYER - 10;
   if (pos_.y > 0)
-      map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 10;
+    map[pos_.y - 1][pos_.x].second = PHEROMONE_PLAYER - 10;
   if (pos_.x > 0 && pos_.y > 0)
-    map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 10;
+    map[pos_.y - 1][pos_.x - 1].second = PHEROMONE_PLAYER - 20;
   if (pos_.x > 0)
     map[pos_.y][pos_.x - 1].second = PHEROMONE_PLAYER - 10;
   if (pos_.x > 0 && pos_.y < y - 1)
-    map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 10;
+    map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 20;
+  if (pos_.x < x - 1 && pos_.y > 0)
+    map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 20;
 }
