@@ -40,6 +40,10 @@ void      ModelHandler::preload()
 
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
         "bg-quickgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-adventure.png"),
+        "bg-adventure");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-leaderboards.png"),
+        "bg-leaderboards");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
