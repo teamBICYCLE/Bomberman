@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Sun May 27 18:37:29 2012 lois burg
+// Last update Thu May 31 14:21:47 2012 thibault carpentier
 //
 
 #include "Mine.hh"
@@ -61,7 +61,6 @@ void	Mine::interact(Explosion *e, std::list<AObject*>& objs)
 
 void	Mine::destroy(std::list<AObject*>& objs)
 {
-    std::cout << "* POUF *" << std::endl;
   explode(objs);
   if (!ownerCollide_)
     owner_.setBombCollide(true);

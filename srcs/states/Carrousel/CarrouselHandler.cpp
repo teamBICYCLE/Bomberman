@@ -56,6 +56,8 @@ void CarrouselHandler::update(StatesManager * sMg)
     sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
   else if (sMg->getInput().isKeyDown(gdl::Keys::A))
     sMg->pushState(new Bomberman::AdventureState(), true);
+  else if (sMg->getInput().isKeyDown(gdl::Keys::P))
+    sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
   if (arrowsFocusLeft_)

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May  5 11:46:41 2012 thibault carpentier
-// Last update Tue May 22 14:47:24 2012 thibault carpentier
+// Last update Thu May 31 15:06:49 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -174,10 +174,10 @@ bool Script::callFct(int nbRet)
       if (lua_isfunction(VM_.getLua(), (-1 * (nbArgs_ + 1) - 1)))
 	{
 	  if (lua_pcall(VM_.getLua(), nbArgs_ + 1, nbRet, 0))
-      {
-std::cout << lua_tostring(VM_.getLua(), -1) << std::endl;
-	    throw Failure("callFct", "Error, on lua_pcall");
-      }
+	    {
+	      std::cout << lua_tostring(VM_.getLua(), -1) << std::endl;
+	      throw Failure("callFct", "Error, on lua_pcall");
+	    }
 	  getReturn(VM_, fctName_);
 	  lua_pop(VM_.getLua(), nbRet);
 	  return (true);

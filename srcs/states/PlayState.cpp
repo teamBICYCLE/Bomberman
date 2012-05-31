@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Wed May 30 17:43:51 2012 thibault carpentier
+// Last update Thu May 31 14:45:10 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -53,8 +53,8 @@ bool  PlayState::init()
   success = true;
   try {
 
-    Map	map(13, 13, 1, 10, 0);
-    //  Map         map("Ressources/Map/map2");
+    //    Map	map(13, 13, 1, 10, 0);
+    Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -82,8 +82,8 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
-//  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-//    delete (*it);
+ for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+   delete (*it);
   objs_.clear();
 }
 

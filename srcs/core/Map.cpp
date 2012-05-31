@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Wed May 30 09:59:50 2012 lois burg
+// Last update Thu May 31 12:10:32 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -142,10 +142,8 @@ void				Map::generatePlayers(void)
   postab.push_back(std::make_pair(width_ - 1, 0));
   postab.push_back(std::make_pair(width_ - 1, height_ - 1));
   if (nbPlayers_ <= 4)
-  {
-      for (uint i = 0; i < nbPlayers_; ++i)
-          placePlayer(postab[i].first, postab[i].second);
-  }
+    for (uint i = 0; i < nbPlayers_; ++i)
+      placePlayer(postab[i].first, postab[i].second);
 }
 
 void				Map::placePlayer(uint x, uint y)
@@ -239,13 +237,13 @@ void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)
   std::list<AObject*>::iterator	it;
 
   for (it = terrain_.begin(); it != terrain_.end(); ++it)
-  {
+    {
       if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
-      {
+	{
           it = terrain_.erase(it);
           break;
-      }
-  }
+	}
+    }
   terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
@@ -297,7 +295,7 @@ void Map::addBlocks(const std::string &l, int y, std::list<AObject*> *tmp)
                l[i] == MAP_FILE_FIREBLOCK_DOWN ||
                l[i] == MAP_FILE_FIREBLOCK_LEFT ||
                l[i] == MAP_FILE_FIREBLOCK_RIGT)
-          tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(ref[l[i]].first, ref[l[i]].second, 0)));
+	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(ref[l[i]].first, ref[l[i]].second, 0)));
     }
 }
 
@@ -334,19 +332,15 @@ void Map::addPlayers(std::list<std::string> &map)
 void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
 {
     for (uint i = 0; i != l.length(); i++)
-    {
-        if (l[i] == MAP_FILE_GHOST)
-            tmp->push_back(new Ghost(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
-    }
+      if (l[i] == MAP_FILE_GHOST)
+	tmp->push_back(new Ghost(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
 {
     for (uint i = 0; i != l.length(); i++)
-    {
-        if (l[i] == MAP_FILE_MONSTER)
-            tmp->push_back(new Monster(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
-    }
+      if (l[i] == MAP_FILE_MONSTER)
+	tmp->push_back(new Monster(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void Map::mapFileIsValid(std::list<std::string> &map) const
@@ -355,10 +349,8 @@ void Map::mapFileIsValid(std::list<std::string> &map) const
     std::list<std::string>::const_iterator it;
 
     for (it = map.begin(); it != map.end(); it++)
-    {
-        if (it->length() > max)
-            throw Map::Failure("mapFileIsValid", "Map is not valid !");
-    }
+      if (it->length() > max)
+	throw Map::Failure("mapFileIsValid", "Map is not valid !");
 }
 
 void Map::setFromFile(std::list<std::string> &map)
@@ -369,8 +361,8 @@ void Map::setFromFile(std::list<std::string> &map)
     uint y = 0;
     Thinking::Brain		*b;
 
-    height_ = map.front().length();
-    width_ = map.size();
+    height_ = map.size();
+    width_ = map.front().length();
     b = new Thinking::Brain(width_, height_);
     Map::addPlayers(map);
     for (itm = map.begin(); itm != map.end(); itm++)
