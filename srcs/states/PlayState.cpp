@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 31 10:21:28 2012 thibault carpentier
+// Last update Thu May 31 14:45:10 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -81,8 +81,8 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
-//  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-//    delete (*it);
+ for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+   delete (*it);
   objs_.clear();
 }
 
