@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Thu May 31 17:12:33 2012 lois burg
+// Last update Thu May 31 18:48:26 2012 lois burg
 //
 
 #include <GDL/ModelException.hpp>
@@ -20,6 +20,7 @@
 #include "Carrousel/CustomGame.hh"
 #include "Carrousel/AdventureGame.hh"
 #include "Carrousel/LeaderBoards.hh"
+# include "IntroState.hh"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ void  loadModels()
 int main(int ac, char **av)
 {
     try {
-        StatesManager   mg("Bomberman v0.01");
+        StatesManager   mg("Bomberman v0.8");
         CarrouselHandler *carrouselHandler;
         TwitterConnection *ptr = TwitterConnection::getInstance(ac, av);
 
@@ -47,7 +48,7 @@ int main(int ac, char **av)
         carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
         carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
 
-        mg.start(carrouselHandler);
+        mg.start(new IntroState());
     }
     catch (gdl::ModelException * e)
     {

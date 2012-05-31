@@ -84,7 +84,7 @@ QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += ./srcs/core/ ./srcs/game/ ./srcs/ia/ ./srcs/graphics/ ./srcs/states/ ./libs
 
-LIBS	+= -L libs -lgdl_gl -lkqoauth -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
+LIBS	+= -L libs -lgdl_gl -lkqoauth -lsfml-audio -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
 
 
 HEADERS += \
