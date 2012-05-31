@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Wed May 30 17:04:03 2012 thibault carpentier
+// Last update Thu May 31 18:41:52 2012 thibault carpentier
 //
 
 #ifndef		__MONSTER_HH__
@@ -20,6 +20,7 @@
 namespace	Bomberman
 {
 # define MONSTER_SCRIPT "./Ressources/lua/Monster.lua"
+# define MONSTER_SPEED 0.05
 
   class Monster : public Character
   {

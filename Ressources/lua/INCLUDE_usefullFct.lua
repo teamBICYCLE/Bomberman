@@ -64,8 +64,8 @@ function testCross(this, x, y, type)
    local dir =  { RIGHT   , LEFT    , UP      , DOWN   }
    local posX = { x + 1   , x - 1   , x       , x       }
    local posY = { y       , y       , y - 1   , y + 1   }
-   local dirX = { x + 0.05   , x - 0.05   , x       , x       }
-   local dirY = { y       , y       , y - 0.05   , y + 0.05   }   
+   local dirX = { x + SPEED   , x - SPEED   , x       , x       }
+   local dirY = { y       , y       , y - SPEED   , y + SPEED   }   
    local res_dir = NODIR
    local danger = getZoneDanger(this, x, y)
    
@@ -85,10 +85,10 @@ function testCross(this, x, y, type)
 end
 
 function UpperRight(this, x, y, type)
-   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + 0.05, y, type) == 1)
+   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + SPEED, y, type) == 1)
    then
       return (RIGHT)
-   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - 0.05, type) == 1)
+   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - SPEED, type) == 1)
    then
       return (UP)
    end
@@ -96,10 +96,10 @@ function UpperRight(this, x, y, type)
 end
 
 function UpperLeft(this, x, y, type)
-   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - SPEED, y, type)== 1)
    then
       return (LEFT)
-   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - SPEED, type)== 1)
    then
       return (UP)
    end
@@ -107,10 +107,10 @@ function UpperLeft(this, x, y, type)
 end
 
 function BottomRight(this, x, y, type)
-   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + SPEED, y, type)== 1)
    then
       return (RIGHT)
-   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + SPEED, type)== 1)
    then
       return (DOWN)
    end
@@ -118,10 +118,10 @@ function BottomRight(this, x, y, type)
 end
 
 function BottomLeft(this, x, y, type)
-   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - SPEED, y, type)== 1)
    then
       return (LEFT)
-   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + SPEED, type)== 1)
    then
       return (DOWN)
    end
@@ -196,8 +196,8 @@ function trackPlayer(this, x, y, type)
    local dir =  { RIGHT   , LEFT    , UP      , DOWN     }
    local posX = { x + 1   , x - 1   , x       , x        }
    local posY = { y       , y       , y - 1   , y + 1    }
-   local dirX = { x + 0.05, x - 0.05 , x      , x        }
-   local dirY = { y       , y       , y - 0.05, y + 0.05 }
+   local dirX = { x + SPEED, x - SPEED , x      , x        }
+   local dirY = { y       , y       , y - SPEED, y + SPEED }
 
    local res_dir = NODIR
    local res_ph = this:getPheromones(x, y)
