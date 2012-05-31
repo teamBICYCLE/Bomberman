@@ -1,13 +1,3 @@
-//
-// LeaderBoards.hh for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
-//
-// Made by lois burg
-// Login   <burg_l@epitech.net>
-//
-// Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Thu May 31 10:51:53 2012 lois burg
-//
-
 #ifndef		__LEADERBOARDS_HH__
 # define	__LEADERBOARDS_HH__
 
@@ -15,6 +5,7 @@
 # include   <GDL/GameClock.hpp>
 # include   <GDL/Input.hpp>
 # include   <GDL/Text.hpp>
+# include   <list>
 # include	"AContent.hh"
 # include   "Score.hh"
 

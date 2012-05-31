@@ -16,6 +16,7 @@ LeaderBoards::LeaderBoards()
 : AContent(), score_(new Score()), text_(new gdl::Text())
 {
     text_->setFont("Ressources/Fonts/Dimbo.ttf");
+    text_->setSize(40);
     refresh_ = false;
     LeaderBoards::refresh();
 }
@@ -45,19 +46,19 @@ void	LeaderBoards::draw(void)
     glPushMatrix();
     std::list<std::string>::iterator it;
     int i = 0;
-    int align = 800;
-    int y = 310;
+    int align = 665;
+    int y = 295;
+    std::string score;
 
-    if (list_->size() > 0)
+    for (it = list_->begin(); it != list_->end() && i != 5; it++)
     {
-        for (it = list_->begin(); it != list_->end() && i != 5; it++)
-        {
-            text_->setText(*it);
-            text_->setPosition(align, y);
-            text_->draw();
-            y += 183;
-            i++;
-        }
+        score = *it;
+        score.append(" pts");
+        text_->setText(score);
+        text_->setPosition(align, y);
+        text_->draw();
+        y += 100;
+        i++;
     }
     glPopMatrix();
 }

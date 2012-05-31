@@ -52,6 +52,7 @@ bool Score::isHighScore(int score) const
     }
     infile.close();
     lst.sort(sortFct);
+    lst.reverse();
     if (!lst.empty())
     {
         frontStr = lst.front();
@@ -90,7 +91,6 @@ std::list<std::string> *Score::getScores(void) const
     std::string line;
     std::ifstream infile;
 
-    ret->push_back("Empty");
     infile.open(PATH_SCORE);
     if (!infile.fail())
     {
@@ -102,6 +102,7 @@ std::list<std::string> *Score::getScores(void) const
         }
         infile.close();
         ret->sort(sortFct);
+        ret->reverse();
     }
     return ret;
 }

@@ -32,8 +32,8 @@
 
 bool  IntroState::init(void)
 {
-  ringerBuf_.loadFromFile("./Ressources/Sounds/Intro/bike_bell.ogg");
-  ringer_.setBuffer(ringerBuf_);
+  //  ringerBuf_.loadFromFile("./Ressources/Sounds/Intro/bike_bell.ogg");
+  //ringer_.setBuffer(ringerBuf_);
   this->bicycle_ = gdl::Image::load("./Ressources/Images/Intro/bicycle_noalpha.png");
   x_ = -1700;
   alpha_ = 0.96f;
@@ -49,28 +49,28 @@ void  IntroState::cleanUp()
 void  IntroState::update(StatesManager * sMg)
 {
 
-  if (x_ < -240)
-    x_+= 10;
-  else if (!sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
-    {
-      ringer_.play();
-      sndPlayed_ = true;
-    }
-  if (sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
-    {
-      CarrouselHandler *carrouselHandler;
+  // if (x_ < -240)
+  //   x_+= 10;
+  // else if (!sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
+  //   {
+  //     ringer_.play();
+  //     sndPlayed_ = true;
+  //   }
+  // if (sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
+  //   {
+  //     CarrouselHandler *carrouselHandler;
 
-      carrouselHandler = new CarrouselHandler("mainbg");
+  //     carrouselHandler = new CarrouselHandler("mainbg");
 
-      carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
-      carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
-      carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
-      // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
-      carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
-      sMg->changeState(carrouselHandler);
-    }
-  std::cout << "update Intro" << std::endl;
+  //     carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
+  //     carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
+  //     carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
+  //     // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
+  //     carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+  //     carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
+  //     sMg->changeState(carrouselHandler);
+  //   }
+  // std::cout << "update Intro" << std::endl;
 }
 
 void  IntroState::draw(StatesManager * sMg)
