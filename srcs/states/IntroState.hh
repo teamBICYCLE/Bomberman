@@ -11,17 +11,27 @@
 #define INTROSTATE_HH
 
 #include "AGameState.hh"
+#include <GDL/Image.hpp>
+#include <SFML/Audio.hpp>
 
 class IntroState : public AGameState
 {
 public:
-  virtual bool init(gdl::GameClock *clock, gdl::Input *input);
+  virtual bool init(void);
   virtual void cleanUp();
 
   virtual void update(StatesManager *);
   virtual void draw(StatesManager *);
   virtual void pause();
   virtual void resume();
+
+private:
+  int               x_;
+  float             alpha_;
+  sf::SoundBuffer   ringerBuf_;
+  sf::Sound         ringer_;
+  gdl::Image        bicycle_;
+  bool              sndPlayed_;
 };
 
 #endif // INTROSTATE_HH
