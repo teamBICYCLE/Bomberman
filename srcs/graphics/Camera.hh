@@ -36,12 +36,12 @@ private:
 //   const float fov = 70.0f;
 //   const float winxSize = 1600.0f;
 //   const float winySize = 900.0f;
-//   const float zNear = 0.f;
+//   const float zNear = 0.1f;
 //   const float zFar = 1000.0f;
 
 protected:
   Vector3d    position_;
-  Vector3d    rotation_;
+  Vector3d    zoom_;
 };
 
 #include "AObject.hh"

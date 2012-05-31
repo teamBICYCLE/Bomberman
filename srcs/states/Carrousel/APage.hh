@@ -17,6 +17,8 @@
 # include "flatTexture.hh"
 # include "AContent.hh"
 
+class CarrouselHandler;
+
 class APage
 {
 public:
@@ -25,7 +27,7 @@ public:
   virtual ~APage();
 
   virtual void  update(gdl::Input & input, gdl::GameClock &gClock,
-                       StatesManager * sMg);
+                       StatesManager * sMg, CarrouselHandler * cH);
   virtual void  draw();
   virtual void  drawLeft();
   virtual void  drawRight();
@@ -36,5 +38,7 @@ private:
   flatTexture   leftImg_;
   flatTexture   rightImg_;
 };
+
+# include "CarrouselHandler.hh"
 
 #endif // APAGE_HH
