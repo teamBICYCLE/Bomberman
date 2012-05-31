@@ -23,11 +23,6 @@ ModelHandler::~ModelHandler()
 
 void      ModelHandler::preload()
 {
-  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
-        "left");
-  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
-        "right");
-
   /* Save load */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-load.png"),
         "bg-load");
@@ -35,6 +30,8 @@ void      ModelHandler::preload()
         "overlay-load");
 
   /* Arrows */
+  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
+        "custom_arrows");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-left.png"),
         "arrow-load-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
@@ -51,6 +48,10 @@ void      ModelHandler::preload()
         "arrow-settings-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-right.png"),
         "arrow-settings-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
+        "left");
+  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
+        "right");
 
   /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
