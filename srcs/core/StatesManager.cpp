@@ -55,6 +55,9 @@ void      StatesManager::initialize()
         new TexturedCube("Ressources/Images/Play/block.png"),
         "block");
   Bomberman::ModelHandler::get().storeModel(
+        new TexturedCube("Ressources/Images/Play/fireblock.png"),
+        "fireblock");
+  Bomberman::ModelHandler::get().storeModel(
         new TexturedCube("Ressources/Images/Play/brick.png"),
         "brick");
   Bomberman::ModelHandler::get().storeModel(
