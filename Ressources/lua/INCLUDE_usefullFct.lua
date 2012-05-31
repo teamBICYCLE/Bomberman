@@ -165,18 +165,31 @@ function getLessDangerousDirection(this, x, y, type)
    return (res_dir)
 end
 
-function centerPlayer(x, y)
+function center(x, y, dir)
    local diffX = x - floor(x)
    local diffY = y - floor(y)
 
-   if (diffX > 0.3)
+   if (dir == NODIR or dir == UP or dir == DOWN)
    then
-      return RIGHT
-   elseif (diffY > 0.3)
-   then
-      return UP
+      if (diffX > 0.25)
+      then
+	 return LEFT
+      elseif (diffX < 0.20)
+      then
+	 return	RIGHT
+      end
    end
-   return NODIR
+   if (dir == NODIR or dir == RIGHT or dir == LEFT)
+   then
+      if (diffY > 0.25)
+      then
+	 return UP
+      elseif (diffY < 0.20)
+      then
+	 return DOWN
+      end
+   end
+   return dir
 end
 
 function trackPlayer(this, x, y, type)
@@ -194,11 +207,12 @@ function trackPlayer(this, x, y, type)
        and this:isCrossable(dirX[k], dirY[k], type) == 1)
       then
 	 res_ph = tmp
-	 --	 print(tmp, "x", floor(x), "y", floor(y))
 	 res_dir = dir[k]
       end
    end
    -- print(showdir(res_dir))
    return (res_dir)
-
 end
+
+--     (this:getDanger(posX[k], posY[k]) < 10 or this:getDanger(posX[k], posY[k] + 0.6) < 10 or
+-- this:getDanger(posX[k] + 0.6, posY[k]) < 10 or this:getDanger(posX[k] + 0.6, posY[k] + 0.6) < 10))

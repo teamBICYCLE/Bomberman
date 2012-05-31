@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Thu May 31 14:59:43 2012 thibault carpentier
+// Last update Thu May 31 17:29:36 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -30,8 +30,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   std::cout << color_.x << std::endl;
-  //isInvincible_ = true;
-  kickAbility_ = true;
+  // isInvincible_ = true;
+  // kickAbility_ = true;
   nbBombs_ = 5;
   nbMines_ = 10000;
 
