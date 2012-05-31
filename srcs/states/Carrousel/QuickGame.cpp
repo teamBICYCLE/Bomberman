@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Wed May 30 16:21:48 2012 lois burg
+// Last update Thu May 31 10:49:55 2012 lois burg
 //
 
 #include "QuickGame.hh"
@@ -29,6 +29,7 @@ void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager 
 {
   static bool sHit;
 
+  (void)gClock;
   if (input.isKeyDown(gdl::Keys::Comma) && !sHit)
     cH->setArrowFocus(!cH->getArrowFocusLeft());
   if (input.isKeyDown(gdl::Keys::Return) && !returnHit_)

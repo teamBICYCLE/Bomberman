@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 30 11:56:59 2012 thibault carpentier
+// Last update Thu May 31 11:31:40 2012 lois burg
 //
 
 #include <algorithm>
@@ -79,8 +79,6 @@ float	FireBlock::getTimeout() const
   return last_;
 }
 
-#define ZIZIDEPOULE 1.0f
-
 void		FireBlock::draw(void)
 {
   glPopMatrix();
@@ -108,16 +106,6 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
             if (!isInvalid && e->getBBox().collideWith(obj))
               {
 		obj->interact(e, objs);
-                // if (dynamic_cast<Character*>(obj))
-                //   static_cast<Character*>(obj)->takeDamage(e->getDamage());
-                // else if (dynamic_cast<APowerup*>(obj))
-                //   obj->destroy();
-                // else if (dynamic_cast<Mine*>(obj))
-                //   static_cast<Mine*>(obj)->setChainReaction(true);
-                // else if (dynamic_cast<Bomb*>(obj))
-                //   static_cast<Bomb*>(obj)->setTimeOut(0.0f);
-                // else if (dynamic_cast<Brick*>(obj))
-                //   static_cast<Brick*>(obj)->destroy(objs);
                 if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
                     !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
                   isInvalid = true;

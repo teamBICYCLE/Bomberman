@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Wed May 30 15:05:02 2012 lois burg
+// Last update Thu May 31 16:42:15 2012 lois burg
 //
 
 #include <iostream>
@@ -110,7 +110,6 @@ void	ServerState::update(StatesManager *mngr)
   Player	*plyr;
   std::vector<TCPSocket*>::iterator it;
 
-  plyr = getPlayerWithId(objs_, 0);
   select_.reset();
   select_.setNonBlock();
 
@@ -141,11 +140,8 @@ void	ServerState::update(StatesManager *mngr)
 	}
     }
   PlayState::update(mngr);
-  if (plyr)
-  {
-      std::cout << nbPlayers_ << "pack pack" << std::endl;
+  if ((plyr = getPlayerWithId(objs_, 0)))
     packet = plyr->pack(mngr->getInput());
-  }
   if (packet.isUseful())
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)
@@ -158,14 +154,17 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
-  if (nbPlayersAlive == 1 && !nbMonsters)
+  if (readyUp_ <= 0)
     {
-      while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
-	i++;
-      if (plyr)
-	winnerId_ = i;
-      win(mngr);
+      if (nbPlayersAlive == 1 && !nbMonsters)
+	{
+	  while (i < nbPlayers_ && !(plyr = Online::getPlayerWithId(objs_, i)))
+	    i++;
+	  if (plyr)
+	    winnerId_ = i;
+	  win(mngr);
+	}
+      else if (!nbPlayersAlive)
+	{}//push drawState (egalite)
     }
-  else if (!nbPlayersAlive)
-    {}//push drawState (egalite)
 }

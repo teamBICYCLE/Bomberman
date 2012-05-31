@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 31 14:45:10 2012 thibault carpentier
+// Last update Thu May 31 16:41:42 2012 lois burg
 //
 
 #include <iostream>
@@ -23,14 +23,14 @@
 using namespace	Bomberman;
 
 PlayState::PlayState(void)
-  : bestScore_(0), winnerId_(0), characterToUpdate_(-1)
+  : bestScore_(0), winnerId_(0), characterToUpdate_(-1), readyUp_(3.0f), lastTime_(-1)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
-    : objs_(*list), winnerId_(0), characterToUpdate_(-1)
+    : objs_(*list), winnerId_(0), characterToUpdate_(-1), readyUp_(3.0f), lastTime_(-1)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -92,9 +92,17 @@ void  PlayState::update(StatesManager *sMg)
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
   bool		update_ia = true;
+  float		now = sMg->getGameClock().getTotalGameTime();
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
-  for (it = objs_.begin(); it != objs_.end();)
+  if (lastTime_ == -1)
+    lastTime_ = now;
+  if (readyUp_ > 0)
+    {
+      readyUp_ -= now - lastTime_;
+      lastTime_ = now;
+    }
+  for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
       if (dynamic_cast<Player*>(*it))
         {
@@ -148,7 +156,7 @@ void	PlayState::gameOver(StatesManager *mngr)
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 {
-  if (bestScore_ != -1)
+  if (bestScore_ != -1 && readyUp_ <= 0)
     {
       if (!nbPlayers)
         gameOver(mngr);
@@ -169,8 +177,6 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 //    }
 //  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
 //}
-
-#define MULTZ 1.0f
 
 void  PlayState::draw(StatesManager * sMg)
 {

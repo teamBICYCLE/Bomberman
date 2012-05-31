@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat May 26 18:46:54 2012 thibault carpentier
+// Last update Thu May 31 14:33:45 2012 lois burg
 //
 
 #include <algorithm>
@@ -70,7 +70,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
     }
   pos_ += speed_;
   for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
-    if (*objIt != &owner_ && bBox_.collideWith(*objIt))
+    if (*objIt != &owner_ && bBox_.collideWith(*objIt) && !dynamic_cast<APowerup*>(*objIt))
       {
         pos_ = save + sz_ / 2;
         adjustPos();

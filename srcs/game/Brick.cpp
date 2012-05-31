@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Wed May 30 15:30:29 2012 thibault carpentier
+// Last update Thu May 31 11:31:14 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -59,8 +59,6 @@ void		Brick::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>
   (void)objs;
   model_.update(clock);
 }
-
-#define ZIZIDEPOULE 1.0f
 
 void		Brick::draw(void)
 {
