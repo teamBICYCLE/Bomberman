@@ -31,7 +31,7 @@ private:
  static const float fov = 70.0f;
  static const float winxSize = 800.0f;
  static const float winySize = 600.0f;
- static const float zNear = 1.0f;
+ static const float zNear = -1000.0f;
  static const float zFar = 1000.0f;
 //   const float fov = 70.0f;
 //   const float winxSize = 1600.0f;

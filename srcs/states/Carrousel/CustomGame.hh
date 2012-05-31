@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Thu May 31 15:30:19 2012 lois burg
+// Last update Thu May 31 18:06:48 2012 lois burg
 //
 
 #ifndef		__CUSTOMGAME_HH__
@@ -47,6 +47,8 @@ namespace	Bomberman
   private:
     void		upArrow(StatesManager *sMg);
     void		downArrow(StatesManager *sMg);
+    void		leftArrow(StatesManager *sMg);
+    void		rightArrow(StatesManager *sMg);
     void		returnArrow(StatesManager *sMg);
 
   private:
@@ -62,6 +64,8 @@ namespace	Bomberman
     bool	returnHit_;
     bool        upHit_;
     bool        downHit_;
+    bool        leftHit_;
+    bool        rightHit_;
     int		mapWidth_;
     int		mapHeight_;
     int		nbPlayers_;
