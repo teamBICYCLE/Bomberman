@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Thu May 31 16:28:46 2012 lois burg
+// Last update Fri Jun  1 12:47:17 2012 lois burg
 //
 
 #include <iostream>
@@ -40,22 +40,12 @@ bool	ClientState::init()
   bool	success = true;
   time_t seed;
 
-  //TEMPORARY
   try {
-    serv_ = new TCPSocket(host_.c_str(), ServPort);
-    std::cout << "Client connected to : " << host_ << std::endl;
-  } catch (SocketException& e) {
-    std::cerr << "Connection error: " << e.what() << std::endl;
-    disconnected_ = true;
-    serv_ = NULL;
-  }
-  //END TEMPORARY
-
-  try {
-    if (serv_)
+    if ((serv_ = new TCPSocket(host_.c_str(), ServPort)))
       {
 	std::iostream& sockStream = serv_->getStream();
 
+	std::cout << "Client connected to : " << host_ << std::endl;
 	sockStream >> seed;
 	sockStream >> playerNbr_;
 	sockStream >> nbPlayers_;
@@ -82,6 +72,7 @@ bool	ClientState::init()
       }
   } catch (SocketException& e) {
     std::cerr << "Network error: " << e.what() << std::endl;
+    disconnected_ = true;
     serv_ = NULL;
     success = false;
   }

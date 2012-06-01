@@ -79,6 +79,7 @@ SOURCES += \
     srcs/states/Carrousel/LeaderBoards.cpp \
     srcs/states/Carrousel/CustomGame.cpp \
     srcs/states/Carrousel/HostGame.cpp \
+    srcs/states/Carrousel/JoinGame.cpp \
     srcs/core/Score.cpp \
     srcs/states/Carrousel/KeyBindSlide.cpp \
     srcs/states/Carrousel/Keyboard.cpp
@@ -162,6 +163,7 @@ HEADERS += \
     srcs/states/Carrousel/LeaderBoards.hh \
     srcs/states/Carrousel/CustomGame.hh \
     srcs/states/Carrousel/HostGame.hh \
+    srcs/states/Carrousel/JoinGame.hh \
     srcs/core/Score.hh \
     srcs/states/Carrousel/KeyBindSlide.hh \
     srcs/states/Carrousel/Keyboard.hh
