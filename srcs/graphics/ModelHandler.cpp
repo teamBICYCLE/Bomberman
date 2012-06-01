@@ -37,12 +37,6 @@ void      ModelHandler::preload()
         "overlay-load");
 
   /* Arrows */
-  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
-        "custom_arrows");
-  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows_overlay.png"),
-        "custom_arrows_overlay");
-  storeModel(new flatTexture("Ressources/Images/Menu/go-overlay.png"),
-        "go-overlay");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-left.png"),
         "arrow-load-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-load-right.png"),
@@ -64,6 +58,28 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
         "right");
 
+  /* Overlays */
+  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
+        "custom_arrows");
+  storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows_overlay.png"),
+        "custom_arrows_overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/join-overlay.png"),
+        "join-overlay");
+
+  /* Buttons */
+  storeModel(new flatTexture("Ressources/Images/Menu/go-overlay.png"),
+        "go-overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/create-button.png"),
+        "create-button");
+  storeModel(new flatTexture("Ressources/Images/Menu/create-button-overlay.png"),
+        "create-button-overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/join-button-overlay.png"),
+        "join-button-overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/waiting-button.png"),
+        "waiting-button");
+  storeModel(new flatTexture("Ressources/Images/Menu/dot.png"),
+        "dot");
+
   /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
         "bg-quickgame");
@@ -75,6 +91,8 @@ void      ModelHandler::preload()
         "bg-customgame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-hostgame.png"),
         "bg-hostgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-joingame.png"),
+        "bg-joingame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
 

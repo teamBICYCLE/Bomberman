@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Fri Jun  1 11:22:10 2012 lois burg
+// Last update Fri Jun  1 15:37:53 2012 lois burg
 //
 
 #include <iostream>
@@ -142,7 +142,7 @@ void	ServerState::update(StatesManager *mngr)
   PlayState::update(mngr);
   if ((plyr = getPlayerWithId(objs_, 0)))
     packet = plyr->pack(mngr->getInput());
-  if (packet.isUseful())
+  if (readyUp_ <= 0 && packet.isUseful())
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)
 	  sendPacket(s->getStream(), packet);
