@@ -33,7 +33,6 @@ private:
   static constexpr float winySize = 600.0f;
   static constexpr float zNear = -1000.0f;
   static constexpr float zFar = 1000.0f;
-
 protected:
   Vector3d    position_;
   Vector3d    zoom_;

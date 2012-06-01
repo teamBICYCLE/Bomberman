@@ -12,6 +12,7 @@
 
 # define PATH_SCORE "Ressources/Scores/leaderboards.sc"
 # define SEP_SCORE " - "
+# define SEP_LEN 3
 
 class Score
 {
@@ -21,7 +22,7 @@ public:
     ~Score(void);
 
 public:
-    const std::list<std::string> *getScores(void) const;
+    std::list<std::string> *getScores(void) const;
     void save(int) const;
 
 private:

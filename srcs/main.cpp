@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Thu May 31 18:48:26 2012 lois burg
+// Last update Thu May 31 19:25:16 2012 romain sylvian
 //
 
 #include <GDL/ModelException.hpp>
@@ -20,6 +20,7 @@
 #include "Carrousel/CustomGame.hh"
 #include "Carrousel/AdventureGame.hh"
 #include "Carrousel/LeaderBoards.hh"
+# include "IntroState.hh"
 
 using namespace std;
 

@@ -6,6 +6,7 @@
 # include <GDL/Input.hpp>
 # include <GDL/Text.hpp>
 # include <list>
+# include <map>
 # include "StatesManager.hh"
 # include "AContent.hh"
 # include "SaveHandler.hh"
@@ -24,21 +25,18 @@ public:
     virtual void draw(void);
 
 private:
-    void refresh(void);
     void drawArrow(void) const;
-    void down(void);
-    void up(void);
-    void load(StatesManager *sMg) const;
+    void refresh(StatesManager *sMg);
+    void down(StatesManager *sMg);
+    void up(StatesManager *sMg);
+    void load(StatesManager *sMg);
 
 private:
     SaveHandler *save_;
     gdl::Text   *text_;
-    bool        refresh_;
-    bool        up_;
-    bool        down_;
-    bool        return_;
     std::list< std::pair<std::string, std::string> > list_;
     uint        current_;
+    std::map<gdl::Keys::Key, void(LoadContent::*)(StatesManager *)> paramMap_;
 };
 
 #endif // LOADCONTENT_HH

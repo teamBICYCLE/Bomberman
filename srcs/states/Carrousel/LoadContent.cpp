@@ -8,25 +8,27 @@ LoadContent::LoadContent()
     : AContent(), save_(new SaveHandler()), text_(new gdl::Text())
 {
   text_->setFont("Ressources/Fonts/Dimbo.ttf");
-  refresh_ = false;
-  up_ = false;
-  down_ = false;
-  return_ = false;
   current_ = -1;
-  LoadContent::refresh();
+  list_ = save_->getSavedFiles();
+  paramMap_.insert(std::make_pair(gdl::Keys::F5, &LoadContent::refresh));
+  paramMap_.insert(std::make_pair(gdl::Keys::Up, &LoadContent::up));
+  paramMap_.insert(std::make_pair(gdl::Keys::Down, &LoadContent::down));
+  paramMap_.insert(std::make_pair(gdl::Keys::Return, &LoadContent::load));
 }
 
 LoadContent::~LoadContent()
 {
 }
 
-void LoadContent::refresh(void)
+void LoadContent::refresh(StatesManager *sMg)
 {
+    (void)sMg;
     list_ = save_->getSavedFiles();
 }
 
-void LoadContent::down(void)
+void LoadContent::down(StatesManager *sMg)
 {
+    (void)sMg;
     if (list_.size() == 0)
         current_ = -1;
     else if (current_ == (list_.size() - 1) || current_ == 2)
@@ -35,8 +37,9 @@ void LoadContent::down(void)
         current_ += 1;
 }
 
-void LoadContent::up(void)
+void LoadContent::up(StatesManager *sMg)
 {
+    (void)sMg;
     if (list_.size() == 0)
         current_ = -1;
     else if (current_ > 0)
@@ -45,7 +48,7 @@ void LoadContent::up(void)
         current_ = (((list_.size() - 1) <= 2) ? (list_.size() - 1) : (2));
 }
 
-void LoadContent::load(StatesManager *sMg) const
+void LoadContent::load(StatesManager *sMg)
 {
     std::list< std::pair<std::string, std::string> >::const_iterator it;
     const std::list<AObject*> *obj;
@@ -71,19 +74,10 @@ void LoadContent::update(gdl::Input &input, gdl::GameClock &gClock, StatesManage
     (void)gClock;
     (void)sMg;
     (void)cH;
-    if (input.isKeyDown(gdl::Keys::F5) && !refresh_)
-        refresh();
-    if (input.isKeyDown(gdl::Keys::Up) && !up_)
-        LoadContent::up();
-    if (input.isKeyDown(gdl::Keys::Down) && !down_)
-        LoadContent::down();
-    if (input.isKeyDown(gdl::Keys::Return) && !return_)
-        LoadContent::load(sMg);
 
-    refresh_ = input.isKeyDown(gdl::Keys::F5);
-    up_ = input.isKeyDown(gdl::Keys::Up);
-    down_ = input.isKeyDown(gdl::Keys::Down);
-    return_ = input.isKeyDown(gdl::Keys::Return);
+    for (std::map<gdl::Keys::Key, void(LoadContent::*)(StatesManager *)>::iterator it = paramMap_.begin(); it != paramMap_.end(); ++it)
+      if (input.isKeyDown(it->first))
+        (this->*(it->second))(sMg);
 
     if (list_.size() > 0 && current_ == static_cast<uint>(-1))
         current_ = 0;

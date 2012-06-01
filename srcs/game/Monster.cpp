@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Thu May 31 17:47:50 2012 thibault carpentier
+// Last update Fri Jun  1 02:08:34 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -18,7 +18,7 @@ using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
-    model_(ModelHandler::get().getModel("bombman"))
+    model_(ModelHandler::get().getModel("ghost"))
 {
   //  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
@@ -103,8 +103,8 @@ void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + (0.5f / 2.0f) , pos_.y + (0.5f / 2.0f), pos_.z);
-  glScaled(0.0035, 0.0035, 0.0023);
+  glTranslated(pos_.x + 0.38, pos_.y + 0.38, pos_.z + 0.8);
+  glScaled(0.3, 0.3, 0.43);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
 
