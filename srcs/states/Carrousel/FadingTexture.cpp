@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri Jun  1 16:59:59 2012 lois burg
-// Last update Fri Jun  1 17:15:17 2012 lois burg
+// Last update Fri Jun  1 19:20:28 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -14,11 +14,13 @@
 
 using namespace	Bomberman;
 
-FadingTexture::FadingTexture(const std::string& texture, int x, int y, float fadeTimer, float fadeValue)
+FadingTexture::FadingTexture(const std::string& texture, int x, int y, FadingTexture::FirstAnim a, bool noFadeOut, float fadeTimer, float fadeValue)
   : texture_(ModelHandler::get().getModel(texture)), x_(x), y_(y),
     alpha_(1.0f), fadeTimer_(fadeTimer), fadeValue_(fadeValue),
-    lastTime_(-1), fadeOutEnded_(false)
+    lastTime_(-1), fadeOutEnded_(false), noFadeOut_(noFadeOut)
 {
+  if (a == FadingTexture::FadeIn)
+    alpha_ = 0;
 }
 
 FadingTexture::~FadingTexture()
@@ -52,7 +54,7 @@ void	FadingTexture::draw(void)
 
 void	FadingTexture::fadeOut(void)
 {
-  if (!fadeOutEnded_)
+  if (!fadeOutEnded_ && !noFadeOut_)
     alpha_ -= fadeValue_;
   if (alpha_ <= 0)
     fadeOutEnded_ = true;

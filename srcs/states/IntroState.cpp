@@ -31,6 +31,17 @@
 // Sound object
 // text object
 
+using namespace	Bomberman;
+
+IntroState::IntroState()
+  : text_("teambicycle-production", 500, 100, FadingTexture::FadeIn, true, 0.1, 0.04)
+{
+}
+
+IntroState::~IntroState()
+{
+}
+
 bool  IntroState::init(void)
 {
   this->bicycle_ = gdl::Image::load("./Ressources/Images/Intro/bicycle_noalpha.png");
@@ -57,6 +68,8 @@ void  IntroState::update(StatesManager * sMg)
      }
    else
      delay_ += 1;
+   if (sndPlayed_)
+     text_.update(sMg->getGameClock());
    if (sndPlayed_ && delay_ > 500)
      {
        CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg");
@@ -70,16 +83,19 @@ void  IntroState::draw(StatesManager * sMg)
 {
   (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_BLEND) ;
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
 
   glClearColor(alpha_, alpha_, alpha_, 1.0f);
   glClearDepth(1.0f);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(-800, 800, -450, 450);
+  gluOrtho2D(0, 1600, 0, 900);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
+  glPushMatrix();
   glTranslatef(x_, 0, 0);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_SRC_ALPHA);
@@ -95,6 +111,9 @@ void  IntroState::draw(StatesManager * sMg)
   glTexCoord2i(1, 0);
   glVertex2d(480, 140.0f);
   glEnd();
+  glPopMatrix();
+  if (sndPlayed_)
+    text_.draw();
 }
 
 void  IntroState::pause()
