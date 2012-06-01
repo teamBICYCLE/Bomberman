@@ -78,8 +78,10 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay.png"),
-        "keybind-overlay");
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-green.png"),
+        "keybind_overlay_green");
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-red.png"),
+        "keybind_overlay_red");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

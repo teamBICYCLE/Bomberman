@@ -59,7 +59,7 @@ bool  PlayState::init()
   try {
 
     //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map         map("Ressources/Map/map2");
     // int	viewport[4];
 
     mapH_ = map.getHeight();

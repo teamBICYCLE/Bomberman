@@ -13,6 +13,8 @@ KeyBindSlide::KeyBindSlide()
     down_ = false;
     tab_ = false;
     return_ = false;
+    left_ = false;
+    right_ = false;
     editingMode_ = false;
     text_->setFont("Ressources/Fonts/Dimbo.ttf");
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &KeyBindSlide::up));
@@ -22,13 +24,19 @@ KeyBindSlide::KeyBindSlide()
 
     KeysConfig *config_ = new KeysConfig();
 
-    //config_->getStr(K_UP, 0)
     player1_.insert(std::make_pair(K_UP, config_->getStr(K_UP, 0)));
-/*    player1_.insert(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 0)));
+    player1_.insert(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 0)));
     player1_.insert(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 0)));
     player1_.insert(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 0)));
     player1_.insert(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 0)));
-    player1_.insert(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 0)))*/;
+    player1_.insert(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 0)));
+
+    player2_.insert(std::make_pair(K_UP, config_->getStr(K_UP, 1)));
+    player2_.insert(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 1)));
+    player2_.insert(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 1)));
+    player2_.insert(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 1)));
+    player2_.insert(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 1)));
+    player2_.insert(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 1)));
 }
 
 KeyBindSlide::~KeyBindSlide()
@@ -50,8 +58,6 @@ void	KeyBindSlide::update(gdl::Input& input, gdl::GameClock& gClock, StatesManag
     down_ = input.isKeyDown(gdl::Keys::Down);
     tab_ = input.isKeyDown(gdl::Keys::Tab);
     return_ = input.isKeyDown(gdl::Keys::Return);
-
-    //cH->setArrowFocus(editingMode_);
 }
 
 void	KeyBindSlide::draw(void)
@@ -60,8 +66,9 @@ void	KeyBindSlide::draw(void)
 }
 
 void    KeyBindSlide::drawOverlay(void) const
-{
-    flatTexture     overlay(Bomberman::ModelHandler::get().getModel("keybind-overlay"));
+{   
+    flatTexture overlay(Bomberman::ModelHandler::get().getModel("keybind_overlay_green"));
+
     int align = current_ * 50;
     int alignP = player_ * 453;
 
@@ -69,6 +76,18 @@ void    KeyBindSlide::drawOverlay(void) const
     glTranslated(608 + alignP, 504 - align, 0);
     overlay.draw();
     glPopMatrix();
+}
+
+void    KeyBindSlide::right(void)
+{
+    if (!right_)
+        player_ = 1;
+}
+
+void    KeyBindSlide::left(void)
+{
+    if (!left_)
+        player_ = 0;
 }
 
 void    KeyBindSlide::down(void)

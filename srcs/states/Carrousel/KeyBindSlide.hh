@@ -28,7 +28,10 @@ namespace	Bomberman
     void    down(void);
     void    up(void);
     void    tab(void);
+    void    right(void);
+    void    left(void);
     void    setEditingMode(void);
+    void    focus(CarrouselHandler *cH) const;
 
   private:
     gdl::Text   *text_;
@@ -38,6 +41,8 @@ namespace	Bomberman
     bool        down_;
     bool        tab_;
     bool        return_;
+    bool        right_;
+    bool        left_;
     bool        editingMode_;
     std::map<gdl::Keys::Key, void(KeyBindSlide::*)(void)> paramMap_;
     std::map<eKeys, std::string> player1_;
