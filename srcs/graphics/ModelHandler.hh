@@ -31,7 +31,6 @@ private:
   ModelHandler();
   ModelHandler(const ModelHandler& orig);
   ModelHandler &              operator=(const ModelHandler &);
-  static ModelHandler         self_;
 };
 }
 #endif	/* MODELHANDLER_HH */

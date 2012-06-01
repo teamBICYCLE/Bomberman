@@ -16,6 +16,7 @@
 #include "Block.hh"
 
 #include "ModelHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -26,6 +27,7 @@ Bomb::Bomb(const Vector3d& pos, const Vector3d& rot,
     lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this),
     model_(ModelHandler::get().getModel("bomb"))
 {
+  Sounds::instance().playEffect("drop");
 }
 
 Bomb::Bomb(const Bomb &other)
@@ -37,6 +39,7 @@ Bomb::Bomb(const Bomb &other)
       bBox_(other.bBox_),
       model_(other.model_)
 {
+  Sounds::instance().playEffect("drop");
 }
 
 Bomb::Bomb()
@@ -45,6 +48,7 @@ Bomb::Bomb()
     speed_(Vector3d()), lastTime_(0), bBox_(pos_, sz_, this),
     model_(ModelHandler::get().getModel("bomb"))
 {
+  Sounds::instance().playEffect("drop");
 }
 
 Bomb::~Bomb()
@@ -108,6 +112,7 @@ void	Bomb::explode(std::list<AObject*>& objs)
       // std::cout << "--------------------" << std::endl;
     }
   delete e;
+  Sounds::instance().playEffect("boom");
 }
 
 void	Bomb::draw(void)

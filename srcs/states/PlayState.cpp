@@ -22,6 +22,7 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
 #include "Score.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -32,6 +33,7 @@ PlayState::PlayState(void)
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
+  Sounds::instance().playMusic("test");
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
@@ -41,6 +43,7 @@ PlayState::PlayState(const std::list<AObject*> *list)
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
+  Sounds::instance().playMusic("test");
   bestScore_ = 0;
   characterToUpdate_ = -1;
   mapH_ = PlayState::getHeight(list);
@@ -209,9 +212,9 @@ void  PlayState::draw(StatesManager * sMg)
   glEnable(GL_TEXTURE_2D);
   if (bg_.isValid())
     {
-    bg_.bind();
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+      bg_.bind();
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
   glColor3d(0, 1, 0);
   glBegin(GL_QUADS);
