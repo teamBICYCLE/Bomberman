@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:52:44 2012 lois burg
-// Last update Tue May 29 18:06:41 2012 lois burg
+// Last update Fri Jun  1 11:22:54 2012 lois burg
 //
 
 #ifndef		__SERVERSTATE_HH__
@@ -25,7 +25,7 @@ namespace	Bomberman
     class	ServerState : public PlayState
     {
     public:
-      ServerState(uint nbPlayers);
+      ServerState(int mapWidth, int mapHeight, uint nbPlayers, TCPServerSocket*& serv, std::vector<TCPSocket*>& clients);
       virtual ~ServerState();
 
     public:
@@ -40,8 +40,8 @@ namespace	Bomberman
 
     private:
       int			nbPlayers_;
-      TCPServerSocket		*serv_;
-      std::vector<TCPSocket*>	clients_;
+      TCPServerSocket*&		serv_;
+      std::vector<TCPSocket*>&	clients_;
       Select			select_;
     };
   }

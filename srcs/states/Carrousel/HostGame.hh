@@ -1,40 +1,40 @@
 //
-// CustomGame.hh for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
+// HostGame.hh for bomberman in /home/burg_l//Work/tek2/cpp/Bomberman
 //
 // Made by lois burg
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Fri Jun  1 10:18:18 2012 lois burg
+// Last update Fri Jun  1 10:52:34 2012 lois burg
 //
 
-#ifndef		__CUSTOMGAME_HH__
-# define	__CUSTOMGAME_HH__
+#ifndef		__HOSTGAME_HH__
+# define	__HOSTGAME_HH__
 
 # include	<map>
 # include	<GDL/Text.hpp>
 # include	"AContent.hh"
+# include	"PracticalSocket.h"
+# include	"Select.hh"
 
 namespace	Bomberman
 {
-  class	CustomGame : public AContent
+  class	HostGame : public AContent
   {
   private:
-    typedef void (CustomGame::*t_paramFunc)(StatesManager *);
-    typedef void (CustomGame::*t_modifyParam)(int);
+    typedef void (HostGame::*t_paramFunc)(StatesManager *);
+    typedef void (HostGame::*t_modifyParam)(int);
     enum ParamIdx
       {
 	MapWidth = 0,
 	MapHeight,
-	NbPlayers,
-	NbMonsters,
-	NbGhosts
+	NbPlayers
       };
-    static const int	NbParams = 5;
+    static const int	NbParams = 3;
 
   public:
-    CustomGame();
-    virtual ~CustomGame();
+    HostGame();
+    virtual ~HostGame();
 
   public:
     virtual void	update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH);
@@ -55,26 +55,31 @@ namespace	Bomberman
     void		modifyMapWidth(int val);
     void		modifyMapHeight(int val);
     void		modifyNbPlayers(int val);
-    void		modifyNbMonsters(int val);
-    void		modifyNbGhosts(int val);
+
+  private:
+    void		resetSelect(void);
+    void		createServSock(void);
 
   private:
     std::map<gdl::Keys::Key, t_paramFunc> paramMap_;
     std::map<ParamIdx, t_modifyParam>	  modifyMap_;
-    bool	returnHit_;
-    bool        upHit_;
-    bool        downHit_;
-    bool        leftHit_;
-    bool        rightHit_;
-    int		mapWidth_;
-    int		mapHeight_;
-    int		nbPlayers_;
-    int		nbMonsters_;
-    int		nbGhosts_;
-    int		currentSelection_;
-    bool	editing_;
-    gdl::Text	*text_;
+    bool			returnHit_;
+    bool			upHit_;
+    bool			downHit_;
+    bool			leftHit_;
+    bool			rightHit_;
+    int				mapWidth_;
+    int				mapHeight_;
+    int				nbPlayers_;
+    int				currentSelection_;
+    bool			editing_;
+    bool			waitingClients_;
+    int				curClient_;
+    TCPServerSocket		*serv_;
+    std::vector<TCPSocket*>	clients_;
+    Select			select_;
+    gdl::Text			*text_;
   };
 }
 
-#endif /* !__CUSTOMGAME_HH__*/
+#endif /* !__HOSTGAME_HH__*/

@@ -73,6 +73,8 @@ void      ModelHandler::preload()
         "bg-leaderboards");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-customgame.png"),
         "bg-customgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-hostgame.png"),
+        "bg-hostgame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
