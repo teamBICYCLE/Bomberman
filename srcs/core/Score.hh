@@ -12,6 +12,7 @@
 
 # define PATH_SCORE "Ressources/Scores/leaderboards.sc"
 # define SEP_SCORE " - "
+# define SEP_LEN 3
 
 class Score
 {

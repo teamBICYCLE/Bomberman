@@ -97,7 +97,9 @@ std::list<std::string> *Score::getScores(void) const
         while (!infile.eof())
         {
             getline(infile, line);
-            if (!line.empty())
+            if (!line.empty() &&
+                    line.find(SEP_SCORE) != std::string::npos &&
+                    line.find(SEP_SCORE) + SEP_LEN < line.length())
                 ret->push_back(line);
         }
         infile.close();
