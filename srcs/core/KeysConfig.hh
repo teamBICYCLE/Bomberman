@@ -51,6 +51,7 @@ namespace Bomberman
   public:
     gdl::Keys::Key &get(eKeys, int);
     gdl::Keys::Key &searchKey(eKeys k, int id);
+    std::string getStr(eKeys k, int id);
 
   private:
     void getFileData(int id);

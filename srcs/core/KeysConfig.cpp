@@ -185,3 +185,16 @@ gdl::Keys::Key &KeysConfig::get(eKeys k, int id)
         return defaultPlayer1_[k];
     return defaultPlayer2_[k];
 }
+
+std::string KeysConfig::getStr(eKeys k, int id)
+{
+    gdl::Keys::Key nk = KeysConfig::get(k, id);
+    std::map<std::string, gdl::Keys::Key>::const_iterator it;
+
+    for (it = ref_.begin(); it != ref_.end(); it++)
+    {
+        if (it->second == nk)
+            return it->first;
+    }
+    return ("");
+}

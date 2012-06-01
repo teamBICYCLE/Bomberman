@@ -5,7 +5,7 @@
 using namespace	Bomberman;
 
 KeyBindSlide::KeyBindSlide()
-    : AContent(), text_(new gdl::Text()), keyboard_(new Keyboard(500, 500))
+    : AContent(), text_(new gdl::Text())
 {
     current_ = 0;
     player_ = 0;
@@ -19,6 +19,16 @@ KeyBindSlide::KeyBindSlide()
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &KeyBindSlide::down));
     paramMap_.insert(std::make_pair(gdl::Keys::Tab, &KeyBindSlide::tab));
     paramMap_.insert(std::make_pair(gdl::Keys::Return, &KeyBindSlide::setEditingMode));
+
+    KeysConfig *config_ = new KeysConfig();
+
+    //config_->getStr(K_UP, 0)
+    player1_.insert(std::make_pair(K_UP, config_->getStr(K_UP, 0)));
+/*    player1_.insert(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 0)));
+    player1_.insert(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 0)));
+    player1_.insert(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 0)));
+    player1_.insert(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 0)));
+    player1_.insert(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 0)))*/;
 }
 
 KeyBindSlide::~KeyBindSlide()
@@ -35,13 +45,11 @@ void	KeyBindSlide::update(gdl::Input& input, gdl::GameClock& gClock, StatesManag
       if (input.isKeyDown(it->first))
         (this->*(it->second))();
 
-    keyboard_->update(input);
     up_ = input.isKeyDown(gdl::Keys::Up);
     down_ = input.isKeyDown(gdl::Keys::Down);
     tab_ = input.isKeyDown(gdl::Keys::Tab);
     return_ = input.isKeyDown(gdl::Keys::Return);
 
-    std::cout << keyboard_->getData() << std::endl;
     //cH->setArrowFocus(editingMode_);
 }
 
@@ -57,10 +65,9 @@ void    KeyBindSlide::drawOverlay(void) const
     int alignP = player_ * 453;
 
     glPushMatrix();
-    glTranslated(607 + alignP, 503 - align, 0);
+    glTranslated(608 + alignP, 504 - align, 0);
     overlay.draw();
     glPopMatrix();
-    keyboard_->draw();
 }
 
 void    KeyBindSlide::down(void)
