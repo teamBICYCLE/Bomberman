@@ -17,6 +17,7 @@
 #include "Monster.hh"
 #include "ModelHandler.hh"
 #include "SaveHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -102,6 +103,7 @@ Player::Player(const Player &other)
 
 Player::~Player()
 {
+  Sounds::instance().stopEffect("run");
 }
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
@@ -310,12 +312,14 @@ void    Player::moveAnimation(void)
       speedAdapter_ = 5;
       model_.getModel().stop_animation("stop");
       model_.getModel().play("start");
+      Sounds::instance().playEffect("run", 0.1);
     }
     else if (model_.getModel().anim_is_ended("start"))
     {
       model_.getModel().stop_animation("stop");
       speedAdapter_ = 100;
       model_.getModel().play("run");
+      Sounds::instance().playEffect("run", 0.1);
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning_ = true;
@@ -323,6 +327,7 @@ void    Player::moveAnimation(void)
   else if (wasRunning_ == true)
   {
     model_.getModel().play("stop");
+    Sounds::instance().stopEffect("run");
     wasRunning_ = false;
   }
   // reset de la propriete moved.

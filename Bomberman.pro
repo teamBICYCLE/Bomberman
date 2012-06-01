@@ -83,13 +83,14 @@ SOURCES += \
     srcs/core/Score.cpp \
     srcs/states/Carrousel/KeyBindSlide.cpp \
     srcs/states/Carrousel/FadingTexture.cpp \
-    srcs/states/Carrousel/Keyboard.cpp
+    srcs/states/Carrousel/Keyboard.cpp \
+    srcs/core/Sounds.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += ./srcs/core/ ./srcs/game/ ./srcs/ia/ ./srcs/graphics/ ./srcs/states/ ./libs
 
-LIBS	+= -L libs -lgdl_gl -lkqoauth -lsfml-audio -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
+LIBS	+= -L libs -lgdl_gl -lfmodex -lkqoauth -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
 
 
 HEADERS += \
@@ -168,6 +169,7 @@ HEADERS += \
     srcs/core/Score.hh \
     srcs/states/Carrousel/KeyBindSlide.hh \
     srcs/states/Carrousel/FadingTexture.hh \
-    srcs/states/Carrousel/Keyboard.hh
+    srcs/states/Carrousel/Keyboard.hh \
+    srcs/core/Sounds.hh
 
 MOC_DIR = ./srcs/core/

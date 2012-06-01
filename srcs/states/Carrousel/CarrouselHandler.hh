@@ -40,6 +40,8 @@ public:
   void          drawPreviousPreview();
   void          drawNextPreview();
 
+  void          createMainMenu();
+
 
   CarrouselHandler &      operator++();
   CarrouselHandler &      operator--();

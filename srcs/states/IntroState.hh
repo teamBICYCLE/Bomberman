@@ -28,10 +28,9 @@ public:
 private:
   int               x_;
   float             alpha_;
-  sf::SoundBuffer   ringerBuf_;
-  sf::Sound         ringer_;
   gdl::Image        bicycle_;
   bool              sndPlayed_;
+  int               delay_;
 };
 
 #endif // INTROSTATE_HH
