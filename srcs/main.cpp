@@ -20,7 +20,8 @@
 #include "Carrousel/CustomGame.hh"
 #include "Carrousel/AdventureGame.hh"
 #include "Carrousel/LeaderBoards.hh"
-# include "IntroState.hh"
+#include "Carrousel/KeyBindSlide.hh"
+#include "IntroState.hh"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ int main(int ac, char **av)
         // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
         carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
         carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
+        carrouselHandler->pushPage(new APage(new KeyBindSlide(), "bg-keybind", "arrow-keybind-left", "arrow-keybind-right"));
 
         mg.start(carrouselHandler);
     }

@@ -78,7 +78,9 @@ SOURCES += \
     srcs/states/Carrousel/AdventureGame.cpp \
     srcs/states/Carrousel/LeaderBoards.cpp \
     srcs/states/Carrousel/CustomGame.cpp \
-    srcs/core/Score.cpp
+    srcs/core/Score.cpp \
+    srcs/states/Carrousel/KeyBindSlide.cpp \
+    srcs/states/Carrousel/Keyboard.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -158,6 +160,8 @@ HEADERS += \
     srcs/states/Carrousel/AdventureGame.hh \
     srcs/states/Carrousel/LeaderBoards.hh \
     srcs/states/Carrousel/CustomGame.hh \
-    srcs/core/Score.hh
+    srcs/core/Score.hh \
+    srcs/states/Carrousel/KeyBindSlide.hh \
+    srcs/states/Carrousel/Keyboard.hh
 
 MOC_DIR = ./srcs/core/

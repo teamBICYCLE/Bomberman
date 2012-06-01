@@ -44,7 +44,6 @@ CustomGame::~CustomGame()
 
 void	CustomGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler *cH)
 {
-  (void)cH;
   (void)gClock;
   for (std::map<gdl::Keys::Key, t_paramFunc>::iterator it = paramMap_.begin(); it != paramMap_.end(); ++it)
     if (input.isKeyDown(it->first))
