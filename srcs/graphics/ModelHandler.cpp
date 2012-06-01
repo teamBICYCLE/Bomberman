@@ -116,6 +116,8 @@ void      ModelHandler::preload()
         "bg-joingame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
+  storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
+        "press-enter");
 
   storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay.png"),
         "keybind-overlay");

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 10:49:55 2012 lois burg
+// Last update Fri Jun  1 17:12:03 2012 lois burg
 //
 
 #include "QuickGame.hh"
@@ -17,7 +17,7 @@
 using namespace	Bomberman;
 
 QuickGame::QuickGame()
-  : returnHit_(false)
+  : returnHit_(false), pressEnter_("press-enter", 640, 140)
 {
 }
 
@@ -29,7 +29,7 @@ void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager 
 {
   static bool sHit;
 
-  (void)gClock;
+  pressEnter_.update(gClock);
   if (input.isKeyDown(gdl::Keys::Comma) && !sHit)
     cH->setArrowFocus(!cH->getArrowFocusLeft());
   if (input.isKeyDown(gdl::Keys::Return) && !returnHit_)
@@ -49,4 +49,5 @@ void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager 
 
 void	QuickGame::draw(void)
 {
+  pressEnter_.draw();
 }

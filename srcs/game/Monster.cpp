@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri Jun  1 02:08:34 2012 Jonathan Machado
+// Last update Fri Jun  1 18:03:03 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -103,7 +103,7 @@ void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.38, pos_.y + 0.38, pos_.z + 0.8);
+  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 1.2);
   glScaled(0.3, 0.3, 0.43);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);

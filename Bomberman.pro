@@ -82,6 +82,7 @@ SOURCES += \
     srcs/states/Carrousel/JoinGame.cpp \
     srcs/core/Score.cpp \
     srcs/states/Carrousel/KeyBindSlide.cpp \
+    srcs/states/Carrousel/FadingTexture.cpp \
     srcs/states/Carrousel/Keyboard.cpp \
     srcs/core/Sounds.cpp
 
@@ -167,6 +168,7 @@ HEADERS += \
     srcs/states/Carrousel/JoinGame.hh \
     srcs/core/Score.hh \
     srcs/states/Carrousel/KeyBindSlide.hh \
+    srcs/states/Carrousel/FadingTexture.hh \
     srcs/states/Carrousel/Keyboard.hh \
     srcs/core/Sounds.hh
 
