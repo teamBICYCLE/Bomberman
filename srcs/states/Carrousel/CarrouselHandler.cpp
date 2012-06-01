@@ -30,17 +30,19 @@
 CarrouselHandler::CarrouselHandler(const std::string & bg)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
     arrowsFocusLeft_(true), arrowsFocusRight_(true),
-    bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true)
+    bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true), offset_(0)
 {
+  overlay_ = gdl::Image::load("Ressources/Images/Menu/cloud.png");
 }
 
 CarrouselHandler::CarrouselHandler(GLvoid * data)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
     arrowsFocusLeft_(true), arrowsFocusRight_(true),
     bg_(Bomberman::ModelHandler::get().getModel("mainbg")),
-    data_(data), imgBg_(false)
+    data_(data), imgBg_(false), offset_(0)
 {
   std::cout << "ch created" << std::endl;
+  overlay_ = gdl::Image::load("Ressources/Images/Menu/cloud.png");
 }
 
 CarrouselHandler::~CarrouselHandler()
@@ -114,20 +116,29 @@ void CarrouselHandler::draw(StatesManager * sMg)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   if (this->imgBg_)
-    bg_.draw();
+    {
+      bg_.draw();
+      overlay_.bind();
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
   else
     {
       glDisable(GL_TEXTURE_2D);
       glRasterPos2d(0, 0);
       glDrawPixels(1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data_);
       glColor4f(0, 0, 0, 0.6f);
-      glBegin(GL_QUADS);
-      glVertex2d(0, 0);
-      glVertex2d(1600, 0);
-      glVertex2d(1600, 900);
-      glVertex2d(0, 900);
-      glEnd();
-  }
+    }
+  glBegin(GL_QUADS);
+  glTexCoord2d(0 - offset_, 2); glVertex2d(0, 0);
+  glTexCoord2d(2.3333 - offset_, 2); glVertex2d(1600, 0);
+  glTexCoord2d(2.3333 - offset_, 0);glVertex2d(1600, 900);
+  glTexCoord2d(0 - offset_, 0); glVertex2d(0, 900);
+  glEnd();
+  glEnable(GL_TEXTURE_2D);
+  offset_ += 0.001;
+  if (offset_ >= 1.002)
+    offset_ = 0;
   drawPreviousPreview();
   drawNextPreview();
   pages_[activ_]->draw();
@@ -185,14 +196,14 @@ void CarrouselHandler::drawNextPreview()
 
 void CarrouselHandler::createMainMenu()
 {
-  pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
-  pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
+  pushPage(new APage(new QuickGame(), "bg-quickgame", "arrow-quickgame-left", "arrow-quickgame-right"));
+  pushPage(new APage(new CustomGame(), "bg-customgame", "arrow-customgame-left", "arrow-customgame-right"));
   pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
-  pushPage(new APage(new HostGame(), "bg-hostgame", "left", "right"));
-  pushPage(new APage(new JoinGame(), "bg-joingame", "left", "right"));
+  pushPage(new APage(new HostGame(), "bg-hostgame", "arrow-quickgame-left", "arrow-quickgame-right"));
+  pushPage(new APage(new JoinGame(), "bg-joingame", "arrow-quickgame-left", "arrow-quickgame-right"));
   // pushPage(new APage(new ItemList(), "bg", "right", "left"));
   pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-  pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
+  pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "arrow-leaderboard-left", "arrow-leaderboard-right"));
   pushPage(new APage(new KeyBindSlide(), "bg-keybind", "arrow-keybind-left", "arrow-keybind-right"));
 }
 

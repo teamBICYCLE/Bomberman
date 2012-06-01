@@ -30,7 +30,6 @@ int main(int ac, char **av)
         StatesManager   mg("Bomberman v0.8");
         TwitterConnection *ptr = TwitterConnection::getInstance(ac, av);
 
-
         ptr->requestAccess();
         ModelHandler::get().preload();
         Sounds::instance().preload();

@@ -137,7 +137,6 @@ void      StatesManager::draw()
     this->quit();
 
   time = ((1.0f/60.0f) - gameClock_.getElapsedTime()) * 1000000;
-    //    std::cout << "sleep: " << time << std::endl;
   usleep(time > 0 ? time : 0);
 }
 

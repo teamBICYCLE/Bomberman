@@ -34,7 +34,7 @@ void    Camera::initialize()
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
-  glEnable(GL_LIGHTING);
+  //glEnable(GL_LIGHTING);
 }
 
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,

@@ -53,6 +53,27 @@ void      ModelHandler::preload()
         "arrow-settings-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-right.png"),
         "arrow-settings-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-left.png"),
+        "arrow-customgame-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-right.png"),
+        "arrow-customgame-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-leaderboard-left.png"),
+        "arrow-leaderboard-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-leaderboard-right.png"),
+        "arrow-leaderboard-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-left.png"),
+        "arrow-loadmap-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-right.png"),
+        "arrow-loadmap-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-left.png"),
+        "arrow-quickgame-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-right.png"),
+        "arrow-quickgame-right");
+
   storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
         "left");
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
