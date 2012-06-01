@@ -78,13 +78,14 @@ SOURCES += \
     srcs/states/Carrousel/AdventureGame.cpp \
     srcs/states/Carrousel/LeaderBoards.cpp \
     srcs/states/Carrousel/CustomGame.cpp \
-    srcs/core/Score.cpp
+    srcs/core/Score.cpp \
+    srcs/core/Sounds.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
 INCLUDEPATH += ./srcs/core/ ./srcs/game/ ./srcs/ia/ ./srcs/graphics/ ./srcs/states/ ./libs
 
-LIBS	+= -L libs -lgdl_gl -lkqoauth -lsfml-audio -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
+LIBS	+= -L libs -lgdl_gl -lfmodex -lkqoauth -lGL -lGLU -llua -ldl -Wl,--rpath=./libs
 
 
 HEADERS += \
@@ -158,6 +159,7 @@ HEADERS += \
     srcs/states/Carrousel/AdventureGame.hh \
     srcs/states/Carrousel/LeaderBoards.hh \
     srcs/states/Carrousel/CustomGame.hh \
-    srcs/core/Score.hh
+    srcs/core/Score.hh \
+    srcs/core/Sounds.hh
 
 MOC_DIR = ./srcs/core/

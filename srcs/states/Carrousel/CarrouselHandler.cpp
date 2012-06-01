@@ -15,6 +15,7 @@
 #include "AdventureState.hh"
 #include "ServerState.hh"
 #include "ClientState.hh"
+#include "Sounds.hh"
 
 CarrouselHandler::CarrouselHandler(const std::string & bg)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
@@ -47,6 +48,7 @@ bool CarrouselHandler::init()
   glLoadIdentity();
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_LIGHTING);
+  Sounds::instance().playMusic("menu");
   return true;
 }
 
@@ -76,7 +78,7 @@ void CarrouselHandler::update(StatesManager * sMg)
   if (arrowsFocusRight_)
     {
       if (sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
-        ++(*this);
+          ++(*this);
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
     sMg->popState();
@@ -92,7 +94,7 @@ void CarrouselHandler::draw(StatesManager * sMg)
 {
   (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.2f, 0.4f, 0.0f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glEnable(GL_BLEND) ;
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) ;
   glDepthMask(GL_FALSE);
@@ -109,7 +111,13 @@ void CarrouselHandler::draw(StatesManager * sMg)
       glDisable(GL_TEXTURE_2D);
       glRasterPos2d(0, 0);
       glDrawPixels(1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data_);
-      glDisable(GL_TEXTURE_2D);
+      glColor4f(0, 0, 0, 0.6f);
+      glBegin(GL_QUADS);
+      glVertex2d(0, 0);
+      glVertex2d(1600, 0);
+      glVertex2d(1600, 900);
+      glVertex2d(0, 900);
+      glEnd();
   }
   drawPreviousPreview();
   drawNextPreview();
@@ -118,10 +126,12 @@ void CarrouselHandler::draw(StatesManager * sMg)
 
 void CarrouselHandler::pause()
 {
+  Sounds::instance().pauseMusic();
 }
 
 void CarrouselHandler::resume()
 {
+  Sounds::instance().resumeMusic();
 }
 
 void CarrouselHandler::setArrowFocus(bool val)
