@@ -37,6 +37,10 @@ private:
     std::list< std::pair<std::string, std::string> > list_;
     uint        current_;
     std::map<gdl::Keys::Key, void(LoadContent::*)(StatesManager *)> paramMap_;
+    bool up_;
+    bool down_;
+    bool load_;
+    bool refresh_;
 };
 
 #endif // LOADCONTENT_HH

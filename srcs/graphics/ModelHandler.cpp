@@ -75,6 +75,11 @@ void      ModelHandler::preload()
         "bg-customgame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-hostgame.png"),
         "bg-hostgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
+        "bg-keybind");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay.png"),
+        "keybind-overlay");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
