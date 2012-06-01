@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Fri Jun  1 11:22:10 2012 lois burg
+// Last update Fri Jun  1 15:21:29 2012 lois burg
 //
 
 #include <iostream>
@@ -111,42 +111,45 @@ void	ServerState::update(StatesManager *mngr)
   Player	*plyr;
   std::vector<TCPSocket*>::iterator it;
 
-  select_.reset();
-  select_.setNonBlock();
-  std::for_each(clients_.begin(), clients_.end(), [this] (TCPSocket *s) -> void {
-      if (s)
-	select_.addRead(s->getSockDesc());
-    });
-  select_.watch();
-  for (it = clients_.begin(); it != clients_.end(); ++it)
+  if (readyUp_ <= 0)
     {
-      bool	disconnected = false;
-      Packet	p;
-
-      if ((*it) && select_.canRead((*it)->getSockDesc()))
+      select_.reset();
+      select_.setNonBlock();
+      std::for_each(clients_.begin(), clients_.end(), [this] (TCPSocket *s) -> void {
+	  if (s)
+	    select_.addRead(s->getSockDesc());
+	});
+      select_.watch();
+      for (it = clients_.begin(); it != clients_.end(); ++it)
 	{
-	  p = recvPacket((*it)->getStream(), disconnected);
-	  if (disconnected)
+	  bool	disconnected = false;
+	  Packet	p;
+
+	  if ((*it) && select_.canRead((*it)->getSockDesc()))
 	    {
-	      (*it)->close();
-	      delete (*it);
-	      (*it) = NULL;
-	    }
-	  else
-	    {
-	      Online::updatePlayerWithId(objs_, p.id, p, mngr->getGameClock(), mngr->getInput());
-	      forwardPacket(clients_, (*it)->getSockDesc(), p);
+	      p = recvPacket((*it)->getStream(), disconnected);
+	      if (disconnected)
+		{
+		  (*it)->close();
+		  delete (*it);
+		  (*it) = NULL;
+		}
+	      else
+		{
+		  Online::updatePlayerWithId(objs_, p.id, p, mngr->getGameClock(), mngr->getInput());
+		  forwardPacket(clients_, (*it)->getSockDesc(), p);
+		}
 	    }
 	}
+      PlayState::update(mngr);
+      if ((plyr = getPlayerWithId(objs_, 0)))
+	packet = plyr->pack(mngr->getInput());
+      if (packet.isUseful())
+	std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
+	    if (s && plyr)
+	      sendPacket(s->getStream(), packet);
+	  });
     }
-  PlayState::update(mngr);
-  if ((plyr = getPlayerWithId(objs_, 0)))
-    packet = plyr->pack(mngr->getInput());
-  if (packet.isUseful())
-    std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
-	if (s && plyr)
-	  sendPacket(s->getStream(), packet);
-      });
 }
 
 void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMonsters)
