@@ -39,15 +39,15 @@ function getZoneDanger(this, x, y)
       local tmp = this:getDanger(posX[j], posY[j])
       if (tmp > 0 and j == 1)
       then
-	 print("return direct :", tmp)
+	 -- print("return direct :", tmp)
 	 return (tmp)
       end
-      print("tmp", tmp)
+      -- print("tmp", tmp)
       res = res + tmp
    end
-   print("res : ", res / table.getn(posX))
-   print()
-   print()
+   -- print("res : ", res / table.getn(posX))
+   -- print()
+   -- print()
    return (res / table.getn(posX))
 end
 

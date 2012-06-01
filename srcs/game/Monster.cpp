@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri Jun  1 11:31:15 2012 thibault carpentier
+// Last update Fri Jun  1 18:44:28 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -221,8 +221,8 @@ void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
   (void)x;
   (void)y;
   (void)objs;
-  if (map[pos_.y][pos_.x].second != PHEROMONE_PLAYER)
-    map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
+  if (map[(pos_.y + 0.001)][(pos_.x + 0.001)].second != PHEROMONE_PLAYER)
+    map[(pos_.y + 0.001)][(pos_.x + 0.001)].second = PHEROMONE_MONSTER;
 }
 
 // void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
