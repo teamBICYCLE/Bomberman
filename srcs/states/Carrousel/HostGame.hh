@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Fri Jun  1 10:52:34 2012 lois burg
+// Last update Fri Jun  1 14:15:18 2012 lois burg
 //
 
 #ifndef		__HOSTGAME_HH__
@@ -43,6 +43,7 @@ namespace	Bomberman
   private:
     void		drawIntAt(int val, int x, int y);
     void		drawArrow(void) const;
+    void		drawButton(void) const;
 
   private:
     void		upArrow(StatesManager *sMg);
@@ -79,6 +80,9 @@ namespace	Bomberman
     std::vector<TCPSocket*>	clients_;
     Select			select_;
     gdl::Text			*text_;
+    float			dotTimer_;
+    float			lastTime_;
+    int				nbDots_;
   };
 }
 

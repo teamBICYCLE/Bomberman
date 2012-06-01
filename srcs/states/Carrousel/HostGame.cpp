@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Fri Jun  1 11:21:40 2012 lois burg
+// Last update Fri Jun  1 14:23:31 2012 lois burg
 //
 
 #include <utility>
@@ -19,7 +19,8 @@ using namespace	Bomberman;
 HostGame::HostGame()
   : returnHit_(false), upHit_(false), downHit_(false), leftHit_(false), rightHit_(false),
     mapWidth_(13), mapHeight_(13), nbPlayers_(4), currentSelection_(0), editing_(false),
-    waitingClients_(false), curClient_(0), text_(new gdl::Text())
+    waitingClients_(false), curClient_(0), text_(new gdl::Text()), dotTimer_(1.0f), lastTime_(-1),
+    nbDots_(0)
 {
   paramMap_.insert(std::make_pair(gdl::Keys::Up, &HostGame::upArrow));
   paramMap_.insert(std::make_pair(gdl::Keys::Down, &HostGame::downArrow));
@@ -41,7 +42,15 @@ HostGame::~HostGame()
 
 void	HostGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler *cH)
 {
-  (void)gClock;
+  float	now = gClock.getTotalGameTime();
+
+  if (lastTime_ == -1)
+    lastTime_ = now;
+  if (now - lastTime_ >= dotTimer_)
+    {
+      nbDots_ = ((nbDots_ == 3) ? (0) : (nbDots_ + 1));
+      lastTime_ = now;
+    }
   if (!waitingClients_)
     {
       for (std::map<gdl::Keys::Key, t_paramFunc>::iterator it = paramMap_.begin(); it != paramMap_.end(); ++it)
@@ -83,12 +92,43 @@ void	HostGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *
 
 void	HostGame::draw(void)
 {
-  drawArrow();
+  drawButton();
+  if (!waitingClients_)
+    drawArrow();
   glPushMatrix();
   drawIntAt(mapWidth_, 925, 290);
   drawIntAt(mapHeight_, 925, 360);
   drawIntAt(nbPlayers_, 925, 430);
   glPopMatrix();
+}
+
+void	HostGame::drawButton(void) const
+{
+  flatTexture	*button;
+  flatTexture	*dot = NULL;
+
+  if (!waitingClients_)
+    button = new flatTexture(ModelHandler::get().getModel("create-button"));
+  else
+    {
+      button = new flatTexture(ModelHandler::get().getModel("waiting-button"));
+      dot = new flatTexture(ModelHandler::get().getModel("dot"));
+    }
+  glPushMatrix();
+  glTranslated(850, 290, 0);
+  button->draw();
+  if (dot)
+    {
+      glTranslated(120, 25, 0);
+      for (int i = 0; i < nbDots_; ++i)
+	{
+	  glTranslated(10, 0, 0);
+	  dot->draw();
+	}
+    }
+  glPopMatrix();
+  delete button;
+  delete dot;
 }
 
 void	HostGame::drawArrow(void) const
@@ -99,12 +139,9 @@ void	HostGame::drawArrow(void) const
 
   if (currentSelection_ == HostGame::NbParams)
     {
-      vAlign = currentSelection_ * 85;
+      vAlign = currentSelection_ * 100;
       hAlign = 815;
-      if (!waitingClients_)
-	arrow = new flatTexture(ModelHandler::get().getModel("go-overlay"));
-      else
-	arrow = new flatTexture(ModelHandler::get().getModel("go-overlay"));
+      arrow = new flatTexture(ModelHandler::get().getModel("create-button-overlay"));
     }
   else
     {
