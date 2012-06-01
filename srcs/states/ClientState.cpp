@@ -92,6 +92,7 @@ void	ClientState::update(StatesManager *mngr)
   Packet	netPacket;
   Player	*plyr;
 
+  std::cout << std::boolalpha << disconnected_ << std::endl;
   if (disconnected_)
     mngr->popState();//faire plus smooth
   else if (serv_)
@@ -119,6 +120,7 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
+  std::cout << "client check end" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
@@ -127,6 +129,7 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	    i++;
 	  if (plyr)
 	    winnerId_ = i;
+      std::cout << "win" << std::endl;
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)

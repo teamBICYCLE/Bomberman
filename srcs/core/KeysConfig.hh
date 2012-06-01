@@ -52,6 +52,7 @@ namespace Bomberman
     gdl::Keys::Key &get(eKeys, int);
     gdl::Keys::Key &searchKey(eKeys k, int id);
     std::string getStr(eKeys k, int id);
+    std::map<const std::string, gdl::Keys::Key> getRef(void) const;
 
   private:
     void getFileData(int id);

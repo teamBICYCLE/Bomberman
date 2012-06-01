@@ -333,7 +333,6 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
-  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));

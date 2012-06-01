@@ -152,7 +152,7 @@ void  PlayState::update(StatesManager *sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  PlayState::checkEndGame(sMg, nbPlayers, nbMonsters);
+  checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)

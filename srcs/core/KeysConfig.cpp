@@ -73,8 +73,8 @@ KeysConfig::KeysConfig()
     ref_.insert(std::make_pair("SPACE", gdl::Keys::Space));
     ref_.insert(std::make_pair("LEFT_SHIFT", gdl::Keys::LShift));
     ref_.insert(std::make_pair("RIGHT_SHIFT", gdl::Keys::RShift));
-    ref_.insert(std::make_pair("ENTER", gdl::Keys::Return));
-    ref_.insert(std::make_pair("RETURN", gdl::Keys::Return));
+//    ref_.insert(std::make_pair("ENTER", gdl::Keys::Return));
+//    ref_.insert(std::make_pair("RETURN", gdl::Keys::Return));
     ref_.insert(std::make_pair("LEFT_CTRL", gdl::Keys::LControl));
     ref_.insert(std::make_pair("RIGHT_CTRL", gdl::Keys::RControl));
     ref_.insert(std::make_pair("+", gdl::Keys::Add));
@@ -197,4 +197,9 @@ std::string KeysConfig::getStr(eKeys k, int id)
             return it->first;
     }
     return ("");
+}
+
+std::map<const std::string, gdl::Keys::Key> KeysConfig::getRef(void) const
+{
+    return ref_;
 }
