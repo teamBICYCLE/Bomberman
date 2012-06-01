@@ -6,8 +6,7 @@
 
 dofile("Ressources/lua/INCLUDE_usefullFct.lua")
 function this.thinking(this, x, y)
--- setHook(MASKCALL, 1)
-   if (getZoneDanger(this,x, y) ~= 0)
+   if (getZoneDanger(this,x, y) >= 1)
    then
       return (center(x, y, getLessDangerousDirection(this, x, y, MONSTER)))
    else

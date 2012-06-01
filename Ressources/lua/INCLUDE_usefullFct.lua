@@ -65,21 +65,23 @@ function testCross(this, x, y, type)
    local posX = { x + 1   , x - 1   , x       , x       }
    local posY = { y       , y       , y - 1   , y + 1   }
    local dirX = { x + SPEED   , x - SPEED   , x       , x       }
-   local dirY = { y       , y       , y - SPEED   , y + SPEED   }   
+   local dirY = { y       , y       , y - SPEED   , y + SPEED   }
+
    local res_dir = NODIR
    local danger = getZoneDanger(this, x, y)
-   
+
 --   print("Danger local de ", danger)
    for  i = 1, table.getn(dir) do
       local tmpDanger = getZoneDanger(this, posX[i], posY[i])
   --    print("================= Testing : ", showdir(dir[i]) ," danger de :", floor(tmpDanger), "et crossable == ", this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1 and this:isCrossable(dirX[i], dirY[i], type) == 1)
       if (danger > 0 and
 	  tmpDanger < danger
-	  and this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1 and this:isCrossable(dirX[i], dirY[i], type) == 1)
+	  and this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1
+          and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
 	 danger = tmpDanger
 	 res_dir = dir[i]
-       end
+      end
    end
    return res_dir, danger
 end
@@ -210,7 +212,6 @@ function trackPlayer(this, x, y, type)
 	 res_dir = dir[k]
       end
    end
-   -- print(showdir(res_dir))
    return (res_dir)
 end
 
