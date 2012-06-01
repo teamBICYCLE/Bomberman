@@ -90,23 +90,43 @@ void	KeyBindSlide::draw(void)
      KeyBindSlide::drawKeys(1);
 }
 
+bool    KeyBindSlide::conflict(const std::string &str) const
+{
+    std::vector< std::pair<eKeys, std::string> >::const_iterator it;
+
+    for (it = player1_.begin(); it != player1_.end(); it++)
+    {
+        if (str == it->second)
+            return true;
+    }
+    for (it = player2_.begin(); it != player2_.end(); it++)
+    {
+        if (str == it->second)
+            return true;
+    }
+    return false;
+}
+
 void    KeyBindSlide::setNewKey(const std::string &str)
 {
     std::vector< std::pair<eKeys, std::string> > now;
     std::vector< std::pair<eKeys, std::string> >::iterator it;
     int i = 0;
 
-    now = ((player_ == 0) ? (player1_) : (player2_));
-    for (it = now.begin(); it != now.end(); it++)
+    if (!conflict(str))
     {
-        if (current_ == i)
-            it->second = str;
-        i++;
+        now = ((player_ == 0) ? (player1_) : (player2_));
+        for (it = now.begin(); it != now.end(); it++)
+        {
+            if (current_ == i)
+                it->second = str;
+            i++;
+        }
+        player1_ = ((player_ == 0) ? (now) : (player1_));
+        player2_ = ((player_ == 1) ? (now) : (player2_));
+        editingMode_ = false;
+        modif_ = true;
     }
-    player1_ = ((player_ == 0) ? (now) : (player1_));
-    player2_ = ((player_ == 1) ? (now) : (player2_));
-    editingMode_ = false;
-    modif_ = true;
 }
 
 void    KeyBindSlide::drawOverlay(void) const

@@ -34,6 +34,7 @@ namespace	Bomberman
     void    drawKeys(int id) const;
     void    setNewKey(const std::string &str);
     void    saveConfig(void);
+    bool    conflict(const std::string &str) const;
 
   private:
     gdl::Text   *text_;
