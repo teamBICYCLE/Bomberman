@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Thu May 31 16:42:15 2012 lois burg
+// Last update Fri Jun  1 11:22:10 2012 lois burg
 //
 
 #include <iostream>
@@ -25,9 +25,11 @@
 using namespace	Bomberman;
 using namespace	Online;
 
-ServerState::ServerState(uint nbPlayers)
-  : PlayState(), nbPlayers_(nbPlayers), clients_(nbPlayers_ - 1)
+ServerState::ServerState(int mapWidth, int mapHeight, uint nbPlayers, TCPServerSocket*& serv, std::vector<TCPSocket*>& clients)
+  : PlayState(), nbPlayers_(nbPlayers), serv_(serv), clients_(clients)
 {
+  mapW_ = mapWidth;
+  mapH_ = mapHeight;
 }
 
 ServerState::~ServerState()
@@ -43,28 +45,26 @@ bool	ServerState::init()
   srand(seed);
   std::cout << "Seed : " << seed << std::endl;
 
-  //TEMPORARY
-  try {
-    serv_ = new TCPServerSocket(ServPort, nbPlayers_ - 1);
-    std::cout << "Server listening on : " << ServPort << std::endl;
-    for (i = 1; i < nbPlayers_; ++i)
-      {
-	std::cout << "Waiting client #" << i << std::endl;
-	clients_[i - 1] = serv_->accept();
-	std::cout << nbPlayers_ - i << " clients left." << std::endl;
-      }
-  } catch (SocketException& e) {
-    std::cerr << "Connection error: " << e.what() << std::endl;
-    serv_ = NULL;
-  }
-  //END TEMPORARY
+  // //TEMPORARY
+  // try {
+  //   serv_ = new TCPServerSocket(ServPort, nbPlayers_ - 1);
+  //   std::cout << "Server listening on : " << ServPort << std::endl;
+  //   for (i = 1; i < nbPlayers_; ++i)
+  //     {
+  // 	std::cout << "Waiting client #" << i << std::endl;
+  // 	clients_[i - 1] = serv_->accept();
+  // 	std::cout << nbPlayers_ - i << " clients left." << std::endl;
+  //     }
+  // } catch (SocketException& e) {
+  //   std::cerr << "Connection error: " << e.what() << std::endl;
+  //   serv_ = NULL;
+  // }
+  // //END TEMPORARY
 
   try {
-    Map	map(5, 5, nbPlayers_, 0, 0);
+    Map	map(mapW_, mapH_, nbPlayers_, 0, 0);
 
     characterToUpdate_ = 0;
-    mapH_ = map.getHeight();
-    mapW_ = map.getWidth();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
     for (i = 1; i < nbPlayers_; ++i)
       {
@@ -100,6 +100,7 @@ void	ServerState::cleanUp()
     delete (*it);
   clients_.clear();
   delete serv_;
+  serv_ = NULL;
   PlayState::cleanUp();
 }
 
@@ -112,7 +113,6 @@ void	ServerState::update(StatesManager *mngr)
 
   select_.reset();
   select_.setNonBlock();
-
   std::for_each(clients_.begin(), clients_.end(), [this] (TCPSocket *s) -> void {
       if (s)
 	select_.addRead(s->getSockDesc());

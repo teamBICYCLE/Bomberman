@@ -9,6 +9,7 @@
 # include	"AContent.hh"
 # include   "CarrouselHandler.hh"
 # include   "Keyboard.hh"
+# include   "KeysConfig.hh"
 
 namespace	Bomberman
 {
@@ -39,7 +40,9 @@ namespace	Bomberman
     bool        return_;
     bool        editingMode_;
     std::map<gdl::Keys::Key, void(KeyBindSlide::*)(void)> paramMap_;
-    Keyboard *keyboard_;
+    std::map<eKeys, std::string> player1_;
+    std::map<eKeys, std::string> player2_;
+    KeysConfig *config_;
   };
 }
 

@@ -73,6 +73,8 @@ void      ModelHandler::preload()
         "bg-leaderboards");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-customgame.png"),
         "bg-customgame");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-hostgame.png"),
+        "bg-hostgame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
 
