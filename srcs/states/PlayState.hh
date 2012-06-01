@@ -16,6 +16,7 @@
 # include	"AGameState.hh"
 # include       "Camera.hh"
 # include       "ModelHandler.hh"
+# include       "flatTexture.hh"
 
 namespace	Bomberman
 {
@@ -39,6 +40,9 @@ namespace	Bomberman
     virtual void gameOver(StatesManager *mngr);
     virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
+    virtual void  updateReadyUpOverlay(float now);
+    virtual void  drawReadyUpOverlay(float now);
+
   protected:
     //void	saveScore(void) const;
     void	clearObjs(void);
@@ -58,6 +62,10 @@ namespace	Bomberman
     bool                escapeDisable_;
     float		readyUp_;
     float		lastTime_;
+    float                     readySize_;
+    int                       readyCurrent_;
+    std::vector<flatTexture>  readyImg_;
+    bool                sndPlayed_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

@@ -121,6 +121,37 @@ void KeysConfig::getFileData(int id)
     fileData_.push_back(res);
 }
 
+void KeysConfig::setFileData(std::vector< std::pair<eKeys, std::string> > p, int id)
+{
+    std::vector< std::pair<eKeys, std::string> >::iterator it;
+    std::map<eKeys, std::string> ref_;
+    std::string file(KEYS_FILE);
+    std::stringstream st;
+    st << (id + 1);
+
+    ref_[K_LEFT] = LEFT_CFG;
+    ref_[K_UP] = UP_CFG;
+    ref_[K_RIGHT] = RIGHT_CFG;
+    ref_[K_DOWN] = DOWN_CFG;
+    ref_[K_PUT_BOMB] = BOMB_CFG;
+    ref_[K_PUT_MINE] = MINE_CFG;
+
+    file.append(st.str()).append(KEYS_FILE_EXT);
+    std::ofstream out(file);
+    if (out.good())
+    {
+        for (it = p.begin(); it != p.end(); it++)
+        {
+            std::string tmp;
+            tmp.append(ref_[it->first]);
+            tmp.append(" = ");
+            tmp.append(it->second);
+            out << tmp << std::endl;
+        }
+    }
+    out.close();
+}
+
 bool KeysConfig::fileIsValid(int id) const
 {
   if (id == 0 && fileData_[id].size() > 0)

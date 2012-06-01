@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 10:51:25 2012 lois burg
+// Last update Fri Jun  1 17:17:08 2012 lois burg
 //
 
 #include "AdventureGame.hh"
@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 AdventureGame::AdventureGame()
-  : returnHit_(false)
+  : returnHit_(false), pressEnter_("press-enter", 640, 140)
 {
 }
 
@@ -26,7 +26,7 @@ AdventureGame::~AdventureGame()
 void	AdventureGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH)
 {
   (void)cH;
-  (void)gClock;
+  pressEnter_.update(gClock);
   if (input.isKeyDown(gdl::Keys::Return) && !returnHit_)
     sMg->pushState(new AdventureState);
   returnHit_ = input.isKeyDown(gdl::Keys::Return);
@@ -34,4 +34,5 @@ void	AdventureGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesMana
 
 void	AdventureGame::draw(void)
 {
+  pressEnter_.draw();
 }

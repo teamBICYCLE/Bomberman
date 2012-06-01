@@ -53,6 +53,7 @@ namespace Bomberman
     gdl::Keys::Key &searchKey(eKeys k, int id);
     std::string getStr(eKeys k, int id);
     std::map<const std::string, gdl::Keys::Key> getRef(void) const;
+    void setFileData(std::vector< std::pair<eKeys, std::string> > p, int id);
 
   private:
     void getFileData(int id);
@@ -67,7 +68,7 @@ namespace Bomberman
     keysMap defaultPlayer1_;
     keysMap defaultPlayer2_;
     std::map<const std::string, gdl::Keys::Key> ref_;
-    std::map<eKeys, const std::string> config_;
+    std::map<eKeys, std::string> config_;
     std::vector< std::list<std::string> > fileData_;
   };
 }

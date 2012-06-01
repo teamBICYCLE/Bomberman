@@ -6,8 +6,9 @@
  * Created on May 16, 2012, 12:54 AM
  */
 
-#include "ModelHandler.hh"
+#include <stdexcept>
 #include <iostream>
+#include "ModelHandler.hh"
 #include "flatTexture.hh"
 
 using namespace Bomberman;
@@ -23,6 +24,8 @@ ModelHandler::~ModelHandler()
 
 void      ModelHandler::preload()
 {
+  storeModel(new flatTexture("Ressources/Images/Intro/teambicycle-production.png"),
+        "teambicycle-production");
   storeModel(new flatTexture("Ressources/Images/Menu/bg.png"),
         "mainbg");
   storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
@@ -53,6 +56,27 @@ void      ModelHandler::preload()
         "arrow-settings-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-right.png"),
         "arrow-settings-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-left.png"),
+        "arrow-customgame-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-right.png"),
+        "arrow-customgame-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-leaderboard-left.png"),
+        "arrow-leaderboard-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-leaderboard-right.png"),
+        "arrow-leaderboard-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-left.png"),
+        "arrow-loadmap-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-right.png"),
+        "arrow-loadmap-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-left.png"),
+        "arrow-quickgame-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-right.png"),
+        "arrow-quickgame-right");
+
   storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
         "left");
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
@@ -95,11 +119,24 @@ void      ModelHandler::preload()
         "bg-joingame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
+  storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
+        "press-enter");
 
   storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-green.png"),
         "keybind_overlay_green");
   storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-red.png"),
         "keybind_overlay_red");
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-ok-overlay.png"),
+        "keybind-ok-overlay");
+
+  storeModel(new flatTexture("Ressources/Images/Play/three.png"),
+        "three");
+  storeModel(new flatTexture("Ressources/Images/Play/two.png"),
+        "two");
+  storeModel(new flatTexture("Ressources/Images/Play/one.png"),
+        "one");
+  storeModel(new flatTexture("Ressources/Images/Play/go.png"),
+        "go");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
@@ -112,7 +149,7 @@ AModel &  ModelHandler::getModel(const std::string &name)
   if (objects_.find(name) != objects_.end())
     return objects_[name]->clone();
   else
-    throw std::exception();
+    throw std::logic_error("Failed to load model: " + name);
 }
 
 ModelHandler &ModelHandler::get()

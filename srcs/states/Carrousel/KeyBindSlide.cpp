@@ -15,6 +15,8 @@ KeyBindSlide::KeyBindSlide()
     return_ = false;
     editingMode_ = false;
     letbool_ = false;
+    save_ = false;
+    modif_ = false;
     text_->setFont("Ressources/Fonts/Dimbo.ttf");
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &KeyBindSlide::up));
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &KeyBindSlide::down));
@@ -22,27 +24,25 @@ KeyBindSlide::KeyBindSlide()
 
     KeysConfig *config_ = new KeysConfig();
 
-    player1_.insert(std::make_pair(0, K_LEFT, config_->getStr(K_LEFT, 0)));
-    player1_.insert(std::make_pair(1, K_UP, config_->getStr(K_UP, 0)));
-    player1_.insert(std::make_pair(2, K_RIGHT, config_->getStr(K_RIGHT, 0)));
-    player1_.insert(std::make_pair(3, K_DOWN, config_->getStr(K_DOWN, 0)));
-    player1_.insert(std::make_pair(4, K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 0)));
-    player1_.insert(std::make_pair(5, K_PUT_MINE, config_->getStr(K_PUT_MINE, 0)));
+    player1_.push_back(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 0)));
+    player1_.push_back(std::make_pair(K_UP, config_->getStr(K_UP, 0)));
+    player1_.push_back(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 0)));
+    player1_.push_back(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 0)));
+    player1_.push_back(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 0)));
+    player1_.push_back(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 0)));
 
-    player2_.insert(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 1)));
-    player2_.insert(std::make_pair(K_UP, config_->getStr(K_UP, 1)));
-    player2_.insert(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 1)));
-    player2_.insert(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 1)));
-    player2_.insert(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 1)));
-    player2_.insert(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 1)));
+    player2_.push_back(std::make_pair(K_LEFT, config_->getStr(K_LEFT, 1)));
+    player2_.push_back(std::make_pair(K_UP, config_->getStr(K_UP, 1)));
+    player2_.push_back(std::make_pair(K_RIGHT, config_->getStr(K_RIGHT, 1)));
+    player2_.push_back(std::make_pair(K_DOWN, config_->getStr(K_DOWN, 1)));
+    player2_.push_back(std::make_pair(K_PUT_BOMB, config_->getStr(K_PUT_BOMB, 1)));
+    player2_.push_back(std::make_pair(K_PUT_MINE, config_->getStr(K_PUT_MINE, 1)));
     ref_ = config_->getRef();
 }
 
 KeyBindSlide::~KeyBindSlide()
 {
 }
-
-#include <iostream>
 
 void	KeyBindSlide::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH)
 {
@@ -69,8 +69,10 @@ void	KeyBindSlide::update(gdl::Input& input, gdl::GameClock& gClock, StatesManag
                 KeyBindSlide::setNewKey(it->first);
     }
 
-    if (input.isKeyDown(gdl::Keys::Return) && !return_)
+    if (input.isKeyDown(gdl::Keys::Return) && !return_ && current_ != -1)
         KeyBindSlide::setEditingMode();
+    else if (input.isKeyDown(gdl::Keys::Return) && !return_ && save_)
+        KeyBindSlide::saveConfig();
     return_ = input.isKeyDown(gdl::Keys::Return);
 
     let = input.isKeyDown((ref_.begin())->second);
@@ -90,8 +92,8 @@ void	KeyBindSlide::draw(void)
 
 void    KeyBindSlide::setNewKey(const std::string &str)
 {
-    std::map<eKeys, std::string> now;
-    std::map<eKeys, std::string>::iterator it;
+    std::vector< std::pair<eKeys, std::string> > now;
+    std::vector< std::pair<eKeys, std::string> >::iterator it;
     int i = 0;
 
     now = ((player_ == 0) ? (player1_) : (player2_));
@@ -104,22 +106,32 @@ void    KeyBindSlide::setNewKey(const std::string &str)
     player1_ = ((player_ == 0) ? (now) : (player1_));
     player2_ = ((player_ == 1) ? (now) : (player2_));
     editingMode_ = false;
+    modif_ = true;
 }
 
 void    KeyBindSlide::drawOverlay(void) const
 {   
     flatTexture *overlay;
 
-    if (player_ == 0)
-        overlay = new flatTexture(Bomberman::ModelHandler::get().getModel("keybind_overlay_green"));
-    else
-        overlay = new flatTexture(Bomberman::ModelHandler::get().getModel("keybind_overlay_red"));
-    int align = current_ * 50;
-    int alignP = player_ * 453;
-
     glPushMatrix();
-    glTranslated(608 + alignP, 504 - align, 0);
-    overlay->draw();
+    if (current_ != -1)
+    {
+        if (player_ == 0)
+            overlay = new flatTexture(Bomberman::ModelHandler::get().getModel("keybind_overlay_green"));
+        else
+            overlay = new flatTexture(Bomberman::ModelHandler::get().getModel("keybind_overlay_red"));
+        int align = current_ * 50;
+        int alignP = player_ * 453;
+
+        glTranslated(608 + alignP, 504 - align, 0);
+        overlay->draw();
+    }
+    else
+    {
+        overlay = new flatTexture(Bomberman::ModelHandler::get().getModel("keybind-ok-overlay"));
+        glTranslated(940, 115, 0);
+        overlay->draw();
+    }
     glPopMatrix();
     delete overlay;
 }
@@ -128,8 +140,8 @@ void    KeyBindSlide::drawOverlay(void) const
 
 void    KeyBindSlide::drawKeys(int id) const
 {
-    std::map<eKeys, std::string> now;
-    std::map<eKeys, std::string>::const_iterator it;
+    std::vector< std::pair<eKeys, std::string> > now;
+    std::vector< std::pair<eKeys, std::string> >::const_iterator it;
     int align = 620;
     int i = 0;
     int size;
@@ -138,12 +150,10 @@ void    KeyBindSlide::drawKeys(int id) const
     align = ((id == 1) ? (align + 455) : (align));
     for (it = now.begin(); it != now.end(); it++)
     {
-        std::cout << it->second << std::endl;
         if (current_ == i && player_ == id && editingMode_);
         else
         {
-            size = ((MAX_SIZE - 1 - (it->second.length())) * 5);
-            //size = ((it->second.length() % 2 == 0) ? ((MAX_SIZE - (it->second.length() - 1)) * 5) : ((MAX_SIZE - (it->second.length())) * 5));
+            size = ((MAX_SIZE - (it->second.length())) * 5);
             text_->setText(it->second);
             text_->setSize(25);
             text_->setPosition(align + size, 365 + (i * 50));
@@ -156,13 +166,20 @@ void    KeyBindSlide::drawKeys(int id) const
 void    KeyBindSlide::down(void)
 {
     if (!down_)
-        current_ = ((current_ == 5) ? (0) : (current_ + 1));
+    {
+        current_ = ((current_ == 5) ? (-1) : (current_ + 1));
+        save_ = ((current_ == -1) ? (true) : (false));
+    }
 }
 
 void    KeyBindSlide::up(void)
 {
     if (!up_)
-        current_ = ((current_ != 0) ? (current_ - 1) : (5));
+    {
+        current_ = ((current_ == -1) ? (-1) : (current_ - 1));
+        current_ = ((save_ == true) ? (5) : (current_));
+        save_ = ((current_ == -1) ? (true) : (false));
+    }
 }
 
 void    KeyBindSlide::tab(void)
@@ -174,4 +191,15 @@ void    KeyBindSlide::tab(void)
 void    KeyBindSlide::setEditingMode(void)
 {
     editingMode_ = !editingMode_;
+}
+
+void    KeyBindSlide::saveConfig(void)
+{
+    if (modif_)
+    {
+        std::cout << "save" << std::endl;
+        config_->setFileData(player1_, 0);
+        config_->setFileData(player2_, 1);
+        modif_ = false;
+    }
 }

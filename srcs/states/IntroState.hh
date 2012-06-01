@@ -8,30 +8,38 @@
 **************************************************************************/
 
 #ifndef INTROSTATE_HH
-#define INTROSTATE_HH
+# define INTROSTATE_HH
 
-#include "AGameState.hh"
-#include <GDL/Image.hpp>
-#include <SFML/Audio.hpp>
+# include <GDL/Image.hpp>
+# include <SFML/Audio.hpp>
+# include "AGameState.hh"
+# include "Carrousel/FadingTexture.hh"
 
-class IntroState : public AGameState
+namespace	Bomberman
 {
-public:
-  virtual bool init(void);
-  virtual void cleanUp();
+  class IntroState : public AGameState
+  {
+  public:
+    IntroState();
+    virtual ~IntroState();
 
-  virtual void update(StatesManager *);
-  virtual void draw(StatesManager *);
-  virtual void pause();
-  virtual void resume();
+  public:
+    virtual bool init(void);
+    virtual void cleanUp();
 
-private:
-  int               x_;
-  float             alpha_;
-  sf::SoundBuffer   ringerBuf_;
-  sf::Sound         ringer_;
-  gdl::Image        bicycle_;
-  bool              sndPlayed_;
-};
+    virtual void update(StatesManager *);
+    virtual void draw(StatesManager *);
+    virtual void pause();
+    virtual void resume();
+
+  private:
+    int               x_;
+    float             alpha_;
+    gdl::Image        bicycle_;
+    bool              sndPlayed_;
+    int               delay_;
+    FadingTexture     text_;
+  };
+}
 
 #endif // INTROSTATE_HH

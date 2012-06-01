@@ -13,13 +13,15 @@
 #include <GL/glut.h>
 
 ExplosionBlock::ExplosionBlock(const std::string &imgpath)
+  : iter_(0)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
 }
 
 ExplosionBlock::ExplosionBlock(const AModel &orig)
-  : img_(dynamic_cast<const ExplosionBlock *>(&orig)->img_)
+  : img_(dynamic_cast<const ExplosionBlock *>(&orig)->img_),
+    iter_(0)
 {
 }
 

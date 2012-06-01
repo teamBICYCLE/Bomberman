@@ -27,12 +27,13 @@ namespace	Bomberman
       virtual ~Block();
 
   public:
-    virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
-    virtual void		draw(void);
-    virtual void		destroy(void);
-    virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-					  std::list<AObject*>objs,
-					  int x, int y) const;
+      virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+      virtual void		draw(void);
+      virtual void		destroy(void);
+      virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
+                                          std::list<AObject*>objs,
+                                          int x, int y) const;
+      TexturedCube &getCube();
 
     /* Serialization */
     virtual void serialize(QDataStream &out) const;

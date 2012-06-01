@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Fri Jun  1 15:37:53 2012 lois burg
+// Last update Fri Jun  1 15:56:29 2012 lois burg
 //
 
 #include <iostream>
@@ -154,7 +154,7 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
-  std::cout << "server check" << std::endl;
+  std::cout << "Server checkEnd" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
@@ -163,7 +163,7 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	    i++;
 	  if (plyr)
 	    winnerId_ = i;
-      std::cout << "win" << std::endl;
+	  std::cout << "WIN" << std::endl;
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)

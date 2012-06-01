@@ -40,6 +40,8 @@ public:
   void          drawPreviousPreview();
   void          drawNextPreview();
 
+  void          createMainMenu();
+
 
   CarrouselHandler &      operator++();
   CarrouselHandler &      operator--();
@@ -55,6 +57,8 @@ private:
   flatTexture             bg_;
   GLvoid                  *data_;
   bool                    imgBg_;
+  gdl::Image              overlay_;
+  float                   offset_;
 };
 
 #endif // CARROUSELHANDLER_HH

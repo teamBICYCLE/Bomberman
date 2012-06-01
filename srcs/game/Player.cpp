@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri Jun  1 15:19:34 2012 lois burg
+// Last update Fri Jun  1 17:57:55 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -17,6 +17,7 @@
 #include "Monster.hh"
 #include "ModelHandler.hh"
 #include "SaveHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -29,11 +30,11 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
-  std::cout << color_.x << std::endl;
-  // isInvincible_ = true;
+  //std::cout << color_.x << std::endl;
+  isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
-  // nbMines_ = 10000;
+  nbMines_ = 10000;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -102,6 +103,7 @@ Player::Player(const Player &other)
 
 Player::~Player()
 {
+  Sounds::instance().stopEffect("run");
 }
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
@@ -310,12 +312,14 @@ void    Player::moveAnimation(void)
       speedAdapter_ = 5;
       model_.getModel().stop_animation("stop");
       model_.getModel().play("start");
+      Sounds::instance().playEffect("run", 0.1);
     }
     else if (model_.getModel().anim_is_ended("start"))
     {
       model_.getModel().stop_animation("stop");
       speedAdapter_ = 100;
       model_.getModel().play("run");
+      Sounds::instance().playEffect("run", 0.1);
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning_ = true;
@@ -323,6 +327,7 @@ void    Player::moveAnimation(void)
   else if (wasRunning_ == true)
   {
     model_.getModel().play("stop");
+    Sounds::instance().stopEffect("run");
     wasRunning_ = false;
   }
   // reset de la propriete moved.
@@ -457,7 +462,6 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
 				     int x, int y) const
 {
   (void)objs;
-  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
   if (pos_.y < y - 1)
     map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 10;
   if (pos_.x < x - 1 && pos_.y < y - 1)
@@ -474,4 +478,5 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
     map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 20;
   if (pos_.x < x - 1 && pos_.y > 0)
     map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 20;
+  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
 }
