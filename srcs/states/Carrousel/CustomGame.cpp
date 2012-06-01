@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 18:45:42 2012 lois burg
+// Last update Thu May 31 19:17:37 2012 lois burg
 //
 
 #include <utility>
@@ -156,15 +156,15 @@ void	CustomGame::returnArrow(StatesManager *sMg)
 void	CustomGame::modifyMapWidth(int val)
 {
   mapWidth_ += val;
-  if (mapWidth_ < 0)
-    mapWidth_ = 0;
+  if (mapWidth_ < 13)
+    mapWidth_ = 13;
 }
 
 void	CustomGame::modifyMapHeight(int val)
 {
   mapHeight_ += val;
-  if (mapHeight_ < 0)
-    mapHeight_ = 0;
+  if (mapHeight_ < 13)
+    mapHeight_ = 13;
 }
 
 void	CustomGame::modifyNbPlayers(int val)

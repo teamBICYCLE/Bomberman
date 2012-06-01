@@ -70,6 +70,10 @@ void      StatesManager::initialize()
   Bomberman::ModelHandler::get().storeModel(
         new gdlModel("Ressources/Assets/bomb.fbx"), "bomb");
   Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/mine.fbx"), "mine");
+  Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/ghost.fbx"), "ghost");
+  Bomberman::ModelHandler::get().storeModel(
         new ExplosionBlock("Ressources/Images/Play/explosion.png"), "explosion");
 }
 
