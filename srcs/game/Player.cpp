@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri Jun  1 15:19:34 2012 lois burg
+// Last update Fri Jun  1 15:41:30 2012 lois burg
 //
 
 #include <algorithm>
@@ -338,7 +338,6 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
-  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));

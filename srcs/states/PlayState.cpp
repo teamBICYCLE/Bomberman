@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 31 16:41:42 2012 lois burg
+// Last update Fri Jun  1 15:54:28 2012 lois burg
 //
 
 #include <iostream>
@@ -155,7 +155,7 @@ void  PlayState::update(StatesManager *sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  PlayState::checkEndGame(sMg, nbPlayers, nbMonsters);
+  checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)
