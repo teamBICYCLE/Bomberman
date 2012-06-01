@@ -34,7 +34,7 @@
 using namespace	Bomberman;
 
 IntroState::IntroState()
-  : text_("teambicycle-production", 500, 100, FadingTexture::FadeIn, true, 0.1, 0.04)
+  : text_("teambicycle-production", 570, 300, FadingTexture::FadeIn, true, 0.1, 0.04)
 {
 }
 
@@ -45,7 +45,7 @@ IntroState::~IntroState()
 bool  IntroState::init(void)
 {
   this->bicycle_ = gdl::Image::load("./Ressources/Images/Intro/bicycle_noalpha.png");
-  x_ = -1700;
+  x_ = -700.5;
   alpha_ = 0.96f;
   sndPlayed_ = false;
   delay_ = 0;
@@ -59,7 +59,7 @@ void  IntroState::cleanUp()
 
 void  IntroState::update(StatesManager * sMg)
 {
-   if (x_ < -240)
+   if (x_ < 560.5)
      x_+= 10;
    else if (!sndPlayed_)
      {
@@ -96,7 +96,7 @@ void  IntroState::draw(StatesManager * sMg)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
   glPushMatrix();
-  glTranslatef(x_, 0, 0);
+  glTranslatef(x_, 560.5, 0);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_SRC_ALPHA);
   this->bicycle_.bind();
