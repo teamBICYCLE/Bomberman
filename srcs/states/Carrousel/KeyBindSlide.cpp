@@ -41,6 +41,7 @@ void	KeyBindSlide::update(gdl::Input& input, gdl::GameClock& gClock, StatesManag
 {
     (void)gClock;
     (void)sMg;
+    (void)cH;
     for (std::map<gdl::Keys::Key, void(KeyBindSlide::*)(void)>::iterator it = paramMap_.begin(); it != paramMap_.end(); ++it)
       if (input.isKeyDown(it->first))
         (this->*(it->second))();

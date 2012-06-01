@@ -48,7 +48,7 @@ void  IntroState::cleanUp()
 
 void  IntroState::update(StatesManager * sMg)
 {
-
+  (void)sMg;
   // if (x_ < -240)
   //   x_+= 10;
   // else if (!sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
@@ -75,6 +75,7 @@ void  IntroState::update(StatesManager * sMg)
 
 void  IntroState::draw(StatesManager * sMg)
 {
+  (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glClearColor(alpha_, alpha_, alpha_, 1.0f);
