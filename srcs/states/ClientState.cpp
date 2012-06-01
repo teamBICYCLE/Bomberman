@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Fri Jun  1 15:20:06 2012 lois burg
+// Last update Fri Jun  1 15:38:21 2012 lois burg
 //
 
 #include <iostream>
@@ -92,28 +92,25 @@ void	ClientState::update(StatesManager *mngr)
   Packet	netPacket;
   Player	*plyr;
 
-  if (readyUp_ <= 0)
+  if (disconnected_)
+    mngr->popState();//faire plus smooth
+  else if (serv_)
     {
-      if (disconnected_)
-	mngr->popState();//faire plus smooth
-      else if (serv_)
+      select_.reset();
+      select_.setNonBlock();
+      select_.addRead(serv_->getSockDesc());
+      select_.watch();
+      if (select_.canRead(serv_->getSockDesc()))
 	{
-	  select_.reset();
-	  select_.setNonBlock();
-	  select_.addRead(serv_->getSockDesc());
-	  select_.watch();
-	  if (select_.canRead(serv_->getSockDesc()))
-	    {
-	      netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
-	      // std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
-	      Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
-	    }
-	  PlayState::update(mngr);
-	  if ((plyr = getPlayerWithId(objs_, playerNbr_)))
-	    packet = plyr->pack(mngr->getInput());
-	  if (serv_ && !disconnected_ && packet.isUseful())
-	    sendPacket(serv_->getStream(), packet);
+	  netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
+	  // std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
+	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
 	}
+      PlayState::update(mngr);
+      if ((plyr = getPlayerWithId(objs_, playerNbr_)))
+	packet = plyr->pack(mngr->getInput());
+      if (readyUp_ <= 0 && serv_ && !disconnected_ && packet.isUseful())
+	sendPacket(serv_->getStream(), packet);
     }
 }
 
