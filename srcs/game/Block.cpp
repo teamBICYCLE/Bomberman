@@ -108,3 +108,8 @@ void	Block::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
   (void)objs;
   setDangerMap(getPos().x, getPos().y, DANGER_BLOCK, map);
 }
+
+TexturedCube &Block::getCube()
+{
+  return model_;
+}

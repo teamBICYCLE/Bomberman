@@ -21,7 +21,8 @@ namespace	Bomberman
   class	Bomb : public AObject
   {
   public:
-      Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner);
+      Bomb(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, int range, int timeOut, Player& owner,
+           const std::string & modelName = "bomb");
       Bomb(const Bomb &);
       Bomb();
       virtual ~Bomb();
@@ -36,11 +37,11 @@ namespace	Bomberman
 
     Bomb			*isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const;
     void			setRangeDanger(int, double, double, int, std::list<AObject*>,
-					       std::vector<std::vector<std::pair<int, int> > > &,
-					       int, int) const;
+                                               std::vector<std::vector<std::pair<int, int> > > &,
+                                               int, int) const;
     virtual void		setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-					  std::list<AObject*>objs,
-					  int x, int y) const;
+                                          std::list<AObject*>objs,
+                                          int x, int y) const;
 
 
     /* Serialization */

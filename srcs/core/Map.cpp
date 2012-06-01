@@ -95,13 +95,23 @@ void				Map::generateBorder(void)
 {
   for (int x = -1; x < static_cast<int>(width_) + 1; ++x)
     {
-      terrain_.push_back(new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(x, height_, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      Block * left = new Block(Vector3d(x, -1, 0), Vector3d(0,0,0), Vector3d(1, 1, 0));
+      Block * right = new Block(Vector3d(x, height_, 0), Vector3d(0,0,0), Vector3d(1, 1, 0));
+
+      left->getCube().setBuild();
+      right->getCube().setBuild();
+      terrain_.push_back(left);
+      terrain_.push_back(right);
     }
   for (int y = 0; y < static_cast<int>(height_); ++y)
     {
-      terrain_.push_back(new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-      terrain_.push_back(new Block(Vector3d(width_, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
+      Block * top = new Block(Vector3d(-1, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0));
+      Block * bot = new Block(Vector3d(width_, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0));
+
+      top->getCube().setBuild();
+      bot->getCube().setBuild();
+      terrain_.push_back(top);
+      terrain_.push_back(bot);
     }
 }
 
@@ -119,15 +129,15 @@ void				Map::generateBricks(void)
     y = rand() % height_;
     if ((x % 2) == 0 || (y % 2) == 0)
       {
-	for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	  if ((*it)->getPos().x == (x ) && (*it)->getPos().y == (y ))
-	    find = true;
-	if (!find)
-	  {
-	    terrain_.push_back(new Brick(Vector3d(x , y , 0), Vector3d(0, 0, 0), Vector3d(1, 1, 0)));
-	    --nbBricks;
-	  }
-	find = false;
+        for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+          if ((*it)->getPos().x == (x ) && (*it)->getPos().y == (y ))
+            find = true;
+        if (!find)
+          {
+            terrain_.push_back(new Brick(Vector3d(x , y , 0), Vector3d(0, 0, 0), Vector3d(1, 1, 0)));
+            --nbBricks;
+          }
+        find = false;
       }
   }
   while (nbBricks > 0);
@@ -191,10 +201,10 @@ void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
   for (it = terrain_.begin(); it != terrain_.end();)
     {
       if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
-	{
-	  it = terrain_.erase(it);
-	  break;
-	}
+        {
+          it = terrain_.erase(it);
+          break;
+        }
       ++it;
     }
   terrain_.push_back(new Monster(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
@@ -239,10 +249,10 @@ void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)
   for (it = terrain_.begin(); it != terrain_.end(); ++it)
     {
       if ((*it)->getPos().x == x && (*it)->getPos().y == y && dynamic_cast<Brick*>(*it))
-	{
+        {
           it = terrain_.erase(it);
           break;
-	}
+        }
     }
   terrain_.push_back(new Ghost(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
@@ -263,18 +273,18 @@ void				Map::clearPlace(uint x, uint y)
     {
       found = false;
       for (i = postab.begin(); i != postab.end(); ++i)
-	{
-	  if (((*it)->getPos().x == ((x + (*i).first)))
-	      && ((*it)->getPos().y == ((y + (*i).second)))
-	      && dynamic_cast<Brick*>(*it))
-	    {
-      	      it = terrain_.erase(it);
-	      found = true;
-	      break;
-	    }
-	}
+        {
+          if (((*it)->getPos().x == ((x + (*i).first)))
+              && ((*it)->getPos().y == ((y + (*i).second)))
+              && dynamic_cast<Brick*>(*it))
+            {
+              it = terrain_.erase(it);
+              found = true;
+              break;
+            }
+        }
       if (!found)
-	++it;
+        ++it;
     }
 }
 
@@ -295,7 +305,7 @@ void Map::addBlocks(const std::string &l, int y, std::list<AObject*> *tmp)
                l[i] == MAP_FILE_FIREBLOCK_DOWN ||
                l[i] == MAP_FILE_FIREBLOCK_LEFT ||
                l[i] == MAP_FILE_FIREBLOCK_RIGT)
-	tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(ref[l[i]].first, ref[l[i]].second, 0)));
+        tmp->push_back(new FireBlock(Vector3d(i, y, 0), Vector3d(), Vector3d(1, 1, 0), Vector3d(ref[l[i]].first, ref[l[i]].second, 0)));
     }
 }
 
@@ -333,14 +343,14 @@ void Map::addGhosts(const std::string &l, int y, std::list<AObject*> *tmp, Think
 {
     for (uint i = 0; i != l.length(); i++)
       if (l[i] == MAP_FILE_GHOST)
-	tmp->push_back(new Ghost(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
+        tmp->push_back(new Ghost(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void Map::addMonsters(const std::string &l, int y, std::list<AObject*> *tmp, Thinking::Brain *b)
 {
     for (uint i = 0; i != l.length(); i++)
       if (l[i] == MAP_FILE_MONSTER)
-	tmp->push_back(new Monster(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
+        tmp->push_back(new Monster(Vector3d(i, y, 0), Vector3d(0,0,0), Vector3d(0.6, 0.6, 0), b));
 }
 
 void Map::mapFileIsValid(std::list<std::string> &map) const
@@ -350,7 +360,7 @@ void Map::mapFileIsValid(std::list<std::string> &map) const
 
     for (it = map.begin(); it != map.end(); it++)
       if (it->length() > max)
-	throw Map::Failure("mapFileIsValid", "Map is not valid !");
+        throw Map::Failure("mapFileIsValid", "Map is not valid !");
 }
 
 void Map::setFromFile(std::list<std::string> &map)

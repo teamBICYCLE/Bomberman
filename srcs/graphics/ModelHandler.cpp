@@ -121,6 +121,16 @@ void      ModelHandler::preload()
 
   storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay.png"),
         "keybind-overlay");
+
+
+  storeModel(new flatTexture("Ressources/Images/Play/three.png"),
+        "three");
+  storeModel(new flatTexture("Ressources/Images/Play/two.png"),
+        "two");
+  storeModel(new flatTexture("Ressources/Images/Play/one.png"),
+        "one");
+  storeModel(new flatTexture("Ressources/Images/Play/go.png"),
+        "go");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

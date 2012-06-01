@@ -28,17 +28,21 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-  readyUp_(3.0f), lastTime_(-1)
+    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(false)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
   Sounds::instance().playMusic("test");
+  readyImg_.push_back(ModelHandler::get().getModel("three"));
+  readyImg_.push_back(ModelHandler::get().getModel("two"));
+  readyImg_.push_back(ModelHandler::get().getModel("one"));
+  readyImg_.push_back(ModelHandler::get().getModel("go"));
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-      readyUp_(3.0f), lastTime_(-1)
+      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(false)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -48,6 +52,10 @@ PlayState::PlayState(const std::list<AObject*> *list)
   characterToUpdate_ = -1;
   mapH_ = PlayState::getHeight(list);
   mapW_ = PlayState::getWidth(list);
+  readyImg_.push_back(ModelHandler::get().getModel("three"));
+  readyImg_.push_back(ModelHandler::get().getModel("two"));
+  readyImg_.push_back(ModelHandler::get().getModel("one"));
+  readyImg_.push_back(ModelHandler::get().getModel("go"));
 }
 
 PlayState::~PlayState(void)
@@ -108,6 +116,7 @@ void  PlayState::update(StatesManager *sMg)
     lastTime_ = now;
   if (readyUp_ > 0)
     {
+      updateReadyUpOverlay(readyUp_);
       readyUp_ -= now - lastTime_;
       lastTime_ = now;
     }
@@ -187,6 +196,38 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
     }
 }
 
+void PlayState::updateReadyUpOverlay(float now)
+{
+  readyCurrent_ = 4 - now;
+  if (readyCurrent_ == 3 && !sndPlayed_)
+    {
+      sndPlayed_ = true;
+      Sounds::instance().playEffect("fight");
+    }
+  readySize_ = 1 -(static_cast<int>(now * 100) % 100) / 100.f;
+}
+
+void PlayState::drawReadyUpOverlay(float now)
+{
+  glDepthMask(GL_FALSE);
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  gluOrtho2D(0, 1600, 0, 900);
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
+  glTranslated(800 - ((500 * readySize_) / 2), 450 - ((500 * readySize_) / 2), 0);
+  glScaled(readySize_, readySize_, readySize_);
+  readyImg_[readyCurrent_].draw();
+  glPopMatrix();
+
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glDepthMask(GL_TRUE);
+}
+
 //void	PlayState::saveScore(void) const
 //{
 //  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
@@ -205,7 +246,6 @@ void  PlayState::draw(StatesManager * sMg)
   double      h = this->mapH_, w = this->mapW_;
   (void)sMg;
   camera_.draw();
-  camera_.drawRepere();
 
   glDepthMask(GL_FALSE);
   glPushMatrix();
@@ -253,6 +293,8 @@ void  PlayState::draw(StatesManager * sMg)
       obj->draw();
     });
   glPopMatrix();
+  if (readyUp_ >= 0)
+  drawReadyUpOverlay(readyUp_);
   glFlush();
 }
 

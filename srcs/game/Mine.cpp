@@ -14,7 +14,7 @@
 using namespace	Bomberman;
 
 Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player& owner)
-  : Bomb(pos, rot, sz, 0, 0.0f, owner), chainReaction_(false)
+  : Bomb(pos, rot, sz, 0, 0.0f, owner, "mine"), chainReaction_(false)
 {
   type_ = "Mine";
 }
@@ -43,6 +43,16 @@ void	Mine::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   if (chainReaction_)
     destroy(objs);
   model_.update(clock);
+}
+
+void    Mine::draw()
+{
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x + 0.5, pos_.y + 0.5, pos_.z + 0.20);
+  glScaled(0.38, 0.38,0.07);
+  glRotated(90, 1, 0, 0);
+  model_.draw();
 }
 
 void	Mine::interact(Character *ch, std::list<AObject*>& objs)
@@ -146,7 +156,7 @@ void Mine::aff2(void) const
 
 
 void  Mine::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
-		      int x, int y) const
+                      int x, int y) const
 {
   (void)objs;
   (void)x;

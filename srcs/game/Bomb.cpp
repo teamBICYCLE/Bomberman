@@ -21,11 +21,12 @@
 using namespace	Bomberman;
 
 Bomb::Bomb(const Vector3d& pos, const Vector3d& rot,
-           const Vector3d& sz, int range, int timeOut, Player& owner)
+           const Vector3d& sz, int range, int timeOut, Player& owner,
+           const std::string &modelName)
   : AObject(pos, rot, sz, "Bomb"), range_(range),
     timeOut_(timeOut), owner_(owner), speed_(Vector3d()),
     lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this),
-    model_(ModelHandler::get().getModel("bomb"))
+    model_(ModelHandler::get().getModel(modelName))
 {
   Sounds::instance().playEffect("drop");
 }

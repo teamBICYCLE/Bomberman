@@ -27,10 +27,14 @@ public:
   void      draw();
   void      update(gdl::GameClock & clock);
   AModel &  clone();
+  void      setBuild();
 
 private:
   GLuint      list_;
   gdl::Image  img_;
+  float       coef_;
+  float       incValue_;
+  float       delay_;
 };
 
 #endif // TEXTUREDCUBE_HH

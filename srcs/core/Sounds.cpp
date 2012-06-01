@@ -45,6 +45,7 @@ void Sounds::preload()
   loadEffect("boom", "Ressources/Sounds/Play/explosion.wav");
   loadEffect("run", "Ressources/Sounds/Play/run.wav", true);
   loadEffect("stop", "Ressources/Sounds/Play/tirescreech.wav");
+  loadEffect("fight", "Ressources/Sounds/Play/fight.wav");
 }
 
 void Sounds::loadEffect(const std::string &name, const std::string &path, bool loop)

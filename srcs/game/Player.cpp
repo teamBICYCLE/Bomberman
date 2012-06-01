@@ -34,7 +34,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
-  // nbMines_ = 10000;
+  nbMines_ = 10000;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);

@@ -28,13 +28,14 @@ namespace	Bomberman
 
   public:
     virtual void		update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void                draw();
     virtual void		interact(Character *ch, std::list<AObject*>& objs);
     virtual void		interact(Explosion *e, std::list<AObject*>& objs);
     virtual void		destroy(std::list<AObject*>& objs);
 
     virtual void                setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-					  std::list<AObject*>objs,
-					  int x, int y) const;
+                                          std::list<AObject*>objs,
+                                          int x, int y) const;
 
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;
