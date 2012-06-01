@@ -55,6 +55,9 @@ void      StatesManager::initialize()
         new TexturedCube("Ressources/Images/Play/block.png"),
         "block");
   Bomberman::ModelHandler::get().storeModel(
+        new TexturedCube("Ressources/Images/Play/fireblock.png"),
+        "fireblock");
+  Bomberman::ModelHandler::get().storeModel(
         new TexturedCube("Ressources/Images/Play/brick.png"),
         "brick");
   Bomberman::ModelHandler::get().storeModel(
@@ -66,6 +69,10 @@ void      StatesManager::initialize()
         marvin, "bombman");
   Bomberman::ModelHandler::get().storeModel(
         new gdlModel("Ressources/Assets/bomb.fbx"), "bomb");
+  Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/mine.fbx"), "mine");
+  Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/ghost.fbx"), "ghost");
   Bomberman::ModelHandler::get().storeModel(
         new ExplosionBlock("Ressources/Images/Play/explosion.png"), "explosion");
 }
