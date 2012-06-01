@@ -135,7 +135,6 @@ void Sounds::playMusic(const std::string &name)
         FMOD_Channel_Stop(currentMusic_);
       FMOD_System_PlaySound(system_, FMOD_CHANNEL_FREE, musics_[name], 0,
                             &currentMusic_);
-      FMOD_Channel_SetPaused(currentMusic_, 0);
     }
 }
 

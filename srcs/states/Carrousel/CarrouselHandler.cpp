@@ -16,6 +16,16 @@
 #include "ServerState.hh"
 #include "ClientState.hh"
 #include "Sounds.hh"
+#include "Carrousel/LoadContent.hh"
+#include "Carrousel/QuickGame.hh"
+#include "Carrousel/CustomGame.hh"
+#include "Carrousel/HostGame.hh"
+#include "Carrousel/JoinGame.hh"
+#include "Carrousel/AdventureGame.hh"
+#include "Carrousel/LeaderBoards.hh"
+#include "Carrousel/CarrouselHandler.hh"
+#include "Carrousel/ItemList.hh"
+#include "Carrousel/KeyBindSlide.hh"
 
 CarrouselHandler::CarrouselHandler(const std::string & bg)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
@@ -57,16 +67,15 @@ void CarrouselHandler::cleanUp()
 {
 }
 
-#include "ServerState.hh"
-
 void CarrouselHandler::update(StatesManager * sMg)
 {
   // a degager
-  if (sMg->getInput().isKeyDown(gdl::Keys::H))
-    sMg->pushState(new Bomberman::Online::ServerState(2), true);
-  else if (sMg->getInput().isKeyDown(gdl::Keys::C))
-    sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
-  else if (sMg->getInput().isKeyDown(gdl::Keys::P))
+  // if (sMg->getInput().isKeyDown(gdl::Keys::H))
+  //   sMg->pushState(new Bomberman::Online::ServerState(2), true);
+  // else if (sMg->getInput().isKeyDown(gdl::Keys::C))
+  //   sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
+  // else
+    if (sMg->getInput().isKeyDown(gdl::Keys::P))
     sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
@@ -172,6 +181,19 @@ void CarrouselHandler::drawNextPreview()
   int next = activ_ + 1 >= static_cast<int>(pages_.size()) ? 0 : activ_ + 1;
 
   pages_[next]->drawRight();
+}
+
+void CarrouselHandler::createMainMenu()
+{
+  pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
+  pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
+  pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
+  pushPage(new APage(new HostGame(), "bg-hostgame", "left", "right"));
+  pushPage(new APage(new JoinGame(), "bg-joingame", "left", "right"));
+  // pushPage(new APage(new ItemList(), "bg", "right", "left"));
+  pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+  pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
+  pushPage(new APage(new KeyBindSlide(), "bg-keybind", "arrow-keybind-left", "arrow-keybind-right"));
 }
 
 

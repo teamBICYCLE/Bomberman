@@ -61,18 +61,14 @@ void  IntroState::update(StatesManager * sMg)
      {
        CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg");
 
-       carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
-       carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
-       carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
-       // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
-       carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-       carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
+       carrouselHandler->createMainMenu();
        sMg->changeState(carrouselHandler);
      }
 }
 
 void  IntroState::draw(StatesManager * sMg)
 {
+  (void)sMg;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glClearColor(alpha_, alpha_, alpha_, 1.0f);
