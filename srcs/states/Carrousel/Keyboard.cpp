@@ -44,13 +44,21 @@ Keyboard::Keyboard(int x, int y, uint limit)
     letters_.insert(std::make_pair(gdl::Keys::Period, "."));
 
     letbool_ = false;
+    focus_ = true;
 }
 
 Keyboard::~Keyboard()
 {
+
 }
 
 void Keyboard::update(gdl::Input& input)
+{
+    if (focus_)
+        Keyboard::privateUpdate(input);
+}
+
+void Keyboard::privateUpdate(gdl::Input& input)
 {
     bool let;
 
@@ -97,4 +105,9 @@ const std::string Keyboard::getData(void) const
     for (it = data_.begin(); it != data_.end(); it++)
         ret.append(*it);
     return ret;
+}
+
+void Keyboard::setFocus(bool b)
+{
+    focus_ = b;
 }
