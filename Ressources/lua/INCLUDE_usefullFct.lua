@@ -34,61 +34,68 @@ function getZoneDanger(this, x, y)
    local posX = {x , x + 1 , x - 1 , x     , x     , x + 1 , x - 1 , x + 1 , x - 1}
    local posY = {y , y     , y     , y - 1 , y + 1 , y + 1 , y + 1 , y - 1 , y - 1}
    local res = 0
-   local size = 0
 
    for j = 1, table.getn(posX) do
       local tmp = this:getDanger(posX[j], posY[j])
---      print("danger : ", "x ", posX[j], " y ", posY[j], this:getDanger(posX[j], posY[j]))
-      if (tmp ~= (DANGER_MAX + 1))
+      if (tmp > 0 and j == 1)
       then
-	 if (tmp > 0 and posX[j] == x and posY[j] == y)
-	 then
---	    print("result :", tmp, j)
-	    -- print()
-	    return (tmp)
-	 end
-	 res = res + tmp
-	 size = size + 1
+	 -- print("return direct :", tmp)
+	 return (tmp)
       end
+      -- print("tmp", tmp)
+      res = res + tmp
    end
-   -- print()
-   -- print(size)
-    -- print("result :", res / size)
+   -- print("res : ", res / table.getn(posX))
    -- print()
    -- print()
-   -- print()
-   return (res / size)
+   return (res / table.getn(posX))
 end
 
+function getZonePheromones(this, x, y)
+   local posX = { x + 1     , x - 1     , x         , x         }
+   local posY = { y         , y         , y - 1     , y + 1     }
+
+   local res = 0
+   for l = 1, table.getn(posX) do
+      tmp = this:getPheromones(posX[l], posY[l])
+      if (tmp >= 0)
+      then
+	 res = res + tmp
+      end
+   end
+   return (res / table.getn(posX))
+end
+
+
 function testCross(this, x, y, type)
-   local dir =  { RIGHT   , LEFT    , UP      , DOWN   }
-   local posX = { x + 1   , x - 1   , x       , x       }
-   local posY = { y       , y       , y - 1   , y + 1   }
-   local dirX = { x + 0.05   , x - 0.05   , x       , x       }
-   local dirY = { y       , y       , y - 0.05   , y + 0.05   }   
+   local dir =  { RIGHT     , LEFT      , UP        , DOWN      }
+   local posX = { x + 1     , x - 1     , x         , x         }
+   local posY = { y         , y         , y - 1     , y + 1     }
+   local dirX = { x + SPEED , x - SPEED , x         , x         }
+   local dirY = { y         , y         , y - SPEED , y + SPEED }
+
    local res_dir = NODIR
-   local danger = getZoneDanger(this, x, y)
-   
---   print("Danger local de ", danger)
+   local danger = getZoneDanger(this, floor(x), floor(y))
+
    for  i = 1, table.getn(dir) do
-      local tmpDanger = getZoneDanger(this, posX[i], posY[i])
-  --    print("================= Testing : ", showdir(dir[i]) ," danger de :", floor(tmpDanger), "et crossable == ", this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1 and this:isCrossable(dirX[i], dirY[i], type) == 1)
+      local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[i]))
       if (danger > 0 and
 	  tmpDanger < danger
-	  and this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1 and this:isCrossable(dirX[i], dirY[i], type) == 1)
+	  and this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1
+          and this:isCrossable(dirX[i], dirY[i], type) == 1)
       then
 	 danger = tmpDanger
 	 res_dir = dir[i]
-       end
+      end
    end
    return res_dir, danger
 end
 
 function UpperRight(this, x, y, type)
-   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + 0.05, y, type) == 1)
+   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + SPEED, y, type) == 1)
    then
       return (RIGHT)
-   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - 0.05, type) == 1)
+   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - SPEED, type) == 1)
    then
       return (UP)
    end
@@ -96,10 +103,10 @@ function UpperRight(this, x, y, type)
 end
 
 function UpperLeft(this, x, y, type)
-   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - SPEED, y, type)== 1)
    then
       return (LEFT)
-   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y - 1), type) == 1 and this:isCrossable(x, y - SPEED, type)== 1)
    then
       return (UP)
    end
@@ -107,10 +114,10 @@ function UpperLeft(this, x, y, type)
 end
 
 function BottomRight(this, x, y, type)
-   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x + 1), floor(y), type) == 1 and this:isCrossable(x + SPEED, y, type)== 1)
    then
       return (RIGHT)
-   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + SPEED, type)== 1)
    then
       return (DOWN)
    end
@@ -118,10 +125,10 @@ function BottomRight(this, x, y, type)
 end
 
 function BottomLeft(this, x, y, type)
-   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - 0.05, y, type)== 1)
+   if (this:isCrossable(floor(x - 1), floor(y), type) == 1 and this:isCrossable(x - SPEED, y, type)== 1)
    then
       return (LEFT)
-   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + 0.05, type)== 1)
+   elseif (this:isCrossable(floor(x), floor(y + 1), type) == 1 and this:isCrossable(x, y + SPEED, type)== 1)
    then
       return (DOWN)
    end
@@ -136,8 +143,7 @@ function testAngles(this, x, y, type, danger, res_dir)
 
    for  i = 1, table.getn(posX) do
       for  j = 1, table.getn(posY) do
-	 local tmpDanger = getZoneDanger(this, posX[i], posY[j])
---	 print("================= Testing : ", dir[i][j] ," danger de :", floor(tmpDanger), "et crossable == ", this:isCrossable(floor(posX[i]), floor(posY[j]), type) == 1 and funct[i][j](this, x, y, type) ~= NODIR)
+	 local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[j]))
 	 if (danger > 0 and
 	     tmpDanger < danger
 	     and this:isCrossable(floor(posX[i]), floor(posY[j]), type) == 1)
@@ -153,15 +159,13 @@ end
 function getLessDangerousDirection(this, x, y, type)
    local danger = 0
    local res_dir = NODIR
---   print (x, y, "floor", floor(x),floor(y))
-   res_dir, danger = testCross(this, x, y, type)
 
+   res_dir, danger = testCross(this, x, y, type)
    res_dir = testAngles(this, x, y, type, danger, res_dir)
    if (res_dir == NODIR)
    then
       -- aller quelque part
    end
---   print("======", showdir(res_dir), "=======")
    return (res_dir)
 end
 
@@ -196,13 +200,13 @@ function trackPlayer(this, x, y, type)
    local dir =  { RIGHT   , LEFT    , UP      , DOWN     }
    local posX = { x + 1   , x - 1   , x       , x        }
    local posY = { y       , y       , y - 1   , y + 1    }
-   local dirX = { x + 0.05, x - 0.05 , x      , x        }
-   local dirY = { y       , y       , y - 0.05, y + 0.05 }
+   local dirX = { x + SPEED, x - SPEED , x      , x        }
+   local dirY = { y       , y       , y - SPEED, y + SPEED }
 
    local res_dir = NODIR
-   local res_ph = this:getPheromones(x, y)
+   local res_ph = this:getPheromones(floor(x), floor(y))
    for  k = 1, table.getn(dir) do
-      local tmp = this:getPheromones(posX[k], posY[k])
+      local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
       if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
        and this:isCrossable(dirX[k], dirY[k], type) == 1)
       then
@@ -210,9 +214,9 @@ function trackPlayer(this, x, y, type)
 	 res_dir = dir[k]
       end
    end
-   -- print(showdir(res_dir))
    return (res_dir)
 end
 
 --     (this:getDanger(posX[k], posY[k]) < 10 or this:getDanger(posX[k], posY[k] + 0.6) < 10 or
 -- this:getDanger(posX[k] + 0.6, posY[k]) < 10 or this:getDanger(posX[k] + 0.6, posY[k] + 0.6) < 10))
+--	 print("================= Testing : ", dir[i][j] ," danger de :", floor(tmpDanger), "et crossable == ", this:isCrossable(floor(posX[i]), floor(posY[j]), type) == 1 and funct[i][j](this, x, y, type) ~= NODIR)

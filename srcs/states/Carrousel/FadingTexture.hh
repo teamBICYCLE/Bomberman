@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri Jun  1 16:56:15 2012 lois burg
-// Last update Fri Jun  1 17:15:27 2012 lois burg
+// Last update Fri Jun  1 19:18:30 2012 lois burg
 //
 
 #ifndef		__FADINGTEXTURE_HH__
@@ -19,7 +19,14 @@ namespace	Bomberman
   class	FadingTexture
   {
   public:
-    FadingTexture(const std::string& texture, int x, int y, float fadeTimer = 0.1, float fadeValue = 0.1);
+    enum FirstAnim
+      {
+	FadeIn = 0,
+	FadeOut
+      };
+
+  public:
+    FadingTexture(const std::string& texture, int x, int y, FirstAnim a = FadeOut, bool noFadeOut = false, float fadeTimer = 0.1, float fadeValue = 0.1);
     ~FadingTexture();
 
   public:
@@ -39,6 +46,7 @@ namespace	Bomberman
     float	fadeValue_;
     float	lastTime_;
     bool	fadeOutEnded_;
+    bool	noFadeOut_;
   };
 }
 

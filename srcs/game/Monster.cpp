@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri Jun  1 18:03:03 2012 Jonathan Machado
+// Last update Fri Jun  1 18:52:09 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -17,7 +17,7 @@
 using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
-  : Character(pos, rot, sz, "Monster", 1, 0.05), moved_(false), damage_(damage), brainScript_(b),
+  : Character(pos, rot, sz, "Monster", 1, MONSTER_SPEED), moved_(false), damage_(damage), brainScript_(b),
     model_(ModelHandler::get().getModel("ghost"))
 {
   //  isInvincible_ = true;
@@ -221,8 +221,8 @@ void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
   (void)x;
   (void)y;
   (void)objs;
-  if (map[pos_.y][pos_.x].second != PHEROMONE_PLAYER)
-    map[pos_.y][pos_.x].second = PHEROMONE_MONSTER;
+  if (map[(pos_.y + 0.001)][(pos_.x + 0.001)].second != PHEROMONE_PLAYER)
+    map[(pos_.y + 0.001)][(pos_.x + 0.001)].second = PHEROMONE_MONSTER;
 }
 
 // void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,

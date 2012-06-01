@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri Jun  1 15:41:30 2012 lois burg
+// Last update Fri Jun  1 17:57:55 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -30,8 +30,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
-  std::cout << color_.x << std::endl;
-  // isInvincible_ = true;
+  //std::cout << color_.x << std::endl;
+  isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
   nbMines_ = 10000;
@@ -462,7 +462,6 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
 				     int x, int y) const
 {
   (void)objs;
-  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
   if (pos_.y < y - 1)
     map[pos_.y + 1][pos_.x].second = PHEROMONE_PLAYER - 10;
   if (pos_.x < x - 1 && pos_.y < y - 1)
@@ -479,4 +478,5 @@ void	Player::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > 
     map[pos_.y + 1][pos_.x - 1].second = PHEROMONE_PLAYER - 20;
   if (pos_.x < x - 1 && pos_.y > 0)
     map[pos_.y - 1][pos_.x + 1].second = PHEROMONE_PLAYER - 20;
+  map[pos_.y][pos_.x].second = PHEROMONE_PLAYER;
 }

@@ -6,8 +6,9 @@
  * Created on May 16, 2012, 12:54 AM
  */
 
-#include "ModelHandler.hh"
+#include <stdexcept>
 #include <iostream>
+#include "ModelHandler.hh"
 #include "flatTexture.hh"
 
 using namespace Bomberman;
@@ -23,6 +24,8 @@ ModelHandler::~ModelHandler()
 
 void      ModelHandler::preload()
 {
+  storeModel(new flatTexture("Ressources/Images/Intro/teambicycle-production.png"),
+        "teambicycle-production");
   storeModel(new flatTexture("Ressources/Images/Menu/bg.png"),
         "mainbg");
   storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
@@ -143,7 +146,7 @@ AModel &  ModelHandler::getModel(const std::string &name)
   if (objects_.find(name) != objects_.end())
     return objects_[name]->clone();
   else
-    throw std::exception();
+    throw std::logic_error("Failed to load model: " + name);
 }
 
 ModelHandler &ModelHandler::get()
