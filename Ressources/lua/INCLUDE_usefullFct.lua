@@ -34,21 +34,21 @@ function getZoneDanger(this, x, y)
    local posX = {x , x + 1 , x - 1 , x     , x     , x + 1 , x - 1 , x + 1 , x - 1}
    local posY = {y , y     , y     , y - 1 , y + 1 , y + 1 , y + 1 , y - 1 , y - 1}
    local res = 0
-   local size = 0
 
    for j = 1, table.getn(posX) do
       local tmp = this:getDanger(posX[j], posY[j])
-      if (tmp ~= (DANGER_MAX + 1))
+      if (tmp > 0 and j == 1)
       then
-	 if (tmp > 0 and posX[j] == x and posY[j] == y)
-	 then
-	    return (tmp)
-	 end
-	 res = res + tmp
-	 size = size + 1
+	 print("return direct :", tmp)
+	 return (tmp)
       end
+      print("tmp", tmp)
+      res = res + tmp
    end
-   return (res / size)
+   print("res : ", res / table.getn(posX))
+   print()
+   print()
+   return (res / table.getn(posX))
 end
 
 function getZonePheromones(this, x, y)
@@ -75,10 +75,10 @@ function testCross(this, x, y, type)
    local dirY = { y         , y         , y - SPEED , y + SPEED }
 
    local res_dir = NODIR
-   local danger = getZoneDanger(this, x, y)
+   local danger = getZoneDanger(this, floor(x), floor(y))
 
    for  i = 1, table.getn(dir) do
-      local tmpDanger = getZoneDanger(this, posX[i], posY[i])
+      local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[i]))
       if (danger > 0 and
 	  tmpDanger < danger
 	  and this:isCrossable(floor(posX[i]), floor(posY[i]), type) == 1
@@ -143,7 +143,7 @@ function testAngles(this, x, y, type, danger, res_dir)
 
    for  i = 1, table.getn(posX) do
       for  j = 1, table.getn(posY) do
-	 local tmpDanger = getZoneDanger(this, posX[i], posY[j])
+	 local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[j]))
 	 if (danger > 0 and
 	     tmpDanger < danger
 	     and this:isCrossable(floor(posX[i]), floor(posY[j]), type) == 1)
@@ -204,9 +204,9 @@ function trackPlayer(this, x, y, type)
    local dirY = { y       , y       , y - SPEED, y + SPEED }
 
    local res_dir = NODIR
-   local res_ph = this:getPheromones(x, y)
+   local res_ph = this:getPheromones(floor(x), floor(y))
    for  k = 1, table.getn(dir) do
-      local tmp = this:getPheromones(posX[k], posY[k])
+      local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
       if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
        and this:isCrossable(dirX[k], dirY[k], type) == 1)
       then

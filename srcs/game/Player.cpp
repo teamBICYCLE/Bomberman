@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Fri Jun  1 17:35:25 2012 thibault carpentier
+// Last update Fri Jun  1 17:57:55 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -17,6 +17,7 @@
 #include "Monster.hh"
 #include "ModelHandler.hh"
 #include "SaveHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -102,6 +103,7 @@ Player::Player(const Player &other)
 
 Player::~Player()
 {
+  Sounds::instance().stopEffect("run");
 }
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
@@ -310,12 +312,14 @@ void    Player::moveAnimation(void)
       speedAdapter_ = 5;
       model_.getModel().stop_animation("stop");
       model_.getModel().play("start");
+      Sounds::instance().playEffect("run", 0.1);
     }
     else if (model_.getModel().anim_is_ended("start"))
     {
       model_.getModel().stop_animation("stop");
       speedAdapter_ = 100;
       model_.getModel().play("run");
+      Sounds::instance().playEffect("run", 0.1);
     }
     speedAdapter_ += speedAdapter_ < 100 ? 1 : 0;
     wasRunning_ = true;
@@ -323,6 +327,7 @@ void    Player::moveAnimation(void)
   else if (wasRunning_ == true)
   {
     model_.getModel().play("stop");
+    Sounds::instance().stopEffect("run");
     wasRunning_ = false;
   }
   // reset de la propriete moved.
@@ -333,7 +338,6 @@ Online::Packet	Player::pack(gdl::Input& keys)
 {
   Online::Packet	p;
 
-  std::cout << "pack : " << id_ << " " << this << std::endl;
   p.id = id_;
   p.up = keys.isKeyDown(conf_.get(K_UP, id_));
   p.down = keys.isKeyDown(conf_.get(K_DOWN, id_));

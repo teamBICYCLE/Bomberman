@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Thu May 31 16:28:46 2012 lois burg
+// Last update Fri Jun  1 15:56:31 2012 lois burg
 //
 
 #include <iostream>
@@ -40,22 +40,12 @@ bool	ClientState::init()
   bool	success = true;
   time_t seed;
 
-  //TEMPORARY
   try {
-    serv_ = new TCPSocket(host_.c_str(), ServPort);
-    std::cout << "Client connected to : " << host_ << std::endl;
-  } catch (SocketException& e) {
-    std::cerr << "Connection error: " << e.what() << std::endl;
-    disconnected_ = true;
-    serv_ = NULL;
-  }
-  //END TEMPORARY
-
-  try {
-    if (serv_)
+    if ((serv_ = new TCPSocket(host_.c_str(), ServPort)))
       {
 	std::iostream& sockStream = serv_->getStream();
 
+	std::cout << "Client connected to : " << host_ << std::endl;
 	sockStream >> seed;
 	sockStream >> playerNbr_;
 	sockStream >> nbPlayers_;
@@ -82,6 +72,7 @@ bool	ClientState::init()
       }
   } catch (SocketException& e) {
     std::cerr << "Network error: " << e.what() << std::endl;
+    disconnected_ = true;
     serv_ = NULL;
     success = false;
   }
@@ -118,7 +109,7 @@ void	ClientState::update(StatesManager *mngr)
       PlayState::update(mngr);
       if ((plyr = getPlayerWithId(objs_, playerNbr_)))
 	packet = plyr->pack(mngr->getInput());
-      if (serv_ && packet.isUseful())
+      if (readyUp_ <= 0 && serv_ && !disconnected_ && packet.isUseful())
 	sendPacket(serv_->getStream(), packet);
     }
 }
@@ -128,6 +119,7 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
+  std::cout << "Client checkEnd" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
@@ -136,6 +128,7 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	    i++;
 	  if (plyr)
 	    winnerId_ = i;
+	  std::cout << "WIN" << std::endl;
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)

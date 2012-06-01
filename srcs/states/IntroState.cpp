@@ -21,6 +21,7 @@
 #include "Carrousel/CustomGame.hh"
 #include "Carrousel/AdventureGame.hh"
 #include "Carrousel/LeaderBoards.hh"
+#include "Sounds.hh"
 
 // Mouvement velo : 1 second -> 4 seconds
 // ring. 4 second
@@ -32,12 +33,11 @@
 
 bool  IntroState::init(void)
 {
-  //  ringerBuf_.loadFromFile("./Ressources/Sounds/Intro/bike_bell.ogg");
-  //ringer_.setBuffer(ringerBuf_);
   this->bicycle_ = gdl::Image::load("./Ressources/Images/Intro/bicycle_noalpha.png");
   x_ = -1700;
   alpha_ = 0.96f;
   sndPlayed_ = false;
+  delay_ = 0;
   return true;
 }
 
@@ -48,29 +48,22 @@ void  IntroState::cleanUp()
 
 void  IntroState::update(StatesManager * sMg)
 {
-  (void)sMg;
-  // if (x_ < -240)
-  //   x_+= 10;
-  // else if (!sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
-  //   {
-  //     ringer_.play();
-  //     sndPlayed_ = true;
-  //   }
-  // if (sndPlayed_ && ringer_.getStatus() != sf::Sound::Playing)
-  //   {
-  //     CarrouselHandler *carrouselHandler;
+   if (x_ < -240)
+     x_+= 10;
+   else if (!sndPlayed_)
+     {
+       Sounds::instance().playEffect("ringer");
+       sndPlayed_ = true;
+     }
+   else
+     delay_ += 1;
+   if (sndPlayed_ && delay_ > 500)
+     {
+       CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg");
 
-  //     carrouselHandler = new CarrouselHandler("mainbg");
-
-  //     carrouselHandler->pushPage(new APage(new QuickGame(), "bg-quickgame", "left", "right"));
-  //     carrouselHandler->pushPage(new APage(new CustomGame(), "bg-customgame", "left", "right"));
-  //     carrouselHandler->pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
-  //     // carrouselHandler->pushPage(new APage(new ItemList(), "bg", "right", "left"));
-  //     carrouselHandler->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-  //     carrouselHandler->pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "left", "right"));
-  //     sMg->changeState(carrouselHandler);
-  //   }
-  // std::cout << "update Intro" << std::endl;
+       carrouselHandler->createMainMenu();
+       sMg->changeState(carrouselHandler);
+     }
 }
 
 void  IntroState::draw(StatesManager * sMg)
@@ -82,7 +75,7 @@ void  IntroState::draw(StatesManager * sMg)
   glClearDepth(1.0f);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(-800, 800, -600, 600);
+  gluOrtho2D(-800, 800, -450, 450);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
@@ -102,7 +95,6 @@ void  IntroState::draw(StatesManager * sMg)
   glTexCoord2i(1, 0);
   glVertex2d(480, 140.0f);
   glEnd();
-  std::cout << "draw Intro" << std::endl;
 }
 
 void  IntroState::pause()

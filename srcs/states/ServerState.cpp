@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Fri Jun  1 11:22:10 2012 lois burg
+// Last update Fri Jun  1 15:56:29 2012 lois burg
 //
 
 #include <iostream>
@@ -142,7 +142,7 @@ void	ServerState::update(StatesManager *mngr)
   PlayState::update(mngr);
   if ((plyr = getPlayerWithId(objs_, 0)))
     packet = plyr->pack(mngr->getInput());
-  if (packet.isUseful())
+  if (readyUp_ <= 0 && packet.isUseful())
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)
 	  sendPacket(s->getStream(), packet);
@@ -154,6 +154,7 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
+  std::cout << "Server checkEnd" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
@@ -162,6 +163,7 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	    i++;
 	  if (plyr)
 	    winnerId_ = i;
+	  std::cout << "WIN" << std::endl;
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)
