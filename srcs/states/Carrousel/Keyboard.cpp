@@ -42,6 +42,16 @@ Keyboard::Keyboard(int x, int y, uint limit)
     letters_.insert(std::make_pair(gdl::Keys::Numpad9, "9"));
     letters_.insert(std::make_pair(gdl::Keys::Numpad0, "0"));
     letters_.insert(std::make_pair(gdl::Keys::Period, "."));
+    letters_.insert(std::make_pair(gdl::Keys::Num1, "1"));
+    letters_.insert(std::make_pair(gdl::Keys::Num2, "2"));
+    letters_.insert(std::make_pair(gdl::Keys::Num3, "3"));
+    letters_.insert(std::make_pair(gdl::Keys::Num4, "4"));
+    letters_.insert(std::make_pair(gdl::Keys::Num5, "5"));
+    letters_.insert(std::make_pair(gdl::Keys::Num6, "6"));
+    letters_.insert(std::make_pair(gdl::Keys::Num7, "7"));
+    letters_.insert(std::make_pair(gdl::Keys::Num8, "8"));
+    letters_.insert(std::make_pair(gdl::Keys::Num9, "9"));
+    letters_.insert(std::make_pair(gdl::Keys::Num0, "0"));
 
     letbool_ = false;
     focus_ = true;
