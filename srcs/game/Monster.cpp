@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri Jun  1 11:13:53 2012 thibault carpentier
+// Last update Fri Jun  1 11:31:15 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -18,7 +18,7 @@ using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, MONSTER_SPEED), moved_(false), damage_(damage), brainScript_(b),
-    model_(ModelHandler::get().getModel("bombman"))
+    model_(ModelHandler::get().getModel("ghost"))
 {
   //  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
