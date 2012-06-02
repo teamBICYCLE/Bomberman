@@ -110,7 +110,12 @@ namespace	Bomberman
     bool	isNetworkControlled_;
     KeysConfig	conf_;
     Vector3d    color_;
-    gdl::Text   text_;
+    gdl::Text   scoreTxt_;
+    gdl::Text   bombTxt_;
+    gdl::Text   mineTxt_;
+    gdl::Text   speedTxt_;
+    gdl::Text   rangeTxt_;
+    gdl::Text   kickTxt_;
   };
 }
 

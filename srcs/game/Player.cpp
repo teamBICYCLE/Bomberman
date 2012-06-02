@@ -39,9 +39,20 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
-  text_.setFont("Ressources/Fonts/Dimbo.ttf");
-  text_.setSize(24);
 
+  scoreTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  scoreTxt_.setSize(24);
+
+  bombTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  bombTxt_.setSize(14);
+  mineTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  mineTxt_.setSize(14);
+  speedTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  speedTxt_.setSize(14);
+  rangeTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  rangeTxt_.setSize(14);
+  kickTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  kickTxt_.setSize(14);
   collideMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &BoundingBox::collideLeft));
   collideMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &BoundingBox::collideRight));
   collideMap_.insert(std::make_pair(conf_.get(K_UP, id_), &BoundingBox::collideUp));
@@ -211,9 +222,49 @@ void Player::drawHudText()
   if (id_ > 1)
     offsetx = 1350;
   ss << score_;
-  text_.setText(ss.str());
-  text_.setPosition(offsetx + 45, offsety + 165);
-  text_.draw();
+  scoreTxt_.setText(ss.str());
+  scoreTxt_.setPosition(offsetx + 45, offsety + 165);
+  scoreTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << nbBombs_;
+  bombTxt_.setSize(14);
+  bombTxt_.setText(ss.str());
+  bombTxt_.setPosition(offsetx + 146, offsety + 28);
+  bombTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << nbMines_;
+  mineTxt_.setSize(14);
+  mineTxt_.setText(ss.str());
+  mineTxt_.setPosition(offsetx + 204, offsety + 64);
+  mineTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << (speed_ * 20) * 12 << " mph";
+  speedTxt_.setSize(14);
+  speedTxt_.setText(ss.str());
+  speedTxt_.setPosition(offsetx + 197, offsety + 104);
+  speedTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << "+" << bombRange_;
+  rangeTxt_.setSize(14);
+  rangeTxt_.setText(ss.str());
+  rangeTxt_.setPosition(offsetx + 183, offsety + 143);
+  rangeTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << (kickAbility_ ? "Yes" : "No");
+  kickTxt_.setSize(14);
+  kickTxt_.setText(ss.str());
+  kickTxt_.setPosition(offsetx + 150, offsety + 183);
+  kickTxt_.draw();
 }
 
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
