@@ -80,6 +80,7 @@ SOURCES += \
     srcs/states/Carrousel/CustomGame.cpp \
     srcs/states/Carrousel/HostGame.cpp \
     srcs/states/Carrousel/JoinGame.cpp \
+    srcs/states/Carrousel/InGameList.cpp \
     srcs/core/Score.cpp \
     srcs/states/Carrousel/KeyBindSlide.cpp \
     srcs/states/Carrousel/FadingTexture.cpp \
@@ -166,6 +167,7 @@ HEADERS += \
     srcs/states/Carrousel/CustomGame.hh \
     srcs/states/Carrousel/HostGame.hh \
     srcs/states/Carrousel/JoinGame.hh \
+    srcs/states/Carrousel/InGameList.hh \
     srcs/core/Score.hh \
     srcs/states/Carrousel/KeyBindSlide.hh \
     srcs/states/Carrousel/FadingTexture.hh \
