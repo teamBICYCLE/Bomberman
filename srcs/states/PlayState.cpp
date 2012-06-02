@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 21:02:25 2012 Jonathan Machado
+// Last update Sat Jun  2 21:07:16 2012 Jonathan Machado
 //
 
 #include <iostream>
@@ -22,6 +22,7 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
 #include "Carrousel/InGameList.hh"
+#include "Carrousel/SoundConfig.hh"
 #include "Carrousel/Win.hh"
 #include "Carrousel/Loose.hh"
 #include "Score.hh"
@@ -88,7 +89,7 @@ bool  PlayState::init()
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
     for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
       if (dynamic_cast<Monster*>(*it))
-	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -132,13 +133,13 @@ void  PlayState::update(StatesManager *sMg)
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
       if (danger && *it)
-	danger->updateCaseVison(*it);
+        danger->updateCaseVison(*it);
       if ((*it)->getType() == "Player")
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-	    bestScore_ = static_cast<Player*>(*it)->getScore();
-	  winnerId_ = static_cast<Player*>(*it)->getId();
+            bestScore_ = static_cast<Player*>(*it)->getScore();
+          winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
 	{
@@ -162,7 +163,9 @@ void  PlayState::update(StatesManager *sMg)
     {
       CarrouselHandler  *cH = createInGameCH();
 
+
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
     }
@@ -277,6 +280,7 @@ void  PlayState::draw(StatesManager * sMg)
   (void)sMg;
   camera_.draw();
 
+  players_.clear();
   glDepthMask(GL_FALSE);
   glPushMatrix();
   glEnable(GL_TEXTURE_2D);
@@ -319,12 +323,20 @@ void  PlayState::draw(StatesManager * sMg)
   glPopMatrix();
 
   glPushMatrix();
-  std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
+  std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
       obj->draw();
+      if (obj->getType() == "Player")
+      players_.push_back(dynamic_cast<Player *>(obj));
     });
   glPopMatrix();
   if (readyUp_ >= 0)
   drawReadyUpOverlay(readyUp_);
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHud();
+                });
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHudText();
+                });
   glFlush();
 }
 

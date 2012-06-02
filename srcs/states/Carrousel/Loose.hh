@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Sat Jun  2 17:13:07 2012 lois burg
+// Last update Sat Jun  2 19:11:33 2012 lois burg
 //
 
 #ifndef		__LOOSE_HH__
 # define	__LOOSE_HH__
 
+# include	"flatTexture.hh"
 # include	"AContent.hh"
 
 namespace	Bomberman
@@ -26,8 +27,9 @@ namespace	Bomberman
     virtual void	draw(void);
 
   private:
-    int			looserId_;
     bool		returnHit_;
+    flatTexture		*playerLabel_;
+    flatTexture		looseLabel_;
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 19:02:12 2012 Jonathan Machado
+// Last update Sat Jun  2 20:15:37 2012 lois burg
 //
 
 #include <GL/gl.h>

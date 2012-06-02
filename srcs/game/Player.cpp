@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat Jun  2 16:27:35 2012 lois burg
+// Last update Sat Jun  2 19:04:10 2012 lois burg
 //
 
 #include <algorithm>
@@ -24,9 +24,10 @@ using namespace	Bomberman;
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(3.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
-    model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
+    model_(ModelHandler::get().getModel("bombman")), hud_(ModelHandler::get().getModel("hud")),
+    isNetworkControlled_(false)
 {
-  srand((id_ + 2) * 11);
+  srand(((id_ + 5) * 111) - 8);
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
@@ -38,6 +39,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
+  text_.setFont("Ressources/Fonts/Dimbo.ttf");
+  text_.setSize(24);
 
   collideMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &BoundingBox::collideLeft));
   collideMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &BoundingBox::collideRight));
@@ -62,7 +65,8 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 Player::Player()
   : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
-    score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
+    score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman")),
+    hud_(ModelHandler::get().getModel("hud")), isNetworkControlled_(false)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
 
@@ -91,7 +95,7 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
-      kickAbility_(other.kickAbility_), model_(other.model_), isNetworkControlled_(other.isNetworkControlled_)
+      kickAbility_(other.kickAbility_), model_(other.model_), hud_(other.hud_), isNetworkControlled_(other.isNetworkControlled_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -155,6 +159,61 @@ void		Player::draw(void)
   this->model_.getModel().set_default_model_color(gdl::Color(255 * color_.x, 255 * color_.y, 255 * color_.z));
   this->model_.draw();
   glColor3d(1.0f, 1.0f, 1.0f);
+}
+
+void Player::drawHud()
+{
+  glDisable(GL_DEPTH_TEST);
+  glDepthMask(GL_FALSE);
+  glMatrixMode(GL_PROJECTION);
+  //glPushMatrix();
+  glLoadIdentity();
+  gluOrtho2D(0, 1600, 0, 900);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  std::cout << "id: " << id_ << std::endl;
+  if (id_ % 2 == 0)
+    glTranslated(0, 693, 0);
+  if (id_ > 1)
+    glTranslated(1350, 0, 0);
+  glDisable(GL_TEXTURE_2D);
+  glColor3d(color_.x, color_.y, color_.z);
+  glBegin(GL_POLYGON);
+  glVertex2d(32, 207 - 23);
+  glVertex2d(45, 207 - 25);
+  glVertex2d(56, 207 - 38);
+  glVertex2d(67, 207 - 56);
+  glVertex2d(32, 207 - 82);
+  glVertex2d(20, 207 - 79);
+  glVertex2d(7, 207 - 68);
+  glVertex2d(3, 207 - 56);
+  glVertex2d(5, 207 - 41);
+  glVertex2d(14, 207 - 28);
+  glVertex2d(24, 207 - 23);
+  glEnd();
+  glEnable(GL_TEXTURE_2D);
+  glScaled(1, 1, 1);
+  hud_.draw();
+  //glPopMatrix();
+
+  glEnable(GL_DEPTH_TEST);
+  glDepthMask(GL_TRUE);
+}
+
+void Player::drawHudText()
+{
+  std::stringstream	ss;
+  int                   offsetx = 0, offsety = 0;
+
+  if (id_ % 2 == 1)
+    offsety = 693;
+  if (id_ > 1)
+    offsetx = 1350;
+  ss << score_;
+  text_.setText(ss.str());
+  text_.setPosition(offsetx + 45, offsety + 165);
+  text_.draw();
 }
 
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
