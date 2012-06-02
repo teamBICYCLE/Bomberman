@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Thu May 31 14:33:45 2012 lois burg
+// Last update Sat Jun  2 16:28:56 2012 lois burg
 //
 
 #include <algorithm>
@@ -80,7 +80,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
         pos_ = save + sz_ / 2;
         adjustPos();
         speed_ = nullSpeed;
-        if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Mine*>(*objIt))
+        if ((*objIt)->getType() == "Explosion" || (*objIt)->getType() == "Mine")
           destroy(objs);
       }
   model_.update(clock);
@@ -95,12 +95,10 @@ void	Bomb::explode(std::list<AObject*>& objs)
   bool		rightInvalid = false;
   bool		useless = false;
 
-  //explosion qui tue et ajout des loots de tier 7
   objs.push_back(new Explosion(*e));
   checkPosition(e, useless, objs);
   for (int i = 1; i <= range_; ++i)
     {
-      // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
       e->setPos(pos_ + Vector3d(0, -i, 0));
       checkPosition(e, upInvalid, objs);
       e->setPos(pos_ + Vector3d(0, i, 0));
@@ -109,8 +107,6 @@ void	Bomb::explode(std::list<AObject*>& objs)
       checkPosition(e, leftInvalid, objs);
       e->setPos(pos_ + Vector3d(i, 0, 0));
       checkPosition(e, rightInvalid, objs);
-      // std::cout << std::boolalpha << "Up: " << upInvalid << ", Down: " << downInvalid << ", Left: " << leftInvalid << ", Right: " << rightInvalid << std::noboolalpha << std::endl;
-      // std::cout << "--------------------" << std::endl;
     }
   delete e;
   Sounds::instance().playEffect("boom");
@@ -141,8 +137,10 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
 	    obj->interact(e, objs);
+	    if (obj->getType() == "Brick")
+	      owner_.addScore(1);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
+		obj->getType() != "Mine" && obj->getType() != "Explosion")
 	      isInvalid = true;
 	  }
       });
@@ -164,7 +162,7 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
   ch->setPos(save);
   if (!collide)
     ch->bump(pos_);
-  if (!collide && dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
+  if (!collide && ch->getType() == "Player" && static_cast<Player*>(ch)->getKickAbility())
     {
       p = static_cast<Player*>(ch);
       b = ch->getBBox();
@@ -299,12 +297,12 @@ Bomb		*Bomb::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) c
           obj = (*i);
           if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
             {
-              if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
+	      if (obj->getType() == "Block" || obj->getType() == "Brick")
                 {
                   valid = false;
                   return NULL;
                 }
-              else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
+              else if (obj->getType() != "Mine" && obj->getType() == "Bomb")
                 return static_cast<Bomb*>(obj);
               return NULL;
             }

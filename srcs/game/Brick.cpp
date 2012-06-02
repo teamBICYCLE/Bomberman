@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Thu May 31 11:31:14 2012 lois burg
+// Last update Sat Jun  2 14:58:01 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -73,10 +73,7 @@ void		Brick::draw(void)
 void Brick::loot(std::list<AObject *> &objs)
 {
     if (loot_ != NULL)
-    {
-        std::cout << "Loot add to Vector !" << std::endl;
-        objs.push_back(loot_);
-    }
+      objs.push_back(loot_);
 }
 
 void	Brick::destroy(std::list<AObject*>& objs)

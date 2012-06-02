@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 18:22:54 2012 lois burg
-// Last update Sun May 20 16:16:05 2012 lois burg
+// Last update Sat Jun  2 14:19:37 2012 lois burg
 //
 
 #include "MinePowerup.hh"
@@ -32,7 +32,6 @@ void MinePowerup::activate(Player& p)
 {
   if (!toRemove())
     {
-      std::cout << "Mine up" << std::endl;
       p.setNbMines(p.getNbMines() + 1);
       APowerup::activate(p);
     }

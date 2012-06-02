@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 11:07:19 2012 lois burg
+// Last update Sat Jun  2 18:09:15 2012 lois burg
 //
 
 #include <iostream>
@@ -22,6 +22,8 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
 #include "Carrousel/InGameList.hh"
+#include "Carrousel/Win.hh"
+#include "Carrousel/Loose.hh"
 #include "Score.hh"
 #include "Sounds.hh"
 
@@ -123,16 +125,14 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      if (dynamic_cast<Player*>(*it))
+      if ((*it)->getType() == "Player")
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-            {
-              bestScore_ = static_cast<Player*>(*it)->getScore();
-              winnerId_ = static_cast<Player*>(*it)->getId();
-            }
+	    bestScore_ = static_cast<Player*>(*it)->getScore();
+	  winnerId_ = static_cast<Player*>(*it)->getId();
         }
-      else if (dynamic_cast<Monster*>(*it))
+      else if ((*it)->getType() == "Monster")
         {
           if (update_ia)
             {
@@ -143,7 +143,7 @@ void  PlayState::update(StatesManager *sMg)
         }
       if (!(*it)->toRemove())
         {
-          if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+          if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
             (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
@@ -153,17 +153,11 @@ void  PlayState::update(StatesManager *sMg)
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
     {
-      GLvoid    *data = operator new (1600 * 900 * 3);
-      CarrouselHandler  *cH;
+      CarrouselHandler  *cH = createInGameCH();
 
-      glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
-      cH = new CarrouselHandler(data);
-      std::cout << "failed to read" << std::endl;
-      //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
-      operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
@@ -172,20 +166,28 @@ void  PlayState::update(StatesManager *sMg)
 
 void	PlayState::win(StatesManager *mngr)
 {
-    Score score;
+  Score score;
+  CarrouselHandler	*cH;
 
-    std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
-    score.save(bestScore_);
-    mngr->popState();//passer sur winstate
+  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
+  score.save(bestScore_);
+  cH = createInGameCH();
+  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+  mngr->pushState(cH);
+  //    mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
 {
-    Score score;
+  Score score;
+  CarrouselHandler	*cH;
 
-    std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
-    score.save(bestScore_);
-    mngr->popState();//passer sur gameOverstate
+  std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
+  score.save(bestScore_);
+  cH = createInGameCH();
+  cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  mngr->pushState(cH);
+  // mngr->popState();//passer sur gameOverstate
 }
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
@@ -212,6 +214,7 @@ void PlayState::updateReadyUpOverlay(float now)
 
 void PlayState::drawReadyUpOverlay(float now)
 {
+  (void)now;
   glDepthMask(GL_FALSE);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
@@ -335,4 +338,15 @@ uint PlayState::getWidth(const std::list<AObject*> *list) const
             maxX = (*it)->getPos().x;
     }
     return maxX;
+}
+
+CarrouselHandler	*PlayState::createInGameCH(void) const
+{
+  CarrouselHandler	*cH;
+  GLvoid		*data = operator new (1600 * 900 * 3);
+
+  glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
+  cH = new CarrouselHandler(data);
+  operator delete(data);
+  return (cH);
 }

@@ -5,9 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 31 16:41:05 2012 lois burg
+// Last update Sat Jun  2 17:53:30 2012 lois burg
 //
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GDL/Text.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,11 +19,7 @@
 #include "Player.hh"
 #include "AdventureState.hh"
 #include "Map.hh"
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GDL/Text.hpp>
-
+#include "Carrousel/Win.hh"
 #include "SaveHandler.hh"
 
 using namespace	Bomberman;
@@ -64,6 +63,7 @@ void	AdventureState::cleanUp()
 
 void	AdventureState::win(StatesManager *mngr)
 {
+  CarrouselHandler	*cH;
   std::stringstream	ss;
 
   (void)mngr;
@@ -73,7 +73,10 @@ void	AdventureState::win(StatesManager *mngr)
   if (curMapId_ == nbMaps_)
     {
       std::cout << "CONGRATS!" << std::endl;
-      mngr->popState();
+      cH = createInGameCH();
+      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+      mngr->pushState(cH);
+      // mngr->popState();
     }
   else
     {

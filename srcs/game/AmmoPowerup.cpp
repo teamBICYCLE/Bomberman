@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:25:34 2012 geoffroy lafontaine
-// Last update Sun May 20 16:15:51 2012 lois burg
+// Last update Sat Jun  2 14:19:09 2012 lois burg
 //
 
 #include "AmmoPowerup.hh"
@@ -32,7 +32,6 @@ void AmmoPowerup::activate(Player& p)
 {
   if (!toRemove())
     {
-      std::cout << "Ammo up" << std::endl;
       p.setNbBombs(p.getNbBombs() + 1);
       APowerup::activate(p);
     }

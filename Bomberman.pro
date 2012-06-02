@@ -82,6 +82,9 @@ SOURCES += \
     srcs/states/Carrousel/JoinGame.cpp \
     srcs/states/Carrousel/InGameList.cpp \
     srcs/states/Carrousel/SoundConfig.cpp \
+    srcs/states/Carrousel/Win.cpp \
+    srcs/states/Carrousel/Loose.cpp \
+    srcs/states/Carrousel/Draw.cpp \
     srcs/core/Score.cpp \
     srcs/states/Carrousel/KeyBindSlide.cpp \
     srcs/states/Carrousel/FadingTexture.cpp \
@@ -170,6 +173,9 @@ HEADERS += \
     srcs/states/Carrousel/JoinGame.hh \
     srcs/states/Carrousel/InGameList.hh \
     srcs/states/Carrousel/SoundConfig.hh \
+    srcs/states/Carrousel/Win.hh \
+    srcs/states/Carrousel/Loose.hh \
+    srcs/states/Carrousel/Draw.hh \
     srcs/core/Score.hh \
     srcs/states/Carrousel/KeyBindSlide.hh \
     srcs/states/Carrousel/FadingTexture.hh \

@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Fri Jun  1 18:52:09 2012 thibault carpentier
+// Last update Sat Jun  2 16:27:45 2012 lois burg
 //
 
 #include <algorithm>
@@ -114,7 +114,7 @@ void		Monster::draw(void)
 void	Monster::interact(Character *ch, std::list<AObject*>& objs)
 {
   (void)objs;
-  if (dynamic_cast<Player*>(ch))
+  if (ch->getType() == "Player")
     ch->takeDamage(damage_);
 }
 
