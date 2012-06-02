@@ -223,7 +223,7 @@ function exploreMap(this, x, y)
    math.randomseed(os.time())
    for h = 1, table.getn(dir) do
       if (this:isCrossable(floor(posX[h]), floor(posY[h]), type) == 1
-       and this:isCrossable(dirX[h], dirY[h], type) == 1)
+	  and this:isCrossable(dirX[h], dirY[h], type) == 1)
       then
 	 goodDir[table.getn(goodDir) + 1] = dir[h]
       end
