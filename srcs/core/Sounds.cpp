@@ -41,6 +41,8 @@ void Sounds::preload()
   loadMusic("menu", "Ressources/Sounds/Menu/music.mp3");
   loadMusic("test", "Ressources/Sounds/Menu/test.mp3");
   loadEffect("button", "Ressources/Sounds/Menu/button.wav");
+  loadEffect("pressed", "Ressources/Sounds/Menu/pressed.wav");
+  loadEffect("released", "Ressources/Sounds/Menu/released.wav");
   loadEffect("drop", "Ressources/Sounds/Play/fart.wav");
   loadEffect("boom", "Ressources/Sounds/Play/explosion.wav");
   loadEffect("boom", "Ressources/Sounds/Play/explosion.wav");

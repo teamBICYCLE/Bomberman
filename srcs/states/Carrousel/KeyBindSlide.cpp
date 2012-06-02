@@ -1,6 +1,7 @@
 #include "KeyBindSlide.hh"
 #include "flatTexture.hh"
 #include "ModelHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -130,7 +131,7 @@ void    KeyBindSlide::setNewKey(const std::string &str)
 }
 
 void    KeyBindSlide::drawOverlay(void) const
-{   
+{
     flatTexture *overlay;
 
     glPushMatrix();
@@ -211,6 +212,11 @@ void    KeyBindSlide::tab(void)
 void    KeyBindSlide::setEditingMode(void)
 {
     editingMode_ = !editingMode_;
+    if (editingMode_ == true)
+      Sounds::instance().playEffect("pressed");
+    else
+      Sounds::instance().playEffect("released");
+
 }
 
 void    KeyBindSlide::saveConfig(void)
