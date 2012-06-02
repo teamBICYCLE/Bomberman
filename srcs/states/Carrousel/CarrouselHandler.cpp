@@ -27,19 +27,20 @@
 #include "Carrousel/ItemList.hh"
 #include "Carrousel/KeyBindSlide.hh"
 
-CarrouselHandler::CarrouselHandler(const std::string & bg)
+CarrouselHandler::CarrouselHandler(const std::string & bg, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
     arrowsFocusLeft_(true), arrowsFocusRight_(true),
-    bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true), offset_(0)
+    bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true), offset_(0),
+    music_(music)
 {
   overlay_ = gdl::Image::load("Ressources/Images/Menu/cloud.png");
 }
 
-CarrouselHandler::CarrouselHandler(GLvoid * data)
+CarrouselHandler::CarrouselHandler(GLvoid * data, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
     arrowsFocusLeft_(true), arrowsFocusRight_(true),
     bg_(Bomberman::ModelHandler::get().getModel("mainbg")),
-    data_(data), imgBg_(false), offset_(0)
+    data_(data), imgBg_(false), offset_(0), music_(music)
 {
   std::cout << "ch created" << std::endl;
   overlay_ = gdl::Image::load("Ressources/Images/Menu/cloud.png");
@@ -60,7 +61,8 @@ bool CarrouselHandler::init()
   glLoadIdentity();
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_LIGHTING);
-  Sounds::instance().playMusic("menu");
+  if (!music_.empty())
+    Sounds::instance().playMusic(music_);
   return true;
 }
 
@@ -84,12 +86,18 @@ void CarrouselHandler::update(StatesManager * sMg)
   if (arrowsFocusLeft_)
     {
       if (sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
-        --(*this);
+        {
+          --(*this);
+          Sounds::instance().playEffect("button");
+        }
     }
   if (arrowsFocusRight_)
     {
       if (sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
+        {
           ++(*this);
+          Sounds::instance().playEffect("button");
+        }
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
     sMg->popState();
@@ -146,12 +154,12 @@ void CarrouselHandler::draw(StatesManager * sMg)
 
 void CarrouselHandler::pause()
 {
-  Sounds::instance().pauseMusic();
+  Sounds::instance().pauseMusic(music_);
 }
 
 void CarrouselHandler::resume()
 {
-  Sounds::instance().resumeMusic();
+  Sounds::instance().resumeMusic(music_);
 }
 
 void CarrouselHandler::setArrowFocus(bool val)

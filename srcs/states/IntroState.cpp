@@ -70,9 +70,10 @@ void  IntroState::update(StatesManager * sMg)
      delay_ += 1;
    if (sndPlayed_)
      text_.update(sMg->getGameClock());
-   if (sndPlayed_ && delay_ > 500)
+   if ((sndPlayed_ && delay_ > 500) || sMg->getInput().isKeyDown(gdl::Keys::Space)
+       ||  sMg->getInput().isKeyDown(gdl::Keys::Escape) || sMg->getInput().isKeyDown(gdl::Keys::Return))
      {
-       CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg");
+       CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg", "menu");
 
        carrouselHandler->createMainMenu();
        sMg->changeState(carrouselHandler);
