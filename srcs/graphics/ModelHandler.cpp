@@ -144,7 +144,7 @@ void      ModelHandler::preload()
         "keybind_overlay_green");
   storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-red.png"),
         "keybind_overlay_red");
-  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-red.png"),
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-ok-overlay.png"),
         "keybind-ok-overlay");
 
   storeModel(new flatTexture("Ressources/Images/Play/three.png"),

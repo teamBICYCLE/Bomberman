@@ -62,7 +62,6 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
     FMOD_Sound_SetLoopCount(snd, -1);
   else
     FMOD_Sound_SetLoopCount(snd, 0);
-
 }
 
 // TODO : Detect end of sample when not lopping
