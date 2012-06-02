@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 18:29:43 2012 lois burg
+// Last update Sat Jun  2 19:36:31 2012 Jonathan Machado
 //
 
 #include <iostream>
@@ -22,6 +22,7 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
 #include "Carrousel/InGameList.hh"
+#include "Carrousel/SoundConfig.hh"
 #include "Carrousel/Win.hh"
 #include "Carrousel/Loose.hh"
 #include "Score.hh"
@@ -31,7 +32,7 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -44,7 +45,7 @@ PlayState::PlayState(void)
 
 PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -86,6 +87,9 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -112,11 +116,12 @@ void  PlayState::update(StatesManager *sMg)
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
-  bool		update_ia = true;
   float		now = sMg->getGameClock().getTotalGameTime();
-  DangerMap *danger = NULL;
+
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
+  if (danger)
+    danger->updateGameVision(objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -127,32 +132,22 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
+      if (danger && *it)
+        danger->updateCaseVison(*it);
       if ((*it)->getType() == "Player")
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-	    bestScore_ = static_cast<Player*>(*it)->getScore();
-	  winnerId_ = static_cast<Player*>(*it)->getId();
+            bestScore_ = static_cast<Player*>(*it)->getScore();
+          winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
-        {
-          if (update_ia)
-            {
-              danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
-	      danger->updateGameVision(objs_);
-              update_ia = false;
-            }
-          ++nbMonsters;
-        }
+        ++nbMonsters;
       if (!(*it)->toRemove())
         {
           if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-	    {
-	      (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	      if (danger)
-		danger->updateCaseVison(*it);
-	    }
+            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
         }
       else
@@ -162,12 +157,40 @@ void  PlayState::update(StatesManager *sMg)
     {
       CarrouselHandler  *cH = createInGameCH();
 
+
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
+  if (danger)
+    {
+      // //  temporaire
+      std::vector<std::vector<std::pair<int, int> > >::iterator test;
+      for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
+        {
+          std::vector<std::pair<int, int> >::iterator toto;
+          for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+            std::cout
+                  <<  (*toto).first << " "
+              //<< (*toto).second
+                  << "  ";
+          std::cout << std::endl;
+          // std::cout << std::endl;
+          // std::cout << std::endl;
+          std::cout << std::endl;
+        }
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+    }
+
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
@@ -277,6 +300,7 @@ void  PlayState::draw(StatesManager * sMg)
   (void)sMg;
   camera_.draw();
 
+  players_.clear();
   glDepthMask(GL_FALSE);
   glPushMatrix();
   glEnable(GL_TEXTURE_2D);
@@ -319,12 +343,20 @@ void  PlayState::draw(StatesManager * sMg)
   glPopMatrix();
 
   glPushMatrix();
-  std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
+  std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
       obj->draw();
+      if (obj->getType() == "Player")
+      players_.push_back(dynamic_cast<Player *>(obj));
     });
   glPopMatrix();
   if (readyUp_ >= 0)
   drawReadyUpOverlay(readyUp_);
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHud();
+                });
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHudText();
+                });
   glFlush();
 }
 

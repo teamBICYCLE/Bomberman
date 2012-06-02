@@ -45,13 +45,13 @@ void Sounds::preload()
   loadEffect("released", "Ressources/Sounds/Menu/released.wav");
   loadEffect("drop", "Ressources/Sounds/Play/fart.wav");
   loadEffect("boom", "Ressources/Sounds/Play/explosion.wav");
-  loadEffect("boom", "Ressources/Sounds/Play/explosion.wav");
   loadEffect("run", "Ressources/Sounds/Play/run.wav", true);
   loadEffect("stop", "Ressources/Sounds/Play/tirescreech.wav");
   loadEffect("fight", "Ressources/Sounds/Play/fight.wav");
   loadEffect("1sec", "Ressources/Sounds/Play/1sec.wav");
   loadEffect("2sec", "Ressources/Sounds/Play/2sec.wav");
   loadEffect("3sec", "Ressources/Sounds/Play/3sec.wav");
+  loadEffect("flame", "Ressources/Sounds/Play/flame.mp3");
 }
 
 void Sounds::loadEffect(const std::string &name, const std::string &path, bool loop)
@@ -76,7 +76,6 @@ bool Sounds::isEffectPlaying(const std::string &name)
 {
   int l = 0;
   FMOD_Channel_GetLoopCount(effects_[name].second, &l);
-  std::cout << name << " is something like " << l << std::endl;
   if (effects_[name].second && l == -1)
     return true;
   else
@@ -95,7 +94,6 @@ void Sounds::playEffect(const std::string &name, float volume)
       FMOD_System_PlaySound(system_, FMOD_CHANNEL_FREE, effects_[name].first, 0, &chan);
       effects_[name].second = chan;
       FMOD_Channel_SetVolume(chan, volume);
-      std::cout << "effect: " << name << " " << chan << std::endl;
     }
 }
 
@@ -146,7 +144,6 @@ void Sounds::playMusic(const std::string &name)
 
   if (playMusic_ && !musics_[name].second)
     {
-      std::cout << "music \"" << name << "\" playing." << std::endl;
       FMOD_System_PlaySound(system_, FMOD_CHANNEL_FREE, musics_[name].first, 0,
                             &chan);
       musics_[name].second = chan;
@@ -163,7 +160,7 @@ void Sounds::pauseMusic(const std::string &name)
 
 void Sounds::resumeMusic(const std::string &name)
 {
-  if (musics_[name].second && playMusic_)
+  if (musics_[name].second)
     {
       FMOD_Channel_SetPaused(musics_[name].second, 0);
     }

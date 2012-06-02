@@ -32,6 +32,8 @@ void      ModelHandler::preload()
         "left");
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
         "right");
+  storeModel(new flatTexture("Ressources/Images/Play/hud.png"),
+        "hud");
 
   /* End game */
   storeModel(new flatTexture("Ressources/Images/Menu/player1.png"),

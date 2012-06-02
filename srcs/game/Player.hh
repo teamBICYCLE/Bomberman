@@ -18,6 +18,8 @@
 # include	"BoundingBox.hh"
 # include       "gdlModel.hh"
 # include	"Packet.hh"
+# include       "flatTexture.hh"
+# include       "GDL/Text.hpp"
 
 namespace	Bomberman
 {
@@ -36,6 +38,8 @@ namespace	Bomberman
   public:
     virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
     virtual void	draw(void);
+    void                drawHud(void);
+    void                drawHudText(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
     virtual void        setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
                                   std::list<AObject*>objs,
@@ -102,9 +106,11 @@ namespace	Bomberman
     int		score_;
     bool	kickAbility_;
     gdlModel    model_;
+    flatTexture hud_;
     bool	isNetworkControlled_;
     KeysConfig	conf_;
     Vector3d    color_;
+    gdl::Text   text_;
   };
 }
 

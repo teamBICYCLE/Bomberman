@@ -217,6 +217,10 @@ void CarrouselHandler::createMainMenu()
   pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
 }
 
+void CarrouselHandler::createInGameMenu()
+{
+
+}
 
 CarrouselHandler &CarrouselHandler::operator ++()
 {

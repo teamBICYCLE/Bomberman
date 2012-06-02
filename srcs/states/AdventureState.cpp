@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 18:47:01 2012 lois burg
+// Last update Sat Jun  2 20:15:37 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -47,6 +47,10 @@ bool	AdventureState::init()
     mapW_ = curMap_->getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+    ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -90,6 +94,9 @@ void	AdventureState::win(StatesManager *mngr)
         mapW_ = curMap_->getWidth();
         camera_.setHeightWidth(mapW_, mapH_);
         objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+	for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+	  if (dynamic_cast<Monster*>(*it))
+	    danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
       } catch (Map::Failure& e) {
         std::cerr << e.what() << std::endl;
         mngr->popState();
@@ -114,6 +121,9 @@ void	AdventureState::gameOver(StatesManager *mngr)
     mapW_ = curMap_->getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
     mngr->popState();
