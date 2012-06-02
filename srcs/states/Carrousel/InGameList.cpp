@@ -26,20 +26,16 @@ InGameList::~InGameList()
 {
 }
 
-#include <iostream>
-
 void	InGameList::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler * cH)
 {
     (void)gClock;
     (void)cH;
     for (std::map<gdl::Keys::Key, void(InGameList::*)(StatesManager *)>::iterator it = paramMap_.begin(); it != paramMap_.end(); ++it)
-    if (input.isKeyDown(it->first))
+      if (input.isKeyDown(it->first))
         (this->*(it->second))(sMg);
-
     up_ = input.isKeyDown(gdl::Keys::Up);
     down_ = input.isKeyDown(gdl::Keys::Down);
     return_ = input.isKeyDown(gdl::Keys::Return);
-    //std::cout << current_ << std::endl;
 }
 
 void	InGameList::draw(void)
