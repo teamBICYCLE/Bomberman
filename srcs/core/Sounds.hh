@@ -54,7 +54,7 @@ private:
   bool                                        playMusic_;
 
 private:
-  static constexpr int  maxchannel_ = 1024;
+  static constexpr int  maxchannel_ = 32;
   Sounds();
 };
 
