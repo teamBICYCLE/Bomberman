@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 19:36:31 2012 Jonathan Machado
+// Last update Sat Jun  2 20:09:53 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -162,31 +162,32 @@ void  PlayState::update(StatesManager *sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  if (danger)
-    {
-      // //  temporaire
-      std::vector<std::vector<std::pair<int, int> > >::iterator test;
-      for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
-	{
-	  std::vector<std::pair<int, int> >::iterator toto;
-	  for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-	    std::cout
-  	   	  <<  (*toto).first << " "
-	      //<< (*toto).second
-  	  	  << "  ";
-	  std::cout << std::endl;
-	  // std::cout << std::endl;
-	  // std::cout << std::endl;
-	  std::cout << std::endl;
-	}
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-    }
+
+  // if (danger)
+  //   {
+  //     // //  temporaire
+  //     std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  //     for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
+  // 	{
+  // 	  std::vector<std::pair<int, int> >::iterator toto;
+  // 	  for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	    std::cout
+  // 	   	  <<  (*toto).first << " "
+  // 	      //<< (*toto).second
+  // 	  	  << "  ";
+  // 	  std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  std::cout << std::endl;
+  // 	}
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //   }
 
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
