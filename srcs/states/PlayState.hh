@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Thu May 31 16:23:35 2012 lois burg
+// Last update Sat Jun  2 18:39:07 2012 Jonathan Machado
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -17,6 +17,7 @@
 # include       "Camera.hh"
 # include       "ModelHandler.hh"
 # include       "flatTexture.hh"
+# include	"Brain.hh"
 
 namespace	Bomberman
 {
@@ -67,6 +68,7 @@ namespace	Bomberman
     std::vector<flatTexture>  readyImg_;
     int                sndPlayed_;
     std::string         music_;
+    DangerMap		*danger;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/
