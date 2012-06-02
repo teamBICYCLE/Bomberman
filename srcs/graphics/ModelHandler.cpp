@@ -33,6 +33,22 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
         "right");
 
+  /* End game */
+  storeModel(new flatTexture("Ressources/Images/Menu/player1.png"),
+        "player1");
+  storeModel(new flatTexture("Ressources/Images/Menu/player2.png"),
+        "player2");
+  storeModel(new flatTexture("Ressources/Images/Menu/player3.png"),
+        "player3");
+  storeModel(new flatTexture("Ressources/Images/Menu/player4.png"),
+        "player4");
+  storeModel(new flatTexture("Ressources/Images/Menu/wins.png"),
+        "wins");
+  storeModel(new flatTexture("Ressources/Images/Menu/looses.png"),
+        "looses");
+  storeModel(new flatTexture("Ressources/Images/Menu/draw.png"),
+        "draw");
+
   /* Save load */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-load.png"),
         "bg-load");
@@ -88,11 +104,6 @@ void      ModelHandler::preload()
         "arrow-join-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-right.png"),
         "arrow-join-right");
-
-//  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
-//        "left");
-//  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
-//        "right");
 
   /* Overlays */
   storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),

@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Sat Jun  2 17:04:59 2012 lois burg
+// Last update Sat Jun  2 19:11:04 2012 lois burg
 //
 
 #ifndef		__WIN_HH__
 # define	__WIN_HH__
 
+# include	"flatTexture.hh"
 # include	"AContent.hh"
 
 namespace	Bomberman
@@ -26,8 +27,9 @@ namespace	Bomberman
     virtual void	draw(void);
 
   private:
-    int			winnerId_;
     bool		returnHit_;
+    flatTexture		*playerLabel_;
+    flatTexture		winLabel_;
   };
 }
 

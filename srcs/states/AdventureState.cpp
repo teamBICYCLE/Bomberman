@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 17:53:30 2012 lois burg
+// Last update Sat Jun  2 18:47:01 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -47,7 +47,6 @@ bool	AdventureState::init()
     mapW_ = curMap_->getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
-    ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
