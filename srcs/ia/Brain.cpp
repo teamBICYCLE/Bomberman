@@ -5,9 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sat Jun  2 19:58:45 2012 thibault carpentier
-// Last update Mon May 21 17:19:47 2012 Jonathan Machado
-// Last update Fri May 18 17:54:49 2012 Jonathan Machado
+// Last update Sat Jun  2 21:26:37 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -111,7 +109,7 @@ eDirection Brain::getDecision(void) const
 
 void Brain::updateDangerMap(std::list<AObject*> &objs)
 {
-  danger_.updateGameVision(objs);
+  (void)objs;
 }
 
 bool Brain::isParamsPosition(VirtualMachine &vm) const
