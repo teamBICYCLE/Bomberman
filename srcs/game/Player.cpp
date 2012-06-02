@@ -183,7 +183,6 @@ void Player::drawHud()
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  std::cout << "id: " << id_ << std::endl;
   if (id_ % 2 == 0)
     glTranslated(0, 693, 0);
   if (id_ > 1)
