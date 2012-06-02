@@ -25,7 +25,7 @@ function this.thinking(this, x, y)
        return (center(x, y, trackPlayer(this, x, y, MONSTER)))
     else
        print("EXPLORATION mode enabled")
-       return (exploreMap(this, x, y))
+       return (center(x, y, exploreMap(this, x, y)))
     end
     -- return (center(x,y,NODIR))		--chercher le joueur
 end
