@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:35:19 2012 geoffroy lafontaine
-// Last update Fri May 18 17:47:04 2012 Jonathan Machado
+// Last update Sat Jun  2 16:00:22 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -101,4 +101,15 @@ QDataStream &operator>>(QDataStream &in, Ghost &m)
 void    Ghost::toQvariant(QSettings &w) const
 {
     w.setValue("Ghost", qVariantFromValue(*this));
+}
+
+void	Ghost::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+				     std::list<AObject*>objs,
+				     int x, int y) const
+{
+  (void)x;
+  (void)y;
+  (void)objs;
+  if (map[(pos_.y + 0.001)][(pos_.x + 0.001)].second != PHEROMONE_PLAYER)
+    map[(pos_.y + 0.001)][(pos_.x + 0.001)].second = PHEROMONE_MONSTER;
 }

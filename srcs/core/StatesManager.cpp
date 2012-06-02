@@ -114,8 +114,6 @@ void      StatesManager::pushState(AGameState * state, bool init)
 
 void      StatesManager::popState(void)
 {
-  AGameState *st;
-
   if (!this->states_.empty())
     {
       this->states_.back()->cleanUp();

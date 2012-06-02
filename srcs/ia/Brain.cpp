@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sat Jun  2 14:41:34 2012 Jonathan Machado
+// Last update Sat Jun  2 16:11:51 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -50,7 +50,6 @@ Brain::Brain(int x, int y)
   lua_setglobal(state, "DANGER_MIN");
   lua_pushinteger(state, MONSTER_SPEED);
   lua_setglobal(state, "SPEED");
-
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
   meth_[registerFct("getPheromones")] = &Brain::getPheromones;

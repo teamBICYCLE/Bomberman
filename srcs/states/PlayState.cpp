@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 11:07:19 2012 lois burg
+// Last update Sat Jun  2 19:36:31 2012 Jonathan Machado
 //
 
 #include <iostream>
@@ -23,6 +23,8 @@
 #include "Carrousel/LoadContent.hh"
 #include "Carrousel/InGameList.hh"
 #include "Carrousel/SoundConfig.hh"
+#include "Carrousel/Win.hh"
+#include "Carrousel/Loose.hh"
 #include "Score.hh"
 #include "Sounds.hh"
 
@@ -30,7 +32,7 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -43,7 +45,7 @@ PlayState::PlayState(void)
 
 PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -85,6 +87,9 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -111,10 +116,12 @@ void  PlayState::update(StatesManager *sMg)
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
-  bool		update_ia = true;
   float		now = sMg->getGameClock().getTotalGameTime();
 
+
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
+  if (danger)
+    danger->updateGameVision(objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -125,27 +132,20 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      if (dynamic_cast<Player*>(*it))
+      if (danger && *it)
+        danger->updateCaseVison(*it);
+      if ((*it)->getType() == "Player")
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
-            {
-              bestScore_ = static_cast<Player*>(*it)->getScore();
-              winnerId_ = static_cast<Player*>(*it)->getId();
-            }
+            bestScore_ = static_cast<Player*>(*it)->getScore();
+          winnerId_ = static_cast<Player*>(*it)->getId();
         }
-      else if (dynamic_cast<Monster*>(*it))
-        {
-          if (update_ia)
-            {
-              static_cast<Monster*>(*it)->getBrain()->updateDangerMap(objs_);
-              update_ia = false;
-            }
-          ++nbMonsters;
-        }
+      else if ((*it)->getType() == "Monster")
+        ++nbMonsters;
       if (!(*it)->toRemove())
         {
-          if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+          if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
             (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
@@ -155,39 +155,69 @@ void  PlayState::update(StatesManager *sMg)
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
     {
-      GLvoid    *data = operator new (1600 * 900 * 3);
-      CarrouselHandler  *cH;
+      CarrouselHandler  *cH = createInGameCH();
 
-      glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
-      cH = new CarrouselHandler(data);
-      //cH->Page(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
-      operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
+  if (danger)
+    {
+      // //  temporaire
+      std::vector<std::vector<std::pair<int, int> > >::iterator test;
+      for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
+        {
+          std::vector<std::pair<int, int> >::iterator toto;
+          for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+            std::cout
+                  <<  (*toto).first << " "
+              //<< (*toto).second
+                  << "  ";
+          std::cout << std::endl;
+          // std::cout << std::endl;
+          // std::cout << std::endl;
+          std::cout << std::endl;
+        }
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+    }
+
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
 void	PlayState::win(StatesManager *mngr)
 {
-    Score score;
+  Score score;
+  CarrouselHandler	*cH;
 
-    std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
-    score.save(bestScore_);
-    mngr->popState();//passer sur winstate
+  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
+  score.save(bestScore_);
+  cH = createInGameCH();
+  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+  mngr->pushState(cH);
+  //    mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
 {
-    Score score;
+  Score score;
+  CarrouselHandler	*cH;
 
-    std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
-    score.save(bestScore_);
-    mngr->popState();//passer sur gameOverstate
+  std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
+  score.save(bestScore_);
+  cH = createInGameCH();
+  cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  mngr->pushState(cH);
+  // mngr->popState();//passer sur gameOverstate
 }
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
@@ -231,6 +261,7 @@ void PlayState::updateReadyUpOverlay(float now)
 
 void PlayState::drawReadyUpOverlay(float now)
 {
+  (void)now;
   glDepthMask(GL_FALSE);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
@@ -365,4 +396,15 @@ uint PlayState::getWidth(const std::list<AObject*> *list) const
             maxX = (*it)->getPos().x;
     }
     return maxX;
+}
+
+CarrouselHandler	*PlayState::createInGameCH(void) const
+{
+  CarrouselHandler	*cH;
+  GLvoid		*data = operator new (1600 * 900 * 3);
+
+  glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
+  cH = new CarrouselHandler(data);
+  operator delete(data);
+  return (cH);
 }

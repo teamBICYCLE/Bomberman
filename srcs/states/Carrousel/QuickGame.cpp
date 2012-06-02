@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Fri Jun  1 17:12:03 2012 lois burg
+// Last update Sat Jun  2 17:16:19 2012 lois burg
 //
 
 #include "QuickGame.hh"
@@ -27,11 +27,8 @@ QuickGame::~QuickGame()
 
 void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, CarrouselHandler *cH)
 {
-  static bool sHit;
-
+  (void)cH;
   pressEnter_.update(gClock);
-  if (input.isKeyDown(gdl::Keys::Comma) && !sHit)
-    cH->setArrowFocus(!cH->getArrowFocusLeft());
   if (input.isKeyDown(gdl::Keys::Return) && !returnHit_)
     {
       try {
@@ -43,7 +40,6 @@ void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager 
         std::cerr << e.what() << std::endl;
       }
     }
-  sHit = input.isKeyDown(gdl::Keys::Comma);
   returnHit_ = input.isKeyDown(gdl::Keys::Return);
 }
 

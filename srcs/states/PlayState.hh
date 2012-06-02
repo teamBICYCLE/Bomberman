@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Thu May 31 16:23:35 2012 lois burg
+// Last update Sat Jun  2 18:58:06 2012 Jonathan Machado
 //
 
 #ifndef		__PLAYSTATE_HH__
@@ -18,6 +18,8 @@
 # include       "ModelHandler.hh"
 # include       "flatTexture.hh"
 # include       "Player.hh"
+# include	"Brain.hh"
+# include	"Carrousel/CarrouselHandler.hh"
 
 namespace	Bomberman
 {
@@ -49,6 +51,7 @@ namespace	Bomberman
     void	clearObjs(void);
     uint    getHeight(const std::list<AObject*> *list) const;
     uint    getWidth(const std::list<AObject*> *list) const;
+    CarrouselHandler	*createInGameCH(void) const;
 
   protected:
     size_t              mapW_;
@@ -69,6 +72,7 @@ namespace	Bomberman
     int                sndPlayed_;
     std::string         music_;
     std::list<Player *> players_;
+    DangerMap		*danger;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

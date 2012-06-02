@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:18:05 2012 romain sylvian
-// Last update Wed May 30 15:31:18 2012 thibault carpentier
+// Last update Sat Jun  2 14:59:45 2012 lois burg
 //
 //
 
@@ -16,7 +16,7 @@
 # include   "AObject.hh"
 # include   "APowerup.hh"
 # include   "PowerupFactory.hh"
-# include	"Explosion.hh"
+# include   "Explosion.hh"
 # include   "TexturedCube.hh"
 
 namespace	Bomberman

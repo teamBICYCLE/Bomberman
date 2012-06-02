@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Fri Jun  1 15:56:31 2012 lois burg
+// Last update Sat Jun  2 14:20:44 2012 lois burg
 //
 
 #include <iostream>
@@ -92,7 +92,6 @@ void	ClientState::update(StatesManager *mngr)
   Packet	netPacket;
   Player	*plyr;
 
-  std::cout << std::boolalpha << disconnected_ << std::endl;
   if (disconnected_)
     mngr->popState();//faire plus smooth
   else if (serv_)
@@ -104,8 +103,7 @@ void	ClientState::update(StatesManager *mngr)
       if (select_.canRead(serv_->getSockDesc()))
 	{
 	  netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
-	  // std::cout << "NetPacket: " << std::endl << netPacket << std::endl;
-	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
+  	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
 	}
       PlayState::update(mngr);
       if ((plyr = getPlayerWithId(objs_, playerNbr_)))
@@ -120,7 +118,6 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
-  std::cout << "Client checkEnd" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
