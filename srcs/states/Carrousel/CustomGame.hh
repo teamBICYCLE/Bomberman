@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Fri Jun  1 10:18:18 2012 lois burg
+// Last update Sat Jun  2 19:45:24 2012 lois burg
 //
 
 #ifndef		__CUSTOMGAME_HH__
@@ -73,7 +73,7 @@ namespace	Bomberman
     int		nbGhosts_;
     int		currentSelection_;
     bool	editing_;
-    gdl::Text	*text_;
+    gdl::Text	text_;
   };
 }
 

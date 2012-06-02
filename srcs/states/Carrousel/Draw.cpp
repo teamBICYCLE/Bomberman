@@ -5,16 +5,18 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sat Jun  2 17:33:47 2012 lois burg
+// Last update Sat Jun  2 19:12:08 2012 lois burg
 //
 
+#include <sstream>
+#include "ModelHandler.hh"
 #include "Draw.hh"
 #include "CarrouselHandler.hh"
 
 using namespace	Bomberman;
 
 Draw::Draw()
-  : returnHit_(false)
+  : returnHit_(false), drawLabel_(ModelHandler::get().getModel("draw"))
 {
 }
 
@@ -34,14 +36,9 @@ void	Draw::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg,
   returnHit_ = input.isKeyDown(gdl::Keys::Return);
 }
 
-#include <GDL/Text.hpp>
 void	Draw::draw(void)
 {
-  gdl::Text	text;
-
-  text.setFont("Ressources/Fonts/Dimbo.ttf");
-  text.setSize(36);
-  text.setText("Draw!");
-  text.setPosition(0, 0);
-  text.draw();
+  glPushMatrix();
+  drawLabel_.draw();
+  glPopMatrix();
 }

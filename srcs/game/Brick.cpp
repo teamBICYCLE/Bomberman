@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sat Jun  2 18:30:53 2012 lois burg
+// Last update Sat Jun  2 20:12:52 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -15,7 +15,7 @@
 using namespace	Bomberman;
 
 Brick::Brick(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "cube"), model_(ModelHandler::get().getModel("brick"))
+  : AObject(pos, rot, sz, "Brick"), model_(ModelHandler::get().getModel("brick"))
 {
     PowerupFactory *factory = PowerupFactory::getInstance();
 
