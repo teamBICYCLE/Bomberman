@@ -19,8 +19,9 @@ namespace Bomberman {class AObject;}
 class Camera
 {
 public:
-  Camera();
+  Camera(size_t mapW = 0, size_t mapH = 0);
 
+  void    setHeightWidth(size_t mapW, size_t mapH);
   void    initialize(void);
   void    update(const gdl::GameClock &, gdl::Input &, std::list<Bomberman::AObject*>& objs);
   void    draw(void);
@@ -36,6 +37,9 @@ private:
 protected:
   Vector3d    position_;
   Vector3d    zoom_;
+  size_t      mapW_;
+  size_t      mapH_;
+
 };
 
 #include "AObject.hh"

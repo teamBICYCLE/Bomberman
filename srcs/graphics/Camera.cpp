@@ -17,10 +17,16 @@
 #include "Player.hh"
 #include "Camera.hh"
 
-Camera::Camera()
-  :position_(5.f, 3.f, 1.0f)
+Camera::Camera(size_t mapW, size_t mapH)
+  :position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0)
 {
   this->initialize();
+}
+
+void Camera::setHeightWidth(size_t mapW, size_t mapH)
+{
+  mapW_ = mapW;
+  mapH_ = mapH;
 }
 
 void    Camera::initialize()
@@ -65,9 +71,9 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
   ++i;
 }
 });
-max.x = (max.x - min.x) + 4;
+max.x = (max.x - min.x) + 2;
 max.x = max.x >= 16 ? max.x : 16;
-max.y = (max.y - min.y) + 2.25;
+max.y = (max.y - min.y) + 1.125;
 max.y = max.y >= 9 ? max.y : 9;
 if (max.x / 16 >= max.y / 9)
 {
@@ -81,6 +87,21 @@ zoom_.x = zoom_.y * (16.0f/9.0f);
 }
 position /= i;
 position_ = position;
+
+#define MAX_X_VALUE ((mapW_ / 2) < (zoom_.x / 2) - 2 ? (mapW_ / 2) : (zoom_.x / 2) - 2)
+  if (position_.x < MAX_X_VALUE)
+position_.x = MAX_X_VALUE;
+  else if (position_.x > mapW_ - MAX_X_VALUE)
+position_.x = mapW_ - MAX_X_VALUE;
+#undef MAX_X_VALUE
+
+#define MAX_Y_VALUE ((mapH_ / 2) < (zoom_.y / 2) - 2  ? (mapH_ / 2) : (zoom_.y / 2) - 2)
+if (position_.y < MAX_Y_VALUE)
+  position_.y = MAX_Y_VALUE;
+else if (position_.y > mapH_ - MAX_Y_VALUE)
+  position_.y = mapH_ - MAX_Y_VALUE;
+position_.y -= 0.5;
+#undef MAX_Y_VALUE
 }
 
 void    Camera::draw()

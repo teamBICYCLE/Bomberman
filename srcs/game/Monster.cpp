@@ -66,10 +66,10 @@ Monster::~Monster()
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
   //  brainScript_->updateDangerMap(objs);
-  brainScript_->selectFct("thinking");
-  brainScript_->addParam(pos_.x);
-  brainScript_->addParam(pos_.y);
-  brainScript_->callFct(1);
+//  brainScript_->selectFct("thinking");
+//  brainScript_->addParam(pos_.x);
+//  brainScript_->addParam(pos_.y);
+//  brainScript_->callFct(1);
   eDirection d = NODIR;
   d =  brainScript_->getDecision();
   if (keys.isKeyDown(gdl::Keys::Right))

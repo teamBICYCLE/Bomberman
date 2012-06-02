@@ -46,6 +46,7 @@ bool	AdventureState::init()
     Character::CharacterId = 0;
     mapH_ = curMap_->getHeight();
     mapW_ = curMap_->getWidth();
+    camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
     ++curMapId_;
   } catch (Map::Failure& e) {
@@ -80,15 +81,16 @@ void	AdventureState::win(StatesManager *mngr)
       delete curMap_;
       ss << mapBaseName_ << curMapId_;
       try {
-	clearObjs();
-	Character::CharacterId = 0;
-	curMap_ = new Map(ss.str());
-	mapH_ = curMap_->getHeight();
-	mapW_ = curMap_->getWidth();
-	objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+        clearObjs();
+        Character::CharacterId = 0;
+        curMap_ = new Map(ss.str());
+        mapH_ = curMap_->getHeight();
+        mapW_ = curMap_->getWidth();
+        camera_.setHeightWidth(mapW_, mapH_);
+        objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
       } catch (Map::Failure& e) {
-	std::cerr << e.what() << std::endl;
-	mngr->popState();
+        std::cerr << e.what() << std::endl;
+        mngr->popState();
       }
     }
 }
@@ -108,6 +110,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
     curMap_ = new Map(ss.str());
     mapH_ = curMap_->getHeight();
     mapW_ = curMap_->getWidth();
+    camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
