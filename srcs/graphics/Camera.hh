@@ -39,7 +39,8 @@ protected:
   Vector3d    zoom_;
   size_t      mapW_;
   size_t      mapH_;
-
+  float       anim_;
+  float       lastTime_;
 };
 
 #include "AObject.hh"
