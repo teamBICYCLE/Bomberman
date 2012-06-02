@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Thu May 31 18:39:25 2012 thibault carpentier
+// Last update Sat Jun  2 14:41:34 2012 Jonathan Machado
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -209,18 +209,25 @@ int Brain::isCrossable(VirtualMachine &vm)
       x = lua_tonumber(vm.getLua(), 1);
       y = lua_tonumber(vm.getLua(), 2);
       BoundingBox bb(Vector3d(x, y, 0), Vector3d(0.6, 0.6, 0), NULL);
+
       valid = 0;
       if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
   	{
 	  valid = 1;
- 	  std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
+	  AObject *obj = NULL;
+ 	  for (std::list<AObject*>::iterator it = objs.begin(); it != objs.end(); ++it)
+	    {
+	      obj = *it;
   	      if (valid && bb.collideWith(obj))
   		{
   		  if (((lua_tonumber(vm.getLua(), 3) == MONSTER) && dynamic_cast<Brick*>(obj))
 		      || dynamic_cast<Block*>(obj) || (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj)))
-		    valid = 0;
+		    {
+		      valid = 0;
+		      break;
+		    }
   		}
-  	    });
+  	    }
   	}
     }
   lua_pushnumber(vm.getLua(), valid);
