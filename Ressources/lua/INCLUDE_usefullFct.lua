@@ -1,25 +1,25 @@
 #!/usr/bin/lua
 
-function showdir(res)
-   if (res == NODIR)
-   then
-      return("NODIR")
-   elseif (res == RIGHT)
-   then
-      return("RIGHT")
-   elseif res == LEFT
-   then
-      return("LEFT")
-   elseif res == UP
-   then
-      return("UP")
-   elseif (res == DOWN)
-   then
-      return("DOWN")
-   else
-      return ("BADRETURN")
-   end
-end
+-- function showdir(res)
+--    if (res == NODIR)
+--    then
+--       return("NODIR")
+--    elseif (res == RIGHT)
+--    then
+--       return("RIGHT")
+--    elseif res == LEFT
+--    then
+--       return("LEFT")
+--    elseif res == UP
+--    then
+--       return("UP")
+--    elseif (res == DOWN)
+--    then
+--       return("DOWN")
+--    else
+--       return ("BADRETURN")
+--    end
+-- end
 
 function floor(x)
    x = math.floor(x + 0.001)
@@ -39,15 +39,10 @@ function getZoneDanger(this, x, y)
       local tmp = this:getDanger(posX[j], posY[j])
       if (tmp > 0 and j == 1)
       then
-	 -- print("return direct :", tmp)
 	 return (tmp)
       end
-      -- print("tmp", tmp)
       res = res + tmp
    end
-   -- print("res : ", res / table.getn(posX))
-   -- print()
-   -- print()
    return (res / table.getn(posX))
 end
 
@@ -164,7 +159,7 @@ function getLessDangerousDirection(this, x, y, type)
    res_dir = testAngles(this, x, y, type, danger, res_dir)
    if (res_dir == NODIR)
    then
-      -- aller quelque part
+      return (exploreMap(this, x, y)) --this is the new ia add
    end
    return (res_dir)
 end
@@ -217,6 +212,22 @@ function trackPlayer(this, x, y, type)
    return (res_dir)
 end
 
---     (this:getDanger(posX[k], posY[k]) < 10 or this:getDanger(posX[k], posY[k] + 0.6) < 10 or
--- this:getDanger(posX[k] + 0.6, posY[k]) < 10 or this:getDanger(posX[k] + 0.6, posY[k] + 0.6) < 10))
---	 print("================= Testing : ", dir[i][j] ," danger de :", floor(tmpDanger), "et crossable == ", this:isCrossable(floor(posX[i]), floor(posY[j]), type) == 1 and funct[i][j](this, x, y, type) ~= NODIR)
+function exploreMap(this, x, y)
+   local dir = {RIGHT      , LEFT     , UP       , DOWN     }
+   local posX = { x + 1    , x - 1    , x        , x        }
+   local posY = { y        , y        , y - 1    , y + 1    }
+   local dirX = { x + SPEED, x - SPEED, x        , x        }
+   local dirY = { y        , y        , y - SPEED, y + SPEED}
+   local goodDir = {NODIR}
+
+   math.randomseed(os.time())
+   for h = 1, table.getn(dir) do
+      if (this:isCrossable(posX[h], posY[h], type) == 1
+       and this:isCrossable(dirX[h], dirY[h], type) == 1)
+      then
+	 goodDir[table.getn(goodDir) + 1] = dir[h]
+      end
+   end
+   local decision = math.random(1, table.getn(goodDir))
+   return (goodDir[decision])
+end
