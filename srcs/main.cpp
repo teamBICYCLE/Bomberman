@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 16:49:18 2012 lois burg
-// Last update Fri Jun  1 12:26:03 2012 lois burg
+// Last update Sat Jun  2 12:42:07 2012 lois burg
 //
 
 #include <GDL/ModelException.hpp>
@@ -13,7 +13,7 @@
 #include "Menu/MenuState.hh"
 #include "AdventureState.hh"
 #include "TwitterConnection.hh"
-# include "IntroState.hh"
+#include "IntroState.hh"
 #include "Sounds.hh"
 #include "IntroState.hh"
 

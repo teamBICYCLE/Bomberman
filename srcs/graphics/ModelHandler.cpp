@@ -113,6 +113,12 @@ void      ModelHandler::preload()
         "waiting-button");
   storeModel(new flatTexture("Ressources/Images/Menu/dot.png"),
         "dot");
+  storeModel(new flatTexture("Ressources/Images/Menu/on.png"),
+        "on");
+  storeModel(new flatTexture("Ressources/Images/Menu/off.png"),
+        "off");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-sound.png"),
+        "arrow-sound");
 
   /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
@@ -129,6 +135,8 @@ void      ModelHandler::preload()
         "bg-joingame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-sound.png"),
+        "bg-sound");
   storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
         "press-enter");
 
