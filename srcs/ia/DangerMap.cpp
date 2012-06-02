@@ -5,7 +5,6 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-// Last update Fri Jun  1 18:50:48 2012 thibault carpentier
 //
 
 
@@ -51,10 +50,16 @@ void DangerMap::resetPheromones(void)
       }
 }
 
-void DangerMap::updateCaseVison(const std::list<AObject*>::const_iterator &it)
+void DangerMap::updateCaseVison(const AObject* it)
 {
-  (*it)->setDanger(danger_, objs_, x_, y_);
-  (*it)->setVirtualPheromones(danger_, objs_, x_, y_);
+  int x = it->getPos().x;
+  int y = it->getPos().y;
+
+  if (y >= 0 && y < y_ && x >= 0 && x < x_)
+    {
+      it->setDanger(danger_, objs_, x_, y_);
+      it->setVirtualPheromones(danger_, objs_, x_, y_);
+    }
 }
 
 int  DangerMap::getDanger(int x, int y) const
@@ -67,37 +72,27 @@ int  DangerMap::getPheromones(int x, int y) const
   return (danger_[y][x].second);
 }
 
-
 void DangerMap::updateGameVision(const std::list<AObject*>& objs)
 {
-  int x, y;
   objs_ = objs;
   std::list<AObject*>::const_iterator it;
 
   resetDanger();
   resetPheromones();
-  for (it = objs.begin(); it != objs.end(); ++it)
-    {
-      x = (*it)->getPos().x;
-      y = (*it)->getPos().y;
-      if (y >= 0 && y < y_ && x >= 0 && x < x_)
-        updateCaseVison(it);
-    }
-
- //  // //  temporaire
- // std::vector<std::vector<std::pair<int, int> > >::iterator test;
- // for (test = danger_.begin(); test != danger_.end(); ++test)
- //   {
- //     std::vector<std::pair<int, int> >::iterator toto;
- //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
- // 	std::cout
- // 	   	  <<  (*toto).first << " "
- // 	  //<< (*toto).second
- // 	  	  << "  ";
- //     std::cout << std::endl;
- //     // std::cout << std::endl;
- //     // std::cout << std::endl;
- //     std::cout << std::endl;
+  //  // //  temporaire
+  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  // for (test = danger_.begin(); test != danger_.end(); ++test)
+  //   {
+  //     std::vector<std::pair<int, int> >::iterator toto;
+  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	std::cout
+  // 	   	  <<  (*toto).first << " "
+  // 	  //<< (*toto).second
+  // 	  	  << "  ";
+  //     std::cout << std::endl;
+  //     // std::cout << std::endl;
+  //     // std::cout << std::endl;
+  //     std::cout << std::endl;
  //   }
  // std::cout << std::endl;
  // std::cout << std::endl;

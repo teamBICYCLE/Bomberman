@@ -4,8 +4,8 @@
 
 using namespace	Bomberman;
 
-InGameList::InGameList(std::list<AObject*> &start, std::list<AObject*> &objs, GLvoid *data, PlayState *ps)
-    : AContent(), save_(new SaveHandler()), objs_(objs), start_(start), screen_(data), ps_(ps)
+InGameList::InGameList(std::list<AObject*> &objs, GLvoid *data, PlayState *ps)
+    : AContent(), save_(new SaveHandler()), objs_(objs), screen_(data), ps_(ps)
 {
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &InGameList::up));
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &InGameList::down));

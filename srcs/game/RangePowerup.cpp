@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:33:03 2012 geoffroy lafontaine
-// Last update Sun May 20 16:14:43 2012 lois burg
+// Last update Sat Jun  2 14:19:04 2012 lois burg
 //
 
 #include "RangePowerup.hh"
@@ -32,7 +32,6 @@ void	RangePowerup::activate(Player& p)
 {
   if (!toRemove())
     {
-      std::cout << "Range up" << std::endl;
       p.setBombRange(p.getBombRange() + 1);
       APowerup::activate(p);
     }

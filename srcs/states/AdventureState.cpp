@@ -5,9 +5,12 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Thu May 31 16:41:05 2012 lois burg
+// Last update Sat Jun  2 19:02:12 2012 Jonathan Machado
 //
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GDL/Text.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,11 +19,7 @@
 #include "Player.hh"
 #include "AdventureState.hh"
 #include "Map.hh"
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GDL/Text.hpp>
-
+#include "Carrousel/Win.hh"
 #include "SaveHandler.hh"
 
 using namespace	Bomberman;
@@ -46,7 +45,11 @@ bool	AdventureState::init()
     Character::CharacterId = 0;
     mapH_ = curMap_->getHeight();
     mapW_ = curMap_->getWidth();
+    camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
     ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
@@ -64,6 +67,7 @@ void	AdventureState::cleanUp()
 
 void	AdventureState::win(StatesManager *mngr)
 {
+  CarrouselHandler	*cH;
   std::stringstream	ss;
 
   (void)mngr;
@@ -73,22 +77,29 @@ void	AdventureState::win(StatesManager *mngr)
   if (curMapId_ == nbMaps_)
     {
       std::cout << "CONGRATS!" << std::endl;
-      mngr->popState();
+      cH = createInGameCH();
+      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+      mngr->pushState(cH);
+      // mngr->popState();
     }
   else
     {
       delete curMap_;
       ss << mapBaseName_ << curMapId_;
       try {
-	clearObjs();
-	Character::CharacterId = 0;
-	curMap_ = new Map(ss.str());
-	mapH_ = curMap_->getHeight();
-	mapW_ = curMap_->getWidth();
-	objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+        clearObjs();
+        Character::CharacterId = 0;
+        curMap_ = new Map(ss.str());
+        mapH_ = curMap_->getHeight();
+        mapW_ = curMap_->getWidth();
+        camera_.setHeightWidth(mapW_, mapH_);
+        objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+	for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+	  if (dynamic_cast<Monster*>(*it))
+	    danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
       } catch (Map::Failure& e) {
-	std::cerr << e.what() << std::endl;
-	mngr->popState();
+        std::cerr << e.what() << std::endl;
+        mngr->popState();
       }
     }
 }
@@ -108,7 +119,11 @@ void	AdventureState::gameOver(StatesManager *mngr)
     curMap_ = new Map(ss.str());
     mapH_ = curMap_->getHeight();
     mapW_ = curMap_->getWidth();
+    camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
     mngr->popState();

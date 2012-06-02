@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Fri Jun  1 15:56:29 2012 lois burg
+// Last update Sat Jun  2 14:32:47 2012 lois burg
 //
 
 #include <iostream>
@@ -44,23 +44,6 @@ bool	ServerState::init()
 
   srand(seed);
   std::cout << "Seed : " << seed << std::endl;
-
-  // //TEMPORARY
-  // try {
-  //   serv_ = new TCPServerSocket(ServPort, nbPlayers_ - 1);
-  //   std::cout << "Server listening on : " << ServPort << std::endl;
-  //   for (i = 1; i < nbPlayers_; ++i)
-  //     {
-  // 	std::cout << "Waiting client #" << i << std::endl;
-  // 	clients_[i - 1] = serv_->accept();
-  // 	std::cout << nbPlayers_ - i << " clients left." << std::endl;
-  //     }
-  // } catch (SocketException& e) {
-  //   std::cerr << "Connection error: " << e.what() << std::endl;
-  //   serv_ = NULL;
-  // }
-  // //END TEMPORARY
-
   try {
     Map	map(mapW_, mapH_, nbPlayers_, 0, 0);
 
@@ -154,7 +137,6 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
   int		i = 0;
   Player	*plyr = NULL;
 
-  std::cout << "Server checkEnd" << std::endl;
   if (readyUp_ <= 0)
     {
       if (nbPlayersAlive == 1 && !nbMonsters)
@@ -163,7 +145,6 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	    i++;
 	  if (plyr)
 	    winnerId_ = i;
-	  std::cout << "WIN" << std::endl;
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)

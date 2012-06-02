@@ -1,6 +1,7 @@
 #include "KeyBindSlide.hh"
 #include "flatTexture.hh"
 #include "ModelHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -93,16 +94,23 @@ void	KeyBindSlide::draw(void)
 bool    KeyBindSlide::conflict(const std::string &str) const
 {
     std::vector< std::pair<eKeys, std::string> >::const_iterator it;
+    int i = 0;
+
+    int ignore1_ = (player_ == 0) ? (current_) : (-1);
+    int ignore2_ = (player_ == 1) ? (current_) : (-1);
 
     for (it = player1_.begin(); it != player1_.end(); it++)
     {
-        if (str == it->second)
+        if (str == it->second && i != ignore1_)
             return true;
+        i++;
     }
+    i = 0;
     for (it = player2_.begin(); it != player2_.end(); it++)
     {
-        if (str == it->second)
+        if (str == it->second && i != ignore2_)
             return true;
+        i++;
     }
     return false;
 }
@@ -130,7 +138,7 @@ void    KeyBindSlide::setNewKey(const std::string &str)
 }
 
 void    KeyBindSlide::drawOverlay(void) const
-{   
+{
     flatTexture *overlay;
 
     glPushMatrix();
@@ -211,6 +219,11 @@ void    KeyBindSlide::tab(void)
 void    KeyBindSlide::setEditingMode(void)
 {
     editingMode_ = !editingMode_;
+    if (editingMode_ == true)
+      Sounds::instance().playEffect("pressed");
+    else
+      Sounds::instance().playEffect("released");
+
 }
 
 void    KeyBindSlide::saveConfig(void)
