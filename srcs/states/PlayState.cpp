@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 18:29:43 2012 lois burg
+// Last update Sat Jun  2 18:57:30 2012 Jonathan Machado
 //
 
 #include <iostream>
@@ -31,7 +31,7 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -44,7 +44,7 @@ PlayState::PlayState(void)
 
 PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
+      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -86,6 +86,9 @@ bool  PlayState::init()
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -112,11 +115,12 @@ void  PlayState::update(StatesManager *sMg)
   int		nbPlayers = 0;
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
-  bool		update_ia = true;
   float		now = sMg->getGameClock().getTotalGameTime();
-  DangerMap *danger = NULL;
+
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
+  if (danger)
+    danger->updateGameVision(objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -135,25 +139,15 @@ void  PlayState::update(StatesManager *sMg)
 	  winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
-        {
-          if (update_ia)
-            {
-              danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
-	      danger->updateGameVision(objs_);
-              update_ia = false;
-            }
-          ++nbMonsters;
-        }
+	++nbMonsters;
       if (!(*it)->toRemove())
         {
           if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-	    {
-	      (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	      if (danger)
-		danger->updateCaseVison(*it);
-	    }
-          ++it;
+	    (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	  if (danger)
+	    danger->updateCaseVison(*it);
+	  ++it;
         }
       else
         it = objs_.erase(it);
