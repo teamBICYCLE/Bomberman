@@ -14,7 +14,7 @@ namespace	Bomberman
   class	InGameList : public AContent
   {
   public:
-    InGameList();
+    InGameList(std::list<AObject*> &, GLvoid *data);
     virtual ~InGameList();
 
   public:
@@ -32,6 +32,8 @@ namespace	Bomberman
 
   private:
     SaveHandler *save_;
+    std::list<AObject*> objs_;
+    GLvoid  *screen_;
     std::map<gdl::Keys::Key, void(InGameList::*)(StatesManager *)> paramMap_;
     std::map<int, void(InGameList::*)(StatesManager *)> actionMap_;
     bool up_;

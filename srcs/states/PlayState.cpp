@@ -153,16 +153,17 @@ void  PlayState::update(StatesManager *sMg)
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
     {
-      GLvoid    *data = (unsigned char *)(calloc(1600 * 900 * 3, sizeof(unsigned char)));
+      GLvoid    *data = operator new(1600 * 900 * 3);
       CarrouselHandler  *cH;
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(objs_, data), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
+      operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;

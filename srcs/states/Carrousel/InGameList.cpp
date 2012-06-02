@@ -4,8 +4,8 @@
 
 using namespace	Bomberman;
 
-InGameList::InGameList()
-    : AContent(), save_(new SaveHandler())
+InGameList::InGameList(std::list<AObject*> &objs, GLvoid *data)
+    : AContent(), save_(new SaveHandler()), objs_(objs), screen_(data)
 {
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &InGameList::up));
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &InGameList::down));
@@ -80,15 +80,12 @@ void    InGameList::resume(StatesManager *sMg)
 void    InGameList::restart(StatesManager *sMg)
 {
     (void)sMg;
-    // pas trop d'idee ...
-    // Peut etre recuperer les infos du playstate
-    // pop les States et refaire un new PlayState avec les infos
 }
 
 void    InGameList::save(StatesManager *sMg)
 {
     (void)sMg;
-    //save_->save(/*il faut recuperer la liste d'obj*/);
+    save_->save(objs_, screen_);
 }
 
 void    InGameList::quit(StatesManager *sMg)
