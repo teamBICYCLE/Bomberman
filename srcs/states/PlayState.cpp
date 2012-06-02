@@ -144,17 +144,17 @@ void  PlayState::update(StatesManager *sMg)
           winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
-	{
-	  ++nbMonsters;
-	  if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
-	}
+        {
+          ++nbMonsters;
+          if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
+        }
       if (!(*it)->toRemove())
         {
           if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-	    if ((*it)->getType() != "Monster")
-	      (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-	  ++it;
+            if ((*it)->getType() != "Monster")
+              (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+          ++it;
         }
       else
         it = objs_.erase(it);
