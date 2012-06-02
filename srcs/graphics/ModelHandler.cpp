@@ -147,6 +147,10 @@ void      ModelHandler::preload()
         "one");
   storeModel(new flatTexture("Ressources/Images/Play/go.png"),
         "go");
+
+  /* in game */
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-ingame.png"),
+        "bg-ingame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
