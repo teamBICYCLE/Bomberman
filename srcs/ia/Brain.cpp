@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sat Jun  2 16:11:51 2012 thibault carpentier
+// Last update Sat Jun  2 19:58:45 2012 thibault carpentier
 // Last update Mon May 21 17:19:47 2012 Jonathan Machado
 // Last update Fri May 18 17:54:49 2012 Jonathan Machado
 //
@@ -25,6 +25,29 @@ using namespace LuaVirtualMachine;
 
 Brain::Brain(int x, int y)
     : Script(), danger_(x, y), x_(x), y_(y)
+{
+  initLua();
+}
+
+Brain::Brain(const Brain &other)
+    : Script(), danger_(other.x_, other.y_)
+{
+    decision_ = other.decision_;
+    initLua();
+    x_ = other.x_;
+    y_ = other.y_;
+}
+
+Brain::Brain()
+    : Script(), danger_(0, 0), x_(0), y_(0)
+{
+  initLua();
+}
+
+Brain::~Brain(void)
+{}
+
+void Brain::initLua(void)
 {
   lua_State *state = getVM().getLua();
 
@@ -53,67 +76,13 @@ Brain::Brain(int x, int y)
   meth_[registerFct("isCrossable")] = &Brain::isCrossable;
   meth_[registerFct("getDanger")] = &Brain::getDanger;
   meth_[registerFct("getPheromones")] = &Brain::getPheromones;
+  meth_[registerFct("showDir")] = &Brain::showDir;
+  dirs_[eDirection::UP] = &Brain::showUp;
+  dirs_[eDirection::DOWN] = &Brain::showDown;
+  dirs_[eDirection::LEFT] = &Brain::showLeft;
+  dirs_[eDirection::RIGHT] = &Brain::showRight;
+  dirs_[eDirection::NODIR] = &Brain::showNodir;
 }
-
-Brain::Brain(const Brain &other)
-    : Script(), danger_(other.x_, other.y_)
-{
-    decision_ = other.decision_;
-
-    lua_State *state = getVM().getLua();
-
-    lua_pushinteger(state, eDirection::UP);
-    lua_setglobal(state, "UP");
-    lua_pushinteger(state, eDirection::RIGHT);
-    lua_setglobal(state, "RIGHT");
-    lua_pushinteger(state, eDirection::DOWN);
-    lua_setglobal(state, "DOWN");
-    lua_pushinteger(state, eDirection::LEFT);
-    lua_setglobal(state, "LEFT");
-    lua_pushinteger(state, eDirection::NODIR);
-    lua_setglobal(state, "NODIR");
-    lua_pushinteger(state, eDirection::NODIR);
-    lua_setglobal(state, "NODIR");
-    lua_pushinteger(state, eEnnemyType::MONSTER);
-    lua_setglobal(state, "MONSTER");
-    lua_pushinteger(state, eEnnemyType::GHOST);
-    lua_setglobal(state, "GHOST");
-
-    meth_[registerFct("isCrossable")] = &Brain::isCrossable;
-    meth_[registerFct("getDanger")] = &Brain::getDanger;
-
-    x_ = other.x_;
-    y_ = other.y_;
-}
-
-Brain::Brain()
-    : Script(), danger_(0, 0), x_(0), y_(0)
-{
-    lua_State *state = getVM().getLua();
-
-    lua_pushinteger(state, eDirection::UP);
-    lua_setglobal(state, "UP");
-    lua_pushinteger(state, eDirection::RIGHT);
-    lua_setglobal(state, "RIGHT");
-    lua_pushinteger(state, eDirection::DOWN);
-    lua_setglobal(state, "DOWN");
-    lua_pushinteger(state, eDirection::LEFT);
-    lua_setglobal(state, "LEFT");
-    lua_pushinteger(state, eDirection::NODIR);
-    lua_setglobal(state, "NODIR");
-    lua_pushinteger(state, eDirection::NODIR);
-    lua_setglobal(state, "NODIR");
-    lua_pushinteger(state, eEnnemyType::MONSTER);
-    lua_setglobal(state, "MONSTER");
-    lua_pushinteger(state, eEnnemyType::GHOST);
-    lua_setglobal(state, "GHOST");
-
-    meth_[registerFct("isCrossable")] = &Brain::isCrossable;
-    meth_[registerFct("getDanger")] = &Brain::getDanger;
-}
-
-Brain::~Brain(void)
-{}
 
 int Brain::scriptCalling(VirtualMachine &vm, int fctNb)
 {
@@ -197,6 +166,19 @@ int Brain::getY(void) const
     return y_;
 }
 
+int Brain::showDir(VirtualMachine &vm)
+{
+  lua_State *state = vm.getLua();
+  for (int i = 0; i <= lua_gettop(state); ++i)
+    {
+      if (lua_isnumber(state, i))
+	if (dirs_.find(lua_tonumber(state, i)) != dirs_.end())
+	  (this->*dirs_[lua_tonumber(state, i)])();
+
+    }
+  return (0);
+}
+
 int Brain::isCrossable(VirtualMachine &vm)
 {
   std::list<AObject*> objs = danger_.getObjs();
@@ -232,6 +214,36 @@ int Brain::isCrossable(VirtualMachine &vm)
   lua_pushnumber(vm.getLua(), valid);
   return (1);
 }
+
+void Brain::showUp(void)
+{
+  std::cout << "UP" << std::endl;
+}
+
+
+void Brain::showDown(void)
+{
+  std::cout << "DOWN" << std::endl;
+}
+
+
+void Brain::showLeft(void)
+{
+  std::cout << "LEFT" << std::endl;
+}
+
+
+void Brain::showRight(void)
+{
+  std::cout << "RIGHT" << std::endl;
+}
+
+
+void Brain::showNodir(void)
+{
+  std::cout << "NODIR" << std::endl;
+}
+
 
 /* Serialization */
 

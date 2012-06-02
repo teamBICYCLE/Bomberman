@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Sat Jun  2 16:50:52 2012 Jonathan Machado
+// Last update Sat Jun  2 20:01:55 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -92,8 +92,6 @@ namespace Bomberman
 	  MONSTER,
 	  GHOST
 	};
-    typedef int (Bomberman::Thinking::Brain::*fctMeth)(VirtualMachine &);
-
    public:
       /*!
        *  \brief Constructor.
@@ -125,10 +123,17 @@ namespace Bomberman
        *  \brief Destructor.
        *
        *  Destructor of Brain Class.
-       *  \param x : x size of the map.
-       *  \param y : y size of the map.
        */
       ~Brain(void);
+
+
+      /*!
+       *  \brief init lua method
+       *
+       *  Method used to init the lua fonction, pushing all value in the stack
+       *
+       */
+      void initLua(void);
 
       /*!
        *  \brief Method redirecting calls.
@@ -143,6 +148,47 @@ namespace Bomberman
        *
        */
       int scriptCalling(VirtualMachine &vm, int fctNb);
+
+      /*!
+       *  \brief Method used to show a direction
+       *
+       *  Method to print a direction
+       *  \return (void)
+       *
+       */
+      void showUp(void);
+      /*!
+       *  \brief Method used to show a direction
+       *
+       *  Method to print a direction
+       *  \return (void)
+       *
+       */
+      void showDown(void);
+      /*!
+       *  \brief Method used to show a direction
+       *
+       *  Method to print a direction
+       *  \return (void)
+       *
+       */
+      void showLeft(void);
+      /*!
+       *  \brief Method used to show a direction
+       *
+       *  Method to print a direction
+       *  \return (void)
+       *
+       */
+      void showRight(void);
+      /*!
+       *  \brief Method used to show a direction
+       *
+       *  Method to print a direction
+       *  \return (void)
+       *
+       */
+      void showNodir(void);
       /*!
        *  \brief Method hanling returns from functions called in lua.
        *
@@ -192,8 +238,7 @@ namespace Bomberman
        * given (number x, number y, type (MONSTER | GHOST))
        *
        *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated.
-       *  \return (int) The number of value pushed on the lua-stack (push -1 on error, 0 on false and 1 on true).
-       *
+       *  \return (int) The number of value pushed on the lua-stack (push -1 on error, 0 on false and 1 on true).       *
        */
       int isCrossable(VirtualMachine &vm);
       /*!
@@ -207,7 +252,17 @@ namespace Bomberman
        *
        */
       int getDanger(VirtualMachine &vm);
-
+      /*!
+       *  \brief Method used to show a direction for debug
+       *
+       *  The method return show the enum value for debugging lua script
+       *
+       *
+       *  \param vm : (Automatically added by lua) The Virtual Machine where the script is emulated. (take va_args)
+       *  \return (int) The number of value pushed on the lua-stack (number) 0 returns here.
+       *
+       */
+      int showDir(VirtualMachine &vm);
       /*!
        *  \brief Method returning pheromones
        *
@@ -247,7 +302,7 @@ namespace Bomberman
        *
        *  The method serialize the brain
        *
-       *  \param (QDataStream &) the stream to serialize
+       *  \param out the stream to serialize
        *  \return void
        *
        */
@@ -258,7 +313,7 @@ namespace Bomberman
        *
        *  The method unserialize the brain
        *
-       *  \param (QDataStream &) the stream to unserialize
+       *  \param in the stream to unserialize
        *  \return void
        *
        */
@@ -296,6 +351,9 @@ namespace Bomberman
 
       eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
+      typedef void (Bomberman::Thinking::Brain::*dirshow)(void);
+      std::map<int, dirshow> dirs_;
+      typedef int (Bomberman::Thinking::Brain::*fctMeth)(VirtualMachine &);
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
       int x_;
       int y_;
