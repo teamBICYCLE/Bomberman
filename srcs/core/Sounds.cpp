@@ -53,9 +53,10 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
   FMOD_SOUND    *snd;
   FMOD_CHANNEL  *chn = NULL;
 
-  if (FMOD_System_CreateSound(system_, path.c_str(), FMOD_CREATESAMPLE| FMOD_LOOP_NORMAL, NULL, &snd)
+  if (FMOD_System_CreateSound(system_, path.c_str(), FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL, NULL, &snd)
       != FMOD_OK)
-    throw std::exception();
+    // throw std::exception()
+      ;
   effects_[name] = std::make_pair(snd, chn);
   if (loop)
     FMOD_Sound_SetLoopCount(snd, -1);
@@ -123,7 +124,8 @@ void Sounds::loadMusic(const std::string &name, const std::string &path)
                               | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL,
                               0, &snd)
       != FMOD_OK)
-    throw std::exception();
+    // throw std::exception()
+      ;
   FMOD_Sound_SetLoopCount(snd, -1);
   musics_[name] = snd;
 }
