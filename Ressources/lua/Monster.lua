@@ -17,7 +17,7 @@ function this.thinking(this, x, y)
     then
        print("FEAR mode enabled")
   --     print ("echap", showdir(getLessDangerousDirection(this, x, y, MONSTER)))
-       return (center(x, y, getLessDangerousDirection(this, x, y, MONSTER)))
+       return (center(x, y, escapeDanger(this, x, y , danger)))
     elseif (pheromones > 0)
     then
        print("TRACK mode enabled")
