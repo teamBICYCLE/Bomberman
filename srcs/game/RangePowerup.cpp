@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 RangePowerup::RangePowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "RangePowerup"), model_(ModelHandler::get().getModel("powerup"))
+  : APowerup(pos, rot, sz, "RangePowerup"), model_(ModelHandler::get().getModel("rangeup"))
 {
 }
 

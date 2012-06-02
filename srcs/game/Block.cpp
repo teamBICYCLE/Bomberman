@@ -5,19 +5,18 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Wed May 30 15:30:42 2012 thibault carpentier
+// Last update Sat Jun  2 20:13:03 2012 lois burg
 //
-
-#include "Block.hh"
 
 #include <GL/gl.h>
 #include <GDL/Image.hpp>
 #include "ModelHandler.hh"
+#include "Block.hh"
 
 using namespace	Bomberman;
 
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : AObject(pos, rot, sz, "cube"), model_(ModelHandler::get().getModel("block"))
+  : AObject(pos, rot, sz, "Brick"), model_(ModelHandler::get().getModel("block"))
 {
     build_ = false;
 }

@@ -17,6 +17,7 @@
 # include       "Camera.hh"
 # include       "ModelHandler.hh"
 # include       "flatTexture.hh"
+# include       "Player.hh"
 # include	"Brain.hh"
 # include	"Carrousel/CarrouselHandler.hh"
 
@@ -70,6 +71,7 @@ namespace	Bomberman
     std::vector<flatTexture>  readyImg_;
     int                sndPlayed_;
     std::string         music_;
+    std::list<Player *> players_;
     DangerMap		*danger;
   };
 }
