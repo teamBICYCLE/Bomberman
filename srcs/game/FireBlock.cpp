@@ -19,6 +19,7 @@
 #include <GL/gl.h>
 #include <GDL/Image.hpp>
 #include "ModelHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -63,6 +64,7 @@ void		FireBlock::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObje
   if (last_ <= 0)
     {
       spitFire(objs);
+      Sounds::instance().playEffect("flame");
       lastTime_ = now;
       last_ = timer_;
     }
@@ -105,10 +107,10 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
         std::for_each(objs.begin(), objs.end(), [&](AObject *obj) -> void {
             if (!isInvalid && e->getBBox().collideWith(obj))
               {
-		obj->interact(e, objs);
-		if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		    obj->getType() != "Mine" && obj->getType() != "Explosion")
-		  isInvalid = true;
+                obj->interact(e, objs);
+                if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
+                    obj->getType() != "Mine" && obj->getType() != "Explosion")
+                  isInvalid = true;
               }
           });
       if (!isInvalid)
@@ -165,7 +167,7 @@ void    FireBlock::toQvariant(QSettings &w) const
 }
 
 void    FireBlock::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
-			int x, int y) const
+                        int x, int y) const
 {
   setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
 }
@@ -183,10 +185,10 @@ void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::
     {
       bomb = isPosValid(rightInvalid, pos_.y + (dir_.y * i), pos_.x + (dir_.x * i), objs);
       if (bomb != NULL)
-	bomb->setRangeDanger(bomb->getRange(), pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, objs, map, x_, y_);
+        bomb->setRangeDanger(bomb->getRange(), pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, objs, map, x_, y_);
       if (pos_.x + (dir_.x * i) < x_  && rightInvalid)
-	setDangerMap(pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, map);
-								}
+        setDangerMap(pos_.x + (dir_.x * i), pos_.y + (dir_.y * i), danger, map);
+                                                                }
 }
 
 Bomb		*FireBlock::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) const
@@ -198,20 +200,20 @@ Bomb		*FireBlock::isPosValid(bool &valid, int y, int x, std::list<AObject*>& obj
   if (valid == true)
     {
       for(i = objs_.begin(); i != objs_.end(); ++i)
-	{
-	  obj = (*i);
-	  if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
-	    {
-	      if (obj->getType() == "Block" || obj->getType() == "Brick")
-		{
-		  valid = false;
-		  return NULL;
-		}
-	      else if (obj->getType() != "Mine" && obj->getType() == "Bomb")
-		return static_cast<Bomb*>(obj);
-	      return NULL;
-	    }
-	}
+        {
+          obj = (*i);
+          if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
+            {
+              if (obj->getType() == "Block" || obj->getType() == "Brick")
+                {
+                  valid = false;
+                  return NULL;
+                }
+              else if (obj->getType() != "Mine" && obj->getType() == "Bomb")
+                return static_cast<Bomb*>(obj);
+              return NULL;
+            }
+        }
     }
   return NULL;
 }

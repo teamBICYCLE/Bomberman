@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Thu May 31 19:17:37 2012 lois burg
+// Last update Sat Jun  2 19:45:42 2012 lois burg
 //
 
 #include <utility>
@@ -20,7 +20,7 @@ using namespace	Bomberman;
 CustomGame::CustomGame()
   : returnHit_(false), upHit_(false), downHit_(false), leftHit_(false), rightHit_(false),
     mapWidth_(13), mapHeight_(13), nbPlayers_(1), nbMonsters_(3), nbGhosts_(1),
-    currentSelection_(0), editing_(false), text_(new gdl::Text())
+    currentSelection_(0), editing_(false), text_()
 {
   paramMap_.insert(std::make_pair(gdl::Keys::Up, &CustomGame::upArrow));
   paramMap_.insert(std::make_pair(gdl::Keys::Down, &CustomGame::downArrow));
@@ -34,8 +34,8 @@ CustomGame::CustomGame()
   modifyMap_.insert(std::make_pair(CustomGame::NbMonsters, &CustomGame::modifyNbMonsters));
   modifyMap_.insert(std::make_pair(CustomGame::NbGhosts, &CustomGame::modifyNbGhosts));
 
-  text_->setFont("Ressources/Fonts/Dimbo.ttf");
-  text_->setSize(36);
+  text_.setFont("Ressources/Fonts/Dimbo.ttf");
+  text_.setSize(36);
 }
 
 CustomGame::~CustomGame()
@@ -100,9 +100,9 @@ void	CustomGame::drawIntAt(int val, int x, int y)
   std::stringstream	ss;
 
   ss << val;
-  text_->setText(ss.str());
-  text_->setPosition(x, y);
-  text_->draw();
+  text_.setText(ss.str());
+  text_.setPosition(x, y);
+  text_.draw();
 }
 
 void	CustomGame::upArrow(StatesManager *sMg)

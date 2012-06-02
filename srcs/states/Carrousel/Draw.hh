@@ -5,12 +5,13 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 15:57:15 2012 lois burg
-// Last update Sat Jun  2 17:15:30 2012 lois burg
+// Last update Sat Jun  2 19:11:17 2012 lois burg
 //
 
 #ifndef		__DRAW_HH__
 # define	__DRAW_HH__
 
+# include	"flatTexture.hh"
 # include	"AContent.hh"
 
 namespace	Bomberman
@@ -27,6 +28,7 @@ namespace	Bomberman
 
   private:
     bool		returnHit_;
+    flatTexture		drawLabel_;
   };
 }
 

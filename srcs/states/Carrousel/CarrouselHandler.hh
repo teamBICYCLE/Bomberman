@@ -41,6 +41,7 @@ public:
   void          drawNextPreview();
 
   void          createMainMenu();
+  void          createInGameMenu();
 
 
   CarrouselHandler &      operator++();
