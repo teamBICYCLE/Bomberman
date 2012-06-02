@@ -33,7 +33,7 @@ Block::Block()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "cube"),
     model_(ModelHandler::get().getModel("block"))
 {
-    build_ = false;
+    build_ = true;
 }
 
 Block::~Block()

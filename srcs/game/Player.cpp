@@ -147,7 +147,6 @@ Player::Player(const Player &other)
 
 Player::~Player()
 {
-  Sounds::instance().stopEffect("run");
 }
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)

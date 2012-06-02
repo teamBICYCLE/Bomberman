@@ -108,8 +108,11 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
- for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-   delete (*it);
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    {
+        if ((*it))
+            delete (*it);
+    }
   objs_.clear();
 }
 
@@ -161,7 +164,8 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (unsigned int i = 0; i < monsters.size(); ++i)
     monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
-  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
+  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_
+          && this->readyUp_ <= 0)
     {
       void    *data = operator new (1600 * 900 * 3);
       CarrouselHandler  *cH;
