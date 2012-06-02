@@ -67,7 +67,8 @@ namespace	Bomberman
     float                     readySize_;
     int                       readyCurrent_;
     std::vector<flatTexture>  readyImg_;
-    bool                sndPlayed_;
+    int                sndPlayed_;
+    std::string         music_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

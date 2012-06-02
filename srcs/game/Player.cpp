@@ -26,7 +26,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
     bombTime_(3.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), isNetworkControlled_(false)
 {
-  srand(id_);
+  srand((id_ + 2) * 11);
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
@@ -151,7 +151,8 @@ void		Player::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-  glColor3d(color_.x, color_.y, color_.z);
+  //glColor3d(color_.x, color_.y, color_.z);
+  this->model_.getModel().set_default_model_color(gdl::Color(255 * color_.x, 255 * color_.y, 255 * color_.z));
   this->model_.draw();
   glColor3d(1.0f, 1.0f, 1.0f);
 }

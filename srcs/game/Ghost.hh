@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Fri May 18 17:43:00 2012 Jonathan Machado
+// Last update Sat Jun  2 16:00:14 2012 thibault carpentier
 //
 
 #ifndef		__GHOST_HH__
@@ -33,6 +33,9 @@ namespace	Bomberman
     virtual void unserialize(QDataStream &in);
     static void sInit(void);
     virtual void toQvariant(QSettings &w) const;
+    virtual void	setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
+					     std::list<AObject*>objs,
+					     int x, int y) const;
   };
 }
 

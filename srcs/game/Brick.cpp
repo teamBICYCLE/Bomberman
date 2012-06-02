@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sat Jun  2 14:58:01 2012 lois burg
+// Last update Sat Jun  2 18:30:53 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -136,5 +136,6 @@ void	Brick::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
   (void)x;
   (void)y;
   (void)objs;
-  setDangerMap(getPos().x, getPos().y, DANGER_BRICK, map);
+  (void)map;
+  //  setDangerMap(getPos().x, getPos().y, DANGER_BRICK, map);
 }
