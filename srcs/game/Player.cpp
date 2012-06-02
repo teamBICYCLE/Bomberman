@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat Jun  2 10:32:55 2012 lois burg
+// Last update Sat Jun  2 16:27:35 2012 lois burg
 //
 
 #include <algorithm>
@@ -124,9 +124,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
               collide = bBox_->collideWith(*objIt);
               bBox_->resetColliding();
               (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
-              if (!dynamic_cast<Player*>(*objIt) && collide)
+              if ((*objIt)->getType() != "Player" && collide)
                 (*objIt)->interact(this, objs);
-              else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
+              else if ((*objIt)->getType() == "Bomb" && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
                        !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
                 {
                   static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
@@ -160,7 +160,7 @@ void		Player::draw(void)
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
 {
   (void)objs;
-  if (dynamic_cast<Monster*>(ch))
+  if (ch->getType() == "Monster")
     takeDamage(static_cast<Monster*>(ch)->getDamage());
 }
 
@@ -246,7 +246,7 @@ float	Player::getBombTime(void) const
 
 int	Player::getScoreValue(void) const
 {
-  return (5);
+  return (50);
 }
 
 int	Player::getScore(void) const
@@ -292,6 +292,7 @@ void	Player::setBombCollide(bool b)
 void	Player::addScore(int val)
 {
   score_ += val;
+  std::cout << "Score: " << score_ << std::endl;
 }
 
 void	Player::setKickAbility(bool b)

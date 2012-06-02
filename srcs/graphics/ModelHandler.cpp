@@ -56,6 +56,8 @@ void      ModelHandler::preload()
         "arrow-settings-left");
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-settings-right.png"),
         "arrow-settings-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/empty-arrows.png"),
+        "empty-arrows");
 
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-left.png"),
         "arrow-customgame-left");

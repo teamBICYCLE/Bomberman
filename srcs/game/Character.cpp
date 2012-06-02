@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 17:07:54 2012 lois burg
-// Last update Mon May 28 18:52:05 2012 lois burg
+// Last update Sat Jun  2 15:23:48 2012 lois burg
 //
 
 #include "Character.hh"
@@ -113,7 +113,7 @@ bool	Character::isInvincible(void) const
 
 int	Character::getScoreValue(void) const
 {
-  return (1);
+  return (10);
 }
 
 void	Character::setInvincible(bool b)

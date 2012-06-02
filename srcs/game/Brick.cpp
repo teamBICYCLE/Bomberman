@@ -5,7 +5,7 @@
 // Login   <sylvia_r@epitech.net>
 //
 // Started on  Thu May  3 15:17:56 2012 romain sylvian
-// Last update Sat Jun  2 15:54:12 2012 thibault carpentier
+// Last update Sat Jun  2 18:30:53 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -73,10 +73,7 @@ void		Brick::draw(void)
 void Brick::loot(std::list<AObject *> &objs)
 {
     if (loot_ != NULL)
-    {
-        std::cout << "Loot add to Vector !" << std::endl;
-        objs.push_back(loot_);
-    }
+      objs.push_back(loot_);
 }
 
 void	Brick::destroy(std::list<AObject*>& objs)
@@ -139,5 +136,6 @@ void	Brick::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
   (void)x;
   (void)y;
   (void)objs;
+  (void)map;
   //  setDangerMap(getPos().x, getPos().y, DANGER_BRICK, map);
 }

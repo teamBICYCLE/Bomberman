@@ -18,7 +18,7 @@
 #include "Camera.hh"
 
 Camera::Camera(size_t mapW, size_t mapH)
-  :position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0)
+  : position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0)
 {
   this->initialize();
 }
