@@ -40,8 +40,8 @@ namespace	Bomberman
     virtual void gameOver(StatesManager *mngr);
     virtual void checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters);
 
-    virtual void  updateReadyUpOverlay(float now);
-    virtual void  drawReadyUpOverlay(float now);
+    virtual void updateReadyUpOverlay(float now);
+    virtual void drawReadyUpOverlay(float now);
 
   protected:
     //void	saveScore(void) const;
@@ -53,6 +53,7 @@ namespace	Bomberman
     size_t              mapW_;
     size_t              mapH_;
     std::list<AObject*>	objs_;
+    std::list<AObject*>	startObjs_;
     Camera              camera_;
     int                 bestScore_;
     int                 winnerId_;
@@ -60,8 +61,8 @@ namespace	Bomberman
     gdl::Image          img_;
     gdl::Image          bg_;
     bool                escapeDisable_;
-    float		readyUp_;
-    float		lastTime_;
+    float               readyUp_;
+    float               lastTime_;
     float                     readySize_;
     int                       readyCurrent_;
     std::vector<flatTexture>  readyImg_;

@@ -6,6 +6,7 @@
 # include   <GDL/Input.hpp>
 # include   <GDL/Text.hpp>
 # include   <map>
+# include   "PlayState.hh"
 # include	"AContent.hh"
 # include   "SaveHandler.hh"
 
@@ -14,7 +15,7 @@ namespace	Bomberman
   class	InGameList : public AContent
   {
   public:
-    InGameList(std::list<AObject*> &, GLvoid *data);
+    InGameList(std::list<AObject*> &, std::list<AObject*> &, GLvoid *data, PlayState *);
     virtual ~InGameList();
 
   public:
@@ -33,7 +34,9 @@ namespace	Bomberman
   private:
     SaveHandler *save_;
     std::list<AObject*> objs_;
+    std::list<AObject*> start_;
     GLvoid  *screen_;
+    PlayState *ps_;
     std::map<gdl::Keys::Key, void(InGameList::*)(StatesManager *)> paramMap_;
     std::map<int, void(InGameList::*)(StatesManager *)> actionMap_;
     bool up_;

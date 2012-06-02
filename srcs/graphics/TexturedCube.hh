@@ -26,8 +26,9 @@ public:
 public:
   void      draw();
   void      update(gdl::GameClock & clock);
-  AModel &  clone();
-  void      setBuild();
+  AModel &  clone(void);
+  void      setBuild(void);
+  bool      getBuild(void) const;
 
 private:
   GLuint      list_;

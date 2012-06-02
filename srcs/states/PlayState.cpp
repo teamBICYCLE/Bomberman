@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Fri Jun  1 15:54:28 2012 lois burg
+// Last update Sat Jun  2 11:07:19 2012 lois burg
 //
 
 #include <iostream>
@@ -18,6 +18,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
+#include <memory>
+#include <new>
 #include "SaveHandler.hh"
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
@@ -42,7 +44,7 @@ PlayState::PlayState(void)
 }
 
 PlayState::PlayState(const std::list<AObject*> *list)
-    : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
+    : objs_(*list), startObjs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
       readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(false)
 {
   Character::CharacterId = 0;
@@ -153,17 +155,18 @@ void  PlayState::update(StatesManager *sMg)
     }
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
     {
-      GLvoid    *data = operator new(1600 * 900 * 3);
+      void    *data = operator new (1600 * 900 * 3);
       CarrouselHandler  *cH;
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      cH->pushPage(new APage(new InGameList(objs_, data), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(startObjs_, objs_, data, this), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       sMg->pushState(cH);
+
       escapeDisable_ = true;
-      operator delete (data);
+      //operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
@@ -190,7 +193,7 @@ void	PlayState::gameOver(StatesManager *mngr)
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 {
-  if (bestScore_ != -1 && readyUp_ <= 0)
+    if (bestScore_ != -1 && readyUp_ <= 0)
     {
       if (!nbPlayers)
         gameOver(mngr);
@@ -314,6 +317,7 @@ void  PlayState::resume()
 uint PlayState::getHeight(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
+
     uint maxY = list->front()->getPos().y;
 
     for (it = list->begin(); it != list->end(); it++)

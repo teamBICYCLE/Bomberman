@@ -113,6 +113,12 @@ void      ModelHandler::preload()
         "waiting-button");
   storeModel(new flatTexture("Ressources/Images/Menu/dot.png"),
         "dot");
+  storeModel(new flatTexture("Ressources/Images/Menu/on.png"),
+        "on");
+  storeModel(new flatTexture("Ressources/Images/Menu/off.png"),
+        "off");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-sound.png"),
+        "arrow-sound");
 
   /* Games */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-quickgame.png"),
@@ -129,6 +135,8 @@ void      ModelHandler::preload()
         "bg-joingame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-keybind.png"),
         "bg-keybind");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-sound.png"),
+        "bg-sound");
   storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
         "press-enter");
 
@@ -151,6 +159,14 @@ void      ModelHandler::preload()
   /* in game */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-ingame.png"),
         "bg-ingame");
+  storeModel(new flatTexture("Ressources/Images/Menu/resume.png"),
+        "resume");
+  storeModel(new flatTexture("Ressources/Images/Menu/exit.png"),
+        "exit");
+  storeModel(new flatTexture("Ressources/Images/Menu/save.png"),
+        "save");
+  storeModel(new flatTexture("Ressources/Images/Menu/resume-exit_window.png"),
+        "resume-exit_window");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
