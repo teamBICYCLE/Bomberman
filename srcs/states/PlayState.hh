@@ -17,6 +17,7 @@
 # include       "Camera.hh"
 # include       "ModelHandler.hh"
 # include       "flatTexture.hh"
+# include       "Player.hh"
 
 namespace	Bomberman
 {
@@ -67,6 +68,7 @@ namespace	Bomberman
     std::vector<flatTexture>  readyImg_;
     int                sndPlayed_;
     std::string         music_;
+    std::list<Player *> players_;
   };
 }
 #endif /* !__PLAYSTATE_HH__*/

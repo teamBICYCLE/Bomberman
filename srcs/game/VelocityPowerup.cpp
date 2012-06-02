@@ -14,7 +14,7 @@
 using namespace Bomberman;
 
 VelocityPowerup::VelocityPowerup(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : APowerup(pos, rot, sz, "VelocityPowerup"), model_(ModelHandler::get().getModel("powerup"))
+  : APowerup(pos, rot, sz, "VelocityPowerup"), model_(ModelHandler::get().getModel("speedup"))
 {
 }
 

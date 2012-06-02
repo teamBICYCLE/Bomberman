@@ -15,6 +15,7 @@
 #include "gdlModel.hh"
 #include "RotatingImg.hh"
 #include "ExplosionBlock.hh"
+#include "flatTexture.hh"
 
 StatesManager::Exception::Exception(const std::string & what)
   : what_(what) {}
@@ -60,9 +61,23 @@ void      StatesManager::initialize()
   Bomberman::ModelHandler::get().storeModel(
         new TexturedCube("Ressources/Images/Play/brick.png"),
         "brick");
+
   Bomberman::ModelHandler::get().storeModel(
         new RotatingImg("Ressources/Images/Play/bomb_simple.png"),
-        "powerup");
+        "bombup");
+  Bomberman::ModelHandler::get().storeModel(
+        new RotatingImg("Ressources/Images/Play/mine_simple.png"),
+        "mineup");
+  Bomberman::ModelHandler::get().storeModel(
+        new RotatingImg("Ressources/Images/Play/kick_simple.png"),
+        "kickup");
+  Bomberman::ModelHandler::get().storeModel(
+        new RotatingImg("Ressources/Images/Play/range_simple.png"),
+        "rangeup");
+  Bomberman::ModelHandler::get().storeModel(
+        new RotatingImg("Ressources/Images/Play/speed_simple.png"),
+        "speedup");
+
   Bomberman::ModelHandler::get().storeModel(
         new TexturedCube(""), "cube");
   Bomberman::ModelHandler::get().storeModel(

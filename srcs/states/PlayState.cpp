@@ -22,6 +22,7 @@
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
 #include "Carrousel/InGameList.hh"
+#include "Carrousel/SoundConfig.hh"
 #include "Score.hh"
 #include "Sounds.hh"
 
@@ -159,8 +160,9 @@ void  PlayState::update(StatesManager *sMg)
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
-      //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+      //cH->Page(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
       operator delete (data);
@@ -267,6 +269,7 @@ void  PlayState::draw(StatesManager * sMg)
   (void)sMg;
   camera_.draw();
 
+  players_.clear();
   glDepthMask(GL_FALSE);
   glPushMatrix();
   glEnable(GL_TEXTURE_2D);
@@ -309,12 +312,20 @@ void  PlayState::draw(StatesManager * sMg)
   glPopMatrix();
 
   glPushMatrix();
-  std::for_each(objs_.begin(), objs_.end(), [](AObject *obj) -> void {
+  std::for_each(objs_.begin(), objs_.end(), [this](AObject *obj) -> void {
       obj->draw();
+      if (obj->getType() == "Player")
+      players_.push_back(dynamic_cast<Player *>(obj));
     });
   glPopMatrix();
   if (readyUp_ >= 0)
   drawReadyUpOverlay(readyUp_);
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHud();
+                });
+  std::for_each(players_.begin(), players_.end(), [](Player * player) -> void {
+                player->drawHudText();
+                });
   glFlush();
 }
 
