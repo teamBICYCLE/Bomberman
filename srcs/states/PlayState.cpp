@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 19:36:31 2012 Jonathan Machado
+// Last update Sat Jun  2 21:28:03 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -117,11 +117,11 @@ void  PlayState::update(StatesManager *sMg)
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
   float		now = sMg->getGameClock().getTotalGameTime();
-
+  std::		vector<AObject*> monsters;
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (danger)
-    danger->updateGameVision(objs_);
+    danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -142,17 +142,23 @@ void  PlayState::update(StatesManager *sMg)
           winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
-        ++nbMonsters;
+	{
+	  ++nbMonsters;
+	  if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
+	}
       if (!(*it)->toRemove())
         {
           if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
-          ++it;
+	    if ((*it)->getType() != "Monster")
+	      (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	  ++it;
         }
       else
         it = objs_.erase(it);
     }
+  for (unsigned int i = 0; i < monsters.size(); ++i)
+    monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
     {
       CarrouselHandler  *cH = createInGameCH();
@@ -165,32 +171,31 @@ void  PlayState::update(StatesManager *sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  if (danger)
-    {
-      // //  temporaire
-      std::vector<std::vector<std::pair<int, int> > >::iterator test;
-      for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
-        {
-          std::vector<std::pair<int, int> >::iterator toto;
-          for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-            std::cout
-                  <<  (*toto).first << " "
-              //<< (*toto).second
-                  << "  ";
-          std::cout << std::endl;
-          // std::cout << std::endl;
-          // std::cout << std::endl;
-          std::cout << std::endl;
-        }
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-    }
-
+  // if (danger)
+  //   {
+  //     // //  temporaire
+  //     std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  //     for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
+  // 	{
+  // 	  std::vector<std::pair<int, int> >::iterator toto;
+  // 	  for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	    std::cout
+  // 	   	  <<  (*toto).first << " "
+  // 	      //<< (*toto).second
+  // 	  	  << "  ";
+  // 	  std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  std::cout << std::endl;
+  // 	}
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //   }
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 

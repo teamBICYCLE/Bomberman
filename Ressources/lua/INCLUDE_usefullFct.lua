@@ -1,28 +1,5 @@
 #!/usr/bin/lua
 
-function showdir(res)
-   if (res == NODIR)
-   then
-      print("NODIR")
-   elseif (res == RIGHT)
-   then
-      print("RIGHT")
-   elseif res == LEFT
-   then
-      print("LEFT")
-   elseif res == UP
-   then
-      print("UP")
-   elseif (res == DOWN)
-   then
-      print("DOWN")
-   else
-      print ("BADRETURN")
-   end
-   return (res)
-end
-
-
 function floor(x)
    x = math.floor(x + 0.001)
    if (x < 0)
@@ -222,7 +199,6 @@ function exploreMap(this, x, y, type)
    local dirY = { y        , y        , y - SPEED, y + SPEED}
    goodDir = {NODIR}
 
-
    math.randomseed(os.time() + floor(x) + floor(y))
    for h = 1, table.getn(dir) do
       if (this:isCrossable(floor(posX[h]), floor(posY[h]), type) == 1
@@ -232,8 +208,6 @@ function exploreMap(this, x, y, type)
       end
    end
    local decision = math.random(1, table.getn(goodDir))
-   showdir(goodDir[decision])
-   print(table.getn(goodDir))
    return (goodDir[decision])
 end
 
