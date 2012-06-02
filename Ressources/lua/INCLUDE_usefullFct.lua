@@ -222,7 +222,8 @@ function exploreMap(this, x, y, type)
    local dirY = { y        , y        , y - SPEED, y + SPEED}
    goodDir = {NODIR}
 
-   math.randomseed(os.time())
+
+   math.randomseed(os.time() + floor(x) + floor(y))
    for h = 1, table.getn(dir) do
       if (this:isCrossable(floor(posX[h]), floor(posY[h]), type) == 1
        and this:isCrossable(dirX[h], dirY[h], type) == 1)
