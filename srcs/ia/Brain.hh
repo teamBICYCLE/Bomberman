@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Wed May 30 16:13:06 2012 thibault carpentier
+// Last update Sat Jun  2 16:50:52 2012 Jonathan Machado
 //
 
 /* Documentation tag for Doxygen
@@ -274,6 +274,7 @@ namespace Bomberman
        *
        */
         static void sInit(void);
+      DangerMap danger_;  /*!< Class used to create a map showing danger to the IA*/
 
     private:
       /*!
@@ -296,7 +297,6 @@ namespace Bomberman
       eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
-      DangerMap danger_;  /*!< Class used to create a map showing danger to the IA*/
       int x_;
       int y_;
     };
