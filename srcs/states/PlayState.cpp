@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 11:07:19 2012 lois burg
+// Last update Sat Jun  2 17:13:43 2012 Jonathan Machado
 //
 
 #include <iostream>
@@ -112,6 +112,7 @@ void  PlayState::update(StatesManager *sMg)
   std::list<AObject*>::iterator	it;
   bool		update_ia = true;
   float		now = sMg->getGameClock().getTotalGameTime();
+  DangerMap *danger = NULL;
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (lastTime_ == -1)
@@ -137,7 +138,8 @@ void  PlayState::update(StatesManager *sMg)
         {
           if (update_ia)
             {
-              static_cast<Monster*>(*it)->getBrain()->updateDangerMap(objs_);
+              danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+	      danger->updateGameVision(objs_);
               update_ia = false;
             }
           ++nbMonsters;
@@ -146,7 +148,11 @@ void  PlayState::update(StatesManager *sMg)
         {
           if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	    {
+	      (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+	      if (danger)
+		danger->updateCaseVison(*it);
+	    }
           ++it;
         }
       else
