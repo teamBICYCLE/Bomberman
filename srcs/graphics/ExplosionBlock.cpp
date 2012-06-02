@@ -29,9 +29,11 @@ ExplosionBlock::~ExplosionBlock()
 {
 }
 
+#include <iostream>
+
 void ExplosionBlock::draw()
 {
-  int     offset = iter_ / 16;
+  int     offset = iter_ / 4;
 
   if (img_.isValid())
     {
@@ -39,10 +41,10 @@ void ExplosionBlock::draw()
       img_.bind();
     }
   glBegin(GL_QUADS);
-  glTexCoord2d(0.25f * (offset / 4), 0.25f * (offset % 4)); glVertex3d(1.0f, 0.5f, 1.0f);
-  glTexCoord2d(0.25f * (offset / 4), 0.25f * (offset % 4) + 0.25f); glVertex3d(1.0f, 0.5f, 0.0f);
-  glTexCoord2d(0.25f * (offset / 4) + 0.25f, 0.25f * (offset % 4) + 0.25f); glVertex3d(0.0f, 0.5f, 0.0f);
-  glTexCoord2d(0.25f * (offset / 4) + 0.25f, 0.25f * (offset % 4)); glVertex3d(0.0f, 0.5f, 1.0f);
+  glTexCoord2d(0.25f * (offset % 4), 0.25f * (offset / 4)); glVertex3d(1.0f, 0.5f, 1.0f);
+  glTexCoord2d(0.25f * (offset % 4), 0.25f * (offset / 4) + 0.25f); glVertex3d(1.0f, 0.5f, 0.0f);
+  glTexCoord2d(0.25f * (offset % 4) + 0.25f, 0.25f * (offset / 4) + 0.25f); glVertex3d(0.0f, 0.5f, 0.0f);
+  glTexCoord2d(0.25f * (offset % 4) + 0.25f, 0.25f * (offset / 4)); glVertex3d(0.0f, 0.5f, 1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
 }
