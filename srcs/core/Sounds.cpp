@@ -86,6 +86,7 @@ void Sounds::playEffect(const std::string &name, float volume)
   int             lp;
 
   lp = 0;
+  FMOD_System_Update(system_);
   std::for_each(effects_.begin(), effects_.end(),
                 [](std::pair<std::string, std::pair<FMOD_SOUND*, FMOD_CHANNEL*> >obj) -> void {
                 FMOD_BOOL   isPlaying;
@@ -93,7 +94,10 @@ void Sounds::playEffect(const std::string &name, float volume)
   {
       FMOD_Channel_IsPlaying(obj.second.second, &isPlaying);
       if (!isPlaying)
-        FMOD_Channel_Stop(obj.second.second);
+        {
+          FMOD_Channel_Stop(obj.second.second);
+          obj.second.second = NULL;
+        }
   }
   });
   if (effects_[name].second)
