@@ -34,8 +34,9 @@ public:
   void                  loadMusic(const std::string & name,
                                   const std::string & path);
   void                  playMusic(const std::string & name);
-  void                  pauseMusic();
-  void                  resumeMusic();
+  void                  pauseMusic(const std::string &name);
+  void                  resumeMusic(const std::string &name);
+  void                  stopMusic(const std::string & name);
   bool                  getPlayMusic() const;
   void                  setPlayEffect(bool value);
 
@@ -48,9 +49,9 @@ private:
   std::pair<FMOD_SOUND *, FMOD_CHANNEL *> >   effects_;
   bool                                  playEffects_;
 
-  std::map<std::string, FMOD_SOUND *>   musics_;
-  bool                                  playMusic_;
-  FMOD_CHANNEL                          *currentMusic_;
+  std::map<std::string,
+  std::pair<FMOD_SOUND *, FMOD_CHANNEL *> >   musics_;
+  bool                                        playMusic_;
 
 private:
   static constexpr int  maxchannel_ = 32;

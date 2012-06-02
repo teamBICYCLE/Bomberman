@@ -29,12 +29,11 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(false)
+    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
-  Sounds::instance().playMusic("test");
   readyImg_.push_back(ModelHandler::get().getModel("three"));
   readyImg_.push_back(ModelHandler::get().getModel("two"));
   readyImg_.push_back(ModelHandler::get().getModel("one"));
@@ -43,16 +42,16 @@ PlayState::PlayState(void)
 
 PlayState::PlayState(const std::list<AObject*> *list)
     : objs_(*list), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(false)
+      readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test")
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
   bg_ = gdl::Image::load("Ressources/Images/Play/bg.png");
-  Sounds::instance().playMusic("test");
   bestScore_ = 0;
   characterToUpdate_ = -1;
   mapH_ = PlayState::getHeight(list);
   mapW_ = PlayState::getWidth(list);
+  camera_.setHeightWidth(mapW_, mapH_);
   readyImg_.push_back(ModelHandler::get().getModel("three"));
   readyImg_.push_back(ModelHandler::get().getModel("two"));
   readyImg_.push_back(ModelHandler::get().getModel("one"));
@@ -76,6 +75,7 @@ bool  PlayState::init()
 
     mapH_ = map.getHeight();
     mapW_ = map.getWidth();
+    camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
 //    glGetIntegerv(GL_VIEWPORT, viewport);
 //    glMatrixMode(GL_PROJECTION);
@@ -94,6 +94,7 @@ bool  PlayState::init()
 void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
+  Sounds::instance().stopMusic("test");
   clearObjs();
 }
 
@@ -158,7 +159,6 @@ void  PlayState::update(StatesManager *sMg)
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
-      std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       sMg->pushState(cH);
@@ -202,11 +202,28 @@ void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 void PlayState::updateReadyUpOverlay(float now)
 {
   readyCurrent_ = 4 - now;
-  if (readyCurrent_ == 3 && !sndPlayed_)
+  if (readyCurrent_ == 0 && sndPlayed_ == 0)
     {
-      sndPlayed_ = true;
+      ++sndPlayed_;
+      Sounds::instance().playEffect("3sec");
+    }
+  else if (readyCurrent_ == 1 && sndPlayed_ == 1)
+    {
+      ++sndPlayed_;
+      Sounds::instance().playEffect("2sec");
+    }
+  else if (readyCurrent_ == 2 && sndPlayed_ == 2)
+    {
+      ++sndPlayed_;
+      Sounds::instance().playEffect("1sec");
+    }
+  if (readyCurrent_ == 3 && sndPlayed_ == 3)
+    {
+      ++sndPlayed_;
       Sounds::instance().playEffect("fight");
     }
+  if (4.0f - now > 3.8f)
+    Sounds::instance().playMusic(music_);
   readySize_ = 1 -(static_cast<int>(now * 100) % 100) / 100.f;
 }
 
@@ -261,10 +278,10 @@ void  PlayState::draw(StatesManager * sMg)
     }
   glColor3d(0, 1, 0);
   glBegin(GL_QUADS);
-  glTexCoord2d(1, 0); glVertex3d(-w, -h, 0);
-  glTexCoord2d(0, 0); glVertex3d(w + (2*w), -h, 0);
-  glTexCoord2d(0, 1); glVertex3d(w + (2*w) , h + (2*h), 0);
-  glTexCoord2d(1, 1); glVertex3d(-w, h + (2*h), 0);
+  glTexCoord2d(1, 0); glVertex3d(-(w / 2), -(h / 2), 0);
+  glTexCoord2d(0, 0); glVertex3d(w + (2*(w / 2)), -(h / 2), 0);
+  glTexCoord2d(0, 1); glVertex3d(w + (2*(w / 2)) , h + (2*(h / 2)), 0);
+  glTexCoord2d(1, 1); glVertex3d(-w, h + (2*(h / 2)), 0);
   glEnd();
   glPopMatrix();
   glDisable(GL_TEXTURE_2D);
@@ -303,11 +320,13 @@ void  PlayState::draw(StatesManager * sMg)
 
 void  PlayState::pause()
 {
+  Sounds::instance().pauseMusic(music_);
   std::cout << "pause Play" << std::endl;
 }
 
 void  PlayState::resume()
 {
+  Sounds::instance().resumeMusic(music_);
   std::cout << "resume Play" << std::endl;
 }
 

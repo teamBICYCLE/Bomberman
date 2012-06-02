@@ -18,8 +18,8 @@
 class CarrouselHandler : public AGameState
 {
 public:
-  CarrouselHandler(const std::string &bg);
-  CarrouselHandler(GLvoid * data);
+  CarrouselHandler(const std::string &bg, const std::string & music = "");
+  CarrouselHandler(GLvoid * data, const std::string & music = "");
   virtual ~CarrouselHandler();
 
   void          pushPage(APage *);
@@ -59,6 +59,7 @@ private:
   bool                    imgBg_;
   gdl::Image              overlay_;
   float                   offset_;
+  std::string             music_;
 };
 
 #endif // CARROUSELHANDLER_HH
