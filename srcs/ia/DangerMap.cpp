@@ -5,7 +5,6 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May 25 13:57:28 2012 thibault carpentier
-
 //
 
 
