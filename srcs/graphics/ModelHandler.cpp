@@ -77,10 +77,20 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-right.png"),
         "arrow-quickgame-right");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
-        "left");
-  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
-        "right");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-host-left.png"),
+        "arrow-host-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-host-right.png"),
+        "arrow-host-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-left.png"),
+        "arrow-join-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-right.png"),
+        "arrow-join-right");
+
+//  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
+//        "left");
+//  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
+//        "right");
 
   /* Overlays */
   storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
@@ -122,9 +132,12 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
         "press-enter");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay.png"),
-        "keybind-overlay");
-
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-green.png"),
+        "keybind_overlay_green");
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-overlay-red.png"),
+        "keybind_overlay_red");
+  storeModel(new flatTexture("Ressources/Images/Menu/keybind-ok-overlay.png"),
+        "keybind-ok-overlay");
 
   storeModel(new flatTexture("Ressources/Images/Play/three.png"),
         "three");
@@ -134,6 +147,10 @@ void      ModelHandler::preload()
         "one");
   storeModel(new flatTexture("Ressources/Images/Play/go.png"),
         "go");
+
+  /* in game */
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-ingame.png"),
+        "bg-ingame");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

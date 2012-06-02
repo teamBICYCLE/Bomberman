@@ -73,8 +73,8 @@ KeysConfig::KeysConfig()
     ref_.insert(std::make_pair("SPACE", gdl::Keys::Space));
     ref_.insert(std::make_pair("LEFT_SHIFT", gdl::Keys::LShift));
     ref_.insert(std::make_pair("RIGHT_SHIFT", gdl::Keys::RShift));
-    ref_.insert(std::make_pair("ENTER", gdl::Keys::Return));
-    ref_.insert(std::make_pair("RETURN", gdl::Keys::Return));
+//    ref_.insert(std::make_pair("ENTER", gdl::Keys::Return));
+//    ref_.insert(std::make_pair("RETURN", gdl::Keys::Return));
     ref_.insert(std::make_pair("LEFT_CTRL", gdl::Keys::LControl));
     ref_.insert(std::make_pair("RIGHT_CTRL", gdl::Keys::RControl));
     ref_.insert(std::make_pair("+", gdl::Keys::Add));
@@ -119,6 +119,37 @@ void KeysConfig::getFileData(int id)
     }
     infile.close();
     fileData_.push_back(res);
+}
+
+void KeysConfig::setFileData(std::vector< std::pair<eKeys, std::string> > p, int id)
+{
+    std::vector< std::pair<eKeys, std::string> >::iterator it;
+    std::map<eKeys, std::string> ref_;
+    std::string file(KEYS_FILE);
+    std::stringstream st;
+    st << (id + 1);
+
+    ref_[K_LEFT] = LEFT_CFG;
+    ref_[K_UP] = UP_CFG;
+    ref_[K_RIGHT] = RIGHT_CFG;
+    ref_[K_DOWN] = DOWN_CFG;
+    ref_[K_PUT_BOMB] = BOMB_CFG;
+    ref_[K_PUT_MINE] = MINE_CFG;
+
+    file.append(st.str()).append(KEYS_FILE_EXT);
+    std::ofstream out(file);
+    if (out.good())
+    {
+        for (it = p.begin(); it != p.end(); it++)
+        {
+            std::string tmp;
+            tmp.append(ref_[it->first]);
+            tmp.append(" = ");
+            tmp.append(it->second);
+            out << tmp << std::endl;
+        }
+    }
+    out.close();
 }
 
 bool KeysConfig::fileIsValid(int id) const
@@ -197,4 +228,9 @@ std::string KeysConfig::getStr(eKeys k, int id)
             return it->first;
     }
     return ("");
+}
+
+std::map<const std::string, gdl::Keys::Key> KeysConfig::getRef(void) const
+{
+    return ref_;
 }

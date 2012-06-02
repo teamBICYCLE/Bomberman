@@ -21,6 +21,7 @@
 #include "SaveHandler.hh"
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
+#include "Carrousel/InGameList.hh"
 #include "Score.hh"
 #include "Sounds.hh"
 
@@ -70,7 +71,7 @@ bool  PlayState::init()
   try {
 
     //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map         map("Ressources/Map/map2");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -158,7 +159,8 @@ void  PlayState::update(StatesManager *sMg)
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
-      cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+      //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       sMg->pushState(cH);
       escapeDisable_ = true;
     }

@@ -92,6 +92,7 @@ void	ClientState::update(StatesManager *mngr)
   Packet	netPacket;
   Player	*plyr;
 
+  std::cout << std::boolalpha << disconnected_ << std::endl;
   if (disconnected_)
     mngr->popState();//faire plus smooth
   else if (serv_)

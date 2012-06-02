@@ -11,6 +11,8 @@
 # include   "Keyboard.hh"
 # include   "KeysConfig.hh"
 
+# define    MAX_SIZE    11
+
 namespace	Bomberman
 {
   class	KeyBindSlide : public AContent
@@ -29,6 +31,10 @@ namespace	Bomberman
     void    up(void);
     void    tab(void);
     void    setEditingMode(void);
+    void    drawKeys(int id) const;
+    void    setNewKey(const std::string &str);
+    void    saveConfig(void);
+    bool    conflict(const std::string &str) const;
 
   private:
     gdl::Text   *text_;
@@ -38,11 +44,15 @@ namespace	Bomberman
     bool        down_;
     bool        tab_;
     bool        return_;
+    bool        letbool_;
+    bool        modif_;
     bool        editingMode_;
+    bool        save_;
     std::map<gdl::Keys::Key, void(KeyBindSlide::*)(void)> paramMap_;
-    std::map<eKeys, std::string> player1_;
-    std::map<eKeys, std::string> player2_;
+    std::vector< std::pair<eKeys, std::string> > player1_;
+    std::vector< std::pair<eKeys, std::string> > player2_;
     KeysConfig *config_;
+    std::map<const std::string, gdl::Keys::Key> ref_;
   };
 }
 
