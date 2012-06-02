@@ -4,16 +4,10 @@
 
 dofile("Ressources/lua/INCLUDE_usefullFct.lua")
 function this.thinking(this, x, y)
-
-   -- print(x, y)
-   -- -- getZoneDanger(this, floor(x), floor(y))
---    print("coeff danger :", getZoneDanger(this,floor(x), floor(y)) * 10,
-    --	  "coeff phero", getZonePheromones(this, x, y)  /10 * 0.5,
-    --	  "at", x, y, "floor", math.floor(x), math.floor(y))
-
    local danger = getZoneDanger(this,floor(x), floor(y))
    local pheromones = getZonePheromones(this, x, y)
-    if ((danger * 10) > (pheromones / 10) * 0.5)
+   
+   if ((danger * 10) > (pheromones / 10) * 0.5)
     then
        print("FEAR mode enabled")
   --     print ("echap", showdir(getLessDangerousDirection(this, x, y, MONSTER)))

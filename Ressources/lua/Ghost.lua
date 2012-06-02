@@ -1,27 +1,23 @@
 #!/usr/bin/lua
 
 -- a debug fonction is avaiable, call printDebug(String)
--- debug hooker is the function setHook(HOOKTYPE, count)
--- HOOKTYPE are : MASKCOUT, MASKRET MASKCALL MASKLINE
+
+dofile("Ressources/lua/INCLUDE_usefullFct.lua")
 
 function this.thinking(this, x, y)
--- --   setHook(MASKCOUNT, 1)
--- --   printDebug("Thinking Ia !")
---    -- this:test()
---    -- this:hello2()
---    -- a, b = this:hello3()
---    -- print(a)
---    -- print(b)
---    math.randomseed(os.time())
---    a = math.random(1, 5)
---    if a == 1
---    then return UP
---    elseif a == 2
---    then return RIGHT
---    elseif a == 3
---    then return DOWN
---    elseif a == 4
---    then return LEFT
---    end
- return NODIR
+   local danger = getZoneDanger(this,floor(x), floor(y))
+   local pheromones = getZonePheromones(this, x, y)
+
+   if ((danger * 10) > (pheromones / 10) * 0.7)
+    then
+       print("FEAR mode enabled")
+       return (center(x, y, getLessDangerousDirection(this, x, y , danger, GHOST)))
+    elseif (pheromones > 0)
+    then
+       print("TRACK mode enabled")
+       return (center(x, y, trackPlayer(this, x, y, GHOST)))
+    else
+       print("EXPLORATION mode enabled")
+       return (center(x, y, exploreMap(this, x, y, GHOST)))
+    end
 end

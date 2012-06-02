@@ -1,25 +1,27 @@
 #!/usr/bin/lua
 
--- function showdir(res)
---    if (res == NODIR)
---    then
---       return("NODIR")
---    elseif (res == RIGHT)
---    then
---       return("RIGHT")
---    elseif res == LEFT
---    then
---       return("LEFT")
---    elseif res == UP
---    then
---       return("UP")
---    elseif (res == DOWN)
---    then
---       return("DOWN")
---    else
---       return ("BADRETURN")
---    end
--- end
+function showdir(res)
+   if (res == NODIR)
+   then
+      print("NODIR")
+   elseif (res == RIGHT)
+   then
+      print("RIGHT")
+   elseif res == LEFT
+   then
+      print("LEFT")
+   elseif res == UP
+   then
+      print("UP")
+   elseif (res == DOWN)
+   then
+      print("DOWN")
+   else
+      print ("BADRETURN")
+   end
+   return (res)
+end
+
 
 function floor(x)
    x = math.floor(x + 0.001)
@@ -159,7 +161,7 @@ function getLessDangerousDirection(this, x, y, type)
    res_dir = testAngles(this, x, y, type, danger, res_dir)
    if (res_dir == NODIR)
    then
-      return (exploreMap(this, x, y)) --this is the new ia add
+      return (exploreMap(this, x, y, type))
    end
    return (res_dir)
 end
@@ -212,40 +214,42 @@ function trackPlayer(this, x, y, type)
    return (res_dir)
 end
 
-function exploreMap(this, x, y)
+function exploreMap(this, x, y, type)
    local dir = {RIGHT      , LEFT     , UP       , DOWN     }
    local posX = { x + 1    , x - 1    , x        , x        }
    local posY = { y        , y        , y - 1    , y + 1    }
    local dirX = { x + SPEED, x - SPEED, x        , x        }
    local dirY = { y        , y        , y - SPEED, y + SPEED}
-   local goodDir = {NODIR}
+   goodDir = {NODIR}
 
    math.randomseed(os.time())
    for h = 1, table.getn(dir) do
       if (this:isCrossable(floor(posX[h]), floor(posY[h]), type) == 1
-	  and this:isCrossable(dirX[h], dirY[h], type) == 1)
+       and this:isCrossable(dirX[h], dirY[h], type) == 1)
       then
 	 goodDir[table.getn(goodDir) + 1] = dir[h]
       end
    end
    local decision = math.random(1, table.getn(goodDir))
+   showdir(goodDir[decision])
+   print(table.getn(goodDir))
    return (goodDir[decision])
 end
 
-function escapeDanger(this, x, y, danger)
-   print(danger)
-   if (danger > 2.5)
-   then
-      print("FEAR mode enabled")       
-      return (getLessDangerousDirection(this, x, y, MONSTER))
-   end
-   math.randomseed(os.time())
-   local mad = math.random(1, 100)
-   if (mad > 30)
-   then
-      print("EXPLORATION mode enabled")
-      return (exploreMap(this, x, y))
-   end
-   print("FEAR mode enabled")      
-   return (getLessDangerousDirection(this, x, y, MONSTER))
-end
+-- function escapeDanger(this, x, y, danger, type)
+--    print(danger)
+--    if (danger > 2.5)
+--    then
+--       print("FEAR mode enabled")
+--       return (getLessDangerousDirection(this, x, y, type))
+--    end
+--    math.randomseed(os.time())
+--    local mad = math.random(1, 100)
+--    if (mad > 30)
+--    then
+--       print("EXPLORATION mode enabled")
+--       return (exploreMap(this, x, y))
+--    end
+--    print("FEAR mode enabled")
+--    return (getLessDangerousDirection(this, x, y, type))
+-- end
