@@ -123,6 +123,7 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
     time_t time;
     std::stringstream strm;
     std::string realPath;
+    int i = 0;
 
     if ((pdir = opendir(SAVE_PATH)))
       {
@@ -137,7 +138,7 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
     intlist.sort();
     intlist.reverse();
 
-    for (std::list<int>::iterator it = intlist.begin(); it != intlist.end(); it++)
+    for (std::list<int>::iterator it = intlist.begin(); it != intlist.end() && i < 3; it++)
     {
         realPath = SAVE_PATH;
         strm.str("");
@@ -145,6 +146,7 @@ const std::list< std::pair<std::string, std::string> > SaveHandler::getSavedFile
         strftime(buff, 20, "%d/%m %H:%M", localtime(&time));
         strm << (*it);
         save_list.push_back(std::make_pair(buff, realPath.append(strm.str()).append(SAVE_EXT)));
+        i++;
     }
     return save_list;
 }
@@ -160,51 +162,51 @@ std::list<AObject*> *SaveHandler::load(const std::string &file)
         QSettings s(file.c_str(), QSettings::IniFormat);
         SaveHandler::initAllObjects();
         int lastId = Character::CharacterId;
-        std::list< std::pair< const QString, void (SaveHandler::*)(std::list<AObject*> *, QSettings)> > distrib;
-        std::list< std::pair< const QString, void (SaveHandler::*)(std::list<AObject*> *, QSettings)> >::iterator it;
+        std::list< std::pair< const QString, void (SaveHandler::*)(std::list<AObject*> *, QSettings &)> > distrib;
+        std::list< std::pair< const QString, void (SaveHandler::*)(std::list<AObject*> *, QSettings &)> >::iterator it;
 
         Character::CharacterId = 0;
-//        distrib.push_back(std::make_pair("Block", &SaveHandler::loadBlock));
-//        distrib.push_back(std::make_pair("Brick", &SaveHandler::loadBrick));
-//        distrib.push_back(std::make_pair("Player", &SaveHandler::loadPlayer));
-//        distrib.push_back(std::make_pair("Bomb", &SaveHandler::loadBomb));
-//        distrib.push_back(std::make_pair("Mine", &SaveHandler::loadMine));
-//        distrib.push_back(std::make_pair("Monster", &SaveHandler::loadMonster));
-//        distrib.push_back(std::make_pair("Ghost", &SaveHandler::loadGhost));
-//        distrib.push_back(std::make_pair("Explosion", &SaveHandler::loadExplosion));
-//        distrib.push_back(std::make_pair("FireBlock", &SaveHandler::loadFireBlock));
+        distrib.push_back(std::make_pair("Block", &SaveHandler::loadBlock));
+        distrib.push_back(std::make_pair("Brick", &SaveHandler::loadBrick));
+        distrib.push_back(std::make_pair("Player", &SaveHandler::loadPlayer));
+        distrib.push_back(std::make_pair("Bomb", &SaveHandler::loadBomb));
+        distrib.push_back(std::make_pair("Mine", &SaveHandler::loadMine));
+        distrib.push_back(std::make_pair("Monster", &SaveHandler::loadMonster));
+        distrib.push_back(std::make_pair("Ghost", &SaveHandler::loadGhost));
+        distrib.push_back(std::make_pair("Explosion", &SaveHandler::loadExplosion));
+        distrib.push_back(std::make_pair("FireBlock", &SaveHandler::loadFireBlock));
 
         int size = s.beginReadArray("vector");
 
         for (int i = 0; i < size; ++i)
         {
             s.setArrayIndex(i);
-//            for (it = distrib.begin(); it != distrib.end(); it++)
-//            {
-//                if (s.contains(it->first))
-//                {
-//                    ((this->*(it->second))(res, s));
-//                    break;
-//                }
-//            }
-            if (s.contains("Block"))
-                res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
-            else if (s.contains("Brick"))
-                res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
-            else if (s.contains("Player"))
-                res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
-            else if (s.contains("Bomb"))
-                res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-            else if (s.contains("Mine"))
-                res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
-            else if (s.contains("Monster"))
-                res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
-            else if (s.contains("Ghost"))
-                res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
-            else if (s.contains("Explosion"))
-                res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
-            else if (s.contains("FireBlock"))
-                res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
+            for (it = distrib.begin(); it != distrib.end(); it++)
+            {
+                if (s.contains(it->first))
+                {
+                    (this->*(it->second))(res, s);
+                    break;
+                }
+            }
+//            if (s.contains("Block"))
+//                res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
+//            else if (s.contains("Brick"))
+//                res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
+//            else if (s.contains("Player"))
+//                res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
+//            else if (s.contains("Bomb"))
+//                res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
+//            else if (s.contains("Mine"))
+//                res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
+//            else if (s.contains("Monster"))
+//                res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
+//            else if (s.contains("Ghost"))
+//                res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
+//            else if (s.contains("Explosion"))
+//                res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
+//            else if (s.contains("FireBlock"))
+//                res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
         }
         s.endArray();
         Character::CharacterId = lastId;
@@ -212,49 +214,49 @@ std::list<AObject*> *SaveHandler::load(const std::string &file)
     return res;
 }
 
-/* loader */
+/* loader :( */
 
-void SaveHandler::loadBlock(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadBlock(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
 }
 
-void SaveHandler::loadBrick(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadBrick(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
 }
 
-void SaveHandler::loadPlayer(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadPlayer(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
 }
 
-void SaveHandler::loadBomb(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadBomb(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
 }
 
-void SaveHandler::loadMine(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadMine(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
 }
 
-void SaveHandler::loadMonster(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadMonster(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
 }
 
-void SaveHandler::loadGhost(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadGhost(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
 }
 
-void SaveHandler::loadExplosion(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadExplosion(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
 }
 
-void SaveHandler::loadFireBlock(std::list<AObject*> *res, QSettings s)
+void SaveHandler::loadFireBlock(std::list<AObject*> *res, QSettings &s)
 {
     res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
 }

@@ -199,8 +199,8 @@ void CarrouselHandler::createMainMenu()
   pushPage(new APage(new QuickGame(), "bg-quickgame", "arrow-quickgame-left", "arrow-quickgame-right"));
   pushPage(new APage(new CustomGame(), "bg-customgame", "arrow-customgame-left", "arrow-customgame-right"));
   pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
-  pushPage(new APage(new HostGame(), "bg-hostgame", "arrow-quickgame-left", "arrow-quickgame-right"));
-  pushPage(new APage(new JoinGame(), "bg-joingame", "arrow-quickgame-left", "arrow-quickgame-right"));
+  pushPage(new APage(new HostGame(), "bg-hostgame", "arrow-host-left", "arrow-host-right"));
+  pushPage(new APage(new JoinGame(), "bg-joingame", "arrow-join-left", "arrow-join-right"));
   // pushPage(new APage(new ItemList(), "bg", "right", "left"));
   pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
   pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "arrow-leaderboard-left", "arrow-leaderboard-right"));

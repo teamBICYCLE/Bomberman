@@ -77,10 +77,20 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-quickgame-right.png"),
         "arrow-quickgame-right");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
-        "left");
-  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
-        "right");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-host-left.png"),
+        "arrow-host-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-host-right.png"),
+        "arrow-host-right");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-left.png"),
+        "arrow-join-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-right.png"),
+        "arrow-join-right");
+
+//  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
+//        "left");
+//  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
+//        "right");
 
   /* Overlays */
   storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
