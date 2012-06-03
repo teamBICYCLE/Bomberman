@@ -34,7 +34,7 @@ public:
 
 private:
     void privateSendTweet(int);
-    void saveChoice(bool c) const;
+    void saveChoice(int c) const;
     uint getChoice(void) const;
 
 private:

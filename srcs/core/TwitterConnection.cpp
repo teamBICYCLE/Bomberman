@@ -36,13 +36,18 @@ void TwitterConnection::deleteInstance(void)
     instance_ = NULL;
 }
 
-void TwitterConnection::saveChoice(bool c) const
+void TwitterConnection::saveChoice(int c) const
 {
     std::ofstream outputFile;
+    std::ifstream ifs(TWITTER_DATA_FILE, std::ifstream::in);
 
-    outputFile.open(TWITTER_DATA_FILE);
-    outputFile << c;
-    outputFile.close();
+    if (!ifs.good())
+    {
+        outputFile.open(TWITTER_DATA_FILE);
+        outputFile << c;
+        outputFile.close();
+    }
+    ifs.close();
 }
 
 uint TwitterConnection::getChoice(void) const
@@ -88,6 +93,7 @@ void TwitterConnection::sendTweet(int score)
             !config_.value("oauth_token").toString().isEmpty() &&
             !config_.value("oauth_token_secret").toString().isEmpty())
     {
+        std::cout << "Tweet !!!!!!!!!" << std::endl;
         TwitterConnection::privateSendTweet(score);
         app_.exec();
     }
@@ -95,31 +101,27 @@ void TwitterConnection::sendTweet(int score)
 
 void TwitterConnection::privateSendTweet(int score)
 {
-    if(!config_.value("oauth_token").toString().isEmpty() &&
-            !config_.value("oauth_token_secret").toString().isEmpty())
-    {
-        QString status("I just beat my personal best score on #Bomberman. (New Score : ");
-        status.append(QString::number(score));
-        status.append(")");
+    QString status("I just beat my personal best score on #Bomberman. (New Score : ");
+    status.append(QString::number(score));
+    status.append(")");
 
-        KQOAuthParameters tweet;
+    KQOAuthParameters tweet;
 
-        connect(oauthManager_, SIGNAL(requestReady(QByteArray)),
-                    this, SLOT(ready()));
-        connect(oauthManager_, SIGNAL(authorizedRequestDone()),
-             this, SLOT(onAuthorizedRequestDone()));
+    connect(oauthManager_, SIGNAL(requestReady(QByteArray)),
+                this, SLOT(ready()));
+    connect(oauthManager_, SIGNAL(authorizedRequestDone()),
+         this, SLOT(onAuthorizedRequestDone()));
 
-        oauthRequest_->clearRequest();
-        oauthRequest_->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.twitter.com/1/statuses/update.xml"));
-        oauthRequest_->setConsumerKey(cKey_);
-        oauthRequest_->setConsumerSecretKey(cSecretKey_);
-        oauthRequest_->setToken(config_.value("oauth_token").toString());
-        oauthRequest_->setTokenSecret(config_.value("oauth_token_secret").toString());
+    oauthRequest_->clearRequest();
+    oauthRequest_->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.twitter.com/1/statuses/update.xml"));
+    oauthRequest_->setConsumerKey(cKey_);
+    oauthRequest_->setConsumerSecretKey(cSecretKey_);
+    oauthRequest_->setToken(config_.value("oauth_token").toString());
+    oauthRequest_->setTokenSecret(config_.value("oauth_token_secret").toString());
 
-        tweet.insert("status", status);
-        oauthRequest_->setAdditionalParameters(tweet);
-        oauthManager_->executeRequest(oauthRequest_);
-    }
+    tweet.insert("status", status);
+    oauthRequest_->setAdditionalParameters(tweet);
+    oauthManager_->executeRequest(oauthRequest_);
 }
 
 /* SLOTS */
@@ -140,9 +142,9 @@ void TwitterConnection::success(void)
         config_.setValue("oauth_token", "");
         config_.setValue("oauth_token_secret", "");
         QCoreApplication::exit();
-        TwitterConnection::saveChoice(false);
+        TwitterConnection::saveChoice(DISALLOW_CONNECTION);
     }
-    TwitterConnection::saveChoice(true);
+    TwitterConnection::saveChoice(ALLOW_CONNECTION);
 }
 
 void TwitterConnection::accessToken(QString token, QString tokenSecret)

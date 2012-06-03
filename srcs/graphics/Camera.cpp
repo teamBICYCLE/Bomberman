@@ -105,7 +105,7 @@ else if (position_.y > mapH_ - MAX_Y_VALUE)
 position_.y -= 0.5;
 #undef MAX_Y_VALUE
 
-std::cout << "anim = " << anim_<< std::endl;
+//std::cout << "anim = " << anim_<< std::endl;
 if (lastTime_ == -1)
   lastTime_ = now;
 if (anim_ > 0)
