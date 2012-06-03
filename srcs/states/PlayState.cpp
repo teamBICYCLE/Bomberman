@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 20:13:07 2012 thibault carpentier
+// Last update Sun Jun  3 20:45:28 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -99,7 +99,6 @@ bool  PlayState::init()
 
 void  PlayState::cleanUp()
 {
-  std::cout << "clean up Play" << std::endl;
   Sounds::instance().stopMusic("test");
   Sounds::instance().stopEffect("run");
   clearObjs();
@@ -177,7 +176,6 @@ void  PlayState::update(StatesManager *sMg, double delta)
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
-      std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-pause-left", "arrow-pause-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
@@ -196,14 +194,12 @@ void	PlayState::win(StatesManager *mngr)
   Score score;
   CarrouselHandler	*cH;
 
-  std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
   score.save(bestScore_);
   cH = createInGameCH();
   cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
   cH->setArrowFocus(false);
   cH->setEscapeFocus(false);
   mngr->pushState(cH);
-  //    mngr->popState();//passer sur winstate
 }
 
 void	PlayState::gameOver(StatesManager *mngr)
@@ -218,7 +214,6 @@ void	PlayState::gameOver(StatesManager *mngr)
   cH->setArrowFocus(false);
   cH->setEscapeFocus(false);
   mngr->pushState(cH);
-  // mngr->popState();//passer sur gameOverstate
 }
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
@@ -282,19 +277,6 @@ void PlayState::drawReadyUpOverlay(float now)
   glPopMatrix();
   glDepthMask(GL_TRUE);
 }
-
-//void	PlayState::saveScore(void) const
-//{
-//  std::ofstream	leaderboards("./Ressources/Scores/leaderboards.sc", std::ios::app);
-
-//  if (leaderboards.good())
-//    {
-//      std::cout << bestScore_ << std::endl;
-//      leaderboards << "AAAA: " << bestScore_ << std::endl;
-//      leaderboards.close();
-//    }
-//  std::cout << "GAME OVER! Highscore: " << bestScore_ << std::endl;
-//}
 
 void  PlayState::draw(StatesManager * sMg)
 {
@@ -366,13 +348,11 @@ void  PlayState::pause()
 {
   Sounds::instance().pauseMusic(music_);
   Sounds::instance().stopEffect("run");
-  std::cout << "pause Play" << std::endl;
 }
 
 void  PlayState::resume()
 {
   Sounds::instance().resumeMusic(music_);
-  std::cout << "resume Play" << std::endl;
 }
 
 uint PlayState::getHeight(const std::list<AObject*> *list) const

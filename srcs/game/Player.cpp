@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 17:18:57 2012 lois burg
+// Last update Sun Jun  3 19:41:44 2012 lois burg
 //
 
 #include <algorithm>
@@ -31,13 +31,11 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
-  //std::cout << color_.x << std::endl;
   // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
   // nbMines_ = 1;
 
-  std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
 
   scoreTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
@@ -156,7 +154,6 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
 
   deltaSpeed_ = delta_ * speed_;
-  std::cout << "delta * speed_: " << deltaSpeed_ << std::endl;
   for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first) || (isNetworkControlled_ && networkMap_[it->first]))
       {
@@ -448,7 +445,6 @@ void	Player::setBombCollide(bool b)
 void	Player::addScore(int val)
 {
   score_ += val;
-  std::cout << "Score: " << score_ << std::endl;
 }
 
 void	Player::setKickAbility(bool b)

@@ -231,7 +231,6 @@ void    KeyBindSlide::saveConfig(void)
 {
     if (modif_)
     {
-        std::cout << "save" << std::endl;
         config_->setFileData(player1_, 0);
         config_->setFileData(player2_, 1);
         modif_ = false;

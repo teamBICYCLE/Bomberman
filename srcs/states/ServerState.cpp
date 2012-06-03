@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Sun Jun  3 16:04:20 2012 lois burg
+// Last update Sun Jun  3 19:39:32 2012 lois burg
 //
 
 #include <iostream>
@@ -44,7 +44,6 @@ bool	ServerState::init()
   time_t seed = time(NULL);
 
   srand(seed);
-  std::cout << "Seed : " << seed << std::endl;
   try {
     Map	map(mapW_, mapH_, nbPlayers_, 0, 0);
 
@@ -79,7 +78,6 @@ bool	ServerState::init()
 
 void	ServerState::cleanUp()
 {
-  std::cout << "Cleanup server" << std::endl;
   for (std::vector<TCPSocket*>::iterator it = clients_.begin(); it != clients_.end(); ++it)
     delete (*it);
   clients_.clear();
@@ -126,7 +124,7 @@ void	ServerState::update(StatesManager *mngr, double delta)
   PlayState::update(mngr, delta);
   if ((plyr = getPlayerWithId(objs_, 0)))
     packet = plyr->pack(mngr->getInput());
-  if (readyUp_ <= 0 && packet.isUseful())
+  if (readyUp_ <= 0)
     std::for_each(clients_.begin(), clients_.end(), [&] (TCPSocket *s) -> void {
 	if (s && plyr)
 	  sendPacket(s->getStream(), packet);

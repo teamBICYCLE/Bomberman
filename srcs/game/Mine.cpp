@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Sat Jun  2 21:11:07 2012 lois burg
+// Last update Sun Jun  3 19:41:19 2012 lois burg
 //
 
 #include "Mine.hh"
@@ -137,23 +137,6 @@ void    Mine::toQvariant(QSettings &w) const
 {
     w.setValue("Mine", qVariantFromValue(*this));
 }
-
-void Mine::aff2(void) const
-{
-    std::cout << "=== START MINE ===" << std::endl;
-    std::cout << "Pos : " << pos_.x << " " << pos_.y << " " << pos_.z << std::endl;
-    std::cout << "Rot : " << rot_.x << " " << rot_.y << " " << rot_.z << std::endl;
-    std::cout << "Size : " << sz_.x << " " << sz_.y << " " << sz_.z << std::endl;
-    std::cout << "type : " << type_ << std::endl;
-    std::cout << "Range : " << range_ << std::endl;
-    std::cout << "timeout : " << timeOut_ << std::endl;
-    std::cout << "speed : " << speed_ << std::endl;
-    std::cout << "timeCreation : " << lastTime_ << std::endl;
-    //owner_.aff();
-    std::cout << "chainReaction : " << chainReaction_ << std::endl;
-    std::cout << "=== END MINE ===" << std::endl;
-}
-
 
 void  Mine::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
                       int x, int y) const

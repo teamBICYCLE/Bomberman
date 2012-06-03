@@ -13,7 +13,6 @@ PremadeMap::PremadeMap()
     text_->setFont("Ressources/Fonts/Dimbo.ttf");
     text_->setSize(45);
     PremadeMap::refresh();
-    std::cout << maps_.size() << std::endl;
 
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &PremadeMap::up));
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &PremadeMap::down));
