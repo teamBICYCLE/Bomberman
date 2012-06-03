@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 18 14:57:26 2012 lois burg
-// Last update Sat Jun  2 14:19:15 2012 lois burg
+// Last update Sun Jun  3 10:12:17 2012 lois burg
 //
 
 #include "KickPowerup.hh"

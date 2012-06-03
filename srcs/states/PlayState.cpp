@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 10:01:22 2012 thibault carpentier
+// Last update Sun Jun  3 10:27:17 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -219,7 +219,7 @@ void	PlayState::win(StatesManager *mngr)
   std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
   score.save(bestScore_);
   cH = createInGameCH();
-  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
   mngr->pushState(cH);
   //    mngr->popState();//passer sur winstate
 }
