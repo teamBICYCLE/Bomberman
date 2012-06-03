@@ -5,13 +5,14 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sat Jun  2 19:17:35 2012 lois burg
+// Last update Sun Jun  3 12:53:50 2012 lois burg
 //
 
 #include <sstream>
 #include "ModelHandler.hh"
 #include "Win.hh"
 #include "CarrouselHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -22,6 +23,7 @@ Win::Win(int winnerId)
 
   ss << "player" << winnerId;
   playerLabel_ = new flatTexture(ModelHandler::get().getModel(ss.str()));
+  Sounds::instance().playEffect("cheers");
 }
 
 Win::~Win()
@@ -44,7 +46,12 @@ void	Win::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg, 
 void	Win::draw(void)
 {
   glPushMatrix();
+  glTranslated(500, 350, 0);
   playerLabel_->draw();
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslated(930, 382, 0);
   winLabel_.draw();
   glPopMatrix();
 }

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 13:55:00 2012 thibault carpentier
+// Last update Sun Jun  3 15:43:22 2012 thibault carpentier
 //
 
 #include <GL/gl.h>
@@ -35,8 +35,8 @@ AdventureState::~AdventureState()
 
 bool	AdventureState::init()
 {
-  bool			success = true;
   std::stringstream	ss;
+  bool                  success = true;
 
   try {
     Thinking::Brain::getBrain(0, 0);
@@ -54,7 +54,7 @@ bool	AdventureState::init()
     success = false;
     std::cerr << e.what() << std::endl;
   }
-  return (true);
+  return (success);
 }
 
 void	AdventureState::cleanUp()
@@ -78,11 +78,10 @@ void	AdventureState::win(StatesManager *mngr)
     {
       std::cout << "CONGRATS!" << std::endl;
       cH = createInGameCH();
-      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
       cH->setArrowFocus(false);
       cH->setEscapeFocus(false);
       mngr->pushState(cH);
-      // mngr->popState();
     }
   else
     {
@@ -110,7 +109,6 @@ void	AdventureState::gameOver(StatesManager *mngr)
   std::stringstream	ss;
 
   (void)mngr;
-  std::cout << "YOU LOSE :(" << std::endl;
   curMapId_ = 0;
   delete curMap_;
   Thinking::Brain::getBrain(0, 0);
