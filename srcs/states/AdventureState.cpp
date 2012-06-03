@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 21:08:23 2012 thibault carpentier
+// Last update Sun Jun  3 21:39:05 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -51,7 +51,6 @@ bool	AdventureState::init()
     for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
       if (dynamic_cast<Monster*>(*it))
 	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
-    ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -111,7 +110,6 @@ void	AdventureState::gameOver(StatesManager *mngr)
 {
   std::stringstream	ss;
 
-  std::cout << "Gameover" << std::endl;
   (void)mngr;
   curMapId_ = 0;
   delete curMap_;
