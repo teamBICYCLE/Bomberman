@@ -11,12 +11,15 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include "unavalaibleRessource.hh"
 
 RotatingImg::RotatingImg(const std::string &imgpath)
   : angle_(0)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
+  if (!img_.isValid())
+    throw new unavalaibleRessource(imgpath);
 }
 
 RotatingImg::RotatingImg(const AModel &orig)

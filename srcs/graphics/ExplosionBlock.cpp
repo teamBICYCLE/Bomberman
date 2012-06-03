@@ -11,12 +11,15 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include "unavalaibleRessource.hh"
 
 ExplosionBlock::ExplosionBlock(const std::string &imgpath)
   : iter_(0), lastTime_(-1.0f), maxTime_(1.0f)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
+  if (!img_.isValid())
+    throw new unavalaibleRessource(imgpath);
 }
 
 ExplosionBlock::ExplosionBlock(const AModel &orig)

@@ -9,6 +9,7 @@
 
 #include "TexturedCube.hh"
 #include <iostream>
+#include "unavalaibleRessource.hh"
 
 TexturedCube::TexturedCube(const std::string & imgpath)
   : list_(glGenLists(1)), coef_(0.0f), endAnimMax_(0.5f + ((rand() % 151) / 100.0f)),
@@ -16,7 +17,8 @@ TexturedCube::TexturedCube(const std::string & imgpath)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
-  std::cout << "endanim: " << endAnim_ << std::endl;
+  if (!img_.isValid() && !imgpath.empty())
+    throw new unavalaibleRessource(imgpath);
 }
 
 TexturedCube::TexturedCube(const AModel &orig)

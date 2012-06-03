@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <utility>
+#include "unavalaibleRessource.hh"
 
 Sounds::Sounds()
   : playEffects_(true), playMusic_(true)
@@ -64,7 +65,7 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
 
   if (FMOD_System_CreateSound(system_, path.c_str(), FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL, NULL, &snd)
       != FMOD_OK)
-      throw std::exception();
+    throw new unavalaibleRessource(path);
   effects_[name] = std::make_pair(snd, chn);
   if (loop)
     FMOD_Sound_SetLoopCount(snd, -1);
@@ -147,7 +148,7 @@ void Sounds::loadMusic(const std::string &name, const std::string &path)
                               | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL,
                               0, &snd)
       != FMOD_OK)
-    throw std::exception();
+    throw new unavalaibleRessource(path);
   FMOD_Sound_SetLoopCount(snd, -1);
   musics_[name].first = snd;
 }
