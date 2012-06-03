@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 19:57:25 2012 lois burg
+// Last update Sun Jun  3 20:58:46 2012 lois burg
 //
 
 #include <iostream>
@@ -61,7 +61,9 @@ PlayState::PlayState(const std::list<AObject*> *list)
   readyImg_.push_back(ModelHandler::get().getModel("two"));
   readyImg_.push_back(ModelHandler::get().getModel("one"));
   readyImg_.push_back(ModelHandler::get().getModel("go"));
-  danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    if (dynamic_cast<Monster*>(*it))
+      danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
 }
 
 PlayState::~PlayState(void)
@@ -76,8 +78,8 @@ bool  PlayState::init()
   success = true;
   try {
 
-    //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map	map(30, 30, 1, 3, 1);
+    //  Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -85,7 +87,9 @@ bool  PlayState::init()
     camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -121,8 +125,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
   std::cout << "Update!" << std::endl;
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-   if (danger)
-     danger->updateGameVision(&objs_);
+  if (danger)
+    danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)

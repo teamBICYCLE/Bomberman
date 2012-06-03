@@ -27,8 +27,7 @@ TexturedCube::TexturedCube(const AModel &orig)
     coef_(dynamic_cast<const TexturedCube *>(&orig)->coef_),
     endAnimMax_(0.5f + ((rand() % 151) / 100.0f)), endAnim_(endAnimMax_),
     startAnim_((rand() % 51) / 100.0f), lastTime_(-1)
-{
-}
+{}
 
 void TexturedCube::draw()
 {
