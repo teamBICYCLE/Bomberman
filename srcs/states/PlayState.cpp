@@ -172,7 +172,7 @@ void  PlayState::update(StatesManager *sMg)
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-pause-left", "arrow-pause-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
 
