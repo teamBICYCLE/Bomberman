@@ -52,14 +52,8 @@ SOURCES += \
     srcs/states/AdventureState.cpp \
     srcs/states/ServerState.cpp \
     srcs/states/ClientState.cpp \
-    srcs/states/Menu/MenuState.cpp \
-    srcs/states/Menu/MenuLine.cpp \
-    srcs/states/Menu/MenuEntry.cpp \
     srcs/states/IntroState.cpp \
     srcs/main.cpp \
-    srcs/states/Menu/StartGame.cpp \
-    srcs/states/Menu/Quit.cpp \
-    srcs/states/Menu/QuickStart.cpp \
     srcs/graphics/AModel.cpp \
     srcs/graphics/TexturedCube.cpp \
     srcs/graphics/gdlModel.cpp \
@@ -90,7 +84,8 @@ SOURCES += \
     srcs/states/Carrousel/Keyboard.cpp \
     srcs/core/Sounds.cpp \
     srcs/states/Carrousel/PremadeMap.cpp \
-    srcs/core/unavalaibleRessource.cpp
+    srcs/core/unavalaibleRessource.cpp \
+    srcs/states/Carrousel/Credits.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -145,13 +140,7 @@ HEADERS += \
     srcs/states/AdventureState.hh \
     srcs/states/ServerState.hh \
     srcs/states/ClientState.hh \
-    srcs/states/Menu/MenuState.hh \
-    srcs/states/Menu/MenuLine.hh \
-    srcs/states/Menu/MenuEntry.hh \
     srcs/states/IntroState.hh \
-    srcs/states/Menu/StartGame.hh \
-    srcs/states/Menu/Quit.hh \
-    srcs/states/Menu/QuickStart.hh \
     srcs/graphics/AModel.hh \
     srcs/graphics/TexturedCube.hh \
     srcs/graphics/gdlModel.hh \
@@ -182,6 +171,7 @@ HEADERS += \
     srcs/states/Carrousel/Keyboard.hh \
     srcs/core/Sounds.hh \
     srcs/states/Carrousel/PremadeMap.hh \
-    srcs/core/unavalaibleRessource.hh
+    srcs/core/unavalaibleRessource.hh \
+    srcs/states/Carrousel/Credits.hh
 
 MOC_DIR = ./srcs/core/

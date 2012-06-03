@@ -28,6 +28,7 @@
 #include "Carrousel/KeyBindSlide.hh"
 #include "Carrousel/SoundConfig.hh"
 #include "Carrousel/PremadeMap.hh"
+#include "Carrousel/Credits.hh"
 
 CarrouselHandler::CarrouselHandler(const std::string & bg, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
@@ -213,6 +214,7 @@ void CarrouselHandler::createMainMenu()
   pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "arrow-leaderboard-left", "arrow-leaderboard-right"));
   pushPage(new APage(new KeyBindSlide(), "bg-keybind", "arrow-keybind-left", "arrow-keybind-right"));
   pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
+  pushPage(new APage(new Credits(), "bg-empty", "arrow-credit-left", "arrow-credit-right"));
 }
 
 void CarrouselHandler::createInGameMenu()

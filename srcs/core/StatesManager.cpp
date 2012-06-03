@@ -9,7 +9,6 @@
 
 #include <unistd.h>
 #include "StatesManager.hh"
-#include "Menu/MenuState.hh"
 #include "ModelHandler.hh"
 #include "TexturedCube.hh"
 #include "gdlModel.hh"
@@ -34,7 +33,7 @@ StatesManager::StatesManager(const std::string & winTitle)
   this->window_.setTitle(winTitle);
   this->window_.setHeight(900);
   this->window_.setWidth(1600);
-    //this->window_.setFullscreen(true);
+  this->window_.setFullscreen(true);
 }
 
  StatesManager::~StatesManager()
