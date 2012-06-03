@@ -53,6 +53,8 @@ void Sounds::preload()
   loadEffect("3sec", "Ressources/Sounds/Play/3sec.wav");
   loadEffect("flame", "Ressources/Sounds/Play/flame.mp3");
   loadEffect("fxon", "Ressources/Sounds/Menu/fxon.wav");
+  loadEffect("cheers", "Ressources/Sounds/Play/cheers.wav");
+  loadEffect("boo", "Ressources/Sounds/Play/boo.wav");
 }
 
 void Sounds::loadEffect(const std::string &name, const std::string &path, bool loop)
@@ -62,8 +64,7 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
 
   if (FMOD_System_CreateSound(system_, path.c_str(), FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL, NULL, &snd)
       != FMOD_OK)
-      //throw std::exception();
-      ;
+      throw std::exception();
   effects_[name] = std::make_pair(snd, chn);
   if (loop)
     FMOD_Sound_SetLoopCount(snd, -1);
@@ -73,7 +74,7 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
 
 bool Sounds::isEffectPlaying(const std::string &name)
 {
-  FMOD_BOOL *isPlaying;
+  FMOD_BOOL *isPlaying = NULL;
 
   if (!effects_[name].second)
     return false;
@@ -146,8 +147,7 @@ void Sounds::loadMusic(const std::string &name, const std::string &path)
                               | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL,
                               0, &snd)
       != FMOD_OK)
-    // throw std::exception()
-;
+    throw std::exception();
   FMOD_Sound_SetLoopCount(snd, -1);
   musics_[name].first = snd;
 }

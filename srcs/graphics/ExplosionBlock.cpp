@@ -40,6 +40,7 @@ void ExplosionBlock::draw()
       glEnable(GL_TEXTURE_2D);
       img_.bind();
     }
+  glTranslated(-0.12, 0, 0);
   glBegin(GL_QUADS);
   glTexCoord2d(0.25f * (offset % 4), 0.25f * (offset / 4)); glVertex3d(1.0f, 0.5f, 1.0f);
   glTexCoord2d(0.25f * (offset % 4), 0.25f * (offset / 4) + 0.25f); glVertex3d(1.0f, 0.5f, 0.0f);

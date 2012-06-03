@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sun Jun  3 11:43:22 2012 thibault carpentier
+// Last update Sun Jun  3 15:36:46 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -50,17 +50,12 @@ Brain *Brain::instance_ = NULL;
 Brain *Brain::getBrain(int x, int y)
 {
   if (!instance_)
-    {
-      instance_ = new Brain(x, y);
-      std::cout << "new Brain" << std::endl;
-    }
+    instance_ = new Brain(x, y);
   if (x != instance_->getX() && y != instance_->getY())
     {
       destroy();
       return (getBrain(x, y));
     }
-  else
-    ++instance_->ref_;
   return (instance_);
 }
 
@@ -68,13 +63,8 @@ void Brain::destroy()
 {
   if (instance_)
     {
-      if (instance_->ref_ == 0)
-	{
-	  delete instance_;
-	  std::cout << "delete Brain" << std::endl;
-	}
-      else
-	--instance_->ref_;
+      delete instance_;
+      std::cout << "delete Brain" << std::endl;
       instance_ = NULL;
     }
 }
@@ -128,7 +118,7 @@ void Brain::getReturn(VirtualMachine &vm, const std::string &strFunc)
   lua_State	*state = vm.getLua();
 
   decision_ = eDirection::NODIR;
-  if (strFunc == "thinking")
+  if (strFunc == "thinkingMonster" || strFunc == "thinkingGhost")
     {
       if (lua_gettop(state) == 1 && lua_isnumber(state, 1))
 	decision_ = static_cast<eDirection>(lua_tonumber(state, 1));

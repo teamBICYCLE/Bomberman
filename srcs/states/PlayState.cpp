@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 16:03:57 2012 lois burg
+// Last update Sun Jun  3 17:19:06 2012 lois burg
 //
 
 #include <iostream>
@@ -66,6 +66,7 @@ PlayState::PlayState(const std::list<AObject*> *list)
 
 PlayState::~PlayState(void)
 {
+  Thinking::Brain::getBrain(0, 0);
 }
 
 bool  PlayState::init()
@@ -145,7 +146,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
       else if (dynamic_cast<Monster*>(*it))
         {
           ++nbMonsters;
-          if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
+          if (!(*it)->toRemove())
+	    monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
@@ -358,6 +360,7 @@ void  PlayState::draw(StatesManager * sMg)
 void  PlayState::pause()
 {
   Sounds::instance().pauseMusic(music_);
+  Sounds::instance().stopEffect("run");
   std::cout << "pause Play" << std::endl;
 }
 

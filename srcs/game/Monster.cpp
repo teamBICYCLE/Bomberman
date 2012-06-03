@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun Jun  3 12:20:39 2012 thibault carpentier
+// Last update Sun Jun  3 15:33:48 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -32,21 +32,19 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
 Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage()),
-      brainScript_(Thinking::Brain::getBrain(other.brainScript_->getX(), other.brainScript_->getY())),
+      brainScript_(other.brainScript_),
       model_(other.model_)
 {
     isInvincible_ = other.isInvincible_;
-    brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
     actionsMap_ = other.actionsMap_;
     damage_ = other.damage_;
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_(Thinking::Brain::getBrain(0 ,0)), model_(ModelHandler::get().getModel("bombman"))
+  : Character("Monster"), moved_(false), brainScript_(NULL), model_(ModelHandler::get().getModel("ghost"))
 {
     isInvincible_ = false;
-    brainScript_->compileFile(MONSTER_SCRIPT);
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
     actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
     actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
@@ -62,28 +60,17 @@ Bomberman::Thinking::Brain *Monster::getBrain(void) const
 
 Monster::~Monster()
 {
-  brainScript_->destroy();
+  // brainScript_->destroy();
 }
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  brainScript_->updateDangerMap(objs);
-  brainScript_->selectFct("thinking");
+  //  brainScript_->updateDangerMap(objs);
+  brainScript_->selectFct("thinkingMonster");
   brainScript_->addParam(pos_.x);
   brainScript_->addParam(pos_.y);
   brainScript_->callFct(1);
-  eDirection d = NODIR;
-  d =  brainScript_->getDecision();
-  if (keys.isKeyDown(gdl::Keys::Right))
-    d = RIGHT;
-  else if (keys.isKeyDown(gdl::Keys::Left))
-    d = LEFT;
-  else if (keys.isKeyDown(gdl::Keys::Up))
-    d = UP;
-  else if (keys.isKeyDown(gdl::Keys::Down))
-    d = DOWN;
-  update(clock, d, objs);
-  model_.update(clock);
+  update(clock, brainScript_->getDecision(), objs);
   (void)keys;
 }
 
@@ -196,6 +183,7 @@ void Monster::unserialize(QDataStream &in)
   in >> x;
   in >> y;
   brainScript_ = Thinking::Brain::getBrain(x, y);
+  brainScript_->compileFile(MONSTER_SCRIPT);
   // brainScript_->unserialize(in);
 }
 

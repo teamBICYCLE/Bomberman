@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:35:19 2012 geoffroy lafontaine
-// Last update Sun Jun  3 12:18:33 2012 thibault carpentier
+// Last update Sun Jun  3 15:36:03 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -20,7 +20,6 @@ using namespace Bomberman;
 Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Monster(pos, rot, sz, b, damage)
 {
-  std::cout << "Ghost created." << std::endl;
   //  brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -30,7 +29,7 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Think
 }
 
 Ghost::Ghost(const Ghost &other)
-  : Monster(other.pos_, other.rot_, other.sz_, other.brainScript_, other.damage_)
+  : Monster(other)
 {
   //    brainScript_->compileFile(GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(other.pos_, other.sz_, this);
@@ -51,32 +50,51 @@ Ghost::Ghost()
 Ghost::~Ghost()
 {}
 
+void Ghost::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
+{
+  //  brainScript_->updateDangerMap(objs);
+  brainScript_->selectFct("thinkingGhost");
+  brainScript_->addParam(pos_.x);
+  brainScript_->addParam(pos_.y);
+  brainScript_->callFct(1);
+  Monster::update(clock, brainScript_->getDecision(), objs);
+  (void)keys;
+}
+
+
 /* Serialization */
 
 void Ghost::serialize(QDataStream &out) const
 {
-    pos_.serialize(out);
-    rot_.serialize(out);
-    sz_.serialize(out);
-    out << removeLater_;
-    out << life_;
-    out << speed_;
-    out << speedAdapter_;
-    out << moved_;
-    out << id_;
+  pos_.serialize(out);
+  rot_.serialize(out);
+  sz_.serialize(out);
+  out << removeLater_;
+  out << life_;
+  out << speed_;
+  out << speedAdapter_;
+  out << moved_;
+  out << id_;
+  out << brainScript_->getX();
+  out << brainScript_->getY();
 }
 
 void Ghost::unserialize(QDataStream &in)
 {
-    pos_.unserialize(in);
-    rot_.unserialize(in);
-    sz_.unserialize(in);
-    in >> removeLater_;
-    in >> life_;
-    in >> speed_;
-    in >> speedAdapter_;
-    in >> moved_;
-    in >> id_;
+  int x, y;
+  pos_.unserialize(in);
+  rot_.unserialize(in);
+  sz_.unserialize(in);
+  in >> removeLater_;
+  in >> life_;
+  in >> speed_;
+  in >> speedAdapter_;
+  in >> moved_;
+  in >> id_;
+  in >> x;
+  in >> y;
+  brainScript_ = Thinking::Brain::getBrain(x, y);
+  brainScript_->compileFile(MONSTER_SCRIPT);
 }
 
 void Ghost::sInit(void)

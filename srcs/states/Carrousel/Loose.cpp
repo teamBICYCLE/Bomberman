@@ -12,6 +12,7 @@
 #include "ModelHandler.hh"
 #include "Loose.hh"
 #include "CarrouselHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -22,6 +23,7 @@ Loose::Loose(int looserId)
 
   ss << "player" << looserId;
   playerLabel_ = new flatTexture(ModelHandler::get().getModel(ss.str()));
+  Sounds::instance().playEffect("boo");
 }
 
 Loose::~Loose()

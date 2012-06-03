@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Sat Jun  2 16:00:14 2012 thibault carpentier
+// Last update Sun Jun  3 14:15:19 2012 thibault carpentier
 //
 
 #ifndef		__GHOST_HH__
@@ -29,10 +29,11 @@ namespace	Bomberman
 
   public:
     /* Serialization */
-    virtual void serialize(QDataStream &out) const;
-    virtual void unserialize(QDataStream &in);
-    static void sInit(void);
-    virtual void toQvariant(QSettings &w) const;
+    virtual void	serialize(QDataStream &out) const;
+    virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void	unserialize(QDataStream &in);
+    static void		sInit(void);
+    virtual void	toQvariant(QSettings &w) const;
     virtual void	setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
 					     std::list<AObject*>objs,
 					     int x, int y) const;
