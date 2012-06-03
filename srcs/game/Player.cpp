@@ -32,7 +32,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
                     , static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   //std::cout << color_.x << std::endl;
-  isInvincible_ = true;
+  //isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
   // nbMines_ = 1;

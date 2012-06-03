@@ -53,6 +53,8 @@ void Sounds::preload()
   loadEffect("3sec", "Ressources/Sounds/Play/3sec.wav");
   loadEffect("flame", "Ressources/Sounds/Play/flame.mp3");
   loadEffect("fxon", "Ressources/Sounds/Menu/fxon.wav");
+  loadEffect("cheers", "Ressources/Sounds/Play/cheers.wav");
+  loadEffect("boo", "Ressources/Sounds/Play/boo.wav");
 }
 
 void Sounds::loadEffect(const std::string &name, const std::string &path, bool loop)
