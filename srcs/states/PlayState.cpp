@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 17:19:06 2012 lois burg
+// Last update Sun Jun  3 18:36:18 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -61,7 +61,10 @@ PlayState::PlayState(const std::list<AObject*> *list)
   readyImg_.push_back(ModelHandler::get().getModel("two"));
   readyImg_.push_back(ModelHandler::get().getModel("one"));
   readyImg_.push_back(ModelHandler::get().getModel("go"));
-  danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    if (dynamic_cast<Monster*>(*it))
+      danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+  //  danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
 }
 
 PlayState::~PlayState(void)
@@ -76,8 +79,8 @@ bool  PlayState::init()
   success = true;
   try {
 
-    //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map5");
+    Map	map(30, 30, 1, 3, 1);
+    //  Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -85,7 +88,10 @@ bool  PlayState::init()
     camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+    //    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    if (dynamic_cast<Monster*>(*it))
+      danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -121,8 +127,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-  // if (danger)
-  //   danger->updateGameVision(&objs_);
+  if (danger)
+    danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -133,8 +139,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      // if (danger && *it)
-      //   danger->updateCaseVison(*it);
+      if (danger && *it)
+        danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
 	  static_cast<Player*>(*it)->setDelta(delta);
@@ -163,8 +169,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
           it = objs_.erase(it);
         }
     }
-  for (unsigned int i = 0; i < monsters.size(); ++i)
-    monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
+  // for (unsigned int i = 0; i < monsters.size(); ++i)
+  //   monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_
           && this->readyUp_ <= 0)
     {
