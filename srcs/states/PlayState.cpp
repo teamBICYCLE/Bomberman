@@ -376,6 +376,7 @@ void  PlayState::draw(StatesManager * sMg)
 void  PlayState::pause()
 {
   Sounds::instance().pauseMusic(music_);
+  Sounds::instance().stopEffect("run");
   std::cout << "pause Play" << std::endl;
 }
 

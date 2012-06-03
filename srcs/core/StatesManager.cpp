@@ -103,13 +103,14 @@ void      StatesManager::changeState(AGameState * state)
   this->pushState(state);
 }
 
-void      StatesManager::pushState(AGameState * state, bool init)
+bool      StatesManager::pushState(AGameState * state, bool init)
 {
+  if (!state->init())
+    return false;
   if (!this->states_.empty())
     this->states_.back()->pause();
   this->states_.push_back(state);
-  if (init)
-      this->states_.back()->init();
+  return true;
 }
 
 void      StatesManager::popState(void)
