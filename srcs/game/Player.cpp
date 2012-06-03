@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 19:41:44 2012 lois burg
+// Last update Sun Jun  3 20:08:01 2012 lois burg
 //
 
 #include <algorithm>
@@ -31,9 +31,9 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
-  // isInvincible_ = true;
-  // kickAbility_ = true;
-  // nbBombs_ = 5;
+  isInvincible_ = true;
+  kickAbility_ = true;
+  nbBombs_ = 5;
   // nbMines_ = 1;
 
   bBox_ = new BoundingBox(pos_, sz_, this);
