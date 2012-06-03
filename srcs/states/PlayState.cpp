@@ -121,8 +121,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-  // if (danger)
-  //   danger->updateGameVision(&objs_);
+   if (danger)
+     danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -133,11 +133,11 @@ void  PlayState::update(StatesManager *sMg, double delta)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      // if (danger && *it)
-      //   danger->updateCaseVison(*it);
+      if (danger && *it)
+        danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
-	  static_cast<Player*>(*it)->setDelta(delta);
+          static_cast<Player*>(*it)->setDelta(delta);
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();
@@ -147,7 +147,7 @@ void  PlayState::update(StatesManager *sMg, double delta)
         {
           ++nbMonsters;
           if (!(*it)->toRemove())
-	    monsters.push_back(*it);
+            monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
@@ -259,7 +259,8 @@ void PlayState::updateReadyUpOverlay(float now)
 void PlayState::drawReadyUpOverlay(float now)
 {
   (void)now;
-  glDepthMask(GL_FALSE);
+  glDepthMask(GL_TRUE);
+  glClear(GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();

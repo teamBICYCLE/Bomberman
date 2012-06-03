@@ -68,7 +68,7 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  //generateBricks();
+  generateBricks();
   generateBorder();
   generatePlayers();
   generateMonsters(nbMonsters);
