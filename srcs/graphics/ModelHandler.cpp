@@ -195,8 +195,8 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/loadmap_na.png"),
         "loadmap_na");
 
-  storeModel(new flatTexture("Ressources/Images/Menu/arrow_right.png"),
-        "arrow_right");
+  storeModel(new flatTexture("Ressources/Images/Menu/double_arrow.png"),
+        "double_arrow");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
