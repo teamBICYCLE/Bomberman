@@ -5,7 +5,7 @@
 // Login   <jonathan.machado@epitech.net>
 //
 // Started on  Sat May  5 16:19:00 2012 Jonathan Machado
-// Last update Sat May 12 13:41:37 2012 thibault carpentier
+// Last update Sun Jun  3 20:50:38 2012 thibault carpentier
 //
 
 #ifndef __RESTORESTACK_H__
@@ -27,7 +27,7 @@ namespace Bomberman
       RestoreStack(RestoreStack const&);
       RestoreStack &operator=(RestoreStack const&);
 
-      lua_State	*state_;
+      lua_State		*state_;
       int		iTop_;
     };
   }

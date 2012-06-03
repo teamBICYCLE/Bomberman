@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sun Jun  3 15:36:46 2012 thibault carpentier
+// Last update Sun Jun  3 20:48:17 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -64,7 +64,6 @@ void Brain::destroy()
   if (instance_)
     {
       delete instance_;
-      std::cout << "delete Brain" << std::endl;
       instance_ = NULL;
     }
 }
@@ -170,7 +169,6 @@ int Brain::getDanger(VirtualMachine &vm)
     {
       x = lua_tonumber(vm.getLua(), 1);
       y = lua_tonumber(vm.getLua(), 2);
-      //      std::cout << "x : " << x << " Y : " << y  << std::endl;
       if (x >= 0 && x < danger_.x_ && y >= 0 && y < danger_.y_)
 	danger = danger_.getDanger(x, y);
     }

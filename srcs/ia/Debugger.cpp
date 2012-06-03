@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 18:42:11 2012 thibault carpentier
-// Last update Mon May 21 14:58:41 2012 thibault carpentier
+// Last update Sun Jun  3 20:57:51 2012 thibault carpentier
 //
 
 #include <cstring>
@@ -89,7 +89,6 @@ VirtualMachine::Debugger::Debugger(VirtualMachine &vm)
     {
       vm.addDebugger(this);
       lua_sethook(vm.getLua(), HookEvents, 0, 0);
-      std::cout << "Debugger is now ready" << std::endl;
     }
 }
 
@@ -106,7 +105,6 @@ VirtualMachine::Debugger::~Debugger(void)
 {
   if (VM_.isFonctionnal())
     lua_sethook(VM_.getLua(), HookEvents, 0, 0);
-  std::cout << "Debugger is destroyed" << std::endl;
 }
 
 int	VirtualMachine::Debugger::setHook(lua_State *lua)
