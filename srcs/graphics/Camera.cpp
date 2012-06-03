@@ -7,6 +7,7 @@
 ** this stuff is worth it, you can buy me a beer in return duplom_t
 **************************************************************************/
 
+#include <cmath>
 #include <algorithm>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -18,7 +19,7 @@
 #include "Camera.hh"
 
 Camera::Camera(size_t mapW, size_t mapH)
-  : position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0)
+  : position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0), anim_(2.5f), lastTime_(-1)
 {
   this->initialize();
 }
@@ -35,7 +36,6 @@ void    Camera::initialize()
   //  glLoadIdentity();
   //  gluPerspective(Camera::fov, Camera::winxSize / this->winySize,
   //                 this->zNear, Camera::zFar);
-
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
@@ -49,11 +49,13 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
   Vector3d    position;
   Vector3d    min(-1, -1, 0), max(0, 0, 0);
   int         i = 0;
+  float       now = gameClock.getTotalGameTime();
 
   (void)gameClock;
   (void)input;
   if (input.isKeyDown(gdl::Keys::Up))
     glDisable(GL_LIGHTING);
+
   std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
                 if (dynamic_cast<Bomberman::Player *>(obj))
   {
@@ -102,6 +104,18 @@ else if (position_.y > mapH_ - MAX_Y_VALUE)
   position_.y = mapH_ - MAX_Y_VALUE;
 position_.y -= 0.5;
 #undef MAX_Y_VALUE
+
+//std::cout << "anim = " << anim_<< std::endl;
+if (lastTime_ == -1)
+  lastTime_ = now;
+if (anim_ > 0)
+{
+    anim_ -= now - lastTime_;
+    lastTime_ = now;
+    position_.y += exp(anim_) - 1;
+    zoom_ /= exp(anim_ * 1.0f);
+  }
+
 }
 
 void    Camera::draw()

@@ -33,7 +33,7 @@ void	QuickGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager 
     {
       try {
         Character::CharacterId = 0;
-        Map	map(13, 13, 4, 0, 0);
+        Map	map(13, 13, 2, 0, 0);
 
         sMg->pushState(new PlayState(&map.getTerrain()), false);
       } catch (Map::Failure& e) {

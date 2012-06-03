@@ -91,13 +91,20 @@ void TexturedCube::update(gdl::GameClock &clock)
   delay_ -= incValue_;
 }
 
-AModel &TexturedCube::clone()
+AModel &TexturedCube::clone(void)
 {
   return *this;
 }
 
-void TexturedCube::setBuild()
+void TexturedCube::setBuild(void)
 {
   coef_ = 1;
   delay_ = 0;
+}
+
+bool TexturedCube::getBuild(void) const
+{
+    if (coef_ == 1 && delay_ == 0)
+        return true;
+    return false;
 }

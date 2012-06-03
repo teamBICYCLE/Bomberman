@@ -39,9 +39,20 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
-  text_.setFont("Ressources/Fonts/Dimbo.ttf");
-  text_.setSize(24);
 
+  scoreTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  scoreTxt_.setSize(24);
+
+  bombTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  bombTxt_.setSize(14);
+  mineTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  mineTxt_.setSize(14);
+  speedTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  speedTxt_.setSize(14);
+  rangeTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  rangeTxt_.setSize(14);
+  kickTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  kickTxt_.setSize(14);
   collideMap_.insert(std::make_pair(conf_.get(K_LEFT, id_), &BoundingBox::collideLeft));
   collideMap_.insert(std::make_pair(conf_.get(K_RIGHT, id_), &BoundingBox::collideRight));
   collideMap_.insert(std::make_pair(conf_.get(K_UP, id_), &BoundingBox::collideUp));
@@ -88,6 +99,20 @@ Player::Player()
   networkMap_.insert(std::make_pair(conf_.get(K_DOWN, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_PUT_BOMB, id_), false));
   networkMap_.insert(std::make_pair(conf_.get(K_PUT_MINE, id_), false));
+
+  scoreTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  scoreTxt_.setSize(24);
+
+  bombTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  bombTxt_.setSize(14);
+  mineTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  mineTxt_.setSize(14);
+  speedTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  speedTxt_.setSize(14);
+  rangeTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  rangeTxt_.setSize(14);
+  kickTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  kickTxt_.setSize(14);
 }
 
 Player::Player(const Player &other)
@@ -95,7 +120,8 @@ Player::Player(const Player &other)
       nbBombs_(other.nbBombs_), nbMines_(other.nbMines_), bombRange_(other.bombRange_),
       bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
-      kickAbility_(other.kickAbility_), model_(other.model_), hud_(other.hud_), isNetworkControlled_(other.isNetworkControlled_)
+      kickAbility_(other.kickAbility_), model_(other.model_), hud_(other.hud_), isNetworkControlled_(other.isNetworkControlled_),
+      color_(other.color_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -103,11 +129,24 @@ Player::Player(const Player &other)
   collideMap_ = other.collideMap_;
   networkMap_ = other.networkMap_;
   id_ = other.id_;
+
+  scoreTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  scoreTxt_.setSize(24);
+
+  bombTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  bombTxt_.setSize(14);
+  mineTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  mineTxt_.setSize(14);
+  speedTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  speedTxt_.setSize(14);
+  rangeTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  rangeTxt_.setSize(14);
+  kickTxt_.setFont("Ressources/Fonts/Dimbo.ttf");
+  kickTxt_.setSize(14);
 }
 
 Player::~Player()
 {
-  Sounds::instance().stopEffect("run");
 }
 
 void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
@@ -210,9 +249,49 @@ void Player::drawHudText()
   if (id_ > 1)
     offsetx = 1350;
   ss << score_;
-  text_.setText(ss.str());
-  text_.setPosition(offsetx + 45, offsety + 165);
-  text_.draw();
+  scoreTxt_.setText(ss.str());
+  scoreTxt_.setPosition(offsetx + 45, offsety + 165);
+  scoreTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << nbBombs_;
+  bombTxt_.setSize(14);
+  bombTxt_.setText(ss.str());
+  bombTxt_.setPosition(offsetx + 146, offsety + 28);
+  bombTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << nbMines_;
+  mineTxt_.setSize(14);
+  mineTxt_.setText(ss.str());
+  mineTxt_.setPosition(offsetx + 204, offsety + 64);
+  mineTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << (speed_ * 20) * 12 << " mph";
+  speedTxt_.setSize(14);
+  speedTxt_.setText(ss.str());
+  speedTxt_.setPosition(offsetx + 197, offsety + 104);
+  speedTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << "+" << bombRange_;
+  rangeTxt_.setSize(14);
+  rangeTxt_.setText(ss.str());
+  rangeTxt_.setPosition(offsetx + 183, offsety + 143);
+  rangeTxt_.draw();
+
+  ss.str("");
+  ss.clear();
+  ss << (kickAbility_ ? "Yes" : "No");
+  kickTxt_.setSize(14);
+  kickTxt_.setText(ss.str());
+  kickTxt_.setPosition(offsetx + 150, offsety + 183);
+  kickTxt_.draw();
 }
 
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
@@ -437,6 +516,7 @@ void Player::serialize(QDataStream &out) const
     pos_.serialize(out);
     rot_.serialize(out);
     sz_.serialize(out);
+    color_.serialize(out);
     out << removeLater_;
 
     out << life_;
@@ -463,6 +543,7 @@ void Player::unserialize(QDataStream &in)
     pos_.unserialize(in);
     rot_.unserialize(in);
     sz_.unserialize(in);
+    color_.unserialize(in);
     in >> removeLater_;
 
     in >> life_;

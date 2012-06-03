@@ -57,53 +57,31 @@ void DangerMap::updateCaseVison(const AObject* it)
 
   if (y >= 0 && y < y_ && x >= 0 && x < x_)
     {
-      it->setDanger(danger_, objs_, x_, y_);
-      it->setVirtualPheromones(danger_, objs_, x_, y_);
+      it->setDanger(danger_, *objs_, x_, y_);
+      it->setVirtualPheromones(danger_, *objs_, x_, y_);
     }
 }
 
 int  DangerMap::getDanger(int x, int y) const
 {
-  return (danger_[y][x].first);
+  return (danger_[(y + 0.001)][(x + 0.001)].first);
 }
 
 int  DangerMap::getPheromones(int x, int y) const
 {
-  return (danger_[y][x].second);
+  return (danger_[(y + 0.001)][(x + 0.001)].second);
 }
 
-void DangerMap::updateGameVision(const std::list<AObject*>& objs)
+void DangerMap::updateGameVision(const std::list<AObject*> *objs)
 {
   objs_ = objs;
   std::list<AObject*>::const_iterator it;
 
   resetDanger();
   resetPheromones();
-  //  // //  temporaire
-  // std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  // for (test = danger_.begin(); test != danger_.end(); ++test)
-  //   {
-  //     std::vector<std::pair<int, int> >::iterator toto;
-  //     for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  // 	std::cout
-  // 	   	  <<  (*toto).first << " "
-  // 	  //<< (*toto).second
-  // 	  	  << "  ";
-  //     std::cout << std::endl;
-  //     // std::cout << std::endl;
-  //     // std::cout << std::endl;
-  //     std::cout << std::endl;
- //   }
- // std::cout << std::endl;
- // std::cout << std::endl;
- // std::cout << std::endl;
- // std::cout << std::endl;
- // std::cout << std::endl;
- // std::cout << std::endl;
- // std::cout << std::endl;
 }
 
 std::list<AObject*> DangerMap::getObjs(void) const
 {
-  return (objs_);
+  return (*objs_);
 }

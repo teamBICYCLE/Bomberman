@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 20:38:47 2012 lois burg
+// Last update Sun Jun  3 10:15:02 2012 lois burg
 //
 
 #include <iostream>
@@ -18,6 +18,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GDL/Text.hpp>
+#include <memory>
+#include <new>
 #include "SaveHandler.hh"
 #include "Carrousel/CarrouselHandler.hh"
 #include "Carrousel/LoadContent.hh"
@@ -106,8 +108,11 @@ void  PlayState::cleanUp()
 
 void	PlayState::clearObjs(void)
 {
- for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-   delete (*it);
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+    {
+        if ((*it))
+            delete (*it);
+    }
   objs_.clear();
 }
 
@@ -117,11 +122,11 @@ void  PlayState::update(StatesManager *sMg)
   int		nbMonsters = 0;
   std::list<AObject*>::iterator	it;
   float		now = sMg->getGameClock().getTotalGameTime();
-
+  std::		vector<AObject*> monsters;
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (danger)
-    danger->updateGameVision(objs_);
+    danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -142,54 +147,67 @@ void  PlayState::update(StatesManager *sMg)
           winnerId_ = static_cast<Player*>(*it)->getId();
         }
       else if ((*it)->getType() == "Monster")
-        ++nbMonsters;
+        {
+          ++nbMonsters;
+          if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
+        }
       if (!(*it)->toRemove())
         {
           if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-            (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
+            if ((*it)->getType() != "Monster")
+              (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
         }
       else
         it = objs_.erase(it);
     }
-  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_)
+  for (unsigned int i = 0; i < monsters.size(); ++i)
+    monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
+  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_
+          && this->readyUp_ <= 0)
     {
-      CarrouselHandler  *cH = createInGameCH();
+      void    *data = operator new (1600 * 900 * 3);
+      CarrouselHandler  *cH;
 
-      cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
+      cH = new CarrouselHandler(data);
+      std::cout << "failed to read" << std::endl;
+      //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
+
       escapeDisable_ = true;
+      //operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  if (danger)
-    {
-      // //  temporaire
-      std::vector<std::vector<std::pair<int, int> > >::iterator test;
-      for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
-        {
-          std::vector<std::pair<int, int> >::iterator toto;
-          for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-            std::cout
-                  <<  (*toto).first << " "
-              //<< (*toto).second
-                  << "  ";
-          std::cout << std::endl;
-          // std::cout << std::endl;
-          // std::cout << std::endl;
-          std::cout << std::endl;
-        }
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-      std::cout << std::endl;
-    }
-
+  // if (danger)
+  //   {
+  //     // //  temporaire
+  //     std::vector<std::vector<std::pair<int, int> > >::iterator test;
+  //     for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
+  // 	{
+  // 	  std::vector<std::pair<int, int> >::iterator toto;
+  // 	  for (toto = (*test).begin(); toto != (*test).end(); ++toto)
+  // 	    std::cout
+  // 	   	  <<  (*toto).first << " "
+  // 	      //<< (*toto).second
+  // 	  	  << "  ";
+  // 	  std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  // std::cout << std::endl;
+  // 	  std::cout << std::endl;
+  // 	}
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //     std::cout << std::endl;
+  //   }
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
@@ -221,7 +239,7 @@ void	PlayState::gameOver(StatesManager *mngr)
 
 void	PlayState::checkEndGame(StatesManager *mngr, int nbPlayers, int nbMonsters)
 {
-  if (bestScore_ != -1 && readyUp_ <= 0)
+    if (bestScore_ != -1 && readyUp_ <= 0)
     {
       if (!nbPlayers)
         gameOver(mngr);
@@ -374,6 +392,7 @@ void  PlayState::resume()
 uint PlayState::getHeight(const std::list<AObject*> *list) const
 {
     std::list<AObject*>::const_iterator it;
+
     uint maxY = list->front()->getPos().y;
 
     for (it = list->begin(); it != list->end(); it++)

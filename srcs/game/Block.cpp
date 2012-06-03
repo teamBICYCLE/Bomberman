@@ -18,17 +18,22 @@ using namespace	Bomberman;
 Block::Block(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   : AObject(pos, rot, sz, "Brick"), model_(ModelHandler::get().getModel("block"))
 {
+    build_ = false;
 }
 
 Block::Block(const Block &other)
   : AObject(other.pos_, other.rot_, other.sz_, "cube"), model_(other.model_)
 {
+    build_ = other.build_;
+    if (build_)
+        model_.setBuild();
 }
 
 Block::Block()
   : AObject(Vector3d(), Vector3d(), Vector3d(), "cube"),
     model_(ModelHandler::get().getModel("block"))
 {
+    build_ = true;
 }
 
 Block::~Block()
@@ -41,6 +46,8 @@ void		Block::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>
   (void)keys;
   (void)objs;
   model_.update(clock);
+  if (!build_)
+      build_ = model_.getBuild();
 }
 
 void		Block::draw(void)
@@ -64,6 +71,7 @@ void Block::serialize(QDataStream &out) const
     rot_.serialize(out);
     sz_.serialize(out);
     out << removeLater_;
+    out << build_;
 }
 
 void Block::unserialize(QDataStream &in)
@@ -72,6 +80,7 @@ void Block::unserialize(QDataStream &in)
     rot_.unserialize(in);
     sz_.unserialize(in);
     in >> removeLater_;
+    in >> build_;
 }
 
 void Block::sInit(void)

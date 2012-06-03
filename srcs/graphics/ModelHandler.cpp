@@ -76,6 +76,10 @@ void      ModelHandler::preload()
         "arrow-settings-right");
   storeModel(new flatTexture("Ressources/Images/Menu/empty-arrows.png"),
         "empty-arrows");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-left.png"),
+        "arrow-loadmap-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-loadmap-right.png"),
+        "arrow-loadmap-right");
 
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-customgame-left.png"),
         "arrow-customgame-left");
@@ -142,6 +146,8 @@ void      ModelHandler::preload()
         "bg-adventure");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-leaderboards.png"),
         "bg-leaderboards");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-loadmap.png"),
+        "bg-loadmap");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-customgame.png"),
         "bg-customgame");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-hostgame.png"),
@@ -174,6 +180,17 @@ void      ModelHandler::preload()
   /* in game */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-ingame.png"),
         "bg-ingame");
+  storeModel(new flatTexture("Ressources/Images/Menu/resume.png"),
+        "resume");
+  storeModel(new flatTexture("Ressources/Images/Menu/exit.png"),
+        "exit");
+  storeModel(new flatTexture("Ressources/Images/Menu/save.png"),
+        "save");
+  storeModel(new flatTexture("Ressources/Images/Menu/resume-exit_window.png"),
+        "resume-exit_window");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/loadmap_reflect.png"),
+        "loadmap_reflect");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)

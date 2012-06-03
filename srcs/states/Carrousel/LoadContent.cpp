@@ -2,8 +2,6 @@
 #include "SaveHandler.hh"
 #include "PlayState.hh"
 
-#include <iostream>
-
 LoadContent::LoadContent()
     : AContent(), save_(new SaveHandler()), text_(new gdl::Text())
 {

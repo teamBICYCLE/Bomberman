@@ -89,7 +89,8 @@ SOURCES += \
     srcs/states/Carrousel/KeyBindSlide.cpp \
     srcs/states/Carrousel/FadingTexture.cpp \
     srcs/states/Carrousel/Keyboard.cpp \
-    srcs/core/Sounds.cpp
+    srcs/core/Sounds.cpp \
+    srcs/states/Carrousel/PremadeMap.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -180,6 +181,7 @@ HEADERS += \
     srcs/states/Carrousel/KeyBindSlide.hh \
     srcs/states/Carrousel/FadingTexture.hh \
     srcs/states/Carrousel/Keyboard.hh \
-    srcs/core/Sounds.hh
+    srcs/core/Sounds.hh \
+    srcs/states/Carrousel/PremadeMap.hh
 
 MOC_DIR = ./srcs/core/

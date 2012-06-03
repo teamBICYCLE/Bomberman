@@ -32,19 +32,16 @@ void SaveHandler::writeObject(AObject *obj, QSettings &w) const
 }
 
 
-void    SaveHandler::createScreen(const std::string &name) const
+void    SaveHandler::createScreen(const std::string &name, GLvoid  *img) const
 {
-  unsigned char* img = new unsigned char[1600 * 800 * 3];
-  QString	screenName(SCREEN_PATH);
+    QString screenName(SCREEN_PATH);
 
-  screenName.append("/");
-  screenName.append(name.c_str());
-  screenName.append(SCREEN_EXT);
-  glReadPixels(0, 0, 1600, 800,  GL_RGB, GL_UNSIGNED_BYTE, img);
-  QImage screen(img, 1600, 800, QImage::Format_RGB888);
-  screen = screen.scaledToHeight(112);
-  screen.save(screenName);
-  delete [] img;
+    screenName.append("/");
+    screenName.append(name.c_str());
+    screenName.append(SCREEN_EXT);
+    QImage screen(static_cast<unsigned char *>(img), 1600, 800, QImage::Format_RGB888);
+    screen = screen.scaledToHeight(112);
+    screen.save(screenName);
 }
 
 const std::string   SaveHandler::newFileName(void) const
@@ -70,7 +67,7 @@ void SaveHandler::initAllObjects(void) const
     FireBlock::sInit();
 }
 
-void SaveHandler::save(std::list<AObject*> &objs) const
+void SaveHandler::save(std::list<AObject*> &objs, GLvoid  *screen) const
 {
     std::list<AObject*>::const_iterator it;
     std::string name_file(SAVE_PATH);
@@ -81,7 +78,7 @@ void SaveHandler::save(std::list<AObject*> &objs) const
 
     if (!QFile::exists(name_file.c_str()))
     {
-        SaveHandler::createScreen(timeName);
+        SaveHandler::createScreen(timeName, screen);
         SaveHandler::initAllObjects();
 
         QSettings w(name_file.c_str(), QSettings::IniFormat);
@@ -95,10 +92,8 @@ void SaveHandler::save(std::list<AObject*> &objs) const
             SaveHandler::writeObject((*it), w);
             i++;
         }
-
         w.endArray();
         w.sync();
-        std::cout << "---> Save done ! <---" << std::endl;
     }
 }
 
@@ -189,24 +184,6 @@ std::list<AObject*> *SaveHandler::load(const std::string &file)
                     break;
                 }
             }
-//            if (s.contains("Block"))
-//                res->push_back(new Block(s.value("Block", qVariantFromValue(Block())).value<Block>()));
-//            else if (s.contains("Brick"))
-//                res->push_back(new Brick(s.value("Brick", qVariantFromValue(Brick())).value<Brick>()));
-//            else if (s.contains("Player"))
-//                res->push_back(new Player(s.value("Player", qVariantFromValue(Player())).value<Player>()));
-//            else if (s.contains("Bomb"))
-//                res->push_back(new Bomb(s.value("Bomb", qVariantFromValue(Bomb())).value<Bomb>()));
-//            else if (s.contains("Mine"))
-//                res->push_back(new Mine(s.value("Mine", qVariantFromValue(Mine())).value<Mine>()));
-//            else if (s.contains("Monster"))
-//                res->push_back(new Monster(s.value("Monster", qVariantFromValue(Monster())).value<Monster>()));
-//            else if (s.contains("Ghost"))
-//                res->push_back(new Ghost(s.value("Ghost", qVariantFromValue(Ghost())).value<Ghost>()));
-//            else if (s.contains("Explosion"))
-//                res->push_back(new Explosion(s.value("Explosion", qVariantFromValue(Explosion())).value<Explosion>()));
-//            else if (s.contains("FireBlock"))
-//                res->push_back(new FireBlock(s.value("FireBlock", qVariantFromValue(FireBlock())).value<FireBlock>()));
         }
         s.endArray();
         Character::CharacterId = lastId;

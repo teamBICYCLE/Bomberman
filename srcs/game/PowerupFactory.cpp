@@ -18,7 +18,7 @@ PowerupFactory::PowerupFactory()
     ref_.push_back(std::make_pair(25, new VelocityPowerup(Vector3d(), Vector3d(), Vector3d())));
     ref_.push_back(std::make_pair(50, new RangePowerup(Vector3d(), Vector3d(), Vector3d())));
     ref_.push_back(std::make_pair(80, new AmmoPowerup(Vector3d(), Vector3d(), Vector3d())));
-    ref_.push_back(std::make_pair(97, new MinePowerup(Vector3d(), Vector3d(), Vector3d())));
+    ref_.push_back(std::make_pair(90, new MinePowerup(Vector3d(), Vector3d(), Vector3d())));
     ref_.push_back(std::make_pair(100, new KickPowerup(Vector3d(), Vector3d(), Vector3d())));
 }
 

@@ -4,17 +4,16 @@
 
 using namespace	Bomberman;
 
-InGameList::InGameList()
-    : AContent(), save_(new SaveHandler())
+InGameList::InGameList(std::list<AObject*> &objs, GLvoid *data, PlayState *ps)
+    : AContent(), save_(new SaveHandler()), objs_(objs), screen_(data), ps_(ps)
 {
     paramMap_.insert(std::make_pair(gdl::Keys::Up, &InGameList::up));
     paramMap_.insert(std::make_pair(gdl::Keys::Down, &InGameList::down));
     paramMap_.insert(std::make_pair(gdl::Keys::Return, &InGameList::action));
 
     actionMap_.insert(std::make_pair(0, &InGameList::resume));
-    actionMap_.insert(std::make_pair(1, &InGameList::restart));
-    actionMap_.insert(std::make_pair(2, &InGameList::save));
-    actionMap_.insert(std::make_pair(3, &InGameList::quit));
+    actionMap_.insert(std::make_pair(1, &InGameList::save));
+    actionMap_.insert(std::make_pair(2, &InGameList::quit));
 
     up_ = false;
     down_ = false;
@@ -40,11 +39,32 @@ void	InGameList::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager
 
 void	InGameList::draw(void)
 {
-    int y = 600;
+    int y = 500;
+    int yImg = 525;
+
+    flatTexture overlay(Bomberman::ModelHandler::get().getModel("resume-exit_window"));
+    flatTexture resume(Bomberman::ModelHandler::get().getModel("resume"));
+    flatTexture save(Bomberman::ModelHandler::get().getModel("save"));
+    flatTexture exit(Bomberman::ModelHandler::get().getModel("exit"));
+
     glPushMatrix();
-    flatTexture overlay(Bomberman::ModelHandler::get().getModel("dot"));
-    glTranslated(940, y - (125 * current_), 0);
+    glTranslated(620, y - (125 * current_), 0);
     overlay.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslated(687, yImg, 0);
+    resume.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslated(713, yImg - 125, 0);
+    save.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslated(715, yImg - 250, 0);
+    exit.draw();
     glPopMatrix();
 }
 
@@ -52,14 +72,14 @@ void    InGameList::up(StatesManager *sMg)
 {
     (void)sMg;
     if (!up_)
-        current_ = ((current_ == 0) ? (3) : (current_ - 1));
+        current_ = ((current_ == 0) ? (2) : (current_ - 1));
 }
 
 void    InGameList::down(StatesManager *sMg)
 {
     (void)sMg;
     if (!down_)
-        current_ = ((current_ == 3) ? (0) : (current_ + 1));
+        current_ = ((current_ == 2) ? (0) : (current_ + 1));
 }
 
 void    InGameList::action(StatesManager *sMg)
@@ -67,7 +87,7 @@ void    InGameList::action(StatesManager *sMg)
     (void)sMg;
     if (!return_)
     {
-        if (current_ >= 0 && current_ <= 3)
+        if (current_ >= 0 && current_ <= 2)
             (this->*(actionMap_[current_]))(sMg);
     }
 }
@@ -77,18 +97,10 @@ void    InGameList::resume(StatesManager *sMg)
     sMg->popState();
 }
 
-void    InGameList::restart(StatesManager *sMg)
-{
-    (void)sMg;
-    // pas trop d'idee ...
-    // Peut etre recuperer les infos du playstate
-    // pop les States et refaire un new PlayState avec les infos
-}
-
 void    InGameList::save(StatesManager *sMg)
 {
     (void)sMg;
-    //save_->save(/*il faut recuperer la liste d'obj*/);
+    save_->save(objs_, screen_);
 }
 
 void    InGameList::quit(StatesManager *sMg)

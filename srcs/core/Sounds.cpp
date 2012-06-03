@@ -61,7 +61,7 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
 
   if (FMOD_System_CreateSound(system_, path.c_str(), FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL, NULL, &snd)
       != FMOD_OK)
-    // throw std::exception()
+      //throw std::exception();
       ;
   effects_[name] = std::make_pair(snd, chn);
   if (loop)
@@ -70,27 +70,40 @@ void Sounds::loadEffect(const std::string &name, const std::string &path, bool l
     FMOD_Sound_SetLoopCount(snd, 0);
 }
 
-// TODO : Detect end of sample when not lopping
-
 bool Sounds::isEffectPlaying(const std::string &name)
 {
-  int l = 0;
-  FMOD_Channel_GetLoopCount(effects_[name].second, &l);
-  if (effects_[name].second && l == -1)
-    return true;
-  else
+  FMOD_BOOL *isPlaying;
+
+  if (!effects_[name].second)
     return false;
+  FMOD_Channel_IsPlaying(effects_[name].second, isPlaying);
+  return isPlaying;
 }
 
 void Sounds::playEffect(const std::string &name, float volume)
 {
   FMOD_CHANNEL   *chan = NULL;
-  FMOD_BOOL      isPlaying;
+  int             lp;
 
-  FMOD_Channel_IsPlaying(effects_[name].second, &isPlaying);
-  if (playEffects_ && !isPlaying)
+  lp = 0;
+  FMOD_System_Update(system_);
+  std::for_each(effects_.begin(), effects_.end(),
+                [](std::pair<std::string, std::pair<FMOD_SOUND*, FMOD_CHANNEL*> >obj) -> void {
+                FMOD_BOOL   isPlaying;
+      if (obj.second.second)
+  {
+      FMOD_Channel_IsPlaying(obj.second.second, &isPlaying);
+      if (!isPlaying)
+        {
+          FMOD_Channel_Stop(obj.second.second);
+          obj.second.second = NULL;
+        }
+  }
+  });
+  if (effects_[name].second)
+    FMOD_Channel_GetLoopCount(effects_[name].second, &lp);
+  if (playEffects_ && lp != -1)
     {
-
       FMOD_System_PlaySound(system_, FMOD_CHANNEL_FREE, effects_[name].first, 0, &chan);
       effects_[name].second = chan;
       FMOD_Channel_SetVolume(chan, volume);
@@ -133,7 +146,7 @@ void Sounds::loadMusic(const std::string &name, const std::string &path)
                               0, &snd)
       != FMOD_OK)
     // throw std::exception()
-      ;
+;
   FMOD_Sound_SetLoopCount(snd, -1);
   musics_[name].first = snd;
 }

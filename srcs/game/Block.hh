@@ -43,6 +43,7 @@ namespace	Bomberman
 
   private:
     TexturedCube  model_;
+    bool          build_;
   };
 }
 

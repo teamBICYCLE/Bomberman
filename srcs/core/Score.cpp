@@ -71,17 +71,14 @@ void Score::save(int score) const
     time_t          t;
     char            buff[20];
 
+    if (Score::isHighScore(score))
+        twitter_->sendTweet(score);
     if (leaderboards.good() && score > 0)
     {
         t = time(NULL);
         strftime(buff, 20, "%d/%m %H:%M", localtime(&t));
         leaderboards << buff << SEP_SCORE << score << std::endl;
         leaderboards.close();
-    }
-    if (Score::isHighScore(score))
-    {
-        std::cout << "TWEEEEEET" << std::endl;
-        twitter_->sendTweet(score);
     }
 }
 
