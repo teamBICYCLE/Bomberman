@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 12:34:05 2012 lois burg
+// Last update Sun Jun  3 13:54:58 2012 lois burg
 //
 
 #include <iostream>
@@ -61,6 +61,7 @@ PlayState::PlayState(const std::list<AObject*> *list)
   readyImg_.push_back(ModelHandler::get().getModel("two"));
   readyImg_.push_back(ModelHandler::get().getModel("one"));
   readyImg_.push_back(ModelHandler::get().getModel("go"));
+  danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
 }
 
 PlayState::~PlayState(void)
@@ -75,7 +76,7 @@ bool  PlayState::init()
   try {
 
     //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map2");
+    Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
@@ -83,9 +84,7 @@ bool  PlayState::init()
     camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-      if (dynamic_cast<Monster*>(*it))
-        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -182,31 +181,6 @@ void  PlayState::update(StatesManager *sMg)
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;
-  // if (danger)
-  //   {
-  //     // //  temporaire
-  //     std::vector<std::vector<std::pair<int, int> > >::iterator test;
-  //     for (test = danger->danger_.begin(); test != danger->danger_.end(); ++test)
-  // 	{
-  // 	  std::vector<std::pair<int, int> >::iterator toto;
-  // 	  for (toto = (*test).begin(); toto != (*test).end(); ++toto)
-  // 	    std::cout
-  // 	   	  <<  (*toto).first << " "
-  // 	      //<< (*toto).second
-  // 	  	  << "  ";
-  // 	  std::cout << std::endl;
-  // 	  // std::cout << std::endl;
-  // 	  // std::cout << std::endl;
-  // 	  std::cout << std::endl;
-  // 	}
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //     std::cout << std::endl;
-  //   }
   checkEndGame(sMg, nbPlayers, nbMonsters);
 }
 
