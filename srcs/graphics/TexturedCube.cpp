@@ -28,7 +28,7 @@ TexturedCube::TexturedCube(const AModel &orig)
     endAnimMax_(0.5f + ((rand() % 151) / 100.0f)), endAnim_(endAnimMax_),
     startAnim_((rand() % 51) / 100.0f), lastTime_(-1)
 {
-  std::cout << "endanim: " << endAnim_ << std::endl;
+  //  std::cout << "endanim: " << endAnim_ << std::endl;
 }
 
 void TexturedCube::draw()

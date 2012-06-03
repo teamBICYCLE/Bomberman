@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 18:36:18 2012 thibault carpentier
+// Last update Sun Jun  3 20:13:07 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -64,7 +64,6 @@ PlayState::PlayState(const std::list<AObject*> *list)
   for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
     if (dynamic_cast<Monster*>(*it))
       danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
-  //  danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
 }
 
 PlayState::~PlayState(void)
@@ -88,10 +87,9 @@ bool  PlayState::init()
     camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
-    //    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
-  for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-    if (dynamic_cast<Monster*>(*it))
-      danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+      if (dynamic_cast<Monster*>(*it))
+	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
@@ -143,7 +141,7 @@ void  PlayState::update(StatesManager *sMg, double delta)
         danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
-	  static_cast<Player*>(*it)->setDelta(delta);
+          static_cast<Player*>(*it)->setDelta(delta);
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();
@@ -153,7 +151,7 @@ void  PlayState::update(StatesManager *sMg, double delta)
         {
           ++nbMonsters;
           if (!(*it)->toRemove())
-	    monsters.push_back(*it);
+            monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
@@ -169,8 +167,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
           it = objs_.erase(it);
         }
     }
-  // for (unsigned int i = 0; i < monsters.size(); ++i)
-  //   monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
+  for (unsigned int i = 0; i < monsters.size(); ++i)
+    monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
   if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escapeDisable_
           && this->readyUp_ <= 0)
     {
@@ -265,7 +263,8 @@ void PlayState::updateReadyUpOverlay(float now)
 void PlayState::drawReadyUpOverlay(float now)
 {
   (void)now;
-  glDepthMask(GL_FALSE);
+  glDepthMask(GL_TRUE);
+  glClear(GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();

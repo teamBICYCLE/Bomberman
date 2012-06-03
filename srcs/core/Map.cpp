@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sun Jun  3 13:39:54 2012 thibault carpentier
+// Last update Sun Jun  3 19:09:07 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -68,7 +68,7 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  //generateBricks();
+  generateBricks();
   generateBorder();
   generatePlayers();
   generateMonsters(nbMonsters);
@@ -170,9 +170,9 @@ void				Map::generateMonsters(uint nbMonsters)
   bool				find = false;
   Thinking::Brain   *b;
 
+  b = Thinking::Brain::getBrain(width_, height_);
   while (nbMonsters > 0)
     {
-      b = Thinking::Brain::getBrain(width_, height_);
       x = rand() % width_;
       y = rand() % height_;
       x = (x < 2) ? x + 2 : x;
@@ -218,9 +218,9 @@ void				Map::generateGhosts(uint nbGhosts)
   bool				find = false;
   Thinking::Brain   *b;
 
+  b = Thinking::Brain::getBrain(width_, height_);
   while (nbGhosts > 0)
     {
-      b = Thinking::Brain::getBrain(width_, height_);
       x = rand() % width_;
       y = rand() % height_;
       x = (x < 3) ? x + 3 : x;
