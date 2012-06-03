@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat Jun  2 16:28:56 2012 lois burg
+// Last update Sat Jun  2 21:14:10 2012 lois burg
 //
 
 #include <algorithm>
@@ -77,7 +77,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
         pos_ = save + sz_ / 2;
         adjustPos();
         speed_ = nullSpeed;
-        if ((*objIt)->getType() == "Explosion" || (*objIt)->getType() == "Mine")
+        if (dynamic_cast<Explosion*>(*objIt) || dynamic_cast<Mine*>(*objIt))
           destroy(objs);
       }
   model_.update(clock);
@@ -134,10 +134,10 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	if (!isInvalid && e->getBBox().collideWith(obj))
 	  {
 	    obj->interact(e, objs);
-	    if (obj->getType() == "Brick")
+	    if (dynamic_cast<Brick*>(obj))
 	      owner_.addScore(1);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		obj->getType() != "Mine" && obj->getType() != "Explosion")
+		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Bomb*>(obj))
 	      isInvalid = true;
 	  }
       });
@@ -159,7 +159,7 @@ void	Bomb::interact(Character *ch, std::list<AObject*>& objs)
   ch->setPos(save);
   if (!collide)
     ch->bump(pos_);
-  if (!collide && ch->getType() == "Player" && static_cast<Player*>(ch)->getKickAbility())
+  if (!collide && dynamic_cast<Player*>(ch) && static_cast<Player*>(ch)->getKickAbility())
     {
       p = static_cast<Player*>(ch);
       b = ch->getBBox();

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Sat Jun  2 14:32:47 2012 lois burg
+// Last update Sat Jun  2 20:41:18 2012 lois burg
 //
 
 #include <iostream>
@@ -21,6 +21,7 @@
 #include "ServerState.hh"
 #include "Map.hh"
 #include "Online.hh"
+#include "Carrousel/Draw.hh"
 
 using namespace	Bomberman;
 using namespace	Online;
@@ -148,6 +149,10 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	  win(mngr);
 	}
       else if (!nbPlayersAlive)
-	{}//push drawState (egalite)
+	{
+	  CarrouselHandler  *cH = createInGameCH();
+
+	  cH->pushPage(new APage(new Draw, "bg-ingame", "empty-arrows", "empty-arrows"));
+	}
     }
 }

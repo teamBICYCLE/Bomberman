@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat Jun  2 19:04:10 2012 lois burg
+// Last update Sat Jun  2 21:16:29 2012 lois burg
 //
 
 #include <algorithm>
@@ -35,7 +35,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
-  // nbMines_ = 10000;
+  nbMines_ = 1;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -167,9 +167,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
               collide = bBox_->collideWith(*objIt);
               bBox_->resetColliding();
               (bBox_->*collideMap_[it->first])((*objIt)->getPos(), (*objIt)->getSize());
-              if ((*objIt)->getType() != "Player" && collide)
+              if (!dynamic_cast<Player*>(*objIt) && collide)
                 (*objIt)->interact(this, objs);
-              else if ((*objIt)->getType() == "Bomb" && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
+              else if (dynamic_cast<Bomb*>(*objIt) && &static_cast<Bomb*>(*objIt)->getOwner() == this &&
                        !static_cast<Bomb*>(*objIt)->getOwnerCollide() && !collide)
                 {
                   static_cast<Bomb*>(*objIt)->setOwnerCollide(true);
@@ -297,7 +297,7 @@ void Player::drawHudText()
 void	Player::interact(Character *ch, std::list<AObject*>& objs)
 {
   (void)objs;
-  if (ch->getType() == "Monster")
+  if (dynamic_cast<Monster*>(ch))
     takeDamage(static_cast<Monster*>(ch)->getDamage());
 }
 
