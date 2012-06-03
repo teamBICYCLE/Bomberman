@@ -111,6 +111,11 @@ void      ModelHandler::preload()
   storeModel(new flatTexture("Ressources/Images/Menu/arrow-join-right.png"),
         "arrow-join-right");
 
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-pause-left.png"),
+        "arrow-pause-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-pause-right.png"),
+        "arrow-pause-right");
+
   /* Overlays */
   storeModel(new flatTexture("Ressources/Images/Menu/custom_arrows.png"),
         "custom_arrows");

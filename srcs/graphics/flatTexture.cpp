@@ -12,9 +12,12 @@
 
 #include "flatTexture.hh"
 #include <iostream>
+#include "unavalaibleRessource.hh"
 
 flatTexture::flatTexture(const std::string & path) {
   this->tex_ = gdl::Image::load(path);
+  if (!this->tex_.isValid())
+    throw new unavalaibleRessource(path);
 }
 
 flatTexture::flatTexture(const AModel& orig)

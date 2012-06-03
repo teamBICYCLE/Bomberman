@@ -40,7 +40,7 @@ void PremadeMap::refresh(void)
         while((entry = readdir(pdir)))
           {
             std::string name(entry->d_name);
-            if (entry->d_type == isFile)
+            if (entry->d_type == isFile && name.find("adventure") == std::string::npos)
                 maps_.push_back(name);
           }
       }

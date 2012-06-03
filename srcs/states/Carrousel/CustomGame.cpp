@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sun Jun  3 19:15:55 2012 lois burg
+// Last update Sun Jun  3 19:17:11 2012 lois burg
 //
 
 #include <utility>
@@ -83,9 +83,9 @@ void	CustomGame::drawArrow(void) const
   else
     {
       if (editing_)
-	arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows_overlay"));
+        arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows_overlay"));
       else
-	arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows"));
+        arrow = new flatTexture(ModelHandler::get().getModel("custom_arrows"));
       vAlign = currentSelection_ * 70;
     }
   glPushMatrix();
@@ -138,11 +138,11 @@ void	CustomGame::returnArrow(StatesManager *sMg)
   if (!returnHit_)
     {
       if (currentSelection_ == CustomGame::NbParams)
-	{
-	  try {
-	    Character::CharacterId = 0;
-	    // Map	map(100, 100, 2, 0, 0);
-	    Map	map(mapWidth_, mapHeight_, nbPlayers_, nbMonsters_, nbGhosts_);
+        {
+          try {
+            Character::CharacterId = 0;
+            //Map	map(100, 100, 2, 0, 0);
+            Map	map(mapWidth_, mapHeight_, nbPlayers_, nbMonsters_, nbGhosts_);
 
 	    sMg->pushState(new PlayState(&map.getTerrain()), false);
 	  } catch (Map::Failure& e) {
@@ -150,7 +150,7 @@ void	CustomGame::returnArrow(StatesManager *sMg)
 	  }
 	}
       else
-	editing_ = !editing_;
+        editing_ = !editing_;
     }
 }
 

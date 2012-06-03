@@ -35,7 +35,7 @@ int main(int ac, char **av)
         Sounds::instance().preload();
         mg.start(new IntroState());
     }
-    catch (gdl::ModelException * e)
+    catch (std::exception * e)
     {
         std::cout << e->what() << std::endl;
     }

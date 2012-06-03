@@ -8,11 +8,14 @@
 **************************************************************************/
 
 #include "gdlModel.hh"
+#include "unavalaibleRessource.hh"
 
 gdlModel::gdlModel(const std::string & path)
   : AModel(), path_(path)
 {
   this->model_ = gdl::Model::load(path);
+  if (!this->model_.isValid())
+    throw new unavalaibleRessource(path);
 }
 
 gdlModel::gdlModel(const AModel & orig)

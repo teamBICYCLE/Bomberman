@@ -90,7 +90,8 @@ SOURCES += \
     srcs/states/Carrousel/FadingTexture.cpp \
     srcs/states/Carrousel/Keyboard.cpp \
     srcs/core/Sounds.cpp \
-    srcs/states/Carrousel/PremadeMap.cpp
+    srcs/states/Carrousel/PremadeMap.cpp \
+    srcs/core/unavalaibleRessource.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x -W -Wall -Wextra -ggdb
 
@@ -182,6 +183,7 @@ HEADERS += \
     srcs/states/Carrousel/FadingTexture.hh \
     srcs/states/Carrousel/Keyboard.hh \
     srcs/core/Sounds.hh \
-    srcs/states/Carrousel/PremadeMap.hh
+    srcs/states/Carrousel/PremadeMap.hh \
+    srcs/core/unavalaibleRessource.hh
 
 MOC_DIR = ./srcs/core/

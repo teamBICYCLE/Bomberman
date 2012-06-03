@@ -29,6 +29,8 @@ public:
 private:
   gdl::Image  img_;
   int         iter_;
+  double      lastTime_;
+  double      maxTime_;
 };
 
 #endif // EXPLOSIONBLOCK_HH

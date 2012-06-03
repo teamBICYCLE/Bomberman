@@ -34,8 +34,10 @@ private:
   GLuint      list_;
   gdl::Image  img_;
   float       coef_;
-  float       incValue_;
-  float       delay_;
+  float       endAnimMax_;
+  float       endAnim_;
+  float       startAnim_;
+  float       lastTime_;
 };
 
 #endif // TEXTUREDCUBE_HH

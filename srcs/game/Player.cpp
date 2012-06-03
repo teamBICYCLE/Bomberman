@@ -29,7 +29,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
 {
   srand(((id_ + 5) * 111) - 8);
   color_ = Vector3d(static_cast<float>(rand() % 101) / 100,
-		    static_cast<float>(rand() % 101) / 100,
+                    static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   //std::cout << color_.x << std::endl;
   // isInvincible_ = true;
@@ -204,7 +204,8 @@ void		Player::draw(void)
 void Player::drawHud()
 {
   glDisable(GL_DEPTH_TEST);
-  glDepthMask(GL_FALSE);
+  glDepthMask(GL_TRUE);
+  glClear(GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   //glPushMatrix();
   glLoadIdentity();
@@ -272,7 +273,7 @@ void Player::drawHudText()
 
   ss.str("");
   ss.clear();
-  ss << (speed_ * 20) * 12 << " mph";
+  ss << (speed_) * 3 << " mph";
   speedTxt_.setSize(14);
   speedTxt_.setText(ss.str());
   speedTxt_.setPosition(offsetx + 197, offsety + 104);

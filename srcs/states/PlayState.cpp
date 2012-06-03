@@ -34,7 +34,7 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
+    readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -121,8 +121,8 @@ void  PlayState::update(StatesManager *sMg, double delta)
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-  // if (danger)
-  //   danger->updateGameVision(&objs_);
+   if (danger)
+     danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -133,11 +133,11 @@ void  PlayState::update(StatesManager *sMg, double delta)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      // if (danger && *it)
-      //   danger->updateCaseVison(*it);
+      if (danger && *it)
+        danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
-	  static_cast<Player*>(*it)->setDelta(delta);
+          static_cast<Player*>(*it)->setDelta(delta);
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();
@@ -147,7 +147,7 @@ void  PlayState::update(StatesManager *sMg, double delta)
         {
           ++nbMonsters;
           if (!(*it)->toRemove())
-	    monsters.push_back(*it);
+            monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
@@ -158,10 +158,10 @@ void  PlayState::update(StatesManager *sMg, double delta)
           ++it;
         }
       else
-	{
-	  delete (*it);
-	  it = objs_.erase(it);
-	}
+        {
+          delete (*it);
+          it = objs_.erase(it);
+        }
     }
   for (unsigned int i = 0; i < monsters.size(); ++i)
     monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
@@ -175,7 +175,7 @@ void  PlayState::update(StatesManager *sMg, double delta)
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-pause-left", "arrow-pause-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
 
@@ -259,7 +259,8 @@ void PlayState::updateReadyUpOverlay(float now)
 void PlayState::drawReadyUpOverlay(float now)
 {
   (void)now;
-  glDepthMask(GL_FALSE);
+  glDepthMask(GL_TRUE);
+  glClear(GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
