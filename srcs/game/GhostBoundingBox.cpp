@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 16:09:31 2012 geoffroy lafontaine
-// Last update Sat Jun  2 16:27:52 2012 lois burg
+// Last update Sun Jun  3 11:16:30 2012 lois burg
 //
 
 #include "Brick.hh"
@@ -30,7 +30,7 @@ GhostBoundingBox::~GhostBoundingBox()
 
 bool	GhostBoundingBox::collideWith(const AObject *obj)
 {
-  if (obj->getType() == "Brick")
+  if (dynamic_cast<const Brick*>(obj))
     return (false);
   if (owner_ == obj || pos_.distance(obj->getPos()) > 2)
     return (false);

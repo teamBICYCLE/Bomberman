@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat Jun  2 16:28:22 2012 lois burg
+// Last update Sun Jun  3 11:12:40 2012 lois burg
 //
 
 #include <algorithm>
@@ -109,7 +109,7 @@ void	FireBlock::spitFire(std::list<AObject*>& objs)
               {
                 obj->interact(e, objs);
                 if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-                    obj->getType() != "Mine" && obj->getType() != "Explosion")
+                    !dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
                   isInvalid = true;
               }
           });
@@ -204,12 +204,12 @@ Bomb		*FireBlock::isPosValid(bool &valid, int y, int x, std::list<AObject*>& obj
           obj = (*i);
           if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
             {
-              if (obj->getType() == "Block" || obj->getType() == "Brick")
+              if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
                 {
                   valid = false;
                   return NULL;
                 }
-              else if (obj->getType() != "Mine" && obj->getType() == "Bomb")
+              else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
                 return static_cast<Bomb*>(obj);
               return NULL;
             }

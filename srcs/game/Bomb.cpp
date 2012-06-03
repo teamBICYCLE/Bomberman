@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sat Jun  2 21:14:10 2012 lois burg
+// Last update Sun Jun  3 11:00:22 2012 lois burg
 //
 
 #include <algorithm>
@@ -137,7 +137,7 @@ void	Bomb::checkPosition(Explosion *e, bool& isInvalid, std::list<AObject*>& obj
 	    if (dynamic_cast<Brick*>(obj))
 	      owner_.addScore(1);
 	    if (!dynamic_cast<Character*>(obj) && !dynamic_cast<APowerup*>(obj) &&
-		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Bomb*>(obj))
+		!dynamic_cast<Mine*>(obj) && !dynamic_cast<Explosion*>(obj))
 	      isInvalid = true;
 	  }
       });
@@ -294,12 +294,12 @@ Bomb		*Bomb::isPosValid(bool &valid, int y, int x, std::list<AObject*>& objs_) c
           obj = (*i);
           if (valid && static_cast<int>(obj->getPos().x) == x && static_cast<int>(obj->getPos().y == y))
             {
-	      if (obj->getType() == "Block" || obj->getType() == "Brick")
+	      if (dynamic_cast<Block*>(obj) || dynamic_cast<Brick*>(obj))
                 {
                   valid = false;
                   return NULL;
                 }
-              else if (obj->getType() != "Mine" && obj->getType() == "Bomb")
+              else if (!dynamic_cast<Mine*>(obj) && dynamic_cast<Bomb*>(obj))
                 return static_cast<Bomb*>(obj);
               return NULL;
             }
