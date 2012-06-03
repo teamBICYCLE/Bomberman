@@ -93,7 +93,6 @@ void TwitterConnection::sendTweet(int score)
             !config_.value("oauth_token").toString().isEmpty() &&
             !config_.value("oauth_token_secret").toString().isEmpty())
     {
-        std::cout << "Tweet !!!!!!!!!" << std::endl;
         TwitterConnection::privateSendTweet(score);
         app_.exec();
     }

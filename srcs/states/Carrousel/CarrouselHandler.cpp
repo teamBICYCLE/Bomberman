@@ -27,6 +27,7 @@
 #include "Carrousel/ItemList.hh"
 #include "Carrousel/KeyBindSlide.hh"
 #include "Carrousel/SoundConfig.hh"
+#include "Carrousel/PremadeMap.hh"
 
 CarrouselHandler::CarrouselHandler(const std::string & bg, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
@@ -208,6 +209,7 @@ void CarrouselHandler::createMainMenu()
   pushPage(new APage(new QuickGame(), "bg-quickgame", "arrow-quickgame-left", "arrow-quickgame-right"));
   pushPage(new APage(new CustomGame(), "bg-customgame", "arrow-customgame-left", "arrow-customgame-right"));
   pushPage(new APage(new AdventureGame(), "bg-adventure", "arrow-adventure-left", "arrow-adventure-right"));
+  pushPage(new APage(new PremadeMap(), "bg-loadmap", "arrow-loadmap-left", "arrow-loadmap-right"));
   pushPage(new APage(new HostGame(), "bg-hostgame", "arrow-host-left", "arrow-host-right"));
   pushPage(new APage(new JoinGame(), "bg-joingame", "arrow-join-left", "arrow-join-right"));
   // pushPage(new APage(new ItemList(), "bg", "right", "left"));
