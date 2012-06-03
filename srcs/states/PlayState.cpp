@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 21:28:03 2012 thibault carpentier
+// Last update Sun Jun  3 10:01:22 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -75,7 +75,7 @@ bool  PlayState::init()
   try {
 
     //    Map	map(13, 13, 1, 10, 0);
-    Map         map("Ressources/Map/map2");
+    Map         map("Ressources/Map/map5");
     // int	viewport[4];
 
     mapH_ = map.getHeight();
