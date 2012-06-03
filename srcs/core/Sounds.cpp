@@ -52,6 +52,7 @@ void Sounds::preload()
   loadEffect("2sec", "Ressources/Sounds/Play/2sec.wav");
   loadEffect("3sec", "Ressources/Sounds/Play/3sec.wav");
   loadEffect("flame", "Ressources/Sounds/Play/flame.mp3");
+  loadEffect("fxon", "Ressources/Sounds/Menu/fxon.wav");
 }
 
 void Sounds::loadEffect(const std::string &name, const std::string &path, bool loop)
@@ -86,20 +87,20 @@ void Sounds::playEffect(const std::string &name, float volume)
   int             lp;
 
   lp = 0;
-  FMOD_System_Update(system_);
   std::for_each(effects_.begin(), effects_.end(),
-                [](std::pair<std::string, std::pair<FMOD_SOUND*, FMOD_CHANNEL*> >obj) -> void {
+                [&](std::pair<std::string, std::pair<FMOD_SOUND*, FMOD_CHANNEL*> >obj) -> void {
                 FMOD_BOOL   isPlaying;
       if (obj.second.second)
   {
       FMOD_Channel_IsPlaying(obj.second.second, &isPlaying);
-      if (!isPlaying)
+      if (!isPlaying || !playEffects_)
         {
           FMOD_Channel_Stop(obj.second.second);
           obj.second.second = NULL;
         }
   }
   });
+  FMOD_System_Update(system_);
   if (effects_[name].second)
     FMOD_Channel_GetLoopCount(effects_[name].second, &lp);
   if (playEffects_ && lp != -1)

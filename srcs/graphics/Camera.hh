@@ -27,6 +27,7 @@ public:
   void    draw(void);
 
   void    drawRepere(void);
+  void    attenuateTransition(Vector3d & old, const Vector3d & dir, float max = 0.05);
 
 private:
   static constexpr float fov = 70.0f;

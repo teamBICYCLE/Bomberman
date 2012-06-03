@@ -82,12 +82,6 @@ bool  PlayState::init()
     mapW_ = map.getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     characterToUpdate_ = -1;
-//    glGetIntegerv(GL_VIEWPORT, viewport);
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluOrtho2D(0, viewport[2], viewport[3], 0);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
     objs_.insert(objs_.end(), map.getTerrain().begin(), map.getTerrain().end());
     for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
       if (dynamic_cast<Monster*>(*it))
@@ -103,6 +97,7 @@ void  PlayState::cleanUp()
 {
   std::cout << "clean up Play" << std::endl;
   Sounds::instance().stopMusic("test");
+  Sounds::instance().stopEffect("run");
   clearObjs();
 }
 
@@ -125,6 +120,7 @@ void  PlayState::update(StatesManager *sMg)
   std::		vector<AObject*> monsters;
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
+  camera_.setHeightWidth(mapW_, mapH_);
   if (danger)
     danger->updateGameVision(&objs_);
   if (lastTime_ == -1)

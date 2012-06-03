@@ -34,8 +34,10 @@ public:
   void        setArrowFocus(bool val);
   void        setArrowFocusLeft(bool val);
   void        setArrowFocusRight(bool val);
+  void        setEscapeFocus(bool val);
   bool        getArrowFocusLeft() const;
   bool        getArrowFocusRight() const;
+  bool        getEscapeFocus() const;
 
   void          drawPreviousPreview();
   void          drawNextPreview();
@@ -55,6 +57,7 @@ private:
   bool                   escPressed_;
   bool                    arrowsFocusLeft_;
   bool                    arrowsFocusRight_;
+  bool                    escFocus_;
   flatTexture             bg_;
   GLvoid                  *data_;
   bool                    imgBg_;
