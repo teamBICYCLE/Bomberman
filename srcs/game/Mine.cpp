@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:22 2012 lois burg
-// Last update Sun Jun  3 19:41:19 2012 lois burg
+// Last update Sun Jun  3 21:44:09 2012 romain sylvian
 //
 
 #include "Mine.hh"
@@ -20,7 +20,7 @@ Mine::Mine(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Player&
 }
 
 Mine::Mine(const Mine& other)
-  : Bomb(other), chainReaction_(other.chainReaction_)
+  : Bomb(other.pos_, other.rot_, other.sz_, 0, 0.0f, other.owner_, "mine"), chainReaction_(other.chainReaction_)
 {
   type_ = "Mine";
 }
