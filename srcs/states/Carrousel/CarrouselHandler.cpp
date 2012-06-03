@@ -44,7 +44,6 @@ CarrouselHandler::CarrouselHandler(GLvoid * data, const std::string & music)
     bg_(Bomberman::ModelHandler::get().getModel("mainbg")),
     data_(data), imgBg_(false), offset_(0), music_(music)
 {
-  std::cout << "ch created" << std::endl;
   overlay_ = gdl::Image::load("Ressources/Images/Menu/cloud.png");
 }
 
@@ -210,7 +209,6 @@ void CarrouselHandler::createMainMenu()
   pushPage(new APage(new PremadeMap(), "bg-loadmap", "arrow-loadmap-left", "arrow-loadmap-right"));
   pushPage(new APage(new HostGame(), "bg-hostgame", "arrow-host-left", "arrow-host-right"));
   pushPage(new APage(new JoinGame(), "bg-joingame", "arrow-join-left", "arrow-join-right"));
-  // pushPage(new APage(new ItemList(), "bg", "right", "left"));
   pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
   pushPage(new APage(new LeaderBoards(), "bg-leaderboards", "arrow-leaderboard-left", "arrow-leaderboard-right"));
   pushPage(new APage(new KeyBindSlide(), "bg-keybind", "arrow-keybind-left", "arrow-keybind-right"));

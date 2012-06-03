@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May  3 15:35:37 2012 geoffroy lafontaine
-// Last update Sun Jun  3 16:09:40 2012 lois burg
+// Last update Sun Jun  3 19:42:04 2012 lois burg
 //
 
 #include "VelocityPowerup.hh"
@@ -32,10 +32,7 @@ void VelocityPowerup::activate(Player& p)
 {
   if (!toRemove())
     {
-      std::cout << p.getSpeed() << std::endl;
-      std::cout << "Velocity up!" << std::endl;
       p.setSpeed(p.getSpeed() + 1);
-      std::cout << p.getSpeed() << std::endl;
       APowerup::activate(p);
     }
 }

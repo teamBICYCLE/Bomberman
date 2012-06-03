@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Fri Jun  1 14:23:31 2012 lois burg
+// Last update Sun Jun  3 19:43:27 2012 lois burg
 //
 
 #include <utility>
@@ -77,7 +77,6 @@ void	HostGame::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *
 	  select_.watch();
 	  if (select_.canRead(serv_->getSockDesc()))
 	    {
-	      std::cout << "New client!" << std::endl;
 	      try {
 		clients_[curClient_] = serv_->accept();
 		curClient_++;
@@ -239,7 +238,6 @@ void	HostGame::createServSock(void)
 {
   try {
     serv_ = new TCPServerSocket(Online::ServPort, nbPlayers_ - 1);
-    std::cout << "Listening on: " << Online::ServPort << std::endl;
   } catch (SocketException& e) {
     std::cerr << "Connection error: " << e.what() << std::endl;
     serv_ = NULL;

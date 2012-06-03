@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 15:43:22 2012 thibault carpentier
+// Last update Sun Jun  3 19:39:48 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -59,7 +59,6 @@ bool	AdventureState::init()
 
 void	AdventureState::cleanUp()
 {
-  std::cout << "clean up Adventure" << std::endl;
   Thinking::Brain::getBrain(0, 0);
   delete curMap_;
   PlayState::cleanUp();
@@ -71,12 +70,10 @@ void	AdventureState::win(StatesManager *mngr)
   std::stringstream	ss;
 
   (void)mngr;
-  std::cout << "YOU WIN" << std::endl;
   if (curMapId_ != nbMaps_)
     ++curMapId_;
   if (curMapId_ == nbMaps_)
     {
-      std::cout << "CONGRATS!" << std::endl;
       cH = createInGameCH();
       cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
       cH->setArrowFocus(false);
