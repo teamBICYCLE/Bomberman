@@ -57,7 +57,7 @@ void DangerMap::updateCaseVison(const AObject* it)
 
   if (y >= 0 && y < y_ && x >= 0 && x < x_)
     {
-      if ((*it).getType() != "Brick" && (*it).getType() != "Player" && (*it).getType() != "Block")
+      if ((*it).getType() != "Brick" && (*it).getType() != "Player")
 	it->setDanger(danger_, *objs_, x_, y_);
       if ((*it).getType() == "Player" || (*it).getType() == "Monster")
 	it->setVirtualPheromones(danger_, *objs_, x_, y_);
