@@ -40,8 +40,8 @@ namespace	Bomberman
     virtual void	draw(void);
     virtual void	interact(Character *ch, std::list<AObject*>& objs);
     virtual void	setVirtualPheromones(std::vector<std::vector<std::pair<int, int> > > &map,
-					     std::list<AObject*>objs,
-					     int x, int y) const;
+                                             std::list<AObject*>objs,
+                                             int x, int y) const;
 
   public:
     /* Serialization */
@@ -72,6 +72,7 @@ namespace	Bomberman
     uint	damage_;
     Bomberman::Thinking::Brain *brainScript_;
     gdlModel    model_;
+    double      h_;
   };
 }
 

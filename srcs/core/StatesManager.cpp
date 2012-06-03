@@ -9,7 +9,6 @@
 
 #include <unistd.h>
 #include "StatesManager.hh"
-#include "Menu/MenuState.hh"
 #include "ModelHandler.hh"
 #include "TexturedCube.hh"
 #include "gdlModel.hh"

@@ -18,7 +18,7 @@ using namespace Bomberman;
 
 Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
   : Character(pos, rot, sz, "Monster", 1, MONSTER_SPEED), moved_(false), damage_(damage), brainScript_(b),
-    model_(ModelHandler::get().getModel("ghost"))
+    model_(ModelHandler::get().getModel("ghost")), h_(0)
 {
   //  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
@@ -33,7 +33,7 @@ Monster::Monster(const Monster &other)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage()),
       brainScript_(other.brainScript_),
-      model_(other.model_)
+      model_(other.model_), h_(0)
 {
     isInvincible_ = other.isInvincible_;
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
@@ -42,7 +42,7 @@ Monster::Monster(const Monster &other)
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_(NULL), model_(ModelHandler::get().getModel("ghost"))
+  : Character("Monster"), moved_(false), brainScript_(NULL), model_(ModelHandler::get().getModel("ghost")), h_(0)
 {
     isInvincible_ = false;
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
@@ -71,6 +71,9 @@ void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject
   brainScript_->addParam(pos_.y);
   brainScript_->callFct(1);
   update(clock, brainScript_->getDecision(), objs);
+  h_ = fmod(clock.getTotalGameTime() / 2, 2);
+  h_ = -((h_ - 1)*(h_ - 1)) + 1;
+  h_ /= 3.0f;
   (void)keys;
 }
 
@@ -84,6 +87,8 @@ void		Monster::update(gdl::GameClock& clock, eDirection direction, std::list<AOb
   for (objIt = objs.begin(); objIt != objs.end() && save_ != pos_; ++objIt)
     if (bBox_->collideWith(*objIt))
       (*objIt)->interact(this, objs);
+  h_ = fmod(clock.getTotalGameTime() / 2, 2) / 5;
+  h_ = -((h_ - 1)*(h_ - 1)) + 1;
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -92,7 +97,7 @@ void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 1.2);
+  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 1.2 + h_);
   glScaled(0.3, 0.3, 0.43);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);

@@ -10,7 +10,6 @@
 
 #include <GDL/ModelException.hpp>
 #include "StatesManager.hh"
-#include "Menu/MenuState.hh"
 #include "AdventureState.hh"
 #include "TwitterConnection.hh"
 #include "IntroState.hh"

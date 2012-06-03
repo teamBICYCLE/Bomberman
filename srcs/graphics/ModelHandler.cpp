@@ -28,10 +28,6 @@ void      ModelHandler::preload()
         "teambicycle-production");
   storeModel(new flatTexture("Ressources/Images/Menu/bg.png"),
         "mainbg");
-  storeModel(new flatTexture("Ressources/Images/Menu/left.png"),
-        "left");
-  storeModel(new flatTexture("Ressources/Images/Menu/right.png"),
-        "right");
   storeModel(new flatTexture("Ressources/Images/Play/hud.png"),
         "hud");
 
@@ -50,6 +46,15 @@ void      ModelHandler::preload()
         "looses");
   storeModel(new flatTexture("Ressources/Images/Menu/draw.png"),
         "draw");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-empty.png"),
+        "bg-empty");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-credits-left.png"),
+        "arrow-credit-left");
+  storeModel(new flatTexture("Ressources/Images/Menu/arrow-credits-right.png"),
+        "arrow-credit-right");
+  storeModel(new flatTexture("Ressources/Images/Menu/credits.png"),
+        "credits");
 
   /* Save load */
   storeModel(new flatTexture("Ressources/Images/Menu/bg-load.png"),
