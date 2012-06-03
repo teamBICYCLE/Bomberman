@@ -54,7 +54,6 @@ bool  IntroState::init(void)
 
 void  IntroState::cleanUp()
 {
-  std::cout << "clean up Intro" << std::endl;
 }
 
 void  IntroState::update(StatesManager * sMg, double delta)
@@ -103,7 +102,6 @@ void  IntroState::draw(StatesManager * sMg)
   glEnable(GL_SRC_ALPHA);
   this->bicycle_.bind();
   glBegin(GL_QUADS);
-  //glColor3f(1.0f, 0.50f, 0.75f);
   glTexCoord2i(0, 0);
   glVertex2d(0, 140.0f);
   glTexCoord2i(0, 1);
@@ -120,10 +118,8 @@ void  IntroState::draw(StatesManager * sMg)
 
 void  IntroState::pause()
 {
-  std::cout << "pause Intro" << std::endl;
 }
 
 void  IntroState::resume()
 {
-  std::cout << "resume Intro" << std::endl;
 }

@@ -7,10 +7,9 @@ function this.thinkingMonster(this, x, y)
    local danger = getZoneDanger(this,floor(x), floor(y))
    local pheromones = getZonePheromones(this, x, y)
 
-   -- print("Monster")
    if ((danger * 10) > (pheromones / 10) * 0.7)
     then
-       return (center(x, y, getLessDangerousDirection(this, x, y , danger, MONSTER)))
+       return  (center(x, y, escapeDanger(this, x, y, danger, GHOST)))
     elseif (pheromones > 0)
     then
        return (center(x, y, trackPlayer(this, x, y, MONSTER)))
@@ -23,10 +22,9 @@ function this.thinkingGhost(this, x, y)
    local danger = getZoneDanger(this,floor(x), floor(y))
    local pheromones = getZonePheromones(this, x, y)
 
-   -- print("Ghost")
    if ((danger * 10) > (pheromones / 10) * 0.9)
     then
-       return (center(x, y, getLessDangerousDirection(this, x, y , danger, GHOST)))
+       return  (center(x, y, escapeDanger(this, x, y, danger, GHOST)))
     elseif (pheromones > 0)
     then
        return (center(x, y, trackPlayer(this, x, y, GHOST)))

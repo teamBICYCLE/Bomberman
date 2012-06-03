@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 15:43:22 2012 thibault carpentier
+// Last update Sun Jun  3 20:08:56 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -59,7 +59,6 @@ bool	AdventureState::init()
 
 void	AdventureState::cleanUp()
 {
-  std::cout << "clean up Adventure" << std::endl;
   Thinking::Brain::getBrain(0, 0);
   delete curMap_;
   PlayState::cleanUp();
@@ -71,12 +70,10 @@ void	AdventureState::win(StatesManager *mngr)
   std::stringstream	ss;
 
   (void)mngr;
-  std::cout << "YOU WIN" << std::endl;
   if (curMapId_ != nbMaps_)
     ++curMapId_;
   if (curMapId_ == nbMaps_)
     {
-      std::cout << "CONGRATS!" << std::endl;
       cH = createInGameCH();
       cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
       cH->setArrowFocus(false);
@@ -97,6 +94,8 @@ void	AdventureState::win(StatesManager *mngr)
         camera_.setHeightWidth(mapW_, mapH_);
         objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
 	danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+	readyUp_ = 4.0f;
+	lastTime_ = -1;
       } catch (Map::Failure& e) {
         std::cerr << e.what() << std::endl;
         mngr->popState();
@@ -108,6 +107,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
 {
   std::stringstream	ss;
 
+  std::cout << "Gameover" << std::endl;
   (void)mngr;
   curMapId_ = 0;
   delete curMap_;
@@ -122,6 +122,8 @@ void	AdventureState::gameOver(StatesManager *mngr)
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
     danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
+    readyUp_ = 4.0f;
+    lastTime_ = -1;
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
     mngr->popState();

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Sun Jun  3 16:03:18 2012 lois burg
+// Last update Sun Jun  3 19:39:09 2012 lois burg
 //
 
 #include <iostream>
@@ -46,14 +46,11 @@ bool	ClientState::init()
       {
 	std::iostream& sockStream = serv_->getStream();
 
-	std::cout << "Client connected to : " << host_ << std::endl;
 	sockStream >> seed;
 	sockStream >> playerNbr_;
 	sockStream >> nbPlayers_;
-	std::cout << "The seed is: " << seed << ", I am the player #" << playerNbr_ << " out of " << nbPlayers_ << "players." << std::endl;
 	characterToUpdate_ = playerNbr_;
 	srand(seed);
-	std::cout << "Seed : " << seed << std::endl;
 	try {
 	  Map	map(13, 13, nbPlayers_, 0, 0);
 	  mapH_ = map.getHeight();
@@ -82,7 +79,6 @@ bool	ClientState::init()
 
 void	ClientState::cleanUp()
 {
-  std::cout << "Cleanup client" << std::endl;
   delete serv_;
   PlayState::cleanUp();
 }
@@ -94,7 +90,7 @@ void	ClientState::update(StatesManager *mngr, double delta)
   Player	*plyr;
 
   if (disconnected_)
-    mngr->popState();//faire plus smooth
+    mngr->popState();
   else if (serv_)
     {
       select_.reset();
@@ -109,7 +105,7 @@ void	ClientState::update(StatesManager *mngr, double delta)
       PlayState::update(mngr, delta);
       if ((plyr = getPlayerWithId(objs_, playerNbr_)))
 	packet = plyr->pack(mngr->getInput());
-      if (readyUp_ <= 0 && serv_ && !disconnected_ && packet.isUseful())
+      if (readyUp_ <= 0 && serv_ && !disconnected_)
 	sendPacket(serv_->getStream(), packet);
     }
 }

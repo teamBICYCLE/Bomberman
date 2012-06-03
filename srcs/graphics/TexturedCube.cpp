@@ -27,9 +27,7 @@ TexturedCube::TexturedCube(const AModel &orig)
     coef_(dynamic_cast<const TexturedCube *>(&orig)->coef_),
     endAnimMax_(0.5f + ((rand() % 151) / 100.0f)), endAnim_(endAnimMax_),
     startAnim_((rand() % 51) / 100.0f), lastTime_(-1)
-{
-  std::cout << "endanim: " << endAnim_ << std::endl;
-}
+{}
 
 void TexturedCube::draw()
 {
@@ -51,30 +49,6 @@ void TexturedCube::draw()
   glTexCoord2d(0.0f, 0.5f); glVertex3f(1, 1, 0);
   glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 1, 0);
   glTexCoord2d(0.34f, 0.0f); glVertex3f(0, 1, 1);
-
-//  glNormal3d(1, 0, 0);
-//  glTexCoord2d(0.34f, 0.0f); glVertex3f(1, 0, 1);
-//  glTexCoord2d(0.34f, 0.5f); glVertex3f(1, 0, 0);
-//  glTexCoord2d(0.67f, 0.5f);  glVertex3f(1, 1, 0);
-//  glTexCoord2d(0.67f, 0.0f); glVertex3f(1, 1, 1);
-
-//  glNormal3d(0, -1, 0);
-//  glTexCoord2d(0.67f, 0.0f); glVertex3f(0, 0, 1);
-//  glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 0, 0);
-//  glTexCoord2d(1.0f, 0.5f);  glVertex3f(1, 0, 0);
-//  glTexCoord2d(1.0f, 0.0f);  glVertex3f(1, 0, 1);
-
-//  glNormal3d(-1, 0, 0);
-//  glTexCoord2d(0.0f, 0.5f);  glVertex3f(0, 1, 1);
-//  glTexCoord2d(0.0f, 1.0f); glVertex3f(0, 1, 0);
-//  glTexCoord2d(0.34f, 1.0f);  glVertex3f(0, 0, 0);
-//  glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 0, 1);
-
-//  glNormal3d(0, 0, -1);
-//  glTexCoord2d(0.34f, 0.5f); glVertex3f(0, 0, 0);
-//  glTexCoord2d(0.34f, 1.0f);  glVertex3f(1, 0, 0);
-//  glTexCoord2d(0.67f, 1.0f);  glVertex3f(1, 1, 0);
-//  glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 1, 0);
 
   glNormal3d(0, 0, 1);
   glTexCoord2d(0.67f, 0.5f);  glVertex3f(0, 0, 1);
@@ -101,7 +75,6 @@ void TexturedCube::update(gdl::GameClock &clock)
   else if (endAnim_ <= 0)
     coef_ = 1.0f;
   lastTime_ = now;
- // std::cout << "coef: " << coef_  << " " << endAnim_ << "-" << endAnimMax_<< std::endl;
 }
 
 AModel &TexturedCube::clone(void)

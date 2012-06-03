@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 17 16:56:25 2012 lois burg
-// Last update Sun May 27 18:37:43 2012 lois burg
+// Last update Sun Jun  3 19:41:27 2012 lois burg
 //
 
 #ifndef		__MINE_HH__
@@ -42,9 +42,6 @@ namespace	Bomberman
     virtual void	unserialize(QDataStream &in);
     static void		sInit(void);
     void            toQvariant(QSettings &w) const;
-
-    /* tmp */
-    void aff2(void) const;
 
   public:
     void	setChainReaction(bool b);

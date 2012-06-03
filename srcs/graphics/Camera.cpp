@@ -32,15 +32,10 @@ void Camera::setHeightWidth(size_t mapW, size_t mapH)
 
 void    Camera::initialize()
 {
-  //  glMatrixMode(GL_PROJECTION);
-  //  glLoadIdentity();
-  //  gluPerspective(Camera::fov, Camera::winxSize / this->winySize,
-  //                 this->zNear, Camera::zFar);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
-  //glEnable(GL_LIGHTING);
 }
 
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
@@ -57,70 +52,72 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
     glDisable(GL_LIGHTING);
 
   std::for_each(objs.begin(), objs.end(), [&](Bomberman::AObject * obj) -> void {
-                if (dynamic_cast<Bomberman::Player *>(obj))
-  {
-                Vector3d local = obj->getPos();
+      if (dynamic_cast<Bomberman::Player *>(obj))
+	{
+	  Vector3d local = obj->getPos();
 
-      if (local.x < min.x || min.x == -1)
-      min.x = local.x;
-  if (local.x > max.x)
-    max.x = local.x;
-  if (local.y < min.y || min.y == -1)
-    min.y = local.y;
-  if (local.y > max.y)
-    max.y = local.y;
-  position += obj->getPos();
-  ++i;
-}
-});
-max.x = (max.x - min.x) + 2;
-max.x = max.x >= 16 ? max.x : 16;
-max.y = (max.y - min.y) + 1.125;
-max.y = max.y >= 9 ? max.y : 9;
-if (max.x / 16.0f >= max.y / 9.0f)
-{
-  zoom.x = max.x;
-  zoom.y = zoom.x * (9.0f/16.0f);
-}
-else
-{
-  zoom.y = max.y;
-  zoom.x = zoom.y * (16.0f/9.0f);
-}
-position /= i;
+	  if (local.x < min.x || min.x == -1)
+	    min.x = local.x;
+	  if (local.x > max.x)
+	    max.x = local.x;
+	  if (local.y < min.y || min.y == -1)
+	    min.y = local.y;
+	  if (local.y > max.y)
+	    max.y = local.y;
+	  position += obj->getPos();
+	  ++i;
+	}
+    });
+  max.x = (max.x - min.x) + 2;
+  max.x = max.x >= 16 ? max.x : 16;
+  max.y = (max.y - min.y) + 1.125;
+  max.y = max.y >= 9 ? max.y : 9;
+  if (max.x / 16.0f >= max.y / 9.0f)
+    {
+      zoom.x = max.x;
+      zoom.y = zoom.x * (9.0f/16.0f);
+    }
+  else
+    {
+      zoom.y = max.y;
+      zoom.x = zoom.y * (16.0f/9.0f);
+    }
+  if (i)
+    position /= i;
 
 #define MAX_X_VALUE ((mapW_ / 2.0f) < (zoom.x / 2.0f) - 2.0f ? (mapW_ / 2.0f) : (zoom.x / 2.0f) - 2.0f)
-if (position.x < MAX_X_VALUE)
-  position.x = MAX_X_VALUE;
-else if (position.x > mapW_ - MAX_X_VALUE)
-position.x = mapW_ - MAX_X_VALUE;
+  if (position.x < MAX_X_VALUE)
+    position.x = MAX_X_VALUE;
+  else if (position.x > mapW_ - MAX_X_VALUE)
+    position.x = mapW_ - MAX_X_VALUE;
 #undef MAX_X_VALUE
 
 #define MAX_Y_VALUE ((mapH_ / 2.0f) < (zoom.y / 2.0f) - 2.0f  ? (mapH_ / 2.0f) : (zoom.y / 2.0f) - 2.0f)
-if (position.y < MAX_Y_VALUE)
-  position.y = MAX_Y_VALUE;
-else if (position.y > mapH_ - MAX_Y_VALUE)
-  position.y = mapH_ - MAX_Y_VALUE;
-position.y -= 0.5;
+  if (position.y < MAX_Y_VALUE)
+    position.y = MAX_Y_VALUE;
+  else if (position.y > mapH_ - MAX_Y_VALUE)
+    position.y = mapH_ - MAX_Y_VALUE;
+  position.y -= 0.5;
 #undef MAX_Y_VALUE
 
-if (anim_ <= 0)
-{
-  attenuateTransition(position_, position);
-  attenuateTransition(zoom_, zoom);
-}
+  if (anim_ <= 0)
+    {
+      attenuateTransition(position_, position);
+      attenuateTransition(zoom_, zoom);
+    }
 
-if (lastTime_ == -1)
-  lastTime_ = now;
-if (anim_ > 0)
-{
-    position_ = position;
-    zoom_ = zoom;
-    anim_ -= now - lastTime_;
+  if (lastTime_ == -1)
     lastTime_ = now;
-    position_.y += exp(anim_) - 1;
-    zoom_ /= exp(anim_ * 1.0f);
-  }
+  if (anim_ > 0)
+    {
+      position_ = position;
+      zoom_ = zoom;
+      anim_ -= now - lastTime_;
+      lastTime_ = now;
+      position_.y += exp(anim_) - 1;
+      zoom_ /= exp(anim_ * 1.0f);
+    }
+  std::cout << "position_ : " << position_ << ", zoom_: " << zoom_ << std::endl;
 }
 
 void    Camera::draw()
@@ -140,27 +137,6 @@ void    Camera::draw()
             0.0, 1, 0);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
-
-  //  glEnable(GL_LIGHT0);
-  //  GLfloat ambient[] = { 0.13,0.13,0.13,1.0 };
-  //  GLfloat diffuse[] = { 0.8,0.8,0.8,1.0 };
-  //  GLfloat specular[] = { 0.5,0.5,0.5,1.0 };
-  //  GLfloat shinines[] = { 5.0 };
-  //  glEnable(GL_COLOR_MATERIAL);
-  //              glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
-  //  glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-  //  glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse);
-  //  glMaterialfv(GL_FRONT,GL_SPECULAR, specular);
-  //  glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
-  //  glLightfv(GL_LIGHT0,GL_DIFFUSE,diffuse);
-  //  glMaterialfv(GL_FRONT,GL_SHININESS, shinines);
-  //  GLfloat  pos[4];
-  //  pos[0] = -20;
-  //  pos[1] = -20;
-  //  pos[2] = 60;
-  //  pos[3] = 1;
-  //  glLightfv(GL_LIGHT0, GL_POSITION, pos);
-  //  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
 
 void   Camera::drawRepere()

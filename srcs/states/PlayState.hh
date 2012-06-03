@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 17:54:59 2012 lois burg
-// Last update Sun Jun  3 16:04:12 2012 lois burg
+// Last update Sun Jun  3 19:41:38 2012 thibault carpentier
 //
 
 #ifndef		__PLAYSTATE_HH__

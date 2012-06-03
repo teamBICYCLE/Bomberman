@@ -19,7 +19,6 @@ Sounds::Sounds()
   FMOD_System_Create(&system_);
   FMOD_System_Init(system_, maxchannel_, FMOD_INIT_NORMAL, NULL);
   preload();
-  std::cout << "sounds init" << std::endl;
 }
 
 Sounds::~Sounds()

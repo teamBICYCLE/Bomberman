@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Sat May  5 11:46:41 2012 thibault carpentier
-// Last update Thu May 31 15:06:49 2012 thibault carpentier
+// Last update Sun Jun  3 20:56:58 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -13,7 +13,6 @@
 #include "Script.hh"
 #include "RestoreStack.hh"
 #include "This.hh"
-#include "LoadScript.hh"
 #include "VirtualMachine.hh"
 #include "Failure.hh"
 
@@ -62,7 +61,6 @@ Script::Script(void)
       lua_rawgeti(VM_.getLua(), LUA_REGISTRYINDEX, refThis_);
       lua_pushlightuserdata(VM_.getLua(), this);
       lua_rawseti(VM_.getLua(), -2, 0);
-      std::cout << "Scripting machine Initialised" << std::endl;
     }
 }
 
@@ -75,7 +73,6 @@ Script::~Script(void)
       lua_rawgeti(VM_.getLua(), LUA_REGISTRYINDEX, refThis_);
       lua_pushnil(VM_.getLua());
       lua_rawseti(VM_.getLua(), -2, 0);
-      std::cout << "Scripting machine destroyed" << std::endl;
     }
 }
 
@@ -129,9 +126,7 @@ void Script::addParam(float param)
 bool Script::compileFile(const std::string &filename)
 {
   bool fSuccess = false;
-  LoadScript scriptloader;
 
-  (void)scriptloader;
   if (!VM_.isFonctionnal())
     return false;
   This luaThis(VM_, refThis_);

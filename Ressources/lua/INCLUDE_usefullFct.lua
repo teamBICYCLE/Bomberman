@@ -212,20 +212,16 @@ function exploreMap(this, x, y, type)
    return (goodDir[decision])
 end
 
--- function escapeDanger(this, x, y, danger, type)
---    print(danger)
---    if (danger > 2.5)
---    then
---       print("FEAR mode enabled")
---       return (getLessDangerousDirection(this, x, y, type))
---    end
---    math.randomseed(os.time())
---    local mad = math.random(1, 100)
---    if (mad > 30)
---    then
---       print("EXPLORATION mode enabled")
---       return (exploreMap(this, x, y))
---    end
---    print("FEAR mode enabled")
---    return (getLessDangerousDirection(this, x, y, type))
--- end
+function escapeDanger(this, x, y, danger, type)
+   if (danger > 1.11)
+   then
+      return (getLessDangerousDirection(this, x, y, type))
+   end
+   math.randomseed(os.time())
+   local mad = math.random(1, 100)
+   if (mad > 30)
+   then
+      return (exploreMap(this, x, y))
+   end
+   return (getLessDangerousDirection(this, x, y, type))
+end
