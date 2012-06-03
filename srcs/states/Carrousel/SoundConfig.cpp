@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sat Jun  2 13:02:16 2012 lois burg
+// Last update Sun Jun  3 15:21:24 2012 lois burg
 //
 
 #include <utility>
@@ -19,7 +19,9 @@ using namespace	Bomberman;
 
 SoundConfig::SoundConfig()
   : returnHit_(false), upHit_(false), downHit_(false),
-    musicEnabled_(true), effectsEnabled_(true), currentSelection_(0)
+    musicEnabled_(Sounds::instance().getPlayMusic()),
+    effectsEnabled_(Sounds::instance().getPlayEffect()),
+    currentSelection_(0)
 {
   paramMap_.insert(std::make_pair(gdl::Keys::Up, &SoundConfig::upArrow));
   paramMap_.insert(std::make_pair(gdl::Keys::Down, &SoundConfig::downArrow));

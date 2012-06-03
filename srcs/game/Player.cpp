@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 13:54:49 2012 lois burg
+// Last update Sun Jun  3 17:17:03 2012 lois burg
 //
 
 #include <algorithm>
@@ -22,17 +22,17 @@
 using namespace	Bomberman;
 
 Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
-  : Character(pos, rot, sz, "Player", 1, 0.05), nbBombs_(1), nbMines_(0), bombRange_(2),
+  : Character(pos, rot, sz, "Player", 1, 3), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(3.0f), moved_(false), bombCollide_(true), wasRunning_(false), score_(0), kickAbility_(false),
     model_(ModelHandler::get().getModel("bombman")), hud_(ModelHandler::get().getModel("hud")),
-    isNetworkControlled_(false)
+    isNetworkControlled_(false), delta_(1)
 {
   srand(((id_ + 5) * 111) - 8);
-  color_ = Vector3d(static_cast<float>(rand() % 101) / 100
-                    , static_cast<float>(rand() % 101) / 100,
+  color_ = Vector3d(static_cast<float>(rand() % 101) / 100,
+		    static_cast<float>(rand() % 101) / 100,
                     static_cast<float>(rand() % 101) / 100);
   //std::cout << color_.x << std::endl;
-  isInvincible_ = true;
+  // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
   // nbMines_ = 1;
@@ -77,7 +77,7 @@ Player::Player()
   : Character("Player"), nbBombs_(1), nbMines_(0), bombRange_(2),
     bombTime_(2.0f), moved_(false), bombCollide_(true), wasRunning_(false),
     score_(0), kickAbility_(false), model_(ModelHandler::get().getModel("bombman")),
-    hud_(ModelHandler::get().getModel("hud")), isNetworkControlled_(false)
+    hud_(ModelHandler::get().getModel("hud")), isNetworkControlled_(false), delta_(1)
 {
   bBox_ = new BoundingBox(pos_, sz_, this);
 
@@ -121,7 +121,7 @@ Player::Player(const Player &other)
       bombTime_(other.bombTime_), moved_(other.moved_),
       bombCollide_(other.bombCollide_), wasRunning_(other.wasRunning_), score_(other.score_),
       kickAbility_(other.kickAbility_), model_(other.model_), hud_(other.hud_), isNetworkControlled_(other.isNetworkControlled_),
-      color_(other.color_)
+      color_(other.color_), delta_(other.delta_)
 {
   isInvincible_ = other.isInvincible_;
   bBox_ = new BoundingBox(pos_, sz_, this);
@@ -155,6 +155,8 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
   std::list<AObject*>::iterator		objIt;
   std::map<gdl::Keys::Key, t_playerActionFun>::iterator it;
 
+  deltaSpeed_ = delta_ * speed_;
+  std::cout << "delta * speed_: " << deltaSpeed_ << std::endl;
   for (it = actionsMap_.begin(); life_ && it != actionsMap_.end(); ++it)
     if (keys.isKeyDown(it->first) || (isNetworkControlled_ && networkMap_[it->first]))
       {
@@ -179,9 +181,9 @@ void		Player::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*
             }
       }
   //la detection des collisions s'arrete si le joueur a retrouver sa position initiale
-  this->model_.getModel().set_anim_speed("run", 1 + this->speed_);
-  this->model_.getModel().set_anim_speed("start", 1 + this->speed_);
-  this->model_.getModel().set_anim_speed("stop", 1 + this->speed_);
+  this->model_.getModel().set_anim_speed("run", 1 + deltaSpeed_);
+  this->model_.getModel().set_anim_speed("start", 1 + deltaSpeed_);
+  this->model_.getModel().set_anim_speed("stop", 1 + deltaSpeed_);
   this->moveAnimation();
   this->model_.update(clock);
 }
@@ -303,29 +305,45 @@ void	Player::interact(Character *ch, std::list<AObject*>& objs)
 
 void	Player::turnLeft(std::list<AObject*>& objs)
 {
+  double	origSpeed = speed_;
+
   (void)objs;
+  speed_ = deltaSpeed_;
   Character::turnLeft();
+  speed_ = origSpeed;
   moved_ = true;
 }
 
 void	Player::turnRight(std::list<AObject*>& objs)
 {
+  double	origSpeed = speed_;
+
   (void)objs;
+  speed_ = deltaSpeed_;
   Character::turnRight();
+  speed_ = origSpeed;
   moved_ = true;
 }
 
 void	Player::turnUp(std::list<AObject*>& objs)
 {
+  double	origSpeed = speed_;
+
   (void)objs;
+  speed_ = deltaSpeed_;
   Character::turnUp();
+  speed_ = origSpeed;
   moved_ = true;
 }
 
 void	Player::turnDown(std::list<AObject*>& objs)
 {
+  double	origSpeed = speed_;
+
   (void)objs;
+  speed_ = deltaSpeed_;
   Character::turnDown();
+  speed_ = origSpeed;
   moved_ = true;
 }
 
@@ -442,6 +460,11 @@ void	Player::setNetworkControlled(bool b)
   isNetworkControlled_ = b;
 }
 
+void	Player::setDelta(double d)
+{
+  delta_ = d;
+}
+
 void    Player::moveAnimation(void)
 {
   if (moved_)
@@ -536,6 +559,7 @@ void Player::serialize(QDataStream &out) const
     out << score_;
     out << kickAbility_;
     out << isNetworkControlled_;
+    out << delta_;
 }
 
 void Player::unserialize(QDataStream &in)
@@ -563,6 +587,7 @@ void Player::unserialize(QDataStream &in)
     in >> score_;
     in >> kickAbility_;
     in >> isNetworkControlled_;
+    in >> delta_;
 }
 
 void Player::sInit(void)

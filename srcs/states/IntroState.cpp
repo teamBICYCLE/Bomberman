@@ -57,8 +57,9 @@ void  IntroState::cleanUp()
   std::cout << "clean up Intro" << std::endl;
 }
 
-void  IntroState::update(StatesManager * sMg)
+void  IntroState::update(StatesManager * sMg, double delta)
 {
+  (void)delta;
    if (x_ < 560.5)
      x_+= 10;
    else if (!sndPlayed_)

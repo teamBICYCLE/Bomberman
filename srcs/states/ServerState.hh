@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:52:44 2012 lois burg
-// Last update Fri Jun  1 11:22:54 2012 lois burg
+// Last update Sun Jun  3 16:04:26 2012 lois burg
 //
 
 #ifndef		__SERVERSTATE_HH__
@@ -32,7 +32,7 @@ namespace	Bomberman
       virtual bool init();
       virtual void cleanUp();
 
-      virtual void update(StatesManager *mngr);
+      virtual void update(StatesManager *mngr, double delta = -1);
 
       // virtual void win(StatesManager *mngr);
       // virtual void gameOver(StatesManager *mngr);

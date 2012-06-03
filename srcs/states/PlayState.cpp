@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 13:54:58 2012 lois burg
+// Last update Sun Jun  3 16:03:57 2012 lois burg
 //
 
 #include <iostream>
@@ -110,7 +110,7 @@ void	PlayState::clearObjs(void)
   objs_.clear();
 }
 
-void  PlayState::update(StatesManager *sMg)
+void  PlayState::update(StatesManager *sMg, double delta)
 {
   int		nbPlayers = 0;
   int		nbMonsters = 0;
@@ -120,8 +120,8 @@ void  PlayState::update(StatesManager *sMg)
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-  if (danger)
-    danger->updateGameVision(&objs_);
+  // if (danger)
+  //   danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -132,10 +132,11 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      if (danger && *it)
-        danger->updateCaseVison(*it);
+      // if (danger && *it)
+      //   danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
+	  static_cast<Player*>(*it)->setDelta(delta);
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sat Jun  2 19:11:45 2012 lois burg
+// Last update Sun Jun  3 14:52:58 2012 lois burg
 //
 
 #include <sstream>
@@ -44,7 +44,12 @@ void	Loose::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg
 void	Loose::draw(void)
 {
   glPushMatrix();
+  glTranslated(530, 280, 0);
   playerLabel_->draw();
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslated(960, 312, 0);
   looseLabel_.draw();
   glPopMatrix();
 }
