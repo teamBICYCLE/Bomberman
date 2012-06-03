@@ -45,7 +45,6 @@ SOURCES += \
     srcs/ia/This.cpp \
     srcs/ia/Script.cpp \
     srcs/ia/RestoreStack.cpp \
-    srcs/ia/LoadScript.cpp \
     srcs/ia/Failure.cpp \
     srcs/ia/Debugger.cpp \
     srcs/ia/Brain.cpp \
@@ -140,7 +139,6 @@ HEADERS += \
     srcs/ia/Script.hh \
     srcs/ia/RestoreStack.hh \
     srcs/ia/luainc.hh \
-    srcs/ia/LoadScript.hh \
     srcs/ia/Failure.hh \
     srcs/ia/Brain.hh \
     srcs/states/PlayState.hh \

@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 14:47:20 2012 thibault carpentier
-// Last update Mon May 14 11:22:45 2012 Jonathan Machado
+// Last update Sun Jun  3 20:54:49 2012 thibault carpentier
 //
 
 #ifndef  _VIRTUALMACHINE_H_
@@ -24,25 +24,25 @@ namespace Bomberman
   {
     class VirtualMachine
     {
-    private:					   // debug class
+    private:						// debug class
       class Debugger
       {
       public:
-	Debugger(VirtualMachine &vm);      // init debug
-	~Debugger(void);				   // destroy debug
-	static int	setHook(lua_State *lua);	   // set a debug flags
+	Debugger(VirtualMachine &vm);			// init debug
+	~Debugger(void);			        // destroy debug
+	static int	setHook(lua_State *lua);	// set a debug flags
 
       private:
-	void	setFctHook(void);		   // init hookers
+	void	setFctHook(void);			// init hookers
 	Debugger(Debugger const &);
 	Debugger& operator=(Debugger const &);
-	VirtualMachine		&VM_;		   // VM instance
+	VirtualMachine		&VM_;			// VM instance
       };
 
-      lua_State		*vmState_;		  // luaStack
-      bool			isOk_;	                  // vm is ok ?
-      Debugger		*debug_;                  // debugger
-      static VirtualMachine *single_;                 // vm instance
+      lua_State		*vmState_;			// luaStack
+      bool			isOk_;	                // vm is ok ?
+      Debugger		*debug_;			// debugger
+      static VirtualMachine *single_;			// vm instance
 
       VirtualMachine(void);
       ~VirtualMachine(void);
@@ -53,16 +53,17 @@ namespace Bomberman
       VirtualMachine& operator=(VirtualMachine const &other);
 
     public:
-      static VirtualMachine *getVm(void);            // singleton getter
-      void addDebugger(Debugger *debug);            // stokcking the debugger (init in the initVM)
-      Debugger *getDebug(void) const;               // getting constructor
+      static VirtualMachine *getVm(void);		// singleton getter
+      void addDebugger(Debugger *debug);		// stokcking the debugger (init in the initVM)
+      Debugger *getDebug(void) const;			// getting constructor
 
-      bool isFonctionnal(void) const;		// checking is the vm is correctly init
-      lua_State *getLua(void) const;		// getting the luastack
+      bool isFonctionnal(void) const;			// checking is the vm is correctly init
+      lua_State *getLua(void) const;			// getting the luastack
 
-      static int printDebug(lua_State *state);	// debugging fonction used in luascript
+      static int printDebug(lua_State *state);		// debugging fonction used in luascript
       static int panic(lua_State *state);		// fonction called when luapanic
     };
   }
 }
+
 #endif /*!_VIRTUALMACHINE_H_*/

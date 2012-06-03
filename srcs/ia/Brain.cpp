@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sun Jun  3 20:34:21 2012 thibault carpentier
+// Last update Sun Jun  3 20:48:17 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -56,7 +56,6 @@ Brain *Brain::getBrain(int x, int y)
       destroy();
       return (getBrain(x, y));
     }
-  std::cout << instance_ << std::endl;
   return (instance_);
 }
 

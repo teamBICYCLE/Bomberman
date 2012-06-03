@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 14:47:22 2012 thibault carpentier
-// Last update Sun Jun  3 10:24:09 2012 thibault carpentier
+// Last update Sun Jun  3 20:57:37 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -52,16 +52,10 @@ int VirtualMachine::panic(lua_State *state)
 
 VirtualMachine::VirtualMachine(void)
   : vmState_(NULL), isOk_(false), debug_(NULL)
-{
-  if (initVm() == true)
-    std::cout << "VM is created." << std::endl;
-}
+{}
 
 VirtualMachine::~VirtualMachine(void)
-{
-  if (destroyVm() == true)
-  std::cout << "VM is destroyed." << std::endl;
-}
+{}
 
 bool VirtualMachine::initVm(void)
 {
@@ -74,8 +68,6 @@ bool VirtualMachine::initVm(void)
       lua_atpanic(vmState_, VirtualMachine::panic);
       lua_pushcclosure(vmState_, printDebug, 0);
       lua_setglobal(vmState_, "printDebug");
-      // lua_pushcclosure(vmState_, Debugger::setHook, 0);
-      // lua_setglobal(vmState_, "setHook");
       lua_pushinteger(vmState_, LUA_MASKCOUNT);
       lua_setglobal(vmState_, "MASKCOUNT");
       lua_pushinteger(vmState_, LUA_MASKLINE);
