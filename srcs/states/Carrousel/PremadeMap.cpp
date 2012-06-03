@@ -145,8 +145,8 @@ void PremadeMap::drawMapName(void) const
 void PremadeMap::drawArrow(void) const
 {
     glPushMatrix();
-    flatTexture arrow(Bomberman::ModelHandler::get().getModel("arrow_right"));
-    glTranslated(695, 573, 0);
+    flatTexture arrow(Bomberman::ModelHandler::get().getModel("double_arrow"));
+    glTranslated(680, 562, 0);
     arrow.draw();
     glPopMatrix();
 }
