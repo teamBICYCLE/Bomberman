@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 21:11:03 2012 thibault carpentier
+// Last update Sun Jun  3 21:26:59 2012 lois burg
 //
 
 #include <iostream>
@@ -120,7 +120,6 @@ void  PlayState::update(StatesManager *sMg, double delta)
   float		now = sMg->getGameClock().getTotalGameTime();
   std::		vector<AObject*> monsters;
 
-  std::cout << "Update!" << std::endl;
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
   if (danger)
