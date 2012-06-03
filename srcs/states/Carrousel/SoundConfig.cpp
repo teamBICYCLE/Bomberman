@@ -110,4 +110,5 @@ void	SoundConfig::toggleEffects(void)
 {
   effectsEnabled_ = !effectsEnabled_;
   Sounds::instance().setPlayEffect(effectsEnabled_);
+  Sounds::instance().playEffect("fxon");
 }

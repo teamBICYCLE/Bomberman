@@ -182,7 +182,8 @@ function trackPlayer(this, x, y, type)
    for  k = 1, table.getn(dir) do
       local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
       if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
-       and this:isCrossable(dirX[k], dirY[k], type) == 1)
+       and this:isCrossable(dirX[k], dirY[k], type) == 1
+    and getZoneDanger(this, floor(posX[k]), floor(posY[k])) ~= DANGER_MAX)
       then
 	 res_ph = tmp
 	 res_dir = dir[k]

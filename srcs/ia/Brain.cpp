@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:13 2012 thibault carpentier
-// Last update Sat Jun  2 21:26:37 2012 thibault carpentier
+// Last update Sun Jun  3 11:43:22 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -44,6 +44,40 @@ Brain::Brain()
 
 Brain::~Brain(void)
 {}
+
+Brain *Brain::instance_ = NULL;
+
+Brain *Brain::getBrain(int x, int y)
+{
+  if (!instance_)
+    {
+      instance_ = new Brain(x, y);
+      std::cout << "new Brain" << std::endl;
+    }
+  if (x != instance_->getX() && y != instance_->getY())
+    {
+      destroy();
+      return (getBrain(x, y));
+    }
+  else
+    ++instance_->ref_;
+  return (instance_);
+}
+
+void Brain::destroy()
+{
+  if (instance_)
+    {
+      if (instance_->ref_ == 0)
+	{
+	  delete instance_;
+	  std::cout << "delete Brain" << std::endl;
+	}
+      else
+	--instance_->ref_;
+      instance_ = NULL;
+    }
+}
 
 void Brain::initLua(void)
 {
@@ -240,31 +274,4 @@ void Brain::showRight(void)
 void Brain::showNodir(void)
 {
   std::cout << "NODIR" << std::endl;
-}
-
-
-/* Serialization */
-
-void Brain::serialize(QDataStream &out) const
-{
-  out << x_;
-  out << y_;
-}
-
-void Brain::unserialize(QDataStream &in)
-{
-    in >> x_;
-    in >> y_;
-}
-
-QDataStream &operator<<(QDataStream &out, const Brain &b)
-{
-  b.serialize(out);
-  return out;
-}
-
-QDataStream &operator>>(QDataStream &in, Brain &b)
-{
-  b.unserialize(in);
-  return in;
 }

@@ -19,7 +19,7 @@
 #include "Camera.hh"
 
 Camera::Camera(size_t mapW, size_t mapH)
-  : position_(5.f, 3.f, 1.0f), mapW_(0), mapH_(0), anim_(2.5f), lastTime_(-1)
+  : position_(-1.f, -1.f, -1.0f), mapW_(0), mapH_(0), anim_(2.5f), lastTime_(-1)
 {
   this->initialize();
 }
@@ -46,9 +46,9 @@ void    Camera::initialize()
 void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
                        std::list<Bomberman::AObject*>& objs)
 {
-  Vector3d    position;
+  Vector3d    position, zoom;
   Vector3d    min(-1, -1, 0), max(0, 0, 0);
-  int         i = 0;
+  float       i = 0.0f;
   float       now = gameClock.getTotalGameTime();
 
   (void)gameClock;
@@ -77,45 +77,50 @@ max.x = (max.x - min.x) + 2;
 max.x = max.x >= 16 ? max.x : 16;
 max.y = (max.y - min.y) + 1.125;
 max.y = max.y >= 9 ? max.y : 9;
-if (max.x / 16 >= max.y / 9)
+if (max.x / 16.0f >= max.y / 9.0f)
 {
-  zoom_.x = max.x;
-  zoom_.y = zoom_.x * (9.0f/16.0f);
+  zoom.x = max.x;
+  zoom.y = zoom.x * (9.0f/16.0f);
 }
 else
 {
-zoom_.y = max.y;
-zoom_.x = zoom_.y * (16.0f/9.0f);
+  zoom.y = max.y;
+  zoom.x = zoom.y * (16.0f/9.0f);
 }
 position /= i;
-position_ = position;
 
-#define MAX_X_VALUE ((mapW_ / 2) < (zoom_.x / 2) - 2 ? (mapW_ / 2) : (zoom_.x / 2) - 2)
-  if (position_.x < MAX_X_VALUE)
-position_.x = MAX_X_VALUE;
-  else if (position_.x > mapW_ - MAX_X_VALUE)
-position_.x = mapW_ - MAX_X_VALUE;
+#define MAX_X_VALUE ((mapW_ / 2.0f) < (zoom.x / 2.0f) - 2.0f ? (mapW_ / 2.0f) : (zoom.x / 2.0f) - 2.0f)
+if (position.x < MAX_X_VALUE)
+  position.x = MAX_X_VALUE;
+else if (position.x > mapW_ - MAX_X_VALUE)
+position.x = mapW_ - MAX_X_VALUE;
 #undef MAX_X_VALUE
 
-#define MAX_Y_VALUE ((mapH_ / 2) < (zoom_.y / 2) - 2  ? (mapH_ / 2) : (zoom_.y / 2) - 2)
-if (position_.y < MAX_Y_VALUE)
-  position_.y = MAX_Y_VALUE;
-else if (position_.y > mapH_ - MAX_Y_VALUE)
-  position_.y = mapH_ - MAX_Y_VALUE;
-position_.y -= 0.5;
+#define MAX_Y_VALUE ((mapH_ / 2.0f) < (zoom.y / 2.0f) - 2.0f  ? (mapH_ / 2.0f) : (zoom.y / 2.0f) - 2.0f)
+if (position.y < MAX_Y_VALUE)
+  position.y = MAX_Y_VALUE;
+else if (position.y > mapH_ - MAX_Y_VALUE)
+  position.y = mapH_ - MAX_Y_VALUE;
+position.y -= 0.5;
 #undef MAX_Y_VALUE
 
-//std::cout << "anim = " << anim_<< std::endl;
+if (anim_ <= 0)
+{
+  attenuateTransition(position_, position);
+  attenuateTransition(zoom_, zoom);
+}
+
 if (lastTime_ == -1)
   lastTime_ = now;
 if (anim_ > 0)
 {
+    position_ = position;
+    zoom_ = zoom;
     anim_ -= now - lastTime_;
     lastTime_ = now;
     position_.y += exp(anim_) - 1;
     zoom_ /= exp(anim_ * 1.0f);
   }
-
 }
 
 void    Camera::draw()
@@ -178,4 +183,15 @@ void   Camera::drawRepere()
   glVertex3f(1, 0, 0);
   glEnd();
   glColor3f(1, 1, 1);
+}
+
+void Camera::attenuateTransition(Vector3d &old, const Vector3d &dir, float max)
+{
+  float j;
+
+#define ABS(x) (x >= 0 ? x : -x)
+  for (j = 1.0f;  ABS(old.x - dir.x) / j > max ||
+       ABS(old.y - dir.y) / j > max; j += 0.5);
+  old.x -= (old.x - dir.x) / j;
+  old.y -= (old.y - dir.y) / j;
 }

@@ -31,7 +31,7 @@
 
 CarrouselHandler::CarrouselHandler(const std::string & bg, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
-    arrowsFocusLeft_(true), arrowsFocusRight_(true),
+    arrowsFocusLeft_(true), arrowsFocusRight_(true), escFocus_(true),
     bg_(Bomberman::ModelHandler::get().getModel(bg)), imgBg_(true), offset_(0),
     music_(music)
 {
@@ -40,7 +40,7 @@ CarrouselHandler::CarrouselHandler(const std::string & bg, const std::string & m
 
 CarrouselHandler::CarrouselHandler(GLvoid * data, const std::string & music)
   : activ_(0), leftPressed_(false), rightPressed_(false), escPressed_(true),
-    arrowsFocusLeft_(true), arrowsFocusRight_(true),
+    arrowsFocusLeft_(true), arrowsFocusRight_(true), escFocus_(true),
     bg_(Bomberman::ModelHandler::get().getModel("mainbg")),
     data_(data), imgBg_(false), offset_(0), music_(music)
 {
@@ -85,24 +85,19 @@ void CarrouselHandler::update(StatesManager * sMg)
     sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
-  if (arrowsFocusLeft_)
-    {
-      if (sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
-        {
-          --(*this);
-          Sounds::instance().playEffect("button");
-        }
-    }
-  if (arrowsFocusRight_)
-    {
-      if (sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
-        {
-          ++(*this);
-          Sounds::instance().playEffect("button");
-        }
-    }
-  if (sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
-    sMg->popState();
+
+    if (arrowsFocusLeft_ && sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
+      {
+        --(*this);
+        Sounds::instance().playEffect("button");
+      }
+    if (arrowsFocusRight_ && sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
+      {
+        ++(*this);
+        Sounds::instance().playEffect("button");
+      }
+    if (escFocus_ && sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
+      sMg->popState();
 
   leftPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Left);
   rightPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Right);
@@ -180,6 +175,11 @@ void CarrouselHandler::setArrowFocusRight(bool val)
   arrowsFocusRight_ = val;
 }
 
+void CarrouselHandler::setEscapeFocus(bool val)
+{
+  escFocus_ = val;
+}
+
 bool CarrouselHandler::getArrowFocusLeft() const
 {
   return arrowsFocusLeft_;
@@ -188,6 +188,11 @@ bool CarrouselHandler::getArrowFocusLeft() const
 bool CarrouselHandler::getArrowFocusRight() const
 {
   return arrowsFocusRight_;
+}
+
+bool CarrouselHandler::getEscapeFocus() const
+{
+  return escFocus_;
 }
 
 void CarrouselHandler::drawPreviousPreview()
