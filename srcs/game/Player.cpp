@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 10:27:44 2012 thibault carpentier
+// Last update Sun Jun  3 12:07:46 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -34,7 +34,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   //std::cout << color_.x << std::endl;
   isInvincible_ = true;
   // kickAbility_ = true;
-  // nbBombs_ = 5;
+  nbBombs_ = 50;
   nbMines_ = 1;
 
   std::cout << "id : " << id_ << std::endl;

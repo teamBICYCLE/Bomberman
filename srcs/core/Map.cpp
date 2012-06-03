@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Thu May 31 12:10:32 2012 thibault carpentier
+// Last update Sun Jun  3 11:11:34 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -170,7 +170,7 @@ void				Map::generateMonsters(uint nbMonsters)
   bool				find = false;
   Thinking::Brain   *b;
 
-  b = new Thinking::Brain(width_, height_);
+  b = Thinking::Brain::getBrain(width_, height_);
   while (nbMonsters > 0)
   {
       x = rand() % width_;
@@ -218,7 +218,7 @@ void				Map::generateGhosts(uint nbGhosts)
   bool				find = false;
   Thinking::Brain   *b;
 
-  b = new Thinking::Brain(width_, height_);
+  b = Thinking::Brain::getBrain(width_, height_);
   while (nbGhosts > 0)
   {
     x = rand() % width_;
@@ -373,7 +373,7 @@ void Map::setFromFile(std::list<std::string> &map)
 
     height_ = map.size();
     width_ = map.front().length();
-    b = new Thinking::Brain(width_, height_);
+    b = Thinking::Brain::getBrain(width_, height_);
     Map::addPlayers(map);
     for (itm = map.begin(); itm != map.end(); itm++)
     {
