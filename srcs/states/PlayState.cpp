@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 10:15:02 2012 lois burg
+// Last update Sun Jun  3 11:45:38 2012 lois burg
 //
 
 #include <iostream>
@@ -139,23 +139,23 @@ void  PlayState::update(StatesManager *sMg)
     {
       if (danger && *it)
         danger->updateCaseVison(*it);
-      if ((*it)->getType() == "Player")
+      if (dynamic_cast<Player*>(*it))
         {
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();
           winnerId_ = static_cast<Player*>(*it)->getId();
         }
-      else if ((*it)->getType() == "Monster")
+      else if (dynamic_cast<Monster*>(*it))
         {
           ++nbMonsters;
           if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
-          if ((*it)->getType() != "Player" || ((*it)->getType() == "Player" && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
+          if (!dynamic_cast<Player*>(*it) || (dynamic_cast<Player*>(*it) && static_cast<Player*>(*it)->getId() == characterToUpdate_) ||
               characterToUpdate_ == -1)
-            if ((*it)->getType() != "Monster")
+            if (!dynamic_cast<Monster*>(*it))
               (*it)->update(sMg->getGameClock(), sMg->getInput(), objs_);
           ++it;
         }
@@ -220,6 +220,7 @@ void	PlayState::win(StatesManager *mngr)
   score.save(bestScore_);
   cH = createInGameCH();
   cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  cH->setArrowFocus(false);
   mngr->pushState(cH);
   //    mngr->popState();//passer sur winstate
 }
@@ -233,6 +234,7 @@ void	PlayState::gameOver(StatesManager *mngr)
   score.save(bestScore_);
   cH = createInGameCH();
   cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  cH->setArrowFocus(false);
   mngr->pushState(cH);
   // mngr->popState();//passer sur gameOverstate
 }
