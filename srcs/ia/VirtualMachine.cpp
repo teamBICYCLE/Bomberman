@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 14:47:22 2012 thibault carpentier
-// Last update Sun Jun  3 20:57:37 2012 thibault carpentier
+// Last update Sun Jun  3 21:17:56 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -52,10 +52,14 @@ int VirtualMachine::panic(lua_State *state)
 
 VirtualMachine::VirtualMachine(void)
   : vmState_(NULL), isOk_(false), debug_(NULL)
-{}
+{
+  initVm();
+}
 
 VirtualMachine::~VirtualMachine(void)
-{}
+{
+  destroyVm();
+}
 
 bool VirtualMachine::initVm(void)
 {
