@@ -38,7 +38,7 @@ public:
   virtual void      unload();
 
   void      changeState(AGameState *);
-  void      pushState(AGameState *, bool init = true);
+  bool      pushState(AGameState *, bool init = true);
   void      popState(void);
   void      clearStates(void);
 
@@ -51,6 +51,7 @@ public:
   gdl::GameClock    &getGameClock(void);
 
 private:
+  double		     elapseTime_;
   std::vector<AGameState *>  states_;
 };
 

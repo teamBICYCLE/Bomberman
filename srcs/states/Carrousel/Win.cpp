@@ -12,6 +12,7 @@
 #include "ModelHandler.hh"
 #include "Win.hh"
 #include "CarrouselHandler.hh"
+#include "Sounds.hh"
 
 using namespace	Bomberman;
 
@@ -22,6 +23,7 @@ Win::Win(int winnerId)
 
   ss << "player" << winnerId;
   playerLabel_ = new flatTexture(ModelHandler::get().getModel(ss.str()));
+  Sounds::instance().playEffect("cheers");
 }
 
 Win::~Win()

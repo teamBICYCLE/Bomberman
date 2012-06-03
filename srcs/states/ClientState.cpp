@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Sun Jun  3 12:34:44 2012 lois burg
+// Last update Sun Jun  3 16:03:18 2012 lois burg
 //
 
 #include <iostream>
@@ -87,7 +87,7 @@ void	ClientState::cleanUp()
   PlayState::cleanUp();
 }
 
-void	ClientState::update(StatesManager *mngr)
+void	ClientState::update(StatesManager *mngr, double delta)
 {
   Packet	packet;
   Packet	netPacket;
@@ -106,7 +106,7 @@ void	ClientState::update(StatesManager *mngr)
 	  netPacket = Online::recvPacket(serv_->getStream(), disconnected_);
   	  Online::updatePlayerWithId(objs_, netPacket.id, netPacket, mngr->getGameClock(), mngr->getInput());
 	}
-      PlayState::update(mngr);
+      PlayState::update(mngr, delta);
       if ((plyr = getPlayerWithId(objs_, playerNbr_)))
 	packet = plyr->pack(mngr->getInput());
       if (readyUp_ <= 0 && serv_ && !disconnected_ && packet.isUseful())

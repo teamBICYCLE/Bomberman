@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May 10 11:50:36 2012 lois burg
-// Last update Sun Jun  3 11:00:22 2012 lois burg
+// Last update Sun Jun  3 17:01:02 2012 lois burg
 //
 
 #include <algorithm>
@@ -24,7 +24,7 @@ Bomb::Bomb(const Vector3d& pos, const Vector3d& rot,
            const Vector3d& sz, int range, int timeOut, Player& owner,
            const std::string &modelName)
   : AObject(pos, rot, sz, "Bomb"), range_(range),
-    timeOut_(timeOut), owner_(owner), speed_(Vector3d()),
+    timeOut_(timeOut), owner_(owner), speed_(Vector3d(owner_.getSpeed(), owner_.getSpeed(), 0)),
     lastTime_(-1), ownerCollide_(false), bBox_(pos_, sz_, this),
     model_(ModelHandler::get().getModel(modelName))
 {
@@ -63,6 +63,7 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
   (void)keys;
   if (lastTime_ == -1)
     lastTime_ = clock.getTotalGameTime();
+  pos_ += speed_ * (now - lastTime_);
   if (timeOut_ <= 0)
     destroy(objs);
   else
@@ -70,7 +71,6 @@ void	Bomb::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& 
       timeOut_ -= now - lastTime_;
       lastTime_ = now;
     }
-  pos_ += speed_;
   for (; speed_ != nullSpeed && objIt != objs.end(); ++objIt)
     if (*objIt != &owner_ && bBox_.collideWith(*objIt) && !dynamic_cast<APowerup*>(*objIt))
       {

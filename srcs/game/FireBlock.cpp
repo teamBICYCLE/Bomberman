@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 11:12:40 2012 lois burg
+// Last update Sun Jun  3 14:48:14 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -169,7 +169,9 @@ void    FireBlock::toQvariant(QSettings &w) const
 void    FireBlock::setDanger(std::vector<std::vector<std::pair<int, int> > > &map, std::list<AObject*>objs,
                         int x, int y) const
 {
+  setDangerMap(getPos().x, getPos().y, DANGER_BLOCK, map);
   setRangeDanger(range_, pos_.x, pos_.y, DANGER_FIREBLOCK, objs, map, x, y);
+
 }
 
 void		FireBlock::setRangeDanger(int range, double x, double y, int danger, std::list<AObject*>objs,

@@ -103,13 +103,14 @@ void      StatesManager::changeState(AGameState * state)
   this->pushState(state);
 }
 
-void      StatesManager::pushState(AGameState * state, bool init)
+bool      StatesManager::pushState(AGameState * state, bool init)
 {
+  if (init && !state->init())
+    return false;
   if (!this->states_.empty())
     this->states_.back()->pause();
   this->states_.push_back(state);
-  if (init)
-      this->states_.back()->init();
+  return true;
 }
 
 void      StatesManager::popState(void)
@@ -137,7 +138,7 @@ void      StatesManager::clearStates(void)
 void      StatesManager::update()
 {
   if (!this->states_.empty())
-    this->states_.back()->update(this);
+    this->states_.back()->update(this, elapseTime_);
   else
     this->quit();
 }
@@ -151,7 +152,8 @@ void      StatesManager::draw()
   else
     this->quit();
 
-  time = ((1.0f/60.0f) - gameClock_.getElapsedTime()) * 1000000;
+  elapseTime_ = gameClock_.getElapsedTime();
+  time = ((1.0f/60.0f) - elapseTime_) * 1000000;
   usleep(time > 0 ? time : 0);
 }
 
