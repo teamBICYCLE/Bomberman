@@ -68,7 +68,7 @@ Map::Map(uint width, uint height, uint nbPlayers, uint nbMonsters, uint nbGhosts
   for (uint y = 1; y < height - 1; y += 2)
     for (uint x = 1; x < width - 1; x += 2)
       terrain_.push_back(new Block(Vector3d(x, y, 0), Vector3d(0,0,0), Vector3d(1, 1, 0)));
-  generateBricks();
+  //generateBricks();
   generateBorder();
   generatePlayers();
   generateMonsters(nbMonsters);
@@ -180,17 +180,17 @@ void				Map::generateMonsters(uint nbMonsters)
       y = (y < 2) ? y + 2 : y;
       y = (y > height_ - 2) ? y - 2 : y;
       if ((x % 2) == 0 || (y % 2) == 0)
-	{
+        {
           for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
             if ((*it)->getPos().x == x && (*it)->getPos().y == y)
               find = true;
           if (!find)
-	    {
+            {
               placeMonster(x, y, b);
               --nbMonsters;
-	    }
+            }
           find = false;
-	}
+        }
     }
 }
 
@@ -228,17 +228,17 @@ void				Map::generateGhosts(uint nbGhosts)
       y = (y < 3) ? y + 3 : y;
       y = (y > height_ - 3) ? y - 3 : y;
       if ((x % 2) == 0 || (y % 2) == 0)
-	{
-	  for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-	    if ((*it)->getPos().x == x && (*it)->getPos().y == y)
-	      find = true;
-	  if (!find)
-	    {
-	      placeGhost(x, y, b);
-	      --nbGhosts;
-	    }
-	  find = false;
-	}
+        {
+          for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+            if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+              find = true;
+          if (!find)
+            {
+              placeGhost(x, y, b);
+              --nbGhosts;
+            }
+          find = false;
+        }
     }
 }
 
