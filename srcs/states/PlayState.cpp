@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sat Jun  2 19:36:31 2012 Jonathan Machado
+// Last update Sat Jun  2 20:38:47 2012 lois burg
 //
 
 #include <iostream>
@@ -157,7 +157,6 @@ void  PlayState::update(StatesManager *sMg)
     {
       CarrouselHandler  *cH = createInGameCH();
 
-
       cH->pushPage(new APage(new InGameList(), "bg-ingame", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
@@ -202,7 +201,7 @@ void	PlayState::win(StatesManager *mngr)
   std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
   score.save(bestScore_);
   cH = createInGameCH();
-  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
   mngr->pushState(cH);
   //    mngr->popState();//passer sur winstate
 }
