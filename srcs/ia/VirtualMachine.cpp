@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 14:47:22 2012 thibault carpentier
-// Last update Mon May 14 11:38:22 2012 Jonathan Machado
+// Last update Sun Jun  3 10:24:09 2012 thibault carpentier
 //
 
 #include <iostream>
@@ -74,8 +74,8 @@ bool VirtualMachine::initVm(void)
       lua_atpanic(vmState_, VirtualMachine::panic);
       lua_pushcclosure(vmState_, printDebug, 0);
       lua_setglobal(vmState_, "printDebug");
-      lua_pushcclosure(vmState_, Debugger::setHook, 0);
-      lua_setglobal(vmState_, "setHook");
+      // lua_pushcclosure(vmState_, Debugger::setHook, 0);
+      // lua_setglobal(vmState_, "setHook");
       lua_pushinteger(vmState_, LUA_MASKCOUNT);
       lua_setglobal(vmState_, "MASKCOUNT");
       lua_pushinteger(vmState_, LUA_MASKLINE);

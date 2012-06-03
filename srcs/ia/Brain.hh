@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Sat Jun  2 20:01:55 2012 thibault carpentier
+// Last update Sun Jun  3 11:44:28 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -93,46 +93,6 @@ namespace Bomberman
 	  GHOST
 	};
    public:
-      /*!
-       *  \brief Constructor.
-       *
-       *  Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
-       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
-       *
-       */
-      Brain(int x, int y);
-
-      /*!
-       *  \brief Constructor.
-       *
-       *  Copy Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
-       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
-       *
-       */
-      Brain(const Brain &);
-
-      /*!
-       *  \brief Constructor.
-       *
-       *  Empty Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
-       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
-       *
-       */
-      Brain();
-      /*!
-       *  \brief Destructor.
-       *
-       *  Destructor of Brain Class.
-       */
-      ~Brain(void);
-
-
-      /*!
-       *  \brief init lua method
-       *
-       *  Method used to init the lua fonction, pushing all value in the stack
-       *
-       */
       void initLua(void);
 
       /*!
@@ -294,41 +254,10 @@ namespace Bomberman
        *
        */
       int getY(void) const;
-    /* Serialization */
-    public:
 
-      /*!
-       *  \brief Method serialize a brain
-       *
-       *  The method serialize the brain
-       *
-       *  \param out the stream to serialize
-       *  \return void
-       *
-       */
-        virtual void serialize(QDataStream &out) const;
+      static Brain *getBrain(int x, int y);
+      static void   destroy();
 
-      /*!
-       *  \brief Method unserialize a brain
-       *
-       *  The method unserialize the brain
-       *
-       *  \param in the stream to unserialize
-       *  \return void
-       *
-       */
-        virtual void unserialize(QDataStream &in);
-
-      /*!
-       *  \brief Init Qt for serialization
-       *
-       *  The method initialise Qt for serialization
-       *
-       *  \param void
-       *  \return void
-       *
-       */
-        static void sInit(void);
       DangerMap danger_;  /*!< Class used to create a map showing danger to the IA*/
 
     private:
@@ -348,6 +277,46 @@ namespace Bomberman
        *  \param Unused.
        */
       Brain& operator=(Brain const &);
+      /*!
+       *  \brief Constructor.
+       *
+       *  Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
+      Brain(int x, int y);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Copy Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
+      Brain(const Brain &);
+
+      /*!
+       *  \brief Constructor.
+       *
+       *  Empty Constructor of Brain Class, initialise the Api Methods to makes them callabe by the lua.
+       *  Pushing direction in globals : UP RIGHT DOWN LEFT NODIR.
+       *
+       */
+      Brain();
+      /*!
+       *  \brief Destructor.
+       *
+       *  Destructor of Brain Class.
+       */
+      ~Brain(void);
+
+
+      /*!
+       *  \brief init lua method
+       *
+       *  Method used to init the lua fonction, pushing all value in the stack
+       *
+       */
 
       eDirection decision_; /*!< Final Decision of the IA, seted to NODIR by default*/
 
@@ -357,14 +326,10 @@ namespace Bomberman
       std::map<int, fctMeth> meth_; /*!< Method and id associeted storage. Please remember to add new method on the constructor with : meth_[registerFct("exemple")] = &Brain::example;*/
       int x_;
       int y_;
+      static Brain *instance_;
+      int ref_;
     };
   }
 }
-
-/* Serialization */
-Q_DECLARE_METATYPE(Bomberman::Thinking::Brain);
-QDataStream &operator << (QDataStream &out, const Bomberman::Thinking::Brain &b);
-QDataStream &operator >> (QDataStream &in, Bomberman::Thinking::Brain &b);
-QDataStream &operator >> (QDataStream &in, const Bomberman::Thinking::Brain &b);
 
 #endif /*!_BRAIN_H_*/

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Sat Jun  2 20:41:18 2012 lois burg
+// Last update Sun Jun  3 12:34:32 2012 lois burg
 //
 
 #include <iostream>
@@ -152,7 +152,10 @@ void	ServerState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 	{
 	  CarrouselHandler  *cH = createInGameCH();
 
-	  cH->pushPage(new APage(new Draw, "bg-ingame", "empty-arrows", "empty-arrows"));
+	  cH->pushPage(new APage(new Draw, "bg-defeat", "empty-arrows", "empty-arrows"));
+	  cH->setArrowFocus(false);
+	  cH->setEscapeFocus(false);
+	  mngr->pushState(cH);
 	}
     }
 }

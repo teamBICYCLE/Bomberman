@@ -158,6 +158,10 @@ void      ModelHandler::preload()
         "bg-keybind");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-sound.png"),
         "bg-sound");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-victory.png"),
+        "bg-victory");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-defeat.png"),
+        "bg-defeat");
   storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
         "press-enter");
 
@@ -191,6 +195,12 @@ void      ModelHandler::preload()
 
   storeModel(new flatTexture("Ressources/Images/Menu/loadmap_reflect.png"),
         "loadmap_reflect");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/loadmap_na.png"),
+        "loadmap_na");
+
+  storeModel(new flatTexture("Ressources/Images/Menu/double_arrow.png"),
+        "double_arrow");
 }
 
 void      ModelHandler::storeModel(AModel * model, const std::string & name)
