@@ -133,6 +133,7 @@ void    KeyBindSlide::setNewKey(const std::string &str)
         player1_ = ((player_ == 0) ? (now) : (player1_));
         player2_ = ((player_ == 1) ? (now) : (player2_));
         editingMode_ = false;
+        Sounds::instance().playEffect("released");
         modif_ = true;
     }
 }
