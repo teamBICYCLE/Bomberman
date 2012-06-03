@@ -35,8 +35,8 @@ AdventureState::~AdventureState()
 
 bool	AdventureState::init()
 {
-  bool			success = true;
   std::stringstream	ss;
+  bool                  success = true;
 
   try {
     characterToUpdate_ = -1;
@@ -49,13 +49,13 @@ bool	AdventureState::init()
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
     for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
       if (dynamic_cast<Monster*>(*it))
-	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
     ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
     std::cerr << e.what() << std::endl;
   }
-  return (true);
+  return (success);
 }
 
 void	AdventureState::cleanUp()
@@ -94,9 +94,9 @@ void	AdventureState::win(StatesManager *mngr)
         mapW_ = curMap_->getWidth();
         camera_.setHeightWidth(mapW_, mapH_);
         objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
-	for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-	  if (dynamic_cast<Monster*>(*it))
-	    danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+        for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
+          if (dynamic_cast<Monster*>(*it))
+            danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
       } catch (Map::Failure& e) {
         std::cerr << e.what() << std::endl;
         mngr->popState();
@@ -123,7 +123,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
     for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
       if (dynamic_cast<Monster*>(*it))
-	danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
     mngr->popState();

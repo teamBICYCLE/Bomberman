@@ -19,7 +19,7 @@
 #include "Camera.hh"
 
 Camera::Camera(size_t mapW, size_t mapH)
-  : position_(-1.f, -1.f, -1.0f), mapW_(0), mapH_(0), anim_(2.5f), lastTime_(-1)
+  : position_(-1.f, -1.f, -1.0f), mapW_(mapW), mapH_(mapH), anim_(2.5f), lastTime_(-1)
 {
   this->initialize();
 }

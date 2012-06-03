@@ -105,7 +105,7 @@ void      StatesManager::changeState(AGameState * state)
 
 bool      StatesManager::pushState(AGameState * state, bool init)
 {
-  if (!state->init())
+  if (init && !state->init())
     return false;
   if (!this->states_.empty())
     this->states_.back()->pause();
