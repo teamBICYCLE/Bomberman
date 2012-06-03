@@ -25,6 +25,7 @@ void Credits::update(gdl::Input &input, gdl::GameClock &gClock, StatesManager *s
   (void)input;
   (void)gClock;
   (void)sMg;
+  (void)cH;
 }
 
 void Credits::draw()
