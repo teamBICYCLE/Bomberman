@@ -26,7 +26,7 @@ public:
 
   virtual bool init();
   virtual void cleanUp();
-  virtual void update(StatesManager *);
+  virtual void update(StatesManager *, double delta = -1);
   virtual void draw(StatesManager *);
   virtual void pause();
   virtual void resume();

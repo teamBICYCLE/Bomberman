@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Fri May  4 18:30:00 2012 geoffroy lafontaine
-// Last update Sun Jun  3 11:11:34 2012 thibault carpentier
+// Last update Sun Jun  3 13:39:54 2012 thibault carpentier
 //
 
 #include <algorithm>
@@ -170,9 +170,9 @@ void				Map::generateMonsters(uint nbMonsters)
   bool				find = false;
   Thinking::Brain   *b;
 
-  b = Thinking::Brain::getBrain(width_, height_);
   while (nbMonsters > 0)
-  {
+    {
+      b = Thinking::Brain::getBrain(width_, height_);
       x = rand() % width_;
       y = rand() % height_;
       x = (x < 2) ? x + 2 : x;
@@ -180,18 +180,18 @@ void				Map::generateMonsters(uint nbMonsters)
       y = (y < 2) ? y + 2 : y;
       y = (y > height_ - 2) ? y - 2 : y;
       if ((x % 2) == 0 || (y % 2) == 0)
-      {
+	{
           for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
             if ((*it)->getPos().x == x && (*it)->getPos().y == y)
               find = true;
           if (!find)
-          {
+	    {
               placeMonster(x, y, b);
               --nbMonsters;
-          }
+	    }
           find = false;
-      }
-  }
+	}
+    }
 }
 
 void				Map::placeMonster(uint x, uint y, Thinking::Brain *b)
@@ -218,28 +218,28 @@ void				Map::generateGhosts(uint nbGhosts)
   bool				find = false;
   Thinking::Brain   *b;
 
-  b = Thinking::Brain::getBrain(width_, height_);
   while (nbGhosts > 0)
-  {
-    x = rand() % width_;
-    y = rand() % height_;
-    x = (x < 3) ? x + 3 : x;
-    x = (x > width_ - 3) ? x - 3 : x;
-    y = (y < 3) ? y + 3 : y;
-    y = (y > height_ - 3) ? y - 3 : y;
-    if ((x % 2) == 0 || (y % 2) == 0)
     {
-        for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
-          if ((*it)->getPos().x == x && (*it)->getPos().y == y)
-            find = true;
-        if (!find)
-        {
-            placeGhost(x, y, b);
-            --nbGhosts;
-        }
-        find = false;
+      b = Thinking::Brain::getBrain(width_, height_);
+      x = rand() % width_;
+      y = rand() % height_;
+      x = (x < 3) ? x + 3 : x;
+      x = (x > width_ - 3) ? x - 3 : x;
+      y = (y < 3) ? y + 3 : y;
+      y = (y > height_ - 3) ? y - 3 : y;
+      if ((x % 2) == 0 || (y % 2) == 0)
+	{
+	  for (it = terrain_.begin(); it != terrain_.end() && !find; ++it)
+	    if ((*it)->getPos().x == x && (*it)->getPos().y == y)
+	      find = true;
+	  if (!find)
+	    {
+	      placeGhost(x, y, b);
+	      --nbGhosts;
+	    }
+	  find = false;
+	}
     }
-  }
 }
 
 void				Map::placeGhost(uint x, uint y, Thinking::Brain *b)

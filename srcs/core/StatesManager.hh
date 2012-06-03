@@ -51,6 +51,7 @@ public:
   gdl::GameClock    &getGameClock(void);
 
 private:
+  double		     elapseTime_;
   std::vector<AGameState *>  states_;
 };
 

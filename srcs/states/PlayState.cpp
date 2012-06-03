@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 13:54:58 2012 lois burg
+// Last update Sun Jun  3 17:19:06 2012 lois burg
 //
 
 #include <iostream>
@@ -66,6 +66,7 @@ PlayState::PlayState(const std::list<AObject*> *list)
 
 PlayState::~PlayState(void)
 {
+  Thinking::Brain::getBrain(0, 0);
 }
 
 bool  PlayState::init()
@@ -110,7 +111,7 @@ void	PlayState::clearObjs(void)
   objs_.clear();
 }
 
-void  PlayState::update(StatesManager *sMg)
+void  PlayState::update(StatesManager *sMg, double delta)
 {
   int		nbPlayers = 0;
   int		nbMonsters = 0;
@@ -120,8 +121,8 @@ void  PlayState::update(StatesManager *sMg)
 
   camera_.update(sMg->getGameClock(), sMg->getInput(), objs_);
   camera_.setHeightWidth(mapW_, mapH_);
-  if (danger)
-    danger->updateGameVision(&objs_);
+  // if (danger)
+  //   danger->updateGameVision(&objs_);
   if (lastTime_ == -1)
     lastTime_ = now;
   if (readyUp_ > 0)
@@ -132,10 +133,11 @@ void  PlayState::update(StatesManager *sMg)
     }
   for (it = objs_.begin(); readyUp_ <= 0 && it != objs_.end();)
     {
-      if (danger && *it)
-        danger->updateCaseVison(*it);
+      // if (danger && *it)
+      //   danger->updateCaseVison(*it);
       if (dynamic_cast<Player*>(*it))
         {
+	  static_cast<Player*>(*it)->setDelta(delta);
           ++nbPlayers;
           if (bestScore_ < static_cast<Player*>(*it)->getScore())
             bestScore_ = static_cast<Player*>(*it)->getScore();
@@ -144,7 +146,8 @@ void  PlayState::update(StatesManager *sMg)
       else if (dynamic_cast<Monster*>(*it))
         {
           ++nbMonsters;
-          if (!(*it)->toRemove())                                                                                                                                                                                                                                         	    monsters.push_back(*it);
+          if (!(*it)->toRemove())
+	    monsters.push_back(*it);
         }
       if (!(*it)->toRemove())
         {
@@ -172,7 +175,7 @@ void  PlayState::update(StatesManager *sMg)
       cH = new CarrouselHandler(data);
       std::cout << "failed to read" << std::endl;
       //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
-      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-load-left", "arrow-load-right"));
+      cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-pause-left", "arrow-pause-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
 

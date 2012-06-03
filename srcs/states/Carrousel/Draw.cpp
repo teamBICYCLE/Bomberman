@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sat Jun  2 19:12:08 2012 lois burg
+// Last update Sun Jun  3 15:01:50 2012 lois burg
 //
 
 #include <sstream>
@@ -39,6 +39,7 @@ void	Draw::update(gdl::Input& input, gdl::GameClock& gClock, StatesManager *sMg,
 void	Draw::draw(void)
 {
   glPushMatrix();
+  glTranslated(600, 312, 0);
   drawLabel_.draw();
   glPopMatrix();
 }

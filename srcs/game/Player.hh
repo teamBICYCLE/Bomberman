@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 13:46:49 2012 lois burg
-// Last update Wed May 30 16:26:30 2012 lois burg
+// Last update Sun Jun  3 16:11:51 2012 lois burg
 //
 
 #ifndef		__PLAYER_HH__
@@ -66,6 +66,7 @@ namespace	Bomberman
     void	addScore(int val);
     void	setKickAbility(bool b);
     void	setNetworkControlled(bool b);
+    void	setDelta(double d);
 
   public:
     Online::Packet	pack(gdl::Input& keys);
@@ -116,6 +117,8 @@ namespace	Bomberman
     gdl::Text   speedTxt_;
     gdl::Text   rangeTxt_;
     gdl::Text   kickTxt_;
+    double	delta_;
+    double	deltaSpeed_;
   };
 }
 

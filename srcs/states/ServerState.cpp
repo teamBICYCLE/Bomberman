@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Tue May 22 17:59:10 2012 lois burg
-// Last update Sun Jun  3 12:34:32 2012 lois burg
+// Last update Sun Jun  3 16:04:20 2012 lois burg
 //
 
 #include <iostream>
@@ -88,7 +88,7 @@ void	ServerState::cleanUp()
   PlayState::cleanUp();
 }
 
-void	ServerState::update(StatesManager *mngr)
+void	ServerState::update(StatesManager *mngr, double delta)
 {
   Packet	packet;
   Packet	netPacket;
@@ -123,7 +123,7 @@ void	ServerState::update(StatesManager *mngr)
 	    }
 	}
     }
-  PlayState::update(mngr);
+  PlayState::update(mngr, delta);
   if ((plyr = getPlayerWithId(objs_, 0)))
     packet = plyr->pack(mngr->getInput());
   if (readyUp_ <= 0 && packet.isUseful())

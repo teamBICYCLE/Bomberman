@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 12:34:57 2012 lois burg
+// Last update Sun Jun  3 15:43:22 2012 thibault carpentier
 //
 
 #include <GL/gl.h>
@@ -39,6 +39,7 @@ bool	AdventureState::init()
   bool                  success = true;
 
   try {
+    Thinking::Brain::getBrain(0, 0);
     characterToUpdate_ = -1;
     ss << mapBaseName_ << curMapId_;
     curMap_ = new Map(ss.str());
@@ -47,9 +48,7 @@ bool	AdventureState::init()
     mapW_ = curMap_->getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
-    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-      if (dynamic_cast<Monster*>(*it))
-        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
     ++curMapId_;
   } catch (Map::Failure& e) {
     success = false;
@@ -61,6 +60,7 @@ bool	AdventureState::init()
 void	AdventureState::cleanUp()
 {
   std::cout << "clean up Adventure" << std::endl;
+  Thinking::Brain::getBrain(0, 0);
   delete curMap_;
   PlayState::cleanUp();
 }
@@ -86,6 +86,7 @@ void	AdventureState::win(StatesManager *mngr)
   else
     {
       delete curMap_;
+      Thinking::Brain::getBrain(0, 0);
       ss << mapBaseName_ << curMapId_;
       try {
         clearObjs();
@@ -95,9 +96,7 @@ void	AdventureState::win(StatesManager *mngr)
         mapW_ = curMap_->getWidth();
         camera_.setHeightWidth(mapW_, mapH_);
         objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
-        for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-          if (dynamic_cast<Monster*>(*it))
-            danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+	danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
       } catch (Map::Failure& e) {
         std::cerr << e.what() << std::endl;
         mngr->popState();
@@ -112,6 +111,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
   (void)mngr;
   curMapId_ = 0;
   delete curMap_;
+  Thinking::Brain::getBrain(0, 0);
   ss << mapBaseName_ << curMapId_;
   try {
     clearObjs();
@@ -121,9 +121,7 @@ void	AdventureState::gameOver(StatesManager *mngr)
     mapW_ = curMap_->getWidth();
     camera_.setHeightWidth(mapW_, mapH_);
     objs_.insert(objs_.end(), curMap_->getTerrain().begin(), curMap_->getTerrain().end());
-    for (std::list<AObject*>::iterator it = objs_.begin(); it != objs_.end(); ++it)
-      if (dynamic_cast<Monster*>(*it))
-        danger = &static_cast<Monster*>(*it)->getBrain()->danger_;
+    danger = &Thinking::Brain::getBrain(mapW_, mapH_)->danger_;
   } catch (Map::Failure& e) {
     std::cerr << e.what() << std::endl;
     mngr->popState();

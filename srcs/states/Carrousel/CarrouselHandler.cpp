@@ -73,31 +73,24 @@ void CarrouselHandler::cleanUp()
 {
 }
 
-void CarrouselHandler::update(StatesManager * sMg)
+void CarrouselHandler::update(StatesManager * sMg, double delta)
 {
-  // a degager
-  // if (sMg->getInput().isKeyDown(gdl::Keys::H))
-  //   sMg->pushState(new Bomberman::Online::ServerState(2), true);
-  // else if (sMg->getInput().isKeyDown(gdl::Keys::C))
-  //   sMg->pushState(new Bomberman::Online::ClientState("localhost"), true);
-  // else
-    if (sMg->getInput().isKeyDown(gdl::Keys::P))
-    sMg->pushState(new Bomberman::PlayState(), true);
   // ce branchement a ete autorise par le hasard (J'ai pris la face
   // ou y'a le deux)
 
-    if (arrowsFocusLeft_ && sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
-      {
-        --(*this);
-        Sounds::instance().playEffect("button");
-      }
-    if (arrowsFocusRight_ && sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
-      {
-        ++(*this);
-        Sounds::instance().playEffect("button");
-      }
-    if (escFocus_ && sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
-      sMg->popState();
+  (void)delta;
+  if (arrowsFocusLeft_ && sMg->getInput().isKeyDown(gdl::Keys::Left) && !leftPressed_)
+    {
+      --(*this);
+      Sounds::instance().playEffect("button");
+    }
+  if (arrowsFocusRight_ && sMg->getInput().isKeyDown(gdl::Keys::Right) && !rightPressed_)
+    {
+      ++(*this);
+      Sounds::instance().playEffect("button");
+    }
+  if (escFocus_ && sMg->getInput().isKeyDown(gdl::Keys::Escape) && !escPressed_)
+    sMg->popState();
 
   leftPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Left);
   rightPressed_ = sMg->getInput().isKeyDown(gdl::Keys::Right);
