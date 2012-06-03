@@ -13,7 +13,7 @@
 #include <GL/glut.h>
 
 ExplosionBlock::ExplosionBlock(const std::string &imgpath)
-  : iter_(0)
+  : iter_(0), lastTime_(-1.0f), maxTime_(1.0f)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
@@ -21,7 +21,7 @@ ExplosionBlock::ExplosionBlock(const std::string &imgpath)
 
 ExplosionBlock::ExplosionBlock(const AModel &orig)
   : img_(dynamic_cast<const ExplosionBlock *>(&orig)->img_),
-    iter_(0)
+    iter_(0), lastTime_(-1.0f), maxTime_(1.0f)
 {
 }
 
@@ -33,7 +33,7 @@ ExplosionBlock::~ExplosionBlock()
 
 void ExplosionBlock::draw()
 {
-  int     offset = iter_ / 4;
+  int     offset = iter_;
 
   if (img_.isValid())
     {
@@ -52,9 +52,13 @@ void ExplosionBlock::draw()
 
 void ExplosionBlock::update(gdl::GameClock &clock)
 {
-  (void)clock;
-  iter_++;
-  iter_ %= 16 * (4 * 4);
+  double    now = clock.getTotalGameTime();
+
+  if (lastTime_ == -1.0f)
+    lastTime_ = now;
+  maxTime_ -= now - lastTime_;
+  iter_ = 16 - (16 * maxTime_);
+  lastTime_ = now;
 }
 
 AModel &ExplosionBlock::clone()

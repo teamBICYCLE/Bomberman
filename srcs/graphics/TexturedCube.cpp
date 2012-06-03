@@ -11,19 +11,22 @@
 #include <iostream>
 
 TexturedCube::TexturedCube(const std::string & imgpath)
-  : list_(glGenLists(1)), coef_(0), incValue_((rand() % 50) / 1000.0f + 0.005f),
-    delay_((rand() % 50) / 1000.0f)
+  : list_(glGenLists(1)), coef_(0.0f), endAnimMax_(0.5f + ((rand() % 151) / 100.0f)),
+    endAnim_(endAnimMax_), startAnim_((rand() % 51) / 100.0f), lastTime_(-1)
 {
   if (!imgpath.empty())
     img_ = gdl::Image::load(imgpath);
+  std::cout << "endanim: " << endAnim_ << std::endl;
 }
 
 TexturedCube::TexturedCube(const AModel &orig)
   : list_(dynamic_cast<const TexturedCube *>(&orig)->list_),
     img_(dynamic_cast<const TexturedCube *>(&orig)->img_),
     coef_(dynamic_cast<const TexturedCube *>(&orig)->coef_),
-    incValue_((rand() % 50) / 1000.0f + 0.005f), delay_((rand() % 500) / 1000.0f)
+    endAnimMax_(0.5f + ((rand() % 151) / 100.0f)), endAnim_(endAnimMax_),
+    startAnim_((rand() % 51) / 100.0f), lastTime_(-1)
 {
+  std::cout << "endanim: " << endAnim_ << std::endl;
 }
 
 void TexturedCube::draw()
@@ -82,13 +85,21 @@ void TexturedCube::draw()
 
 void TexturedCube::update(gdl::GameClock &clock)
 {
-  (void)clock;
-  if (delay_ <= 0 && coef_ < 1)
-    coef_ += incValue_;
-  else if (coef_ > 1)
-    coef_ = 1;
-  if (delay_ > 0)
-  delay_ -= incValue_;
+  float		now = clock.getTotalGameTime();
+
+  if (lastTime_ == -1)
+    lastTime_ = now;
+  if (startAnim_ > 0)
+    startAnim_ -= (now - lastTime_);
+  if (startAnim_ <= 0 && endAnim_ > 0)
+    {
+      coef_ = 1.0f - (endAnim_ / endAnimMax_);
+      endAnim_ -= (now - lastTime_);
+    }
+  else if (endAnim_ <= 0)
+    coef_ = 1.0f;
+  lastTime_ = now;
+ // std::cout << "coef: " << coef_  << " " << endAnim_ << "-" << endAnimMax_<< std::endl;
 }
 
 AModel &TexturedCube::clone(void)
@@ -99,12 +110,13 @@ AModel &TexturedCube::clone(void)
 void TexturedCube::setBuild(void)
 {
   coef_ = 1;
-  delay_ = 0;
+  endAnim_ = 0;
+  startAnim_ = 0;
 }
 
 bool TexturedCube::getBuild(void) const
 {
-    if (coef_ == 1 && delay_ == 0)
+    if (coef_ == 1 && endAnim_ == 0)
         return true;
     return false;
 }

@@ -34,7 +34,7 @@ using namespace	Bomberman;
 
 PlayState::PlayState(void)
   : bestScore_(0), winnerId_(0), characterToUpdate_(-1), escapeDisable_(false),
-    readyUp_(3.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
+    readyUp_(4.0f), lastTime_(-1), readyCurrent_(0), sndPlayed_(0), music_("test"), danger(NULL)
 {
   Character::CharacterId = 0;
   img_ = gdl::Image::load("Ressources/Images/Play/floor.png");
@@ -155,10 +155,10 @@ void  PlayState::update(StatesManager *sMg)
           ++it;
         }
       else
-	{
-	  delete (*it);
-	  it = objs_.erase(it);
-	}
+        {
+          delete (*it);
+          it = objs_.erase(it);
+        }
     }
   for (unsigned int i = 0; i < monsters.size(); ++i)
     monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);

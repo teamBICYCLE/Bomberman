@@ -71,7 +71,7 @@ void  IntroState::update(StatesManager * sMg)
    if (sndPlayed_)
      text_.update(sMg->getGameClock());
    if ((sndPlayed_ && delay_ > 500) || sMg->getInput().isKeyDown(gdl::Keys::Space)
-       ||  sMg->getInput().isKeyDown(gdl::Keys::Escape) || sMg->getInput().isKeyDown(gdl::Keys::Return))
+       || sMg->getInput().isKeyDown(gdl::Keys::Escape))
      {
        CarrouselHandler *carrouselHandler = new CarrouselHandler("mainbg", "menu");
 
