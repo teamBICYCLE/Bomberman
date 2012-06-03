@@ -117,7 +117,6 @@ void    Camera::update(const gdl::GameClock & gameClock, gdl::Input & input,
       position_.y += exp(anim_) - 1;
       zoom_ /= exp(anim_ * 1.0f);
     }
-  std::cout << "position_ : " << position_ << ", zoom_: " << zoom_ << std::endl;
 }
 
 void    Camera::draw()
