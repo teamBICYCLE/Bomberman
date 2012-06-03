@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May 30 16:03:03 2012 lois burg
-// Last update Sun Jun  3 15:49:30 2012 lois burg
+// Last update Sun Jun  3 19:15:55 2012 lois burg
 //
 
 #include <utility>
@@ -141,8 +141,8 @@ void	CustomGame::returnArrow(StatesManager *sMg)
 	{
 	  try {
 	    Character::CharacterId = 0;
-	    Map	map(100, 100, 2, 0, 0);
-	    // Map	map(mapWidth_, mapHeight_, nbPlayers_, nbMonsters_, nbGhosts_);
+	    // Map	map(100, 100, 2, 0, 0);
+	    Map	map(mapWidth_, mapHeight_, nbPlayers_, nbMonsters_, nbGhosts_);
 
 	    sMg->pushState(new PlayState(&map.getTerrain()), false);
 	  } catch (Map::Failure& e) {

@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Sun Jun  3 16:03:18 2012 lois burg
+// Last update Sun Jun  3 19:04:15 2012 lois burg
 //
 
 #include <iostream>
@@ -109,7 +109,8 @@ void	ClientState::update(StatesManager *mngr, double delta)
       PlayState::update(mngr, delta);
       if ((plyr = getPlayerWithId(objs_, playerNbr_)))
 	packet = plyr->pack(mngr->getInput());
-      if (readyUp_ <= 0 && serv_ && !disconnected_ && packet.isUseful())
+      if (readyUp_ <= 0 && serv_ && !disconnected_ // && packet.isUseful()
+	  )
 	sendPacket(serv_->getStream(), packet);
     }
 }
