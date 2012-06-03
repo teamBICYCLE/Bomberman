@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 11:50:50 2012 lois burg
+// Last update Sun Jun  3 12:34:57 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -78,11 +78,10 @@ void	AdventureState::win(StatesManager *mngr)
     {
       std::cout << "CONGRATS!" << std::endl;
       cH = createInGameCH();
-      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+      cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
       cH->setArrowFocus(false);
       cH->setEscapeFocus(false);
       mngr->pushState(cH);
-      // mngr->popState();
     }
   else
     {
@@ -111,7 +110,6 @@ void	AdventureState::gameOver(StatesManager *mngr)
   std::stringstream	ss;
 
   (void)mngr;
-  std::cout << "YOU LOSE :(" << std::endl;
   curMapId_ = 0;
   delete curMap_;
   ss << mapBaseName_ << curMapId_;
