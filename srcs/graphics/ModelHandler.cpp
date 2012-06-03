@@ -158,6 +158,10 @@ void      ModelHandler::preload()
         "bg-keybind");
   storeModel(new flatTexture("Ressources/Images/Menu/bg-sound.png"),
         "bg-sound");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-victory.png"),
+        "bg-victory");
+  storeModel(new flatTexture("Ressources/Images/Menu/bg-defeat.png"),
+        "bg-defeat");
   storeModel(new flatTexture("Ressources/Images/Menu/press-enter.png"),
         "press-enter");
 

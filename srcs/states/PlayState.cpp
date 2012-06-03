@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 12:21:17 2012 thibault carpentier
+// Last update Sun Jun  3 13:54:58 2012 lois burg
 //
 
 #include <iostream>
@@ -192,7 +192,7 @@ void	PlayState::win(StatesManager *mngr)
   std::cout << "PLAYER " << winnerId_ + 1 << " WIN" << std::endl;
   score.save(bestScore_);
   cH = createInGameCH();
-  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-victory", "empty-arrows", "empty-arrows"));
   cH->setArrowFocus(false);
   cH->setEscapeFocus(false);
   mngr->pushState(cH);
@@ -207,7 +207,7 @@ void	PlayState::gameOver(StatesManager *mngr)
   std::cout << "PLAYER " << winnerId_ + 1 << " LOOSE" << std::endl;
   score.save(bestScore_);
   cH = createInGameCH();
-  cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
+  cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-defeat", "empty-arrows", "empty-arrows"));
   cH->setArrowFocus(false);
   cH->setEscapeFocus(false);
   mngr->pushState(cH);
