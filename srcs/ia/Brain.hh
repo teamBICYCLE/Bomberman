@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Mon May 14 13:25:11 2012 thibault carpentier
-// Last update Sun Jun  3 11:44:28 2012 thibault carpentier
+// Last update Sun Jun  3 13:45:07 2012 thibault carpentier
 //
 
 /* Documentation tag for Doxygen
@@ -327,7 +327,6 @@ namespace Bomberman
       int x_;
       int y_;
       static Brain *instance_;
-      int ref_;
     };
   }
 }
