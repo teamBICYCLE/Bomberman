@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 11:45:38 2012 lois burg
+// Last update Sun Jun  3 11:54:18 2012 lois burg
 //
 
 #include <iostream>
@@ -156,7 +156,10 @@ void  PlayState::update(StatesManager *sMg)
           ++it;
         }
       else
-        it = objs_.erase(it);
+	{
+	  delete (*it);
+	  it = objs_.erase(it);
+	}
     }
   for (unsigned int i = 0; i < monsters.size(); ++i)
     monsters[i]->update(sMg->getGameClock(), sMg->getInput(), objs_);
@@ -217,6 +220,7 @@ void	PlayState::win(StatesManager *mngr)
   cH = createInGameCH();
   cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
   cH->setArrowFocus(false);
+  cH->setEscapeFocus(false);
   mngr->pushState(cH);
   //    mngr->popState();//passer sur winstate
 }
@@ -231,6 +235,7 @@ void	PlayState::gameOver(StatesManager *mngr)
   cH = createInGameCH();
   cH->pushPage(new APage(new Loose(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
   cH->setArrowFocus(false);
+  cH->setEscapeFocus(false);
   mngr->pushState(cH);
   // mngr->popState();//passer sur gameOverstate
 }

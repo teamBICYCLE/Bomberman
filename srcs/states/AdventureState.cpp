@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 11:46:00 2012 lois burg
+// Last update Sun Jun  3 11:50:50 2012 lois burg
 //
 
 #include <GL/gl.h>
@@ -80,6 +80,7 @@ void	AdventureState::win(StatesManager *mngr)
       cH = createInGameCH();
       cH->pushPage(new APage(new Win(winnerId_ + 1), "bg-ingame", "empty-arrows", "empty-arrows"));
       cH->setArrowFocus(false);
+      cH->setEscapeFocus(false);
       mngr->pushState(cH);
       // mngr->popState();
     }

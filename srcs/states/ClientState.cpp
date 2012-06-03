@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Fri May 25 17:11:55 2012 lois burg
-// Last update Sun Jun  3 11:46:33 2012 lois burg
+// Last update Sun Jun  3 11:51:00 2012 lois burg
 //
 
 #include <iostream>
@@ -135,6 +135,7 @@ void	ClientState::checkEndGame(StatesManager *mngr, int nbPlayersAlive, int nbMo
 
 	  cH->pushPage(new APage(new Draw, "bg-ingame", "empty-arrows", "empty-arrows"));
 	  cH->setArrowFocus(false);
+	  cH->setEscapeFocus(false);
 	  mngr->pushState(cH);
 	}
     }

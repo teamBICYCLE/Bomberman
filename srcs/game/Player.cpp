@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sat Jun  2 21:16:29 2012 lois burg
+// Last update Sun Jun  3 11:55:05 2012 lois burg
 //
 
 #include <algorithm>
@@ -35,7 +35,7 @@ Player::Player(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz)
   // isInvincible_ = true;
   // kickAbility_ = true;
   // nbBombs_ = 5;
-  nbMines_ = 1;
+  // nbMines_ = 1;
 
   std::cout << "id : " << id_ << std::endl;
   bBox_ = new BoundingBox(pos_, sz_, this);
