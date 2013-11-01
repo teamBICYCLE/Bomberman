@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:47:20 2012 geoffroy lafontaine
-// Last update Sun Jun  3 15:33:48 2012 thibault carpentier
+// Last update Sun Jun  3 23:32:09 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -16,11 +16,10 @@
 
 using namespace Bomberman;
 
-Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
+Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage, const std::string & model)
   : Character(pos, rot, sz, "Monster", 1, MONSTER_SPEED), moved_(false), damage_(damage), brainScript_(b),
-    model_(ModelHandler::get().getModel("ghost")), h_(0)
+    model_(ModelHandler::get().getModel(model)), h_(0)
 {
-  //  isInvincible_ = true;
   brainScript_->compileFile(MONSTER_SCRIPT);
   bBox_ = new BoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
@@ -29,11 +28,11 @@ Monster::Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, T
   actionsMap_.insert(std::make_pair(Bomberman::DOWN, &Character::turnDown));
 }
 
-Monster::Monster(const Monster &other)
+Monster::Monster(const Monster &other, const std::string &model)
     : Character(other.pos_, other.rot_, other.sz_, "Monster", other.life_, other.speed_),
       moved_(other.moved_), damage_(other.getDamage()),
       brainScript_(other.brainScript_),
-      model_(other.model_), h_(0)
+      model_(ModelHandler::get().getModel(model)), h_(0)
 {
     isInvincible_ = other.isInvincible_;
     bBox_ = new BoundingBox(other.pos_, other.sz_, this);
@@ -42,7 +41,7 @@ Monster::Monster(const Monster &other)
 }
 
 Monster::Monster()
-  : Character("Monster"), moved_(false), brainScript_(NULL), model_(ModelHandler::get().getModel("ghost")), h_(0)
+  : Character("Monster"), moved_(false), brainScript_(NULL), model_(ModelHandler::get().getModel("monster")), h_(0)
 {
     isInvincible_ = false;
     bBox_ = new BoundingBox(Vector3d(), Vector3d(), this);
@@ -60,12 +59,10 @@ Bomberman::Thinking::Brain *Monster::getBrain(void) const
 
 Monster::~Monster()
 {
-  // brainScript_->destroy();
 }
 
 void		Monster::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  //  brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinkingMonster");
   brainScript_->addParam(pos_.x);
   brainScript_->addParam(pos_.y);
@@ -97,8 +94,8 @@ void		Monster::draw(void)
 {
   glPopMatrix();
   glPushMatrix();
-  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 1.2 + h_);
-  glScaled(0.3, 0.3, 0.43);
+  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 00.5 + h_);
+  glScaled(0.6, 0.6, 0.6);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
 
@@ -139,7 +136,6 @@ void			Monster::moveAnimation(void)
     model_.getModel().play("stop");
     wasRunning = false;
   }
-  // reset de la propriete moved.
   moved_ = false;
 }
 
@@ -169,7 +165,6 @@ void Monster::serialize(QDataStream &out) const
     out << damage_;
     out << brainScript_->getX();
     out << brainScript_->getY();
-    // brainScript_->serialize(out);
 }
 
 void Monster::unserialize(QDataStream &in)
@@ -189,7 +184,6 @@ void Monster::unserialize(QDataStream &in)
   in >> y;
   brainScript_ = Thinking::Brain::getBrain(x, y);
   brainScript_->compileFile(MONSTER_SCRIPT);
-  // brainScript_->unserialize(in);
 }
 
 void Monster::sInit(void)
@@ -225,13 +219,3 @@ void	Monster::setVirtualPheromones(std::vector<std::vector<std::pair<int, int> >
   if (map[(pos_.y + 0.001)][(pos_.x + 0.001)].second != PHEROMONE_PLAYER)
     map[(pos_.y + 0.001)][(pos_.x + 0.001)].second = PHEROMONE_MONSTER;
 }
-
-// void	Monster::setDanger(std::vector<std::vector<std::pair<int, int> > > &map,
-// 			   std::list<AObject*>objs,
-// 			   int x, int y) const
-// {
-//   (void)x;
-//   (void)y;
-//   (void)objs;
-//   setDangerMap(getPos().x, getPos().y, DANGER_MONSTER, map);
-// }

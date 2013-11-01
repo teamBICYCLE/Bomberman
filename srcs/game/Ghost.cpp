@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:35:19 2012 geoffroy lafontaine
-// Last update Sun Jun  3 15:36:03 2012 thibault carpentier
+// Last update Sun Jun  3 22:54:35 2012 Jonathan Machado
 //
 
 #include <algorithm>
@@ -18,9 +18,8 @@
 using namespace Bomberman;
 
 Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *b, uint damage)
-  : Monster(pos, rot, sz, b, damage)
+  : Monster(pos, rot, sz, b, damage, "ghost")
 {
-  //  brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(pos_, sz_, this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
   actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
@@ -29,9 +28,8 @@ Ghost::Ghost(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Think
 }
 
 Ghost::Ghost(const Ghost &other)
-  : Monster(other)
+  : Monster(other, "ghost")
 {
-  //    brainScript_->compileFile(GHOST_SCRIPT);
     bBox_ = new GhostBoundingBox(other.pos_, other.sz_, this);
     actionsMap_ = other.actionsMap_;
 }
@@ -39,7 +37,6 @@ Ghost::Ghost(const Ghost &other)
 Ghost::Ghost()
   : Monster()
 {
-  //  brainScript_->compileFile(GHOST_SCRIPT);
   bBox_ = new GhostBoundingBox(Vector3d(), Vector3d(), this);
   actionsMap_.insert(std::make_pair(Bomberman::LEFT, &Character::turnLeft));
   actionsMap_.insert(std::make_pair(Bomberman::RIGHT, &Character::turnRight));
@@ -52,7 +49,6 @@ Ghost::~Ghost()
 
 void Ghost::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs)
 {
-  //  brainScript_->updateDangerMap(objs);
   brainScript_->selectFct("thinkingGhost");
   brainScript_->addParam(pos_.x);
   brainScript_->addParam(pos_.y);
@@ -61,6 +57,16 @@ void Ghost::update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>&
   (void)keys;
 }
 
+void		Ghost::draw(void)
+{
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(pos_.x + 0.3, pos_.y + 0.3, pos_.z + 1.2 + h_);
+  glScaled(0.3, 0.3, 0.43);
+  glRotated(90, 1, 0, 0);
+  glRotated(rot_.y, 0, 1, 0);
+  this->model_.draw();
+}
 
 /* Serialization */
 

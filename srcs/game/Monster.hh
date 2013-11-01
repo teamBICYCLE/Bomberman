@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Sat May 12 09:08:54 2012 geoffroy lafontaine
-// Last update Thu May 31 18:41:52 2012 thibault carpentier
+// Last update Fri Nov  1 12:45:03 2013 Jonathan Machado
 //
 
 #ifndef		__MONSTER_HH__
@@ -29,8 +29,8 @@ namespace	Bomberman
     typedef void (Character::*t_monsterActionFun)(void);
 
   public:
-    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *, uint damage = 1);
-    Monster(const Monster &);
+    Monster(const Vector3d& pos, const Vector3d& rot, const Vector3d& sz, Thinking::Brain *, uint damage = 1, const std::string & model = "monster");
+    Monster(const Monster &, const std::string & model = "monster");
     Monster();
     virtual ~Monster();
 

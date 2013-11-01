@@ -52,8 +52,6 @@ APowerup *PowerupFactory::create(void) const
     if (nb == 1)
         return PowerupFactory::percentDrop();
     return NULL;
-//        return NULL;
-//    return (ref_.at(nb)->clone());
 }
 
 PowerupFactory *PowerupFactory::getInstance(void)

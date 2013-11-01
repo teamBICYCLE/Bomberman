@@ -1,6 +1,7 @@
 TEMPLATE = app
 CONFIG += console
-QT += network
+QT += network \
+widgets
 CONFIG += crypto
 CONFIG += kqoauth
 

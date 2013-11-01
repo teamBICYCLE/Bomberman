@@ -5,7 +5,7 @@
 // Login   <jonathan.machado@epitech.net>
 //
 // Started on  Thu Apr 26 20:21:29 2012 Jonathan Machado
-// Last update Tue May 22 15:48:31 2012 Jonathan Machado
+// Last update Fri Nov  1 12:02:25 2013 Jonathan Machado
 //
 
 #include <cmath>
@@ -213,11 +213,11 @@ QDataStream &operator>>(QDataStream &in, Vector3d &v)
     return in;
 }
 
-QDataStream &operator>>(QDataStream &in, const Vector3d &v)
-{
-    v.unserialize(in);
-    return in;
-}
+// QDataStream &operator>>(QDataStream &in, const Vector3d &v)
+// {
+//     v.unserialize(in);
+//     return in;
+// }
 
 void Vector3d::serialize(QDataStream &out) const
 {
@@ -233,9 +233,9 @@ void Vector3d::unserialize(QDataStream &in)
     in >> z;
 }
 
-void Vector3d::unserialize(QDataStream &in) const
-{
-    in >> x;
-    in >> y;
-    in >> z;
-}
+// void Vector3d::unserialize(QDataStream &in) const
+// {
+//     in >> x;
+//     in >> y;
+//     in >> z;
+// }

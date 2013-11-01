@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 18:42:11 2012 thibault carpentier
-// Last update Sun Jun  3 20:57:51 2012 thibault carpentier
+// Last update Fri Nov  1 12:03:22 2013 Jonathan Machado
 //
 
 #include <cstring>
@@ -96,7 +96,7 @@ void VirtualMachine::Debugger::setFctHook(void)
 {
   g_hookers[LUA_HOOKCALL] = HookCall;
   g_hookers[LUA_HOOKRET] = HookRet;
-  g_hookers[LUA_HOOKTAILRET] = HookRet;
+  g_hookers[LUA_HOOKTAILCALL] = HookRet;
   g_hookers[LUA_HOOKLINE] = HookLine;
   g_hookers[LUA_HOOKCOUNT] = HookCount;
 }

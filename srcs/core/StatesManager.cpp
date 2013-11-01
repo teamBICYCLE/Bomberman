@@ -88,6 +88,8 @@ void      StatesManager::initialize()
   Bomberman::ModelHandler::get().storeModel(
         new gdlModel("Ressources/Assets/ghost.fbx"), "ghost");
   Bomberman::ModelHandler::get().storeModel(
+        new gdlModel("Ressources/Assets/monster.fbx"), "monster");
+  Bomberman::ModelHandler::get().storeModel(
         new ExplosionBlock("Ressources/Images/Play/explosion.png"), "explosion");
 }
 
@@ -117,7 +119,6 @@ void      StatesManager::popState(void)
   if (!this->states_.empty())
     {
       this->states_.back()->cleanUp();
-      //delete this->states_.back();
       this->states_.pop_back();
     }
   if (!this->states_.empty())
@@ -129,7 +130,6 @@ void      StatesManager::clearStates(void)
   while (!states_.empty())
     {
       this->states_.back()->cleanUp();
-      //delete this->states_.back();
       this->states_.pop_back();
     }
 }

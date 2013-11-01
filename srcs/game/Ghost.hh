@@ -5,7 +5,7 @@
 // Login   <lafont_g@epitech.net>
 //
 // Started on  Thu May 17 15:28:13 2012 geoffroy lafontaine
-// Last update Sun Jun  3 14:15:19 2012 thibault carpentier
+// Last update Sun Jun  3 22:41:41 2012 Jonathan Machado
 //
 
 #ifndef		__GHOST_HH__
@@ -31,6 +31,7 @@ namespace	Bomberman
     /* Serialization */
     virtual void	serialize(QDataStream &out) const;
     virtual void	update(gdl::GameClock& clock, gdl::Input& keys, std::list<AObject*>& objs);
+    virtual void	draw(void);
     virtual void	unserialize(QDataStream &in);
     static void		sInit(void);
     virtual void	toQvariant(QSettings &w) const;

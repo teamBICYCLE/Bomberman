@@ -9,7 +9,7 @@ function this.thinkingMonster(this, x, y)
 
    if ((danger * 10) > (pheromones / 10) * 0.7)
     then
-       return  (center(x, y, escapeDanger(this, x, y, danger, GHOST)))
+       return  (center(x, y, escapeDanger(this, x, y, danger, MONSTER)))
     elseif (pheromones > 0)
     then
        return (center(x, y, trackPlayer(this, x, y, MONSTER)))

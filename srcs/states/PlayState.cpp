@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Wed May  2 18:00:30 2012 lois burg
-// Last update Sun Jun  3 21:26:59 2012 lois burg
+// Last update Sun Jun  3 23:33:23 2012 romain sylvian
 //
 
 #include <iostream>
@@ -174,13 +174,11 @@ void  PlayState::update(StatesManager *sMg, double delta)
 
       glReadPixels(0, 0, 1600, 900, GL_RGB, GL_UNSIGNED_BYTE, data);
       cH = new CarrouselHandler(data);
-      //cH->pushPage(new APage(new LoadContent(), "bg-load", "arrow-load-left", "arrow-load-right"));
       cH->pushPage(new APage(new InGameList(objs_, data, this), "bg-ingame", "arrow-pause-left", "arrow-pause-right"));
       cH->pushPage(new APage(new SoundConfig(), "bg-sound", "arrow-settings-left", "arrow-settings-right"));
       sMg->pushState(cH);
 
       escapeDisable_ = true;
-      //operator delete (data);
     }
   else if (!sMg->getInput().isKeyDown(gdl::Keys::Escape))
     escapeDisable_ = false;

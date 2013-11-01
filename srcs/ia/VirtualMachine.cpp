@@ -5,7 +5,7 @@
 // Login   <carpen_t@epitech.net>
 //
 // Started on  Fri May  4 14:47:22 2012 thibault carpentier
-// Last update Sun Jun  3 21:17:56 2012 thibault carpentier
+// Last update Fri Nov  1 12:09:28 2013 Jonathan Machado
 //
 
 #include <iostream>
@@ -63,8 +63,7 @@ VirtualMachine::~VirtualMachine(void)
 
 bool VirtualMachine::initVm(void)
 {
-  Debugger *debug;
-  vmState_ = lua_open();
+  vmState_ = luaL_newstate();
   if (vmState_)
     {
       isOk_ = true;
@@ -81,8 +80,6 @@ bool VirtualMachine::initVm(void)
       lua_pushinteger(vmState_, LUA_MASKCALL);
       lua_setglobal(vmState_, "MASKCALL");
       std::cout << "VM is succefully initialised." << std::endl;
-      debug = new Debugger(*this);
-      (void)debug;
       return (true);
     }
   throw Failure("Init VM", "Error on lua_open.");

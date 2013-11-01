@@ -5,7 +5,7 @@
 // Login   <burg_l@epitech.net>
 //
 // Started on  Thu May  3 12:08:17 2012 lois burg
-// Last update Sun Jun  3 21:40:34 2012 lois burg
+// Last update Sun Jun  3 23:31:36 2012 romain sylvian
 //
 
 #include <algorithm>
@@ -193,7 +193,6 @@ void		Player::draw(void)
   glScaled(0.0035, 0.0035, 0.0023);
   glRotated(90, 1, 0, 0);
   glRotated(rot_.y, 0, 1, 0);
-  //glColor3d(color_.x, color_.y, color_.z);
   this->model_.getModel().set_default_model_color(gdl::Color(255 * color_.x, 255 * color_.y, 255 * color_.z));
   this->model_.draw();
   glColor3d(1.0f, 1.0f, 1.0f);
@@ -205,7 +204,6 @@ void Player::drawHud()
   glDepthMask(GL_TRUE);
   glClear(GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
-  //glPushMatrix();
   glLoadIdentity();
   gluOrtho2D(0, 1600, 0, 900);
 
@@ -233,7 +231,6 @@ void Player::drawHud()
   glEnable(GL_TEXTURE_2D);
   glScaled(1, 1, 1);
   hud_.draw();
-  //glPopMatrix();
 
   glEnable(GL_DEPTH_TEST);
   glDepthMask(GL_TRUE);

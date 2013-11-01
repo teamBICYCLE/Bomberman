@@ -5,14 +5,15 @@
 ** Login   <jonathan.machado@epitech.net>
 **
 ** Started on  Thu Apr 26 20:25:57 2012 Jonathan Machado
-// Last update Fri May 11 11:09:25 2012 lois burg
+// Last update Fri Nov  1 12:06:14 2013 Jonathan Machado
 */
 
 #ifndef		__VECTOR3D_HPP__
 # define	__VECTOR3D_HPP__
 
 # include	<iostream>
-# include   <QVariant>
+//# include   <QVariant>
+# include	<QDataStream>
 
 class Vector3d
     {
@@ -21,6 +22,7 @@ class Vector3d
       Vector3d(double x = 0, double y = 0, double z = 0);
       Vector3d(const double *v);
       Vector3d(const Vector3d &v);
+      virtual ~Vector3d() {};
       Vector3d& operator= (const Vector3d& v);
       void	set(double x, double y, double z);
 
@@ -55,7 +57,7 @@ class Vector3d
     /* Serialization */
     public:
       virtual void serialize(QDataStream &out) const;
-      virtual void unserialize(QDataStream &in) const;
+      // virtual void unserialize(QDataStream &in) const;
       virtual void unserialize(QDataStream &in);
       static void sInit(void);
 
@@ -65,7 +67,7 @@ class Vector3d
     Q_DECLARE_METATYPE(Vector3d);
     QDataStream &operator << (QDataStream &out, const Vector3d &v);
     QDataStream &operator >> (QDataStream &in, Vector3d &v);
-    QDataStream &operator >> (QDataStream &in, const Vector3d &v);
+//  QDataStream &operator >> (QDataStream &in, const Vector3d &v);
 
 inline std::ostream& operator<< (std::ostream& s, const Vector3d& v)
 {
