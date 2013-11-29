@@ -14,7 +14,7 @@ function getZoneDanger(this, x, y)
    local posY = {y , y     , y     , y - 1 , y + 1 , y + 1 , y + 1 , y - 1 , y - 1}
    local res = 0
 
-   for j = 1, table.getn(posX) do
+   for j = 1, #(posX) do
       local tmp = this:getDanger(posX[j], posY[j])
       if (tmp > 0 and j == 1)
       then
@@ -22,7 +22,7 @@ function getZoneDanger(this, x, y)
       end
       res = res + tmp
    end
-   return (res / table.getn(posX))
+   return (res / #(posX))
 end
 
 function getZonePheromones(this, x, y)
@@ -30,14 +30,14 @@ function getZonePheromones(this, x, y)
    local posY = { y         , y         , y - 1     , y + 1     }
 
    local res = 0
-   for l = 1, table.getn(posX) do
+   for l = 1, #(posX) do
       tmp = this:getPheromones(posX[l], posY[l])
       if (tmp >= 0)
       then
 	 res = res + tmp
       end
    end
-   return (res / table.getn(posX))
+   return (res / #(posX))
 end
 
 
@@ -51,7 +51,7 @@ function testCross(this, x, y, type)
    local res_dir = NODIR
    local danger = getZoneDanger(this, floor(x), floor(y))
 
-   for  i = 1, table.getn(dir) do
+   for  i = 1, #(dir) do
       local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[i]))
       if (danger > 0 and
 	  tmpDanger < danger
@@ -115,8 +115,8 @@ function testAngles(this, x, y, type, danger, res_dir)
    local posY = { y + 1   , y - 1 }
    local funct = { {BottomRight, UpperRight}, {BottomLeft, UpperLeft}}
 
-   for  i = 1, table.getn(posX) do
-      for  j = 1, table.getn(posY) do
+   for  i = 1, #(posX) do
+      for  j = 1, #(posY) do
 	 local tmpDanger = getZoneDanger(this, floor(posX[i]), floor(posY[j]))
 	 if (danger > 0 and
 	     tmpDanger < danger
@@ -179,7 +179,7 @@ function trackPlayer(this, x, y, type)
 
    local res_dir = NODIR
    local res_ph = this:getPheromones(floor(x), floor(y))
-   for  k = 1, table.getn(dir) do
+   for  k = 1, #(dir) do
       local tmp = this:getPheromones(floor(posX[k]), floor(posY[k]))
       if (res_ph < tmp  and tmp > 0 and this:isCrossable(floor(posX[k]), floor(posY[k]), type) == 1
        and this:isCrossable(dirX[k], dirY[k], type) == 1
@@ -201,14 +201,14 @@ function exploreMap(this, x, y, type)
    goodDir = {NODIR}
 
    math.randomseed(os.time() + floor(x) + floor(y))
-   for h = 1, table.getn(dir) do
+   for h = 1, #(dir) do
       if (this:isCrossable(floor(posX[h]), floor(posY[h]), type) == 1
        and this:isCrossable(dirX[h], dirY[h], type) == 1)
       then
-	 goodDir[table.getn(goodDir) + 1] = dir[h]
+	 goodDir[#(goodDir) + 1] = dir[h]
       end
    end
-   local decision = math.random(1, table.getn(goodDir))
+   local decision = math.random(1, #(goodDir))
    return (goodDir[decision])
 end
 
